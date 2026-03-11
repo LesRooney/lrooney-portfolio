@@ -1,0 +1,16 @@
+# Netlify configuration for lrooney.com
+
+# Block indexing on all pages until launch
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+# Password protection for NDA case studies (uncomment when pages are ready)
+# [[redirects]]
+#   from = "/medidata-edc"
+#   to = "/medidata-edc.html"
+#   status = 200
+#   conditions = {Role = ["viewer"]}

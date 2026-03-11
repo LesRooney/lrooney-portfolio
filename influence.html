@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Influence — Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+/* ── PAGE SWITCHING ── */
+    #page-home, #page-influence { display: none; }
+    #page-home.active, #page-influence.active { display: block; }
+
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a18;
+      --ink-mid:   #5a5a54;
+      --ink-light: #717169;  /* darkened for WCAG AA — was #9a9a92 (fail) */
+      --paper:     #f7f6f2;
+      --paper-alt: #efede7;
+      --accent:      #1a1a18;
+      --accent-text: #1a1a18;
+      --rule:      #e2e0d8;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans:  'Geist', system-ui, sans-serif;
+      --max: 1200px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(247,246,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: var(--max); margin: 0 auto;
+      padding: 140px 48px 72px;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
+    .hero-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; max-width: 860px; }
+    .intro-block { padding-left: 0; }
+    .intro-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 5px; }
+    .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
+
+    /* ── WORK SECTION ── */
+    .work-section { max-width: var(--max); margin: 0 auto; padding: 48px 48px 0; }
+    .work-header { max-width: var(--max); margin: 0 auto 36px; padding: 0; font-size: 0.95rem; color: var(--ink-mid); opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
+    .work-header strong { color: var(--ink); }
+
+    /* ── GRID WRAPPER ── */
+    .grid-wrap { padding: 0 0 80px; }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 24px;
+      width: calc(100% - 96px);
+      max-width: calc(var(--max) - 96px);
+      padding: 0;
+      margin: 0 auto;
+    }
+
+    /* ── CARDS ── */
+    /* Each card-item wraps the thumb + info below */
+    .card-item {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .card-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Thumbnail box — square aspect ratio */
+    .card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--paper-alt);
+      aspect-ratio: 1 / 1;
+      text-decoration: none;
+      display: block;
+      will-change: transform, opacity;
+      pointer-events: none;
+    }
+    .card-thumb, .card-video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .card-thumb { transition: opacity 0.4s ease; }
+    .card-video { opacity: 0; transition: opacity 0.4s ease; }
+    .card-item:hover .card-thumb { opacity: 0; }
+    .card-item:hover .card-video { opacity: 1; }
+    .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px); }
+    .card { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+
+    /* Badges stay on the thumb */
+    .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
+    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--accent); color: #fff; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* Info lives BELOW the thumb */
+    .card-info  { display: flex; flex-direction: column; gap: 4px; }
+    .card-title { font-family: var(--serif); font-size: 1rem; color: var(--ink); line-height: 1.3; }
+    .card-sub   { font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5; }
+    .card-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--paper-alt), var(--rule)); font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light); text-align: center; padding: 24px; position: absolute; inset: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 40px 48px;
+      margin-top: 80px;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-built {
+      font-size: 0.85rem;
+      color: rgba(247,246,242,0.5);
+      margin-bottom: 4px;
+    }
+    .claude-badge {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(247,246,242,0.3);
+    }
+    .footer-right {
+      display: flex;
+      gap: 32px;
+    }
+    .footer-right a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* ── INFLUENCE ── */
+    .influence {
+      background: var(--paper);
+      border-top: 1px solid var(--rule);
+      padding: 80px 48px;
+    }
+    .influence-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .influence-header {
+      margin-bottom: 56px;
+    }
+    .influence-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .influence-header p {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      max-width: 520px;
+    }
+    .influence-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px 64px;
+    }
+    .influence-cat h3 {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-text);
+      margin-bottom: 4px;
+    }
+    .influence-cat-desc {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .influence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .influence-item {
+      display: flex;
+      flex-direction: column;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+    .influence-item:last-child { border-bottom: none; }
+    .influence-item:hover .influence-item-title { color: var(--accent-text); }
+    .influence-item-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+      transition: color 0.2s;
+    }
+    .influence-item-desc {
+      font-size: 0.78rem;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+    .influence-item-domain {
+      font-size: 0.7rem;
+      color: var(--ink-light);
+      margin-top: 3px;
+      letter-spacing: 0.04em;
+    }
+    @media (max-width: 900px) {
+      .influence { padding: 60px 24px; }
+      .influence-categories { grid-template-columns: 1fr 1fr; gap: 36px 32px; }
+    }
+    @media (max-width: 560px) {
+      .influence-categories { grid-template-columns: 1fr; }
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    @media (hover: hover) {
+      *, *::before, *::after { cursor: none !important; }
+    }
+    #cursor-dot {
+      position: fixed;
+      top: -4px; left: -4px;
+      width: 8px; height: 8px;
+      background: var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.08s ease, width 0.25s ease, height 0.25s ease,
+                  background 0.25s ease, opacity 0.3s ease;
+      transform: translate(-100px, -100px);
+      will-change: transform;
+    }
+    #cursor-ring {
+      position: fixed;
+      top: -20px; left: -20px;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.5;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  top 0.35s cubic-bezier(0.23,1,0.32,1),
+                  left 0.35s cubic-bezier(0.23,1,0.32,1),
+                  border-color 0.25s ease,
+                  opacity 0.3s ease,
+                  background 0.3s ease;
+      transform: translate(-100px, -100px);
+      will-change: transform;
+    }
+    /* Hover state: dot shrinks, ring expands + fills slightly */
+    #cursor-dot.is-hovering {
+      width: 4px; height: 4px;
+      background: var(--accent);
+    }
+    #cursor-ring.is-hovering {
+      width: 56px; height: 56px;
+      top: -28px; left: -28px;
+      border-color: var(--accent);
+      opacity: 0.35;
+      background: rgba(200, 96, 58, 0.07);
+    }
+    /* Click pulse */
+    #cursor-ring.is-clicking {
+      width: 32px; height: 32px;
+      top: -16px; left: -16px;
+      opacity: 0.7;
+      background: rgba(200, 96, 58, 0.15);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .hero { padding: 110px 24px 56px; }
+      .hero-intro { grid-template-columns: 1fr; gap: 20px; }
+      .work-section { padding: 36px 24px 0; }
+      .card-item { opacity: 1 !important; transform: none !important; }
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 24px; }
+      .about { padding: 60px 24px; margin-top: 40px; }
+      .about-inner { grid-template-columns: 1fr; gap: 36px; }
+      footer { padding: 40px 24px; margin-top: 40px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+/* ── PAGE HEADER ── */
+    .page-header {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 140px 48px 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .page-header p {
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    /* ── INFLUENCE GRID ── */
+    .influence-body {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 64px 48px 100px;
+    }
+    .influence-categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 56px 64px;
+    }
+    .influence-cat h3 {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-text);
+      margin-bottom: 4px;
+    }
+    .influence-cat-desc {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .influence-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .influence-item {
+      display: flex;
+      flex-direction: column;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+    }
+    .influence-item:last-child { border-bottom: none; }
+    .influence-item:hover .influence-item-title { color: var(--accent-text); }
+    .influence-item-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+      transition: color 0.2s;
+    }
+    .influence-item-desc {
+      font-size: 0.78rem;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      margin-top: 3px;
+    }
+    .influence-item-domain {
+      font-size: 0.7rem;
+      color: var(--ink-light);
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--paper);
+      color: var(--ink);
+      padding: 48px 48px;
+      margin-top: 0;
+      border-top: 1px solid var(--rule);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-left { display: flex; flex-direction: column; gap: 6px; }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); }
+    .footer-copy  { font-size: 0.75rem; color: var(--ink-light); letter-spacing: 0.06em; }
+    .claude-badge {
+      display: inline-block;
+      background: var(--paper-alt);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 1px 7px;
+      border-radius: 20px;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+    .footer-right { display: flex; gap: 32px; align-items: center; }
+    .footer-right a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* ── CUSTOM CURSOR ── */
+    @media (hover: hover) {
+      *, *::before, *::after { cursor: none !important; }
+    }
+    #cursor-dot {
+      position: fixed;
+      top: -4px; left: -4px;
+      width: 8px; height: 8px;
+      background: var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: width 0.25s ease, height 0.25s ease,
+                  background 0.25s ease, opacity 0.3s ease;
+      transform: translate(-100px, -100px);
+      will-change: transform;
+    }
+    #cursor-ring {
+      position: fixed;
+      top: -20px; left: -20px;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.5;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  top 0.35s cubic-bezier(0.23,1,0.32,1),
+                  left 0.35s cubic-bezier(0.23,1,0.32,1),
+                  border-color 0.25s ease,
+                  opacity 0.3s ease,
+                  background 0.3s ease;
+      transform: translate(-100px, -100px);
+      will-change: transform;
+    }
+    #cursor-dot.is-hovering {
+      width: 4px; height: 4px;
+      background: var(--accent);
+    }
+    #cursor-ring.is-hovering {
+      width: 56px; height: 56px;
+      top: -28px; left: -28px;
+      border-color: var(--accent);
+      opacity: 0.35;
+      background: rgba(200, 96, 58, 0.07);
+    }
+    #cursor-ring.is-clicking {
+      width: 32px; height: 32px;
+      top: -16px; left: -16px;
+      opacity: 0.7;
+      background: rgba(200, 96, 58, 0.15);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-header { opacity: 0; animation: fadeUp 0.8s 0.1s forwards; }
+    .influence-body { opacity: 0; animation: fadeUp 0.8s 0.25s forwards; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .page-header { padding: 110px 24px 48px; }
+      .influence-body { padding: 48px 24px 80px; }
+      .influence-categories { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+    @media (max-width: 560px) {
+      .influence-categories { grid-template-columns: 1fr; }
+      .nav-links { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+<nav id="nav">
+    <a href="index.html" class="nav-logo">Lesley Rooney</a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="influence.html" class="active">Influence</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#0d616874237f62626368744d6a606c6461236e6260">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <h1>Influence</h1>
+    <p>A curated collection of the people, tools, and resources that have shaped how I think and work.</p>
+  </header>
+
+  <main class="influence-body">
+    <div class="influence-categories">
+
+      <!-- PEOPLE -->
+      <div class="influence-cat">
+        <h3>People</h3>
+        <p class="influence-cat-desc">Individuals that inspire me</p>
+        <div class="influence-list">
+          <a href="https://www.elenaverna.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Elena Verna</span>
+            <span class="influence-item-desc">Shifted my growth framework more than anyone else</span>
+            <span class="influence-item-domain">elenaverna.com</span>
+          </a>
+          <a href="https://www.linkedin.com/in/thechrisdo/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Chris Do</span>
+            <span class="influence-item-desc">Changed how I approach design and creative business</span>
+            <span class="influence-item-domain">linkedin.com</span>
+          </a>
+          <a href="https://amivora.substack.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Ami Vora</span>
+            <span class="influence-item-desc">Growth Playbook. Pure gold.</span>
+            <span class="influence-item-domain">amivora.substack.com</span>
+          </a>
+          <a href="https://patrickcollison.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Patrick Collison</span>
+            <span class="influence-item-desc">CEO of Stripe — how to build and think at scale</span>
+            <span class="influence-item-domain">patrickcollison.com</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BOOKS -->
+      <div class="influence-cat">
+        <h3>Books</h3>
+        <p class="influence-cat-desc">Reading that changed how I work</p>
+        <div class="influence-list">
+          <a href="https://amzn.to/4mDXyxi" target="_blank" class="influence-item">
+            <span class="influence-item-title">Don't Make Me Think</span>
+            <span class="influence-item-desc">A classic on usability — still the first book I recommend</span>
+            <span class="influence-item-domain">amzn.to</span>
+          </a>
+          <a href="https://amzn.to/4fV8zI6" target="_blank" class="influence-item">
+            <span class="influence-item-title">Designing for Behaviour Change</span>
+            <span class="influence-item-desc">A practical guide to applying psychology in product design</span>
+            <span class="influence-item-domain">amzn.to</span>
+          </a>
+          <a href="https://amzn.to/4fV8zI6" target="_blank" class="influence-item">
+            <span class="influence-item-title">Hooked</span>
+            <span class="influence-item-desc">On building habit-forming products</span>
+            <span class="influence-item-domain">amzn.to</span>
+          </a>
+          <a href="https://amzn.to/4mXaxd5" target="_blank" class="influence-item">
+            <span class="influence-item-title">Blue Ocean Strategy</span>
+            <span class="influence-item-desc">Find uncontested market space rather than competing</span>
+            <span class="influence-item-domain">amzn.to</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- LEARN DESIGN -->
+      <div class="influence-cat">
+        <h3>Learn Design</h3>
+        <p class="influence-cat-desc">Resources I return to</p>
+        <div class="influence-list">
+          <a href="https://lawsofux.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Laws of UX</span>
+            <span class="influence-item-desc">A collection of UX best practices, beautifully presented</span>
+            <span class="influence-item-domain">lawsofux.com</span>
+          </a>
+          <a href="https://growth.design/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Growth.design</span>
+            <span class="influence-item-desc">Case studies on persuasion and UX in the wild</span>
+            <span class="influence-item-domain">growth.design</span>
+          </a>
+          <a href="https://practicaltypography.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Butterick's Practical Typography</span>
+            <span class="influence-item-desc">The typography rules I actually follow</span>
+            <span class="influence-item-domain">practicaltypography.com</span>
+          </a>
+          <a href="https://www.checklist.design/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Checklist.design</span>
+            <span class="influence-item-desc">UI and UX checklists to catch what you might miss</span>
+            <span class="influence-item-domain">checklist.design</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- INSPIRATION -->
+      <div class="influence-cat">
+        <h3>Inspiration</h3>
+        <p class="influence-cat-desc">Design references I keep bookmarked</p>
+        <div class="influence-list">
+          <a href="https://www.wallofportfolios.in/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Wall of Portfolios</span>
+            <span class="influence-item-desc">Curated portfolio and case study examples</span>
+            <span class="influence-item-domain">wallofportfolios.in</span>
+          </a>
+          <a href="https://mobbin.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Mobbin</span>
+            <span class="influence-item-desc">The world's largest mobile and web design library</span>
+            <span class="influence-item-domain">mobbin.com</span>
+          </a>
+          <a href="https://www.designspells.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Design Spells</span>
+            <span class="influence-item-desc">Great for delight and micro-interaction inspiration</span>
+            <span class="influence-item-domain">designspells.com</span>
+          </a>
+          <a href="https://marekkultys.com/case-studies/evinova" target="_blank" class="influence-item">
+            <span class="influence-item-title">Marek Kultys — Evinova</span>
+            <span class="influence-item-desc">The case study benchmark I keep returning to</span>
+            <span class="influence-item-domain">marekkultys.com</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- AI TOOLS -->
+      <div class="influence-cat">
+        <h3>AI Tools</h3>
+        <p class="influence-cat-desc">Tools reshaping how I design</p>
+        <div class="influence-list">
+          <a href="https://claude.ai" target="_blank" class="influence-item">
+            <span class="influence-item-title">Claude</span>
+            <span class="influence-item-desc">My primary AI collaborator — writing, code, thinking partner</span>
+            <span class="influence-item-domain">claude.ai</span>
+          </a>
+          <a href="https://v0.app/" target="_blank" class="influence-item">
+            <span class="influence-item-title">V0</span>
+            <span class="influence-item-desc">Idea to production UI at speed</span>
+            <span class="influence-item-domain">v0.app</span>
+          </a>
+          <a href="https://lovable.dev/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Lovable</span>
+            <span class="influence-item-desc">Create apps and websites by chatting with AI</span>
+            <span class="influence-item-domain">lovable.dev</span>
+          </a>
+          <a href="https://www.midjourney.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Midjourney</span>
+            <span class="influence-item-desc">My go-to for AI-generated visual references</span>
+            <span class="influence-item-domain">midjourney.com</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RESOURCES -->
+      <div class="influence-cat">
+        <h3>Resources</h3>
+        <p class="influence-cat-desc">Tools and references worth bookmarking</p>
+        <div class="influence-list">
+          <a href="https://www.framer.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Framer</span>
+            <span class="influence-item-desc">Great for prototyping, especially with a bit of code</span>
+            <span class="influence-item-domain">framer.com</span>
+          </a>
+          <a href="https://designsystemsrepo.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Design System Repo</span>
+            <span class="influence-item-desc">The name says it all</span>
+            <span class="influence-item-domain">designsystemsrepo.com</span>
+          </a>
+          <a href="https://m3.material.io/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Material Design 3</span>
+            <span class="influence-item-desc">Google's open-source design system — a reference I use often</span>
+            <span class="influence-item-domain">m3.material.io</span>
+          </a>
+          <a href="https://carbondesignsystem.com/" target="_blank" class="influence-item">
+            <span class="influence-item-title">Carbon Design</span>
+            <span class="influence-item-desc">IBM's design system — thorough and well-documented</span>
+            <span class="influence-item-domain">carbondesignsystem.com</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <p class="footer-built">Designed by me. Co-built with <span class="claude-badge">Claude</span>.</p>
+        <p class="footer-copy">© 2026 — Lesley Rooney</p>
+      </div>
+      <div class="footer-right">
+        <a href="/cdn-cgi/l/email-protection#e589809ccb978a8a8b809ca58288848c89cb868a88">Email</a>
+        <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+        <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+        <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+      </div>
+    </div>
+  </footer>
+  </div>
+
+  <script>
+    // ── Router
+    function navigate(page, anchor) {
+      document.getElementById('page-home').classList.remove('active');
+      document.getElementById('page-influence').classList.remove('active');
+      document.getElementById('page-' + page).classList.add('active');
+      window.scrollTo(0, 0);
+      if (anchor) {
+        setTimeout(() => {
+          const el = document.getElementById(anchor);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      }
+      // Update active link in nav
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.nav-links a[data-page="' + page + '"]').forEach(a => a.classList.add('active'));
+    }
+
+    // Start on home
+    navigate('home');
+
+    // Mark nav links with data-page attr for active state
+    document.querySelectorAll('#page-home .nav-links a[onclick]').forEach(a => {
+      const match = a.getAttribute('onclick').match(/navigate\('([^']+)'\)/);
+      if (match) a.dataset.page = match[1];
+    });
+
+    // ── Nav scroll border (both navs)
+    window.addEventListener('scroll', () => {
+      document.querySelectorAll('nav').forEach(nav =>
+        nav.classList.toggle('scrolled', window.scrollY > 40)
+      );
+    });
+
+    // ── Video hover
+    document.querySelectorAll('.card-item').forEach(card => {
+      const video = card.querySelector('.card-video');
+      if (!video) return;
+      card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(() => {}); });
+      card.addEventListener('mouseleave', () => video.pause());
+    });
+
+    // ── Scroll-in animation (IntersectionObserver)
+    const cardItems = document.querySelectorAll('.card-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Stagger by DOM index
+          const idx = Array.from(cardItems).indexOf(entry.target);
+          entry.target.style.transitionDelay = `${(idx % 3) * 80}ms`;
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    cardItems.forEach(card => observer.observe(card));
+
+    // ── Custom morphing cursor
+    (function() {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const dot  = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = -100, my = -100, rx = -100, ry = -100;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px)`;
+      });
+
+      const hoverTargets = 'a, button, .card, .influence-item, [role="button"]';
+      document.addEventListener('mouseover', e => {
+        if (e.target.closest(hoverTargets)) {
+          ring.classList.add('is-hovering'); dot.classList.add('is-hovering');
+        }
+      });
+      document.addEventListener('mouseout', e => {
+        if (e.target.closest(hoverTargets)) {
+          ring.classList.remove('is-hovering'); dot.classList.remove('is-hovering');
+        }
+      });
+      document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+      document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
+      document.addEventListener('mouseleave', () => { dot.style.opacity='0'; ring.style.opacity='0'; });
+      document.addEventListener('mouseenter', () => { dot.style.opacity='1'; ring.style.opacity='1'; });
+
+      (function loop() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
+</body>
+</html
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+    (function() {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx=-100,my=-100,rx=-100,ry=-100;
+      document.addEventListener('mousemove', e => {
+        mx=e.clientX; my=e.clientY;
+        dot.style.transform=`translate(${mx}px,${my}px)`;
+      });
+      const hoverTargets='a,button,.influence-item,[role="button"]';
+      document.addEventListener('mouseover', e => {
+        if(e.target.closest(hoverTargets)){ring.classList.add('is-hovering');dot.classList.add('is-hovering');}
+      });
+      document.addEventListener('mouseout', e => {
+        if(e.target.closest(hoverTargets)){ring.classList.remove('is-hovering');dot.classList.remove('is-hovering');}
+      });
+      document.addEventListener('mousedown',()=>ring.classList.add('is-clicking'));
+      document.addEventListener('mouseup',()=>ring.classList.remove('is-clicking'));
+      document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
+      document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
+      (function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop);})();
+    })();
+  </script>
+</body>
+</html>

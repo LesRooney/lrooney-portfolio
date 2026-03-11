@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games, Simulations & Films — Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a18;
+      --ink-mid:   #5a5a54;
+      --ink-light: #717169;
+      --paper:     #f7f6f2;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --max: 860px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(247,246,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── PAGE ── */
+    main { padding-top: 100px; padding-bottom: 120px; }
+
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+
+    /* ── HEADER ── */
+    .cs-header { padding: 60px 0 48px; border-bottom: 1px solid var(--rule); margin-bottom: 64px; }
+
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-light); text-decoration: none; margin-bottom: 40px;
+      transition: color 0.2s;
+    }
+    .cs-back:hover { color: var(--ink); }
+    .cs-back svg { width: 14px; height: 14px; }
+
+    .cs-label {
+      font-family: var(--serif); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+
+    .cs-title {
+      font-family: var(--serif); font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700; line-height: 1.15; color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .cs-intro {
+      font-size: 1.1rem; color: var(--ink-mid); line-height: 1.7;
+      max-width: 640px; margin-bottom: 40px;
+    }
+
+    .cs-meta {
+      display: flex; gap: 48px; flex-wrap: wrap;
+    }
+    .cs-meta-item { }
+    .cs-meta-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 4px; }
+    .cs-meta-value { font-size: 0.9rem; color: var(--ink); }
+
+    /* ── SECTIONS ── */
+    .cs-section { margin-bottom: 80px; }
+
+    .cs-section-label {
+      font-family: var(--serif); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    .cs-section h2 {
+      font-family: var(--serif); font-size: 1.5rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 20px; line-height: 1.3;
+    }
+
+    .cs-section h3 {
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 12px; margin-top: 40px;
+    }
+
+    .cs-section p {
+      font-size: 1rem; color: var(--ink-mid); line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .cs-section p:last-child { margin-bottom: 0; }
+
+    hr.section-rule {
+      border: none; border-top: 1px solid var(--rule);
+      margin: 64px 0;
+    }
+
+    /* ── PLACEHOLDER IMAGES ── */
+    .img-placeholder {
+      width: 100%; background: var(--paper-alt);
+      border: 1px solid var(--rule); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-light); font-size: 0.8rem; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .img-placeholder.aspect-wide { aspect-ratio: 16/9; }
+    .img-placeholder.aspect-sq { aspect-ratio: 1/1; }
+    .img-placeholder.aspect-tall { aspect-ratio: 3/4; }
+
+    .img-caption {
+      font-size: 0.8rem; color: var(--ink-light); font-style: italic;
+      margin-bottom: 32px; line-height: 1.5;
+    }
+
+    .img-grid {
+      display: grid; gap: 12px; margin-bottom: 12px;
+    }
+    .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* ── TOOLS ── */
+    .tools-list {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 16px; margin-bottom: 32px;
+    }
+    .tool-tag {
+      background: var(--paper-alt); border: 1px solid var(--rule);
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 0.8rem; color: var(--ink-mid);
+    }
+
+    /* ── AWARD ── */
+    .award-callout {
+      background: var(--paper-alt); border-left: 3px solid var(--ink);
+      padding: 20px 24px; border-radius: 0 8px 8px 0;
+      margin: 32px 0;
+    }
+    .award-callout p { color: var(--ink); margin: 0; font-size: 0.95rem; }
+    .award-callout strong { font-family: var(--serif); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--paper);
+      border-top: 1px solid var(--rule);
+      padding: 40px 48px;
+      margin-top: 80px;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-built {
+      font-size: 0.85rem;
+      color: var(--ink-mid);
+      margin-bottom: 4px;
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+    }
+    .footer-right {
+      display: flex;
+      gap: 32px;
+    }
+    .footer-right a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* ── CURSOR ── */
+    .cursor-dot, .cursor-ring {
+      position: fixed; pointer-events: none; z-index: 9999;
+      border-radius: 50%; transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--ink); top: 0; left: 0;
+    }
+    .cursor-ring {
+      width: 40px; height: 40px;
+      border: 1.5px solid rgba(26,26,24,0.35);
+      top: 0; left: 0;
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.3s;
+    }
+    body.cursor-hover .cursor-ring {
+      width: 56px; height: 56px;
+      border-color: rgba(26,26,24,0.6);
+    }
+    @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+  </style>
+</head>
+<body>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo">LR</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Work</a></li>
+      <li><a href="influence.html">Influence</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#6a060f1344180505040f132a0d070b030644090507">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- HEADER -->
+      <header class="cs-header">
+        <a href="index.html" class="cs-back">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg>
+          All work
+        </a>
+        <div class="cs-label">Past Life</div>
+        <h1 class="cs-title">Games, Simulations<br>&amp; Films</h1>
+        <p class="cs-intro">Professional work as a 3D texture artist and environment modeller on major studio films, published games, and award-winning training simulations — before transitioning to product design.</p>
+        <div class="cs-meta">
+          <div class="cs-meta-item">
+            <div class="cs-meta-label">Period</div>
+            <div class="cs-meta-value">2008 – 2014</div>
+          </div>
+          <div class="cs-meta-item">
+            <div class="cs-meta-label">Role</div>
+            <div class="cs-meta-value">3D Texture Artist / Environment Modeller</div>
+          </div>
+          <div class="cs-meta-item">
+            <div class="cs-meta-label">Sector</div>
+            <div class="cs-meta-value">VFX · Games · Simulation</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- TOOLS -->
+      <section class="cs-section">
+        <div class="cs-section-label">Tools</div>
+        <div class="tools-list">
+          <span class="tool-tag">Photoshop</span>
+          <span class="tool-tag">Mari</span>
+          <span class="tool-tag">After Effects</span>
+          <span class="tool-tag">3DS Max</span>
+          <span class="tool-tag">Cinema 4D</span>
+          <span class="tool-tag">ZBrush</span>
+          <span class="tool-tag">BodyPaint</span>
+          <span class="tool-tag">UV Headus</span>
+          <span class="tool-tag">Sony Vegas</span>
+          <span class="tool-tag">Shotgun</span>
+          <span class="tool-tag">Unity</span>
+          <span class="tool-tag">V-Ray</span>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- FILMS: WALTER MITTY -->
+      <section class="cs-section">
+        <div class="cs-section-label">Film — Professional work</div>
+        <h2>The Secret Life of Walter Mitty</h2>
+        <p>Texture improvements on road sections and environmental assets.</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+          </div>
+        </div>
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+          </div>
+          <div></div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- FILMS: THE LAST GAME -->
+      <section class="cs-section">
+        <div class="cs-section-label">Film — Professional work</div>
+        <h2>The Last Game</h2>
+        <p>Creating textures for the Nike commercial using Mari. Responsible for the dock wall and props including cable wheel, rope, and tyres.</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Dock shot — image placeholder</div>
+            <div class="img-caption">Dock wall and props — cable wheel, rope, tyres</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Mari screenshot — image placeholder</div>
+            <div class="img-caption">Mari workflow screenshot</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Windmill textures and stone wall adjustments</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Shop front textures</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Shop and pavement textures</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- FILMS: GI JOE 2 -->
+      <section class="cs-section">
+        <div class="cs-section-label">Film — Professional work</div>
+        <h2>GI Joe: Retaliation</h2>
+        <p>Collaborative textures for the hero asset helicopter. Created diffuse (colour), designs, displacement and bump maps. Complete texture creation for hero assets: suitcase and sword. Various mid-range props.</p>
+        <p>Tools: Mari, Photoshop</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Hero helicopter — image placeholder</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Cobra chopper — image placeholder</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- FILMS: ENDER'S GAME -->
+      <section class="cs-section">
+        <div class="cs-section-label">Film — Professional work</div>
+        <h2>Ender's Game</h2>
+        <p>Textures for the hero asset space shuttle.</p>
+
+        <div class="img-placeholder aspect-wide" style="margin-bottom:12px;">Hero shuttle — image placeholder</div>
+        <div class="img-caption">Space shuttle hero asset texturing</div>
+
+        <div class="img-grid cols-2">
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- FILMS: HUGO -->
+      <section class="cs-section">
+        <div class="cs-section-label">Film — Professional work</div>
+        <h2>Hugo</h2>
+        <p>Creating textures for various props and assets including hero pieces for the Martin Scorsese film. Collaborative texture creation on trains, stations, and period prop assets.</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-sq">Image placeholder</div>
+            <div class="img-caption">Look dev renders (not done by me) and Mari screenshot</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Station clock — image placeholder</div>
+            <div class="img-caption">Station clock — look dev render by Simon. Textures supplied by me.</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Mari screenshot</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Film screenshot — Hugo</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Film screenshot</div>
+          </div>
+        </div>
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Look dev render — textures supplied by me and another artist, working collaboratively in a short timescale.</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Various prop texturing</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- SIMULATION: COVENTRY ACT-UK -->
+      <section class="cs-section">
+        <div class="cs-section-label">Simulation — Professional work</div>
+        <h2>Coventry ACT-UK Simulation Centre</h2>
+        <p>Modernising training for the UK construction industry was the goal behind the £8.7M ACT-UK Simulation Centre — one of Makemedia's first major simulation breakthroughs, establishing the company within the sector.</p>
+        <p>Our four-person team built five stages of a housing development, from initial excavation and foundations through to fully finished homes. My early focus was on reviewing extensive reference material so I could accurately model assets in 3ds Max and create terrain textures using Cinema 4D, BodyPaint and ZBrush. I produced diffuse, specular and normal maps and supplied textures for the wider team, including our architectural consultant.</p>
+        <p>Accuracy was essential — brick dimensions, trench profiles and measurements all needed to match real-world standards. After setting the visual benchmark, I shifted into scheduling, workflow planning, assembling scenes in-engine and refining pipelines to keep the team aligned and delivery smooth.</p>
+
+        <div class="award-callout">
+          <p><strong>🏆 Presagis Best Visualisation Award</strong> — The project went on to win a Presagis Best Visualisation Award and played a key role in establishing Makemedia — later <a href="https://makereal.co.uk/team/" style="color:var(--ink)">Make Real</a> — as a recognised name in the industry.</p>
+        </div>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Aldermans Green — image placeholder</div>
+            <div class="img-caption">Makemedia founder manoeuvring around Alderman's Green</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Standing in front of the teaching screen</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-sq">Image placeholder</div>
+            <div class="img-caption">Colour maps from BodyPaint — Timeslice activity 4</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-sq">Image placeholder</div>
+            <div class="img-caption">Texture maps — Timeslice activity 4</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Colour maps — Timeslice activity 5</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- GAMES: PROFESSIONAL -->
+      <section class="cs-section">
+        <div class="cs-section-label">Games — Professional work</div>
+        <h2>Texturing, Modelling &amp; Animation</h2>
+        <p>Level of detail work, prop asset creation, and animation from various released and unreleased products.</p>
+
+        <h3>Published Games</h3>
+        <p>Hand-animated objects — modelled, textured and animated to give the sense of dynamic movement of props when kicked by characters. A mixture of looped object animations to liven up environments.</p>
+
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-wide">In-game prop animation — image placeholder</div>
+            <div class="img-caption">In-game dynamic prop animation</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">LOD prop — image placeholder</div>
+            <div class="img-caption">Level of detail prop — Alderman's Green simulation project</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Level of detail props — game work</div>
+          </div>
+        </div>
+
+        <h3>Unreleased Zombie Game</h3>
+        <div class="img-grid cols-3">
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+        </div>
+        <div class="img-caption">In-game screenshots and engine screen grabs — texture work</div>
+
+        <h3>Cartoon Stylised Boxcar</h3>
+        <div class="img-placeholder aspect-wide" style="margin-bottom:12px;">Image placeholder</div>
+        <div class="img-caption">Cartoon stylised boxcar texture test</div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- GAMES: GAME PITCH -->
+      <section class="cs-section">
+        <div class="cs-section-label">Games — Professional work</div>
+        <h2>Unreleased Game Pitch</h2>
+        <p>Hard surface environment modelling and UV work for game texturing, following feedback and technical changes.</p>
+
+        <div class="img-grid cols-3">
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+          <div><div class="img-placeholder aspect-wide">Image placeholder</div></div>
+        </div>
+        <div class="img-caption">Game environment modelling</div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- PERSONAL: BEETLE CAR -->
+      <section class="cs-section">
+        <div class="cs-section-label">Personal project</div>
+        <h2>Beetle Car</h2>
+        <p>Downloaded internet model with additional modelling details. Created UV and all texturing using Cinema 4D, Headus UVLayout, 3DS Max, ZBrush and V-Ray for rendering. Produced multiple texture variations — muddy and rusty looks — each with their own diffuse, ambient occlusion, colour and specular maps, created at large resolution then optimised for rendering.</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Muddy look — image placeholder</div>
+            <div class="img-caption">Muddy look</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Rusty look — image placeholder</div>
+            <div class="img-caption">Rusty look — same asset, alternative texture</div>
+          </div>
+        </div>
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-sq">Image placeholder</div>
+            <div class="img-caption">Rusty textures — Photoshop with ambient occlusion, colour and specular maps</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Photoshop textures — created at large resolution, optimised for rendering</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- PERSONAL: MARI CHALLENGE -->
+      <section class="cs-section">
+        <div class="cs-section-label">Personal project</div>
+        <h2>Mari Challenge</h2>
+        <p>Screenshots of textures created for a Mari competition. Model provided by Jakob Kousholts. Separated texture layers for greater adjustability — diffuse, bump and displacement maps.</p>
+
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-sq">Face detail — image placeholder</div>
+            <div class="img-caption">Detail of face — separated textures for greater adjustability</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Flat texture maps — image placeholder</div>
+            <div class="img-caption">Flat images of textures</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-tall">Image placeholder</div>
+            <div class="img-caption">Details of face — Mari screenshot with bump map</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Mask texturing for paintwork</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-tall">Image placeholder</div>
+            <div class="img-caption">Diffuse and bump/displacement map</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Detail of diffuse texturing</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-rule">
+
+      <!-- PERSONAL: HARD SURFACE ENVIRONMENT -->
+      <section class="cs-section">
+        <div class="cs-section-label">Personal project</div>
+        <h2>Hard Surface Environment Texturing &amp; Modelling</h2>
+        <p>Just for fun. Simple modelling of a slum house environment — reference study, then texturing and modelling. UV mapped objects evenly in preparation for texturing. Colour and bump maps created in ZBrush.</p>
+
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">Slum house reference — image placeholder</div>
+            <div class="img-caption">Slum house reference</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Slum house textures and modelling — Mari screenshot</div>
+          </div>
+        </div>
+        <div class="img-grid cols-3">
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Layers of separated textures — showing breakup for greater control</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Modelling the environment — UV mapped for texturing</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">Colour and bump map</div>
+          </div>
+        </div>
+        <div class="img-grid cols-2">
+          <div>
+            <div class="img-placeholder aspect-wide">WIP ZBrush — image placeholder</div>
+            <div class="img-caption">WIP ZBrush</div>
+          </div>
+          <div>
+            <div class="img-placeholder aspect-wide">Image placeholder</div>
+            <div class="img-caption">WIP Concrete — ZBrush</div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <footer id="about">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#claude-clip2)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="claude-clip2"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+        <p class="footer-copy">© 2026 — Lesley Rooney</p>
+      </div>
+      <div class="footer-right">
+        <a href="mailto:ley.rooney@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+        <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+        <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+      </div>
+    </div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Nav scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Custom cursor
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add

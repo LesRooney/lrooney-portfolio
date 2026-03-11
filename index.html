@@ -6,7 +6,7 @@
   <title>Lesley Rooney — Senior Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
 /* ── PAGE SWITCHING ── */
     #page-home, #page-influence { display: none; }
@@ -24,8 +24,8 @@
       --accent:      #1a1a18;
       --accent-text: #1a1a18;
       --rule:      #e2e0d8;
-      --serif: 'DM Serif Display', Georgia, serif;
-      --sans:  'Geist', system-ui, sans-serif;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --max: 1200px;
     }
 
@@ -63,10 +63,10 @@
       padding: 140px 48px 72px;
       opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
     }
-    .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
+    .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
     .hero-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; max-width: 860px; }
     .intro-block { padding-left: 0; }
-    .intro-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 5px; }
+    .intro-label { font-family: var(--serif); font-size: 1rem; font-weight: 600; letter-spacing: 0; text-transform: capitalize; color: var(--ink); margin-bottom: 5px; }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
 
     /* ── WORK SECTION ── */
@@ -133,13 +133,32 @@
 
     /* Info lives BELOW the thumb */
     .card-info  { display: flex; flex-direction: column; gap: 4px; }
-    .card-title { font-family: var(--serif); font-size: 1rem; color: var(--ink); line-height: 1.3; }
+    .card-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
     .card-sub   { font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5; }
     .card-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--paper-alt), var(--rule)); font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light); text-align: center; padding: 24px; position: absolute; inset: 0; }
 
+    /* ── PAST WORK — Animation + Games below a horizontal rule ── */
+    .past-work-divider {
+      width: calc(100% - 96px);
+      max-width: calc(var(--max) - 96px);
+      margin: 48px auto 0;
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+    .past-work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 24px;
+      width: calc(100% - 96px);
+      max-width: calc(var(--max) - 96px);
+      margin: 32px auto 0;
+      padding-bottom: 80px;
+    }
+
     /* ── FOOTER ── */
     footer {
-      background: var(--ink);
+      background: var(--paper);
+      border-top: 1px solid var(--rule);
       padding: 40px 48px;
       margin-top: 80px;
     }
@@ -152,16 +171,13 @@
     }
     .footer-built {
       font-size: 0.85rem;
-      color: rgba(247,246,242,0.5);
+      color: var(--ink-mid);
       margin-bottom: 4px;
     }
-    .claude-badge {
-      color: var(--accent);
-      font-weight: 500;
-    }
+
     .footer-copy {
       font-size: 0.8rem;
-      color: rgba(247,246,242,0.3);
+      color: var(--ink-light);
     }
     .footer-right {
       display: flex;
@@ -341,7 +357,8 @@
       .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
       .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
     }
-    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } .past-work-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .past-work-divider, .past-work-grid { width: calc(100% - 48px); } }
   </style>
 </head>
 <body>
@@ -386,7 +403,7 @@
 
           <a href="#" class="card-item" id="card-0">
             <div class="card">
-              <div class="card-placeholder">Medidata EDC thumbnail</div>
+              <img class="card-thumb" src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign">
               <span class="card-lock">🔒 NDA</span>
               <span class="card-new">New</span>
             </div>
@@ -409,7 +426,7 @@
 
           <a href="#" class="card-item" id="card-2">
             <div class="card">
-              <div class="card-placeholder">Qualis Flow thumbnail</div>
+              <img class="card-thumb" src="images/qualis-airquality-thumb.webp" alt="Qualis Flow — Air Quality">
               <span class="card-lock">🔒 NDA</span>
             </div>
             <div class="card-info">
@@ -432,9 +449,12 @@
             </div>
           </a>
 
-          <a href="#" class="card-item" id="card-4">
+          <a href="homerenter.html" class="card-item" id="card-4">
             <div class="card">
-              <div class="card-placeholder">HomeRenter thumbnail</div>
+              <img class="card-thumb" src="images/homerenter-thumb.webp" alt="HomeRenter">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source src="videos/homerenter-preview.mp4" type="video/mp4">
+              </video>
             </div>
             <div class="card-info">
               <div class="card-title">HomeRenter</div>
@@ -442,38 +462,53 @@
             </div>
           </a>
 
-          <a href="#" class="card-item" id="card-5">
-            <div class="card">
-              <div class="card-placeholder">Animation experiments</div>
-            </div>
-            <div class="card-info">
-              <div class="card-title">Animation</div>
-              <div class="card-sub">Fun · Micro interaction experiments with Lottie and After Effects</div>
-            </div>
-          </a>
+        </div><!-- /.grid -->
 
-          <a href="#" class="card-item" id="card-6">
-            <div class="card">
-              <div class="card-placeholder">Games &amp; VFX thumbnail</div>
-            </div>
-            <div class="card-info">
-              <div class="card-title">Games, Simulations &amp; Films</div>
-              <div class="card-sub">Past Life · Professional work as an artist from games to VFX</div>
-            </div>
-          </a>
+    <!-- Horizontal rule separating past work -->
+    <hr class="past-work-divider">
 
+    <!-- Animation + Games — same card size, continuing the 3-col grid -->
+    <div class="past-work-grid">
+
+      <a href="#" class="card-item" id="card-5">
+        <div class="card">
+          <img class="card-thumb" src="images/animation-thumb.webp" alt="Animation">
+          <video class="card-video" muted loop playsinline preload="none">
+            <source src="videos/animation-preview.mp4" type="video/mp4">
+          </video>
         </div>
+        <div class="card-info">
+          <div class="card-title">Animation</div>
+          <div class="card-sub">Fun · Micro interaction experiments with Lottie and After Effects</div>
+        </div>
+      </a>
+
+      <a href="games-simulations-films.html" class="card-item" id="card-6">
+        <div class="card">
+          <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films">
+          <video class="card-video" muted loop playsinline preload="none">
+            <source src="videos/games-preview.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Games, Simulations &amp; Films</div>
+          <div class="card-sub">VFX Texturing · Hugo · GI Joe 2 · Ender's Game · ACT-UK Simulation Centre</div>
+        </div>
+      </a>
+
+    </div><!-- /.past-work-grid -->
+
   </section>
 
 
   <footer id="about">
     <div class="footer-inner">
       <div class="footer-left">
-        <p class="footer-built">Designed by me. Co-built with <span class="claude-badge">Claude</span>.</p>
+        <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#claude-clip)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="claude-clip"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
         <p class="footer-copy">© 2026 — Lesley Rooney</p>
       </div>
       <div class="footer-right">
-        <a href="/cdn-cgi/l/email-protection#bfd3dac691cdd0d0d1dac6ffd8d2ded6d391dcd0d2">Email</a>
+        <a href="mailto:ley.rooney@gmail.com">Email</a>
         <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
         <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
         <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>

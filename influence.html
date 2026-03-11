@@ -6,7 +6,7 @@
   <title>Influence — Lesley Rooney</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
 /* ── PAGE SWITCHING ── */
     #page-home, #page-influence { display: none; }
@@ -24,8 +24,8 @@
       --accent:      #1a1a18;
       --accent-text: #1a1a18;
       --rule:      #e2e0d8;
-      --serif: 'DM Serif Display', Georgia, serif;
-      --sans:  'Geist', system-ui, sans-serif;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --max: 1200px;
     }
 
@@ -139,7 +139,8 @@
 
     /* ── FOOTER ── */
     footer {
-      background: var(--ink);
+      background: var(--paper);
+      border-top: 1px solid var(--rule);
       padding: 40px 48px;
       margin-top: 80px;
     }
@@ -152,16 +153,13 @@
     }
     .footer-built {
       font-size: 0.85rem;
-      color: rgba(247,246,242,0.5);
+      color: var(--ink-mid);
       margin-bottom: 4px;
     }
-    .claude-badge {
-      color: var(--accent);
-      font-weight: 500;
-    }
+
     .footer-copy {
       font-size: 0.8rem;
-      color: rgba(247,246,242,0.3);
+      color: var(--ink-light);
     }
     .footer-right {
       display: flex;
@@ -736,11 +734,11 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-left">
-        <p class="footer-built">Designed by me. Co-built with <span class="claude-badge">Claude</span>.</p>
+        <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#claude-clip)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="claude-clip"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
         <p class="footer-copy">© 2026 — Lesley Rooney</p>
       </div>
       <div class="footer-right">
-        <a href="/cdn-cgi/l/email-protection#e589809ccb978a8a8b809ca58288848c89cb868a88">Email</a>
+        <a href="/cdn-cgi/l/email-protection#5438312d7a263b3b3a312d143339353d387a373b39">Email</a>
         <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
         <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
         <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
@@ -749,7 +747,7 @@
   </footer>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── Router
     function navigate(page, anchor) {
       document.getElementById('page-home').classList.remove('active');
@@ -870,8 +868,4 @@
       document.addEventListener('mouseup',()=>ring.classList.remove('is-clicking'));
       document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
       document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
-      (function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop);})();
-    })();
-  </script>
-</body>
-</html>
+      (function loop(){rx+=

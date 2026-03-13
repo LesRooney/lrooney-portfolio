@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Skill(anthropic-skills:ui-designer)",
+      "Skill(anthropic-skills:ui-designer:*)",
+      "Read(//Users/lesleyrooney/Documents/GitHub/source-images/Homepage/**)",
+      "Read(//Users/lesleyrooney/source-images/**)",
+      "Read(//Users/lesleyrooney/Documents/GitHub/**)",
+      "Bash(python3 -c \"from PIL import Image; print\\(''Pillow OK''\\)\")",
+      "Bash(node -e \"require\\(''sharp''\\); console.log\\(''sharp OK''\\)\")",
+      "Read(//usr/local/bin/**)",
+      "Bash(brew install:*)",
+      "Bash(/opt/homebrew/bin/brew install:*)",
+      "Bash(/usr/local/bin/brew install:*)",
+      "Bash(SRC=\"/Users/lesleyrooney/Documents/GitHub/source-images/Homepage\" DEST=\"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images\" __NEW_LINE_bce50a58f9fd026d__ cd /tmp)",
+      "Bash(npx --yes @squoosh/cli --webp '{}' \"$SRC/HP_EDCRedesignTileStatic.png\" \"$SRC/HP_QflowNotificationTileStatic.png\" \"$SRC/HP_HomeRenterTileStatic.png\" \"$SRC/HP_CastleTileStatic.jpg\" -d /tmp/webp-out/)",
+      "Bash(node -e \":*)",
+      "Bash(ls -lh /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/*.webp)"
+    ]
+  }
+}

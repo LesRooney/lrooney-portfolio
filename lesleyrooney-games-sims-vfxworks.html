@@ -85,6 +85,30 @@
       line-height: 1.25;
       margin-bottom: 6px;
       color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    /* ── Section image loading bar ── */
+    .section-load-bar {
+      display: inline-block;
+      width: 100px;
+      max-width: 100px;
+      height: 12px;
+      background: rgba(0,0,0,0.10);
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: opacity 0.5s ease;
+    }
+    .section-load-fill {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--ink);
+      border-radius: 6px;
+      transition: width 0.25s ease;
     }
     .section-sub { font-size: 0.88rem; font-weight: 600; color: var(--ink-mid); margin-bottom: 10px; }
     .section-body {
@@ -98,27 +122,15 @@
     .section-body a { color: var(--ink); text-underline-offset: 3px; }
 
     /* ── ICON ROW ── */
-    .icon-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .icon-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
     .icon-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      background: var(--paper-alt);
-      border: 1px solid var(--rule);
-      border-radius: 3px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--ink-mid);
-      letter-spacing: 0.02em;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
     }
-    .icon-chip::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--ink-light);
-      flex-shrink: 0;
-    }
+    .icon-chip img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
     /* ── VIDEO EMBED ── */
     .video-wrap {
@@ -197,6 +209,7 @@
     /* ── SHOW MORE ── */
     .gallery-actions { margin-top: 10px; }
     .section-banner { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; object-fit: cover; cursor: zoom-in; }
+    .section-video { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; background: #1a1a18; }
     .show-more-btn {
       display: inline-flex;
       align-items: center;
@@ -381,15 +394,13 @@
     <hr class="section-rule">
     <h2 class="section-heading">Tools</h2>
     <div class="icon-row">
-      <span class="icon-chip">Photoshop</span>
-      <span class="icon-chip">Mari</span>
-      <span class="icon-chip">After Effects</span>
-      <span class="icon-chip">3DS Max</span>
-      <span class="icon-chip">Cinema 4D</span>
-      <span class="icon-chip">UV Headus</span>
-      <span class="icon-chip">Sony Vegas</span>
-      <span class="icon-chip">ShotGrid</span>
-      <span class="icon-chip">Unity</span>
+      <span class="icon-chip"><img src="images/logos/photoshop.svg" alt="Photoshop"></span>
+      <span class="icon-chip"><img src="images/logos/Mari.svg" alt="Mari"></span>
+      <span class="icon-chip"><img src="images/logos/after-effects-2019.svg" alt="After Effects"></span>
+      <span class="icon-chip"><img src="images/logos/3ds-max-2.svg" alt="3DS Max"></span>
+      <span class="icon-chip"><img src="images/logos/Cinema4.svg" alt="Cinema 4D"></span>
+      <span class="icon-chip"><img src="images/logos/Headus_UVlayout.webp" alt="UV Headus"></span>
+      <span class="icon-chip"><img src="images/logos/unity.svg" alt="Unity"></span>
     </div>
   </section>
 
@@ -433,6 +444,7 @@
     <div class="section-body">
       <p>Creating textures for the commercial <a href="https://www.youtube.com/watch?v=CJ2xU9GUPVY" target="_blank" rel="noopener">The Last Game</a> using <a href="https://www.foundry.com/products/mari" target="_blank" rel="noopener">Mari</a>.</p>
     </div>
+    <img src="images/gfx/LastGame%20ClipMovie.gif" alt="The Last Game — clip movie" class="section-banner" loading="lazy" style="margin-bottom: 12px;">
     <div class="gallery-grid" data-gallery="last-game">
       <figure class="gallery-item gallery-item--gif" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_Movie_Slot01.gif" data-lb-caption="Last Game — Movie clip">
         <img src="images/gfx/LastGame_Movie_Slot01.gif" alt="Last Game movie clip" loading="lazy">
@@ -567,38 +579,43 @@
     <div class="section-body">
       <p>Collaborative textures for hero asset helicopter for <a href="https://www.youtube.com/watch?v=mKNpy-tGwxE" target="_blank" rel="noopener">GI Joe 2</a>. Created diffuse (colour), designs, displacement and bump for the helicopter. Complete texture creation for hero asset suitcase and sword. Various mid range props.</p>
     </div>
+    <video class="section-video" autoplay loop muted playsinline>
+      <source src="images/gfx/GiJoe2_HelicopterLarge%20Turnaround_View.m4v" type="video/mp4">
+    </video>
+    <video class="section-video" autoplay loop muted playsinline>
+      <source src="images/gfx/GI%20Joe%20SuitcaseFilmMovie.mp4" type="video/mp4">
+    </video>
     <div class="gallery-grid" data-gallery="gi-joe">
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_9247ebb030f74c22b3d44f9a9a7e1f85~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_9247ebb030f74c22b3d44f9a9a7e1f85~mv2.jpg" alt="GI Joe 2 VFX" loading="lazy">
-      </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-heli-animation.gif" data-lb-caption="Helicopter animation">
-        <img src="images/gfx/gijoe-heli-animation.gif" alt="GI Joe 2 helicopter animation" loading="lazy">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Helicopter.gif" data-lb-caption="GI Joe 2 — Helicopter animation">
+        <img src="images/gfx/GiJoe2_Helicopter.gif" alt="GI Joe 2 helicopter animation" loading="lazy">
         <figcaption>Helicopter animation</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-1.jpg" data-lb-caption="">
-        <img src="images/gfx/gijoe-cobra-1.jpg" alt="GI Joe 2 Cobra" loading="lazy">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Suitcase02.gif" data-lb-caption="GI Joe 2 — Suitcase animation">
+        <img src="images/gfx/GiJoe2_Suitcase02.gif" alt="GI Joe 2 suitcase animation" loading="lazy">
+        <figcaption>Suitcase animation</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-2.jpg" data-lb-caption="">
-        <img src="images/gfx/gijoe-cobra-2.jpg" alt="GI Joe 2 Cobra render" loading="lazy">
-      </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-chopper.png" data-lb-caption="Cobra chopper">
-        <img src="images/gfx/gijoe-cobra-chopper.png" alt="GI Joe 2 Cobra chopper" loading="lazy">
-        <figcaption>Cobra chopper</figcaption>
-      </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_64ab79153bcb4a6bbff28fbf403e80bf~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_64ab79153bcb4a6bbff28fbf403e80bf~mv2.jpg" alt="GI Joe 2" loading="lazy">
-      </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_64dd4353dab2423bb503a62524992216~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_64dd4353dab2423bb503a62524992216~mv2.jpg" alt="GI Joe 2" loading="lazy">
-      </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_62ddb46223184f41a57ec3f6c7d0091f~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_62ddb46223184f41a57ec3f6c7d0091f~mv2.jpg" alt="GI Joe 2" loading="lazy">
-      </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-sword-animation.gif" data-lb-caption="Sword animation">
-        <img src="images/gfx/gijoe-sword-animation.gif" alt="GI Joe 2 sword animation" loading="lazy">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GIJoe_swordClip.gif" data-lb-caption="GI Joe 2 — Sword animation">
+        <img src="images/gfx/GIJoe_swordClip.gif" alt="GI Joe 2 sword animation" loading="lazy">
         <figcaption>Sword animation</figcaption>
       </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-sword-animation.gif" data-lb-caption="GI Joe 2 — Sword clip">
+        <img src="images/gfx/gijoe-sword-animation.gif" alt="GI Joe 2 sword clip" loading="lazy">
+        <figcaption>Sword clip</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm.jpg" data-lb-caption="GI Joe 2 — Helicopter film shot">
+        <img src="images/gfx/GiJoe2_HelicopterFilm.jpg" alt="GI Joe 2 helicopter film shot" loading="lazy">
+        <figcaption>Helicopter film shot</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm02.jpg" data-lb-caption="GI Joe 2 — Extra views">
+        <img src="images/gfx/GiJoe2_HelicopterFilm02.jpg" alt="GI Joe 2" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/GiJoe2_HelicopterFil04.jpg" alt="GI Joe 2" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GiJoe2_HelicopterFilm%2003.jpg" alt="GI Joe 2" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GiJoe2_Suitcase.jpg" alt="GI Joe 2 suitcase" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GiJoe2_Suitcase%2002.jpg" alt="GI Joe 2 suitcase" class="carousel-slide" loading="lazy">
+        <figcaption>Extra views</figcaption>
+      </figure>
     </div>
+    <img src="images/gfx/GI_Joe_swordTurnaround.gif" alt="GI Joe 2 — Sword turnaround" class="section-banner" loading="lazy" style="margin-top: 12px;">
   </section>
 
   <!-- ── ENDERS GAME ── -->
@@ -608,28 +625,42 @@
     <div class="section-body">
       <p>Textures for hero asset space shuttle in <a href="https://www.youtube.com/watch?v=2UNWLgY-wuo" target="_blank" rel="noopener">Enders Game</a></p>
     </div>
+    <video class="section-video" autoplay loop muted playsinline>
+      <source src="images/gfx/EnderGame_ShuttleDrop_Movie.mp4" type="video/mp4">
+    </video>
     <div class="gallery-grid" data-gallery="enders-game">
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_49033ed1b2c943c596d3b605335d1fd4~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_49033ed1b2c943c596d3b605335d1fd4~mv2.jpg" alt="Enders Game space shuttle" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle01.jpg" data-lb-caption="Enders Game — Shuttle render">
+        <img src="images/gfx/EnderGame_Shuttle01.jpg" alt="Enders Game shuttle render" loading="lazy">
+        <figcaption>Shuttle render</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_6aa898780b074966843dbe825cb5c88a~mv2.jpg" data-lb-caption="Textures for shuttle">
-        <img src="images/gfx/658ba4_6aa898780b074966843dbe825cb5c88a~mv2.jpg" alt="Enders Game textures for shuttle" loading="lazy">
-        <figcaption>Textures for shuttle</figcaption>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle03.png" data-lb-caption="Enders Game — Shuttle detail">
+        <img src="images/gfx/EnderGame_Shuttle03.png" alt="Enders Game shuttle detail" loading="lazy">
+        <figcaption>Shuttle detail</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_6fbfb3fa84a8446db76609758c22dc99~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_6fbfb3fa84a8446db76609758c22dc99~mv2.jpg" alt="Enders Game" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle04.jpg" data-lb-caption="Enders Game — Shuttle view">
+        <img src="images/gfx/EnderGame_Shuttle04.jpg" alt="Enders Game shuttle view" loading="lazy">
+        <figcaption>Shuttle view</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_7660529d75cc4f3db9cd5a48b9d2c223~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_7660529d75cc4f3db9cd5a48b9d2c223~mv2.jpg" alt="Enders Game" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle05.jpg" data-lb-caption="Enders Game — Shuttle view">
+        <img src="images/gfx/EnderGame_Shuttle05.jpg" alt="Enders Game shuttle view" loading="lazy">
+        <figcaption>Shuttle view</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_7764d62bc6444235bae0f751a2bd4409~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_7764d62bc6444235bae0f751a2bd4409~mv2.jpg" alt="Enders Game" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle06.jpg" data-lb-caption="Enders Game — Shuttle view">
+        <img src="images/gfx/EnderGame_Shuttle06.jpg" alt="Enders Game shuttle view" loading="lazy">
+        <figcaption>Shuttle view</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_8c9843f46a93481daca692bf6153606d~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_8c9843f46a93481daca692bf6153606d~mv2.jpg" alt="Enders Game" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle_FilmShot.jpg" data-lb-caption="Enders Game — Film shot">
+        <img src="images/gfx/EnderGame_Shuttle_FilmShot.jpg" alt="Enders Game film shot" loading="lazy">
+        <figcaption>Film shot</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_8d5f9cb7859944b8885affe7112a5533~mv2.jpg" data-lb-caption="">
-        <img src="images/gfx/658ba4_8d5f9cb7859944b8885affe7112a5533~mv2.jpg" alt="Enders Game" loading="lazy">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle01Boxed.jpg" data-lb-caption="Enders Game — Shuttle boxed view">
+        <img src="images/gfx/EnderGame_Shuttle01Boxed.jpg" alt="Enders Game shuttle boxed view" loading="lazy">
+        <figcaption>Shuttle boxed view</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle01%20ExtraShuttelshot.jpeg" data-lb-caption="Enders Game — Extra views">
+        <img src="images/gfx/EnderGame_Shuttle01%20ExtraShuttelshot.jpeg" alt="Enders Game extra shuttle shot" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/EnderGame_Shuttle01%20Logshot.jpg" alt="Enders Game log shot" class="carousel-slide" loading="lazy">
+        <figcaption>Extra views</figcaption>
       </figure>
     </div>
   </section>
@@ -1035,6 +1066,54 @@
       item.dataset.lbSrc = slides[idx].src;
     }, 400);
   });
+
+  // ── Section image loading progress bars
+  (function () {
+    document.querySelectorAll('h2.section-heading').forEach(heading => {
+      // Walk forward up to 5 siblings to find the gallery-grid
+      let grid = null;
+      let el = heading.nextElementSibling;
+      for (let i = 0; i < 5 && el; i++) {
+        if (el.classList.contains('gallery-grid')) { grid = el; break; }
+        el = el.nextElementSibling;
+      }
+      if (!grid) return;
+
+      const imgs = Array.from(grid.querySelectorAll('img'));
+      if (!imgs.length) return;
+
+      // Inject bar inside heading
+      const bar = document.createElement('span');
+      bar.className = 'section-load-bar';
+      const fill = document.createElement('span');
+      fill.className = 'section-load-fill';
+      bar.appendChild(fill);
+      heading.appendChild(bar);
+
+      let loaded = 0;
+      const total = imgs.length;
+
+      function onLoad() {
+        loaded = Math.min(loaded + 1, total);
+        fill.style.width = (loaded / total * 100) + '%';
+        if (loaded >= total) {
+          setTimeout(() => {
+            bar.style.opacity = '0';
+            setTimeout(() => bar.remove(), 500);
+          }, 400);
+        }
+      }
+
+      imgs.forEach(img => {
+        if (img.complete && img.naturalWidth > 0) {
+          onLoad();
+        } else {
+          img.addEventListener('load',  onLoad, { once: true });
+          img.addEventListener('error', onLoad, { once: true });
+        }
+      });
+    });
+  })();
 
   // ── Custom cursor
   (function() {

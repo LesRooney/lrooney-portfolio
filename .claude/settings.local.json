@@ -22,7 +22,8 @@
       "Bash(wc -l ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.mp4 /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.m4v /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.mov)",
       "Bash(ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.gif)",
       "Bash(ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/658ba4_*)",
-      "Bash(grep -v \"^gfx$\")"
+      "Bash(grep -v \"^gfx$\")",
+      "Bash(ls /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/gfx/*.gif)"
     ]
   }
 }

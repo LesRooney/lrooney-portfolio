@@ -17,7 +17,12 @@
       "Bash(SRC=\"/Users/lesleyrooney/Documents/GitHub/source-images/Homepage\" DEST=\"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images\" __NEW_LINE_bce50a58f9fd026d__ cd /tmp)",
       "Bash(npx --yes @squoosh/cli --webp '{}' \"$SRC/HP_EDCRedesignTileStatic.png\" \"$SRC/HP_QflowNotificationTileStatic.png\" \"$SRC/HP_HomeRenterTileStatic.png\" \"$SRC/HP_CastleTileStatic.jpg\" -d /tmp/webp-out/)",
       "Bash(node -e \":*)",
-      "Bash(ls -lh /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/*.webp)"
+      "Bash(ls -lh /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/*.webp)",
+      "Bash(wc -l ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.gif)",
+      "Bash(wc -l ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.mp4 /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.m4v /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.mov)",
+      "Bash(ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/*.gif)",
+      "Bash(ls /Users/lesleyrooney/Documents/GitHub/source-images/ExGamesVFX/658ba4_*)",
+      "Bash(grep -v \"^gfx$\")"
     ]
   }
 }

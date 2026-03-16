@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games, Simulations &amp; Films — Lesley Rooney</title>
+  <meta name="description" content="VFX texturing work for Hugo, GI Joe 2, Ender's Game, The Last Game, and more. Games and simulation projects by Lesley Rooney.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a18;
+      --ink-mid:   #5a5a54;
+      --ink-light: #717169;
+      --paper:     #f7f6f2;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --max: 1200px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(247,246,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── CURSOR ── */
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:-20px;left:-20px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:-40px;left:-40px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
+
+    /* ── PAGE ── */
+    .cs-page { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+
+    /* ── HERO ── */
+    .cs-hero { padding-top: 80px; }
+    .cs-hero img { width: 100%; height: auto; display: block; }
+
+    /* ── INTRO ── */
+    .cs-intro { padding: 56px 0 0; }
+    .cs-page-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    /* ── SECTION ── */
+    .cs-section { padding: 56px 0 0; }
+    .section-rule { border: none; border-top: 1px solid var(--rule); margin: 0 0 40px; }
+    .section-heading {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .section-sub { font-size: 0.88rem; font-weight: 600; color: var(--ink-mid); margin-bottom: 10px; }
+    .section-body {
+      font-size: 0.93rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      max-width: 740px;
+      margin-bottom: 28px;
+    }
+    .section-body p + p { margin-top: 0.9em; }
+    .section-body a { color: var(--ink); text-underline-offset: 3px; }
+
+    /* ── ICON ROW ── */
+    .icon-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .icon-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--paper-alt);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-mid);
+      letter-spacing: 0.02em;
+    }
+    .icon-chip::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--ink-light);
+      flex-shrink: 0;
+    }
+
+    /* ── VIDEO EMBED ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: var(--paper-alt);
+      border: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    .video-wrap iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:0; }
+    .video-placeholder {
+      position: absolute; top:0; left:0; right:0; bottom:0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; color: var(--ink-light); font-size: 0.85rem; text-align: center; padding: 24px;
+    }
+    .video-play-icon {
+      width: 52px; height: 52px;
+      border: 1.5px solid var(--rule);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 4px;
+    }
+    .video-play-icon svg { width: 20px; height: 20px; fill: var(--ink-light); margin-left: 3px; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .gallery-item {
+      position: relative;
+      cursor: zoom-in;
+      overflow: hidden;
+      background: var(--paper-alt);
+      display: block;
+      border-radius: 16px;
+      aspect-ratio: 1 / 1;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.03); }
+    .gallery-item--tall img { object-fit: cover; object-position: top; }
+    .gallery-item--gif img { object-fit: contain; background: #1a1a18; }
+    /* ── Carousel tile */
+    .gallery-item--carousel .carousel-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .gallery-item--carousel .carousel-slide.active { opacity: 1; }
+    figcaption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 10px;
+      background: rgba(26,26,24,0.8);
+      color: #fff;
+      font-size: 0.71rem;
+      line-height: 1.4;
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .gallery-item:hover figcaption { opacity: 1; }
+    .gallery-item--hidden { display: none !important; }
+
+    /* ── SHOW MORE ── */
+    .gallery-actions { margin-top: 10px; }
+    .section-banner { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; object-fit: cover; }
+    .show-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: transparent;
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .show-more-btn:hover { background: var(--paper-alt); color: var(--ink); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(20,20,18,0.96);
+      align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lb-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      display: block;
+    }
+    #lb-caption {
+      position: absolute; bottom: 20px; left: 0; right: 0;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+      padding: 0 80px;
+      line-height: 1.5;
+    }
+    #lb-close {
+      position: absolute; top: 16px; right: 20px;
+      width: 44px; height: 44px;
+      border: none; background: transparent;
+      color: rgba(255,255,255,0.7);
+      font-size: 32px; line-height: 1;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    #lb-close:hover { color: #fff; }
+    #lb-counter {
+      position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.78rem; letter-spacing: 0.08em;
+    }
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.3);
+      color: rgba(255,255,255,0.8);
+      font-size: 22px; cursor: pointer;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-nav:hover { background: rgba(0,0,0,0.65); color: #fff; }
+    #lb-prev { left: 16px; }
+    #lb-next { right: 16px; }
+
+    /* ── PEEK GRID ── */
+    .peek-section {
+      background: var(--paper-alt);
+      border-top: 1px solid var(--rule);
+      padding: 64px 48px 72px;
+      margin-top: 80px;
+    }
+    .peek-label {
+      max-width: var(--max); margin: 0 auto 8px;
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ink-light);
+    }
+    .peek-heading {
+      max-width: var(--max); margin: 0 auto 32px;
+      font-family: var(--serif); font-size: 1rem;
+      font-weight: 400; color: var(--ink-mid);
+    }
+    .peek-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-width: var(--max); margin: 0 auto;
+    }
+    .peek-item {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      text-decoration: none;
+      background: var(--rule);
+      border-radius: 16px;
+    }
+    .peek-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.4s ease;
+    }
+    .peek-item:hover img { transform: scale(1.06); }
+    .peek-nda {
+      position: absolute; inset: 0;
+      background: rgba(26,26,24,0.55);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .peek-nda svg { width: 22px; height: 22px; fill: rgba(255,255,255,0.75); }
+    .peek-nda-label {
+      position: absolute; bottom: 10px; left: 0; right: 0;
+      text-align: center;
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 36px 48px;
+      background: var(--paper);
+    }
+    .footer-inner {
+      max-width: var(--max); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); margin-bottom: 4px; }
+    .footer-copy { font-size: 0.8rem; color: var(--ink-light); }
+    .footer-right { display: flex; gap: 28px; }
+    .footer-right a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .cs-page { padding: 0 24px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .peek-grid { grid-template-columns: repeat(2, 1fr); }
+      .peek-section { padding: 48px 24px 56px; }
+      footer { padding: 32px 24px; }
+      .footer-inner { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      #lb-prev { left: 8px; }
+      #lb-next { right: 8px; }
+      #lb-caption { padding: 0 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<nav id="nav">
+  <a href="/" class="nav-logo">Lesley Rooney</a>
+  <ul class="nav-links">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/influence.html">Influence</a></li>
+    <li><a href="/#about">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="cs-page">
+
+
+  <!-- ── PAGE TITLE ── -->
+  <section class="cs-intro">
+    <h1 class="cs-page-title">Previous Professional Work in<br>Games, Commercials, and Films</h1>
+  </section>
+
+  <!-- ── TOOLS ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Tools</h2>
+    <div class="icon-row">
+      <span class="icon-chip">Photoshop</span>
+      <span class="icon-chip">Mari</span>
+      <span class="icon-chip">After Effects</span>
+      <span class="icon-chip">3DS Max</span>
+      <span class="icon-chip">Cinema 4D</span>
+      <span class="icon-chip">UV Headus</span>
+      <span class="icon-chip">Sony Vegas</span>
+      <span class="icon-chip">ShotGrid</span>
+      <span class="icon-chip">Unity</span>
+    </div>
+  </section>
+
+  <!-- ── SHOWREEL 2013 ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Showreel 2013</h2>
+    <div class="section-body">
+      <p>My texturing showreel showcasing VFX work from hero pieces to background assets</p>
+    </div>
+    <div class="video-wrap">
+      <iframe src="https://player.vimeo.com/video/67950765?title=0&byline=0&portrait=0"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              title="Showreel 2013"></iframe>
+    </div>
+  </section>
+
+  <!-- ── WALTER MITTY ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: Walter Mitty</h2>
+    <div class="section-body">
+      <p>Textures improvement on road bits.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="walter-mitty">
+      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/WalterMitty_01.jpg" data-lb-caption="Walter Mitty — Road texture work">
+        <img src="images/gfx/WalterMitty_01.jpg" alt="Walter Mitty road texture" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/WalterMitty_012.jpg" data-lb-caption="Walter Mitty — Texture work">
+        <img src="images/gfx/WalterMitty_012.jpg" alt="Walter Mitty texture work" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── THE LAST GAME ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: The Last Game</h2>
+    <div class="section-body">
+      <p>Creating textures for the commercial <a href="https://www.youtube.com/watch?v=CJ2xU9GUPVY" target="_blank" rel="noopener">The Last Game</a> using <a href="https://www.foundry.com/products/mari" target="_blank" rel="noopener">Mari</a>.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="last-game">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_Movie_Slot01.gif" data-lb-caption="Last Game — Movie clip">
+        <img src="images/gfx/LastGame_Movie_Slot01.gif" alt="Last Game movie clip" loading="lazy">
+        <figcaption>Movie clip</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_CommercialClip_Slot02.gif" data-lb-caption="Last Game — Commercial clip">
+        <img src="images/gfx/LastGame_CommercialClip_Slot02.gif" alt="Last Game commercial clip" loading="lazy">
+        <figcaption>Commercial clip</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="last-game" data-lb-src="images/gfx/LastGamr_C1_ShopFront_Slot03.jpg" data-lb-caption="Shop front textures">
+        <img src="images/gfx/LastGamr_C1_ShopFront_Slot03.jpg" alt="Last Game shop front textures" loading="lazy">
+        <figcaption>Shop front</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_Screen10_Slot4.jpg" data-lb-caption="Last Game — Environment textures">
+        <img src="images/gfx/LastGame_Screen10_Slot4.jpg" alt="Last Game environment" loading="lazy">
+        <figcaption>Environment</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_Screen01_Slot06.jpg" data-lb-caption="Last Game — Scene textures">
+        <img src="images/gfx/LastGame_Screen01_Slot06.jpg" alt="Last Game scene" loading="lazy">
+        <figcaption>Scene textures</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_C3_Screen11_Slot08.jpg" data-lb-caption="Last Game — Screens">
+        <img src="images/gfx/LastGame_Screen02_Slot05.jpg" alt="Last Game scene" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/LastGame_C3_Screen11_Slot08.jpg" alt="Last Game screen" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/LastGame_C4_Screen09_Slot08.jpg" alt="Last Game screen" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/LastGame_C5_Screen08_Slot08.jpg" alt="Last Game screen" class="carousel-slide" loading="lazy">
+        <figcaption>Last Game screens</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── BEETLE CAR ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Personal Work: Beetle Car</h2>
+    <div class="section-body">
+      <p>Downloaded internet model with additional modelling details. Created UV and all texturing using Cinema 4D, Headus UVLayout, 3ds Max, ZBrush and VRay for rendering.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="beetle-car">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_MovieClip.gif" data-lb-caption="Beetle Car — Animation clip">
+        <img src="images/gfx/BettleCar_MovieClip.gif" alt="Beetle Car animation" loading="lazy">
+        <figcaption>Animation clip</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_MovieClip02.gif" data-lb-caption="Beetle Car — Animation clip 2">
+        <img src="images/gfx/BettleCar_MovieClip02.gif" alt="Beetle Car animation 2" loading="lazy">
+        <figcaption>Animation clip 2</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Image01.jpg" data-lb-caption="Beetle Car — Render">
+        <img src="images/gfx/BettleCar_Image01.jpg" alt="Beetle Car render" loading="lazy">
+        <figcaption>Render</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_ImageSplit%2001_4.jpg" data-lb-caption="Beetle Car — Split view">
+        <img src="images/gfx/BettleCar_ImageSplit%2001_4.jpg" alt="Beetle Car split view" loading="lazy">
+        <figcaption>Split view</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Textures.jpg" data-lb-caption="Beetle Car — Textures">
+        <img src="images/gfx/BettleCar_Textures.jpg" alt="Beetle Car textures" loading="lazy">
+        <figcaption>Textures</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Image07.jpg" data-lb-caption="Beetle Car — Extra views">
+        <img src="images/gfx/BettleCar_Image07.jpg" alt="Beetle Car" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/BettleCar_Image08.jpg" alt="Beetle Car" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_Image12.jpg" alt="Beetle Car" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_ImageSplit%2001_2.jpg" alt="Beetle Car split view" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_ImageSplit%2001_2A.jpg" alt="Beetle Car split view" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_ImageSplit%2001_4.jpg" alt="Beetle Car split view" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_Textures.jpg" alt="Beetle Car textures" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_Textures%2002.jpg" alt="Beetle Car textures" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_Textures_Large.jpg" alt="Beetle Car textures large" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_TexturesLarge%2002.jpg" alt="Beetle Car textures large" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/BettleCar_TexturesLarge%2003.jpg" alt="Beetle Car textures large" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/beetle-muddy-renders.jpg" alt="Beetle Car muddy renders" class="carousel-slide" loading="lazy">
+        <figcaption>Extra views</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── MARI CHALLENGE ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Personal Work: Mari Challenge Work</h2>
+    <div class="section-body">
+      <p>Screenshots of textures created for <a href="https://www.foundry.com/products/mari" target="_blank" rel="noopener">Mari competition</a>. Model provided by Jakob Kousholts</p>
+    </div>
+    <img src="images/gfx/MariChallenge_HeroLargeImage.jpg" alt="Mari Challenge — Hero render" class="section-banner" loading="lazy">
+    <img src="images/gfx/MariChallenge_SplitScreenLarge.png" alt="Mari Challenge split screen" class="section-banner" loading="lazy">
+    <div class="gallery-grid" data-gallery="mari-challenge">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_Slot01.gif" data-lb-caption="Mari Competition — Animation">
+        <img src="images/gfx/MariCompetition_Slot01.gif" alt="Mari Competition animation" loading="lazy">
+        <figcaption>Animation</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariChallenge-ImageFace.gif" data-lb-caption="Mari Challenge — Face detail">
+        <img src="images/gfx/MariChallenge-ImageFace.gif" alt="Mari Challenge face detail" loading="lazy">
+        <figcaption>Face detail</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_MariScreenShot01_Slot02.png" data-lb-caption="Mari Competition — Mari screenshot">
+        <img src="images/gfx/MariCompetition_MariScreenShot01_Slot02.png" alt="Mari Competition screenshot" loading="lazy">
+        <figcaption>Mari screenshot</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariChallenge_Textures.png" data-lb-caption="Mari Challenge — Textures">
+        <img src="images/gfx/MariChallenge_Textures.png" alt="Mari Challenge textures" loading="lazy">
+        <figcaption>Textures</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_SplitScreen01.png" data-lb-caption="Mari Competition — Split screen">
+        <img src="images/gfx/MariCompetition_SplitScreen01.png" alt="Mari Competition split screen" loading="lazy">
+        <figcaption>Split screen</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariChallenge_Masks01.png" data-lb-caption="Mari Challenge — Extra views">
+        <img src="images/gfx/MariChallenge_Masks01.png" alt="Mari Challenge masks" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/MariChallenge_01.png" alt="Mari Challenge" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge_02.png" alt="Mari Challenge" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge_03.png" alt="Mari Challenge" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge_04.png" alt="Mari Challenge" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump01_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump02_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump03_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump04_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump05_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump07_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump08_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/MariChallenge-diffuse-bump09_Split.png" alt="Mari Challenge diffuse bump" class="carousel-slide" loading="lazy">
+        <figcaption>Extra views</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── GI JOE 2 ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: GI Joe 2</h2>
+    <p class="section-sub">VFX texturing for GI Joe 2. Mari, Photoshop</p>
+    <div class="section-body">
+      <p>Collaborative textures for hero asset helicopter for <a href="https://www.youtube.com/watch?v=mKNpy-tGwxE" target="_blank" rel="noopener">GI Joe 2</a>. Created diffuse (colour), designs, displacement and bump for the helicopter. Complete texture creation for hero asset suitcase and sword. Various mid range props.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="gi-joe">
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_9247ebb030f74c22b3d44f9a9a7e1f85~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_9247ebb030f74c22b3d44f9a9a7e1f85~mv2.jpg" alt="GI Joe 2 VFX" loading="lazy">
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-heli-animation.gif" data-lb-caption="Helicopter animation">
+        <img src="images/gfx/gijoe-heli-animation.gif" alt="GI Joe 2 helicopter animation" loading="lazy">
+        <figcaption>Helicopter animation</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-1.jpg" data-lb-caption="">
+        <img src="images/gfx/gijoe-cobra-1.jpg" alt="GI Joe 2 Cobra" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-2.jpg" data-lb-caption="">
+        <img src="images/gfx/gijoe-cobra-2.jpg" alt="GI Joe 2 Cobra render" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-cobra-chopper.png" data-lb-caption="Cobra chopper">
+        <img src="images/gfx/gijoe-cobra-chopper.png" alt="GI Joe 2 Cobra chopper" loading="lazy">
+        <figcaption>Cobra chopper</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_64ab79153bcb4a6bbff28fbf403e80bf~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_64ab79153bcb4a6bbff28fbf403e80bf~mv2.jpg" alt="GI Joe 2" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_64dd4353dab2423bb503a62524992216~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_64dd4353dab2423bb503a62524992216~mv2.jpg" alt="GI Joe 2" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_62ddb46223184f41a57ec3f6c7d0091f~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_62ddb46223184f41a57ec3f6c7d0091f~mv2.jpg" alt="GI Joe 2" loading="lazy">
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-sword-animation.gif" data-lb-caption="Sword animation">
+        <img src="images/gfx/gijoe-sword-animation.gif" alt="GI Joe 2 sword animation" loading="lazy">
+        <figcaption>Sword animation</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── ENDERS GAME ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: Enders Game</h2>
+    <div class="section-body">
+      <p>Textures for hero asset space shuttle in <a href="https://www.youtube.com/watch?v=2UNWLgY-wuo" target="_blank" rel="noopener">Enders Game</a></p>
+    </div>
+    <div class="gallery-grid" data-gallery="enders-game">
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_49033ed1b2c943c596d3b605335d1fd4~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_49033ed1b2c943c596d3b605335d1fd4~mv2.jpg" alt="Enders Game space shuttle" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_6aa898780b074966843dbe825cb5c88a~mv2.jpg" data-lb-caption="Textures for shuttle">
+        <img src="images/gfx/658ba4_6aa898780b074966843dbe825cb5c88a~mv2.jpg" alt="Enders Game textures for shuttle" loading="lazy">
+        <figcaption>Textures for shuttle</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_6fbfb3fa84a8446db76609758c22dc99~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_6fbfb3fa84a8446db76609758c22dc99~mv2.jpg" alt="Enders Game" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_7660529d75cc4f3db9cd5a48b9d2c223~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_7660529d75cc4f3db9cd5a48b9d2c223~mv2.jpg" alt="Enders Game" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_7764d62bc6444235bae0f751a2bd4409~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_7764d62bc6444235bae0f751a2bd4409~mv2.jpg" alt="Enders Game" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_8c9843f46a93481daca692bf6153606d~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_8c9843f46a93481daca692bf6153606d~mv2.jpg" alt="Enders Game" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/658ba4_8d5f9cb7859944b8885affe7112a5533~mv2.jpg" data-lb-caption="">
+        <img src="images/gfx/658ba4_8d5f9cb7859944b8885affe7112a5533~mv2.jpg" alt="Enders Game" loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── HUGO ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: Hugo</h2>
+    <div class="section-body">
+      <p>Creating textures for various props and assets including hero pieces for the film <a href="https://www.youtube.com/watch?v=Hv3obL9HqyY" target="_blank" rel="noopener">Hugo</a>, collaborative texture creation on trains.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="hugo">
+      <figure class="gallery-item gallery-item--tall" data-lb-group="hugo" data-lb-src="images/gfx/hugo-lookdev.jpg" data-lb-caption="Look dev renders (not done by me) and screen grab from Mari">
+        <img src="images/gfx/hugo-lookdev.jpg" alt="Hugo look dev renders and Mari grab" loading="lazy">
+        <figcaption>Look dev renders &amp; Mari screen grab</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-station-clock.jpg" data-lb-caption="Station Clock — Look dev render done by Simon. Textures supplied by myself">
+        <img src="images/gfx/hugo-station-clock.jpg" alt="Hugo station clock" loading="lazy">
+        <figcaption>Station Clock</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_882baa4b92954a59b44e5cdd1a704330~mv2.jpg" data-lb-caption="Screen grab from Mari">
+        <img src="images/gfx/658ba4_882baa4b92954a59b44e5cdd1a704330~mv2.jpg" alt="Hugo Mari screen grab" loading="lazy">
+        <figcaption>Screen grab from Mari</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_8718db6199064679b254dff75dfd9be0~mv2.jpg" data-lb-caption="Screen shot from film Hugo">
+        <img src="images/gfx/658ba4_8718db6199064679b254dff75dfd9be0~mv2.jpg" alt="Hugo film screenshot" loading="lazy">
+        <figcaption>Screen shot from film Hugo</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_720f3b66a1f6436f9dbab1b58e1f8f72~mv2.jpg" data-lb-caption="Screen shot">
+        <img src="images/gfx/658ba4_720f3b66a1f6436f9dbab1b58e1f8f72~mv2.jpg" alt="Hugo screen shot" loading="lazy">
+        <figcaption>Screen shot</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-render.jpg" data-lb-caption="Render — Look dev render (not done by me). Textures supplied by me and another artist, working collaboratively, in a short timescale">
+        <img src="images/gfx/hugo-render.jpg" alt="Hugo look dev render" loading="lazy">
+        <figcaption>Render</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_7ff2377649bc47f8b8ac47c637e9dc9a~mv2.jpg" data-lb-caption="Film screen shot — Various prop texturing">
+        <img src="images/gfx/658ba4_7ff2377649bc47f8b8ac47c637e9dc9a~mv2.jpg" alt="Hugo film props" loading="lazy">
+        <figcaption>Film screen shot</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_72a49a76946d4650a84b05e10f1efdb3~mv2.jpg" data-lb-caption="Screen shot from film showing texturing work on props">
+        <img src="images/gfx/658ba4_72a49a76946d4650a84b05e10f1efdb3~mv2.jpg" alt="Hugo props screen shot" loading="lazy">
+        <figcaption>Screen shot</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/hugo-film-shot-mari.jpg" data-lb-caption="Film shot — Screen shot from Mari">
+        <img src="images/gfx/hugo-film-shot-mari.jpg" alt="Hugo film shot Mari" loading="lazy">
+        <figcaption>Film shot — Mari screen grab</figcaption>
+      </figure>
+    </div>
+    <div class="gallery-actions">
+      <button class="show-more-btn" data-gallery="hugo">Show more</button>
+    </div>
+  </section>
+
+  <!-- ── ACT-UK ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Work: Coventry ACT-UK Simulation Centre</h2>
+    <div class="section-body">
+      <p>Modernising training for the UK construction industry was the goal behind the £8.7M ACT-UK simulation Centre, a project that became one of Makemedia's first major simulation breakthroughs, establishing the company within that sector.</p>
+      <p>Our four-person team built five stages of a housing development, from initial excavation and foundations through to fully finished homes. My early focus was on reviewing extensive reference material so I could accurately model assets in 3ds Max and create terrain textures using Cinema 4D, BodyPaint and ZBrush. I produced diffuse, specular and normal maps and supplied textures for the wider team, including our architectural consultant.</p>
+      <p>Accuracy was essential. Brick dimensions, trench profiles and measurements all needed to match real-world standards. After setting the visual benchmark, I shifted into scheduling, workflow planning, assembling scenes in-engine and refining pipelines to keep the team aligned and delivery smooth.</p>
+      <p>The project went on to win a Presagis Best Visualisation Award and played a key role in establishing Makemedia — later <a href="https://makereal.co.uk/team/" target="_blank" rel="noopener">Make Real</a> — as a recognised name in the industry.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="act-uk">
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/658ba4_93f27e05a9ca4a509e48a255121dceb5~mv2.jpg" data-lb-caption="Aldermans Green — Makemedia founder standing in front of screen">
+        <img src="images/gfx/658ba4_93f27e05a9ca4a509e48a255121dceb5~mv2.jpg" alt="ACT-UK Aldermans Green" loading="lazy">
+        <figcaption>Aldermans Green</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-aldermans-gif.gif" data-lb-caption="Aldermans Green — Mobile phone footage of director moving around location">
+        <img src="images/gfx/act-uk-aldermans-gif.gif" alt="ACT-UK Aldermans Green footage" loading="lazy">
+        <figcaption>Aldermans Green footage</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-sim-centre-3.jpg" data-lb-caption="Standing in front of the teaching screen">
+        <img src="images/gfx/act-uk-sim-centre-3.jpg" alt="ACT-UK teaching screen" loading="lazy">
+        <figcaption>Teaching screen</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-ground-1.jpg" data-lb-caption="Aldermans — Photos taken while manoeuvring around Alderman's Green">
+        <img src="images/gfx/act-uk-ground-1.jpg" alt="ACT-UK site photos" loading="lazy">
+        <figcaption>Manoeuvring Alderman's Green</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-a.jpg" data-lb-caption="Texture maps — Colour maps from Bodypaint, Timeslice activity 4">
+        <img src="images/gfx/act-uk-textures-a.jpg" alt="ACT-UK texture maps" loading="lazy">
+        <figcaption>Texture maps</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-b.jpg" data-lb-caption="Texture — Colour maps from Bodypaint, Timeslice activity 4">
+        <img src="images/gfx/act-uk-textures-b.jpg" alt="ACT-UK colour maps" loading="lazy">
+        <figcaption>Colour maps</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-1.jpg" data-lb-caption="Screen example">
+        <img src="images/gfx/act-uk-screenshot-1.jpg" alt="ACT-UK screen example" loading="lazy">
+        <figcaption>Screen example</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-2.jpg" data-lb-caption="Example training">
+        <img src="images/gfx/act-uk-screenshot-2.jpg" alt="ACT-UK training example" loading="lazy">
+        <figcaption>Example training</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-3.jpg" data-lb-caption="Texture — Colour maps from Bodypaint, Timeslice activity 5">
+        <img src="images/gfx/act-uk-textures-3.jpg" alt="ACT-UK texture maps activity 5" loading="lazy">
+        <figcaption>Colour maps, activity 5</figcaption>
+      </figure>
+    </div>
+    <div class="gallery-actions">
+      <button class="show-more-btn" data-gallery="act-uk">Show more</button>
+    </div>
+  </section>
+
+  <!-- ── GAME PITCH ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Game Pitch: Unreleased Project</h2>
+    <div class="section-body">
+      <p>Hard surface environment modelling and UVing rooms for games texturing following feedback and technical changes.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="game-pitch">
+      <figure class="gallery-item" data-lb-group="game-pitch" data-lb-src="images/gfx/game-pitch-env-01.png" data-lb-caption="Game environment modelling">
+        <img src="images/gfx/game-pitch-env-01.png" alt="Game pitch environment modelling" loading="lazy">
+        <figcaption>Game environment modelling</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="game-pitch" data-lb-src="images/gfx/game-pitch-env-02.png" data-lb-caption="Game environment modelling">
+        <img src="images/gfx/game-pitch-env-02.png" alt="Game pitch environment modelling" loading="lazy">
+        <figcaption>Game environment modelling</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="game-pitch" data-lb-src="images/gfx/game-pitch-env-03.png" data-lb-caption="Game environment modelling">
+        <img src="images/gfx/game-pitch-env-03.png" alt="Game pitch environment modelling" loading="lazy">
+        <figcaption>Game environment modelling</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── HARD SURFACE ── -->
+  <section class="cs-section">
+    <hr class="section-rule">
+    <h2 class="section-heading">Personal Project: Hard Surface Environment Texturing &amp; Modelling</h2>
+    <div class="section-body">
+      <p>Just for fun. Simple modeling.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="hard-surface">
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-reference.png" data-lb-caption="Slum House Reference">
+        <img src="images/gfx/slum-house-reference.png" alt="Slum House reference" loading="lazy">
+        <figcaption>Slum House Reference</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-textures.jpg" data-lb-caption="Slum House textures and modelling — Screenshot from Mari">
+        <img src="images/gfx/slum-house-textures.jpg" alt="Slum House textures Mari screenshot" loading="lazy">
+        <figcaption>Slum House textures and modelling</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-texture-layers.gif" data-lb-caption="Layers of separated textures — Showing the breakup of textures for greater control">
+        <img src="images/gfx/slum-house-texture-layers.gif" alt="Slum House texture layers" loading="lazy">
+        <figcaption>Layers of separated textures</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-modelling.gif" data-lb-caption="Modelling the environment — UV map objects evenly ready for texturing">
+        <img src="images/gfx/slum-house-modelling.gif" alt="Slum House modelling" loading="lazy">
+        <figcaption>Modelling the environment</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-colour-bump.gif" data-lb-caption="Colour and bump map">
+        <img src="images/gfx/slum-house-colour-bump.gif" alt="Slum House colour and bump map" loading="lazy">
+        <figcaption>Colour and bump map</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-zbrush.png" data-lb-caption="WIP Zbrush">
+        <img src="images/gfx/slum-house-zbrush.png" alt="Slum House WIP Zbrush" loading="lazy">
+        <figcaption>WIP Zbrush</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-concrete-zbrush.png" data-lb-caption="WIP Concrete Zbrush">
+        <img src="images/gfx/slum-house-concrete-zbrush.png" alt="Slum House concrete Zbrush" loading="lazy">
+        <figcaption>WIP Concrete Zbrush</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-concrete-wip.png" data-lb-caption="WIP Concrete — Done in Brush">
+        <img src="images/gfx/slum-house-concrete-wip.png" alt="Slum House concrete WIP" loading="lazy">
+        <figcaption>WIP Concrete</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-brushwork.jpeg" data-lb-caption="WIP Brush work">
+        <img src="images/gfx/slum-house-brushwork.jpeg" alt="Slum House brush work" loading="lazy">
+        <figcaption>WIP Brush work</figcaption>
+      </figure>
+    </div>
+    <div class="gallery-actions">
+      <button class="show-more-btn" data-gallery="hard-surface">Show more</button>
+    </div>
+  </section>
+
+  <!-- ── PROFESSIONAL GAMES WORK ── -->
+  <section class="cs-section" style="padding-bottom: 80px;">
+    <hr class="section-rule">
+    <h2 class="section-heading">Professional Games Work: Texturing, Modelling &amp; Animations</h2>
+    <div class="section-body">
+      <p>Level of details, prop asset creation, and animation from various released, unreleased products.</p>
+    </div>
+    <div class="gallery-grid" data-gallery="pro-games">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/games-prop-animation.gif" data-lb-caption="In game dynamic prop animation — Hand animated objects. Modelled, textured and animated by myself to give the sense of dynamic movement when kicked by characters.">
+        <img src="images/gfx/games-prop-animation.gif" alt="In game dynamic prop animation" loading="lazy">
+        <figcaption>In game dynamic prop animation</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.jpg" data-lb-caption="Level of detail prop for simulation — Created for Aldermen Green simulation project">
+        <img src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.jpg" alt="Level of detail prop for simulation" loading="lazy">
+        <figcaption>Level of detail prop for simulation</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/58e4d8d88aa5a695708691.gif" data-lb-caption="Level of detail props — Game work">
+        <img src="images/gfx/58e4d8d88aa5a695708691.gif" alt="Level of detail props" loading="lazy">
+        <figcaption>Level of detail props</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/img-5C.jpeg" data-lb-caption="Unpublished Zombie game — Texturing">
+        <img src="images/gfx/img-5C.jpeg" alt="Unpublished zombie game texturing" loading="lazy">
+        <figcaption>Unpublished Zombie game — Texturing</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/58e4e19d3597e682211914.gif" data-lb-caption="Zombie Game — In game screenshots">
+        <img src="images/gfx/58e4e19d3597e682211914.gif" alt="Zombie game in game screenshots" loading="lazy">
+        <figcaption>Zombie Game — In game</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.jpg" data-lb-caption="Zombie game engine screen grab — In game screen grab">
+        <img src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.jpg" alt="Zombie game engine screen grab" loading="lazy">
+        <figcaption>Zombie game engine screen grab</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/img-10B.jpeg" data-lb-caption="Zombie game in game screen shot">
+        <img src="images/gfx/img-10B.jpeg" alt="Zombie game in game screen shot" loading="lazy">
+        <figcaption>Zombie game in game screen shot</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.jpg" data-lb-caption="Zombie game engine screen grab — Texture work">
+        <img src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.jpg" alt="Zombie game engine screen grab" loading="lazy">
+        <figcaption>Zombie game engine screen grab</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/games-cartoon-boxcar.jpg" data-lb-caption="Cartoon stylised boxcar texture test">
+        <img src="images/gfx/games-cartoon-boxcar.jpg" alt="Cartoon stylised boxcar texture test" loading="lazy">
+        <figcaption>Cartoon stylised boxcar texture test</figcaption>
+      </figure>
+    </div>
+    <div class="gallery-actions">
+      <button class="show-more-btn" data-gallery="pro-games">Show more</button>
+    </div>
+  </section>
+
+</div><!-- /.cs-page -->
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button id="lb-close" aria-label="Close lightbox">×</button>
+  <div id="lb-counter" aria-live="polite"></div>
+  <img id="lb-img" src="" alt="Enlarged image">
+  <p id="lb-caption"></p>
+  <button id="lb-prev" class="lb-nav" aria-label="Previous image">&#8249;</button>
+  <button id="lb-next" class="lb-nav" aria-label="Next image">&#8250;</button>
+</div>
+
+<!-- ── PEEK GRID ── -->
+<section class="peek-section">
+  <p class="peek-label">More work</p>
+  <p class="peek-heading">You can hover to take a sneak peek 👀 or use my password on restricted cases.</p>
+  <div class="peek-grid">
+    <a href="/medidataedcredesign" class="peek-item">
+      <img src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign" loading="lazy">
+    </a>
+    <a href="/contech-qflow" class="peek-item">
+      <img src="images/qualis-airquality-thumb.webp" alt="Contech Qflow" loading="lazy">
+    </a>
+    <a href="/qualisflow-02" class="peek-item">
+      <img src="images/qualis-alerts-thumb.webp" alt="Qualisflow Notifications" loading="lazy">
+    </a>
+    <a href="/homerenter" class="peek-item">
+      <img src="images/homerenter-thumb.webp" alt="HomeRenter" loading="lazy">
+    </a>
+    <a href="/clinical-risk-based-monitoring" class="peek-item">
+      <img src="images/animation-thumb.webp" alt="Clinical Risk Based Monitoring" loading="lazy">
+    </a>
+    <a href="/" class="peek-item">
+      <img src="images/medidata-edc-thumb.webp" alt="More work" loading="lazy" style="filter: blur(4px);">
+      <div class="peek-nda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        <span class="peek-nda-label">NDA</span>
+      </div>
+    </a>
+    <a href="/" class="peek-item">
+      <img src="images/qualis-airquality-thumb.webp" alt="More work" loading="lazy" style="filter: blur(4px);">
+      <div class="peek-nda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        <span class="peek-nda-label">NDA</span>
+      </div>
+    </a>
+    <a href="/" class="peek-item">
+      <img src="images/animation-thumb.webp" alt="More work" loading="lazy" style="filter: blur(4px);">
+      <div class="peek-nda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        <span class="peek-nda-label">NDA</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="about">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#claude-clip2)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="claude-clip2"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-copy">© 2026 — Lesley Rooney</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:ley.rooney@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://dribbble.com/LesleyRooney" target="_blank" rel="noopener">Dribbble</a>
+      <a href="https://vimeo.com/user8259342" target="_blank" rel="noopener">Vimeo</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // ── Lightbox
+  let lbItems = [], lbIdx = 0;
+
+  function openLightbox(group, clickedEl) {
+    lbItems = Array.from(document.querySelectorAll(`[data-lb-group="${group}"]:not(.gallery-item--hidden)`));
+    lbIdx = lbItems.indexOf(clickedEl);
+    if (lbIdx < 0) lbIdx = 0;
+    showLbImage();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showLbImage() {
+    const item = lbItems[lbIdx];
+    if (!item) return;
+    document.getElementById('lb-img').src = item.dataset.lbSrc || '';
+    document.getElementById('lb-img').alt = item.querySelector('img') ? item.querySelector('img').alt : '';
+    document.getElementById('lb-caption').textContent = item.dataset.lbCaption || '';
+    document.getElementById('lb-counter').textContent = lbItems.length > 1 ? `${lbIdx + 1} / ${lbItems.length}` : '';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lb-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-lb-group]').forEach(item => {
+    item.addEventListener('click', () => openLightbox(item.dataset.lbGroup, item));
+  });
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox') || e.target === document.getElementById('lb-img')) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+  });
+
+  document.getElementById('lb-prev').addEventListener('click', e => {
+    e.stopPropagation();
+    lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length;
+    showLbImage();
+  });
+
+  document.getElementById('lb-next').addEventListener('click', e => {
+    e.stopPropagation();
+    lbIdx = (lbIdx + 1) % lbItems.length;
+    showLbImage();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; showLbImage(); }
+    if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % lbItems.length; showLbImage(); }
+  });
+
+  // ── Show More
+  document.querySelectorAll('.show-more-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gallery = btn.dataset.gallery;
+      const grid = document.querySelector(`.gallery-grid[data-gallery="${gallery}"]`);
+      if (!grid) return;
+      grid.querySelectorAll('.gallery-item--hidden').forEach(item => {
+        item.classList.remove('gallery-item--hidden');
+      });
+      btn.style.display = 'none';
+    });
+  });
+
+  // ── Carousel tiles — auto-cycle every 1 second
+  document.querySelectorAll('.gallery-item--carousel').forEach(item => {
+    const slides = item.querySelectorAll('.carousel-slide');
+    if (slides.length < 2) return;
+    let idx = 0;
+    setInterval(() => {
+      slides[idx].classList.remove('active');
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add('active');
+      // Keep lightbox src in sync with whatever's currently showing
+      item.dataset.lbSrc = slides[idx].src;
+    }, 400);
+  });
+
+  // ── Custom cursor
+  (function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px,${my}px)`;
+    });
+    const hoverTargets = 'a,button,.gallery-item,[role="button"]';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(hoverTargets)) { ring.classList.add('is-hovering'); dot.classList.add('is-hovering'); }
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(hoverTargets)) { ring.classList.remove('is-hovering'); dot.classList.remove('is-hovering'); }
+    });
+    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+    document.addEventListener('mouseup', () => ring.classList.remove('is-clicking'));
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+    (function loop() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx}px,${ry}px)`;
+      requestAnimationFrame(loop);
+    })();
+  })();
+</script>
+</body>
+</html>

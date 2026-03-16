@@ -196,7 +196,7 @@
 
     /* ── SHOW MORE ── */
     .gallery-actions { margin-top: 10px; }
-    .section-banner { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; object-fit: cover; }
+    .section-banner { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; object-fit: cover; cursor: zoom-in; }
     .show-more-btn {
       display: inline-flex;
       align-items: center;
@@ -993,6 +993,20 @@
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; showLbImage(); }
     if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % lbItems.length; showLbImage(); }
+  });
+
+  // ── Section banner images — click to open lightbox
+  document.querySelectorAll('.section-banner').forEach(img => {
+    img.addEventListener('click', () => {
+      lbItems = [];
+      lbIdx = 0;
+      document.getElementById('lb-img').src = img.src;
+      document.getElementById('lb-img').alt = img.alt;
+      document.getElementById('lb-caption').textContent = '';
+      document.getElementById('lb-counter').textContent = '';
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
   });
 
   // ── Show More

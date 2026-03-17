@@ -8,21 +8,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-/* ── PAGE SWITCHING ── */
-    #page-home, #page-influence { display: none; }
-    #page-home.active, #page-influence.active { display: block; }
-
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:       #1a1a18;
-      --ink-mid:   #5a5a54;
-      --ink-light: #717169;  /* darkened for WCAG AA — was #9a9a92 (fail) */
-      --paper:     #f7f6f2;
+      --ink:       #0A0A0A;
+      --ink-mid:   #4A4A4A;
+      --ink-light: #717171;  /* darkened for WCAG AA — was #9a9a92 (fail) */
+      --paper:     #F9F8F7;
       --paper-alt: #efede7;
-      --accent:      #1a1a18;
-      --accent-text: #1a1a18;
+      --accent:      #0A0A0A;
+      --accent-text: #0A0A0A;
       --rule:      #e2e0d8;
       --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
       --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -46,7 +41,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
       padding: 20px 48px;
-      background: rgba(247,246,242,0.92);
+      background: rgba(249,248,247,0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
       transition: border-color 0.3s;
@@ -409,8 +404,8 @@
     .footer-right a:hover { color: var(--ink); }
 
     /* ── CURSOR ── */
-    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:-20px;left:-20px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s; }
-    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:-40px;left:-40px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
     #cursor-dot.is-hovering { width:10px;height:10px; }
     #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
     #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
@@ -642,68 +637,14 @@
       </div>
     </div>
   </footer>
-  </div>
 
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // ── Router
-    function navigate(page, anchor) {
-      document.getElementById('page-home').classList.remove('active');
-      document.getElementById('page-influence').classList.remove('active');
-      document.getElementById('page-' + page).classList.add('active');
-      window.scrollTo(0, 0);
-      if (anchor) {
-        setTimeout(() => {
-          const el = document.getElementById(anchor);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 50);
-      }
-      // Update active link in nav
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      document.querySelectorAll('.nav-links a[data-page="' + page + '"]').forEach(a => a.classList.add('active'));
-    }
-
-    // Start on home
-    navigate('home');
-
-    // Mark nav links with data-page attr for active state
-    document.querySelectorAll('#page-home .nav-links a[onclick]').forEach(a => {
-      const match = a.getAttribute('onclick').match(/navigate\('([^']+)'\)/);
-      if (match) a.dataset.page = match[1];
-    });
-
-    // ── Nav scroll border (both navs)
-    window.addEventListener('scroll', () => {
-      document.querySelectorAll('nav').forEach(nav =>
-        nav.classList.toggle('scrolled', window.scrollY > 40)
-      );
-    });
-
-    // ── Video hover
-    document.querySelectorAll('.card-item').forEach(card => {
-      const video = card.querySelector('.card-video');
-      if (!video) return;
-      card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(() => {}); });
-      card.addEventListener('mouseleave', () => video.pause());
-    });
-
-    // ── Scroll-in animation (IntersectionObserver)
-    const cardItems = document.querySelectorAll('.card-item');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Stagger by DOM index
-          const idx = Array.from(cardItems).indexOf(entry.target);
-          entry.target.style.transitionDelay = `${(idx % 3) * 80}ms`;
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    cardItems.forEach(card => observer.observe(card));
+  <script>
+    // ── Nav scroll border
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
 
     // ── Custom morphing cursor
     (function() {
@@ -714,7 +655,7 @@
 
       document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
-        dot.style.transform = `translate(${mx}px, ${my}px)`;
+        dot.style.transform=`translate(${mx - 3}px, ${my - 3}px)`;
       });
 
       const hoverTargets = 'a, button, .card, .influence-item, [role="button"]';
@@ -736,7 +677,7 @@
       (function loop() {
         rx += (mx - rx) * 0.12;
         ry += (my - ry) * 0.12;
-        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`;
         requestAnimationFrame(loop);
       })();
     })();

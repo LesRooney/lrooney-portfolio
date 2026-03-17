@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qualis Flow — Alerts &amp; IA · Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0A0A0A;
+      --ink-mid:   #4A4A4A;
+      --ink-light: #717171;
+      --paper:     #F9F8F7;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+      --max: 1080px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: #F9F8F7; }
+    body {
+      background: #F9F8F7;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(249,248,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .cs-hero {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #263a2e 0%, #1a2f22 100%);
+      margin-top: 61px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cs-hero-placeholder {
+      font-family: var(--serif);
+      color: rgba(255,255,255,0.35);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    /* WRAP */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+
+    /* CASE HEADER */
+    .cs-header {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+    }
+    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cs-tag {
+      font-size: 0.75rem; font-weight: 500;
+      background: var(--paper-alt); color: var(--ink-mid);
+      padding: 4px 12px; border-radius: 20px; border: 1px solid var(--rule);
+    }
+    .cs-tag.lock { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    /* SECTION */
+    .cs-section { padding: 52px 0; border-bottom: 1px solid var(--rule); }
+    .cs-section:last-of-type { border-bottom: none; }
+    .cs-section h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .cs-section p {
+      font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 720px; margin-bottom: 16px;
+    }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 20px; line-height: 1.6; }
+
+    /* SECTION EYEBROW (used as standalone label) */
+    .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+
+    /* META GRID */
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 48px; padding: 40px 0 0; }
+    .meta-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 8px; }
+    .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
+
+    /* BULLET LIST */
+    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
+    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+
+    /* CHECK LIST */
+    .check-list { list-style: none; padding: 0; margin: 12px 0 16px; }
+    .check-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 24px; position: relative; }
+    .check-list li::before { content: '✓'; position: absolute; left: 0; color: #2a7a4e; font-weight: 600; }
+
+    /* TAG LIST */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag-item { font-size: 0.8rem; background: var(--paper-alt); color: var(--ink-mid); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--rule); }
+
+    /* ICON ROW */
+    .icon-row { display: flex; flex-wrap: wrap; gap: 16px 20px; margin-top: 16px; }
+    .icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .icon-box { width: 48px; height: 48px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-alt); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 600; color: var(--ink-mid); text-align: center; padding: 4px; }
+    .icon-label { font-size: 0.68rem; color: var(--ink-light); text-align: center; }
+
+    /* IMAGE PLACEHOLDER */
+    .img-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light);
+      text-align: center; padding: 24px; margin: 24px 0;
+    }
+
+    /* LAPTOP FRAME (dark bezel) */
+    .laptop-frame {
+      width: 100%; background: #1a1a18; border-radius: 14px;
+      padding: 16px 16px 10px; margin: 24px 0;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    .laptop-screen {
+      width: 100%; background: var(--paper-alt); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--ink-mid); font-style: italic; text-align: center; padding: 16px;
+    }
+
+    /* GIF PLACEHOLDER */
+    .gif-placeholder {
+      width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--paper-alt), var(--rule));
+      border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 24px 0;
+    }
+    .gif-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); }
+    .gif-file { font-size: 0.8rem; color: var(--ink-mid); font-style: italic; }
+
+    /* IMAGE PAIR */
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+
+    /* PEEK GRID */
+    .peek-section { padding: 64px 0 80px; }
+    .peek-caption { font-size: 0.9rem; color: var(--ink-mid); margin-bottom: 32px; }
+    .peek-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .peek-cell { aspect-ratio: 1/1; border-radius: 12px; background: var(--paper-alt); border: 1px solid var(--rule); overflow: hidden; position: relative; cursor: pointer; transition: transform 0.2s; }
+    .peek-cell:hover { transform: scale(1.04); }
+    .peek-cell img { width: 100%; height: 100%; object-fit: cover; }
+    .peek-cell-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--ink-light); font-style: italic; }
+
+    /* FOOTER */
+    footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 40px 48px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); margin-bottom: 4px; }
+    .footer-copy  { font-size: 0.8rem; color: var(--ink-light); }
+    .footer-right { display: flex; gap: 32px; }
+    .footer-right a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* CURSOR */
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 780px) {
+      nav { padding: 18px 24px; }
+      .wrap { padding: 0 24px; }
+      .meta-grid { grid-template-columns: 1fr 1fr; gap: 24px 32px; }
+      .img-pair { grid-template-columns: 1fr; }
+      .peek-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .meta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Lesley Rooney</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="influence.html">Influence</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="cs-hero">
+  <span class="cs-hero-placeholder">[IMAGE: qflow-02-hero.jpg — 768×432px]</span>
+</div>
+
+<div class="wrap">
+
+  <!-- CASE HEADER -->
+  <div class="cs-header">
+    <p class="cs-eyebrow">Case Study · SaaS · 0→1</p>
+    <h1>Materials &amp; Waste Risk Notifications</h1>
+    <div class="cs-tags">
+      <span class="cs-tag lock">🔒 NDA</span>
+      <span class="cs-tag">SaaS</span>
+      <span class="cs-tag">0→1</span>
+      <span class="cs-tag">~6 months</span>
+      <span class="cs-tag">Sole Designer</span>
+    </div>
+  </div>
+
+  <!-- WHAT IS QFLOW + META -->
+  <div class="cs-section">
+    <p class="section-eyebrow">What is Qflow?</p>
+    <p>Qualis Flow is an environmental management platform that holistically tracks, monitors and predicts construction projects' environmental risk.</p>
+
+    <div class="meta-grid">
+      <div class="meta-block">
+        <p class="meta-label">Team</p>
+        <div class="meta-value">
+          2 Founders (Ex-environmental consultant &amp; civil engineer)<br>
+          1 CTO / backend engineer<br>
+          1 Product owner<br>
+          2 Engineers (back and front end)<br>
+          <strong>Sole Product Designer (Me)</strong><br>
+          1 Tester<br>
+          1 Lead Engineer (joined later)
+        </div>
+      </div>
+      <div class="meta-block">
+        <p class="meta-label">Duration</p>
+        <div class="meta-value">~6 months</div>
+      </div>
+      <div class="meta-block">
+        <p class="meta-label">Tools</p>
+        <div class="icon-row">
+          <div class="icon-item"><div class="icon-box">Pen &amp;<br>Paper</div><span class="icon-label">Pen &amp; Paper</span></div>
+          <div class="icon-item"><div class="icon-box">Sketch</div><span class="icon-label">Sketch</span></div>
+          <div class="icon-item"><div class="icon-box">Principle</div><span class="icon-label">Principle</span></div>
+          <div class="icon-item"><div class="icon-box">Zeplin</div><span class="icon-label">Zeplin</span></div>
+          <div class="icon-item"><div class="icon-box">Miro</div><span class="icon-label">Miro</span></div>
+          <div class="icon-item"><div class="icon-box">Screen Flow</div><span class="icon-label">ScreenFlow</span></div>
+          <div class="icon-item"><div class="icon-box">Zoom</div><span class="icon-label">Zoom</span></div>
+          <div class="icon-item"><div class="icon-box">Quick&shy;Time</div><span class="icon-label">QuickTime</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITIES -->
+  <div class="cs-section">
+    <h2>Activities</h2>
+    <div class="tag-list">
+      <span class="tag-item">Observational research</span>
+      <span class="tag-item">Customer &amp; stakeholder interviews</span>
+      <span class="tag-item">Remote user testing</span>
+      <span class="tag-item">Internal testing</span>
+      <span class="tag-item">Active listening</span>
+      <span class="tag-item">Sketching</span>
+      <span class="tag-item">Wireframes</span>
+      <span class="tag-item">Information Architecture</span>
+      <span class="tag-item">Iterations</span>
+      <span class="tag-item">Component Library</span>
+      <span class="tag-item">Illustrations</span>
+      <span class="tag-item">Interactive patterns</span>
+      <span class="tag-item">Customer feedback</span>
+      <span class="tag-item">Mixpanel</span>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="cs-section">
+    <h2>Results</h2>
+    <ul class="cs-list">
+      <li>A scalable design framework pattern that could be re-used for all products.</li>
+      <li>Increased engagement with customers.</li>
+      <li>Helped founders envision tangible solutions to the complex construction site organisations and permissions.</li>
+    </ul>
+  </div>
+
+  <!-- HEADER ILLUSTRATION -->
+  <div class="cs-section">
+    <p class="cs-caption">Below: Illustration I created in Sketch, to communicate non-compliant products and environmental issues within constructions.</p>
+    <div class="img-placeholder" style="aspect-ratio: 980/318; min-height: 100px;">
+      [IMAGE: notifications-illustration.png — 980×318px — original artwork by Lesley Rooney]
+    </div>
+  </div>
+
+  <!-- INDUSTRY CHALLENGES -->
+  <div class="cs-section">
+    <h2>Industry Challenges — The problem with non-compliant materials in construction.</h2>
+    <p>One of a few propositions of Qflow's software as a service platform is to give environment managers the ability to keep on top of any triggered alert from Qflow's mobile app collecting data, as real-time as possible across all projects they oversaw. Any data from scanned tickets or API integration is needed to notify users of government compliance issues, helping managers to report, investigate, and rectify quickly. The reasons behind these needs were to:</p>
+    <ul class="cs-list">
+      <li>Reduce accidental installation of non-compliant building material that could forcibly be ripped out, incurring costs.</li>
+      <li>Avoid financial penalties.</li>
+      <li>Save time and be ready to cope with government audits.</li>
+      <li>Avoid delays or closures.</li>
+      <li>Finish a project with a clean bill of health to enable companies to win more contracts.</li>
+    </ul>
+    <p>Qflow was already trialling their MVP on two sites by collecting data through photographing paper tickets and then notifying customers of any anomalies/events. I aimed to improve the UX, UI web app adding additional features while being aware of how artificial intelligence technology will automate and be a useful critical advantage towards data-informed decisions.</p>
+  </div>
+
+  <!-- MY ROLE AND OUTPUTS -->
+  <div class="cs-section">
+    <h2>My Role and Outputs</h2>
+    <p>After discovery sessions with clients and experiencing their landscape, I moved onto researching competitors for example Smart Waste. I produced various flows, either alone or collaboratively, with the product owner and CTO to figure out multiple paths, restrictions, and solutions for stage 2 MVP. As notification will drive the platform and navigation, I hatched out how different user levels will interact with various alerts. Eventually, rejiggering these insights into Qflow's homepage aimed at satisfying a collection of target users. The main idea resembles a Facebook/Twitter-like feed displaying a list of alerts. At this point, Qflow looked into the scalability of the software for potential global release, which meant investigating the information architecture, localisation of microcopy, multiple modules, organisations, settings, and homepage with one simple navigation.</p>
+
+    <div class="img-placeholder" style="aspect-ratio: 1139/246; min-height: 80px;">
+      [IMAGE: notification-environment-flow.jpg — 1139×246px, wide notification flow/IA diagram]
+    </div>
+
+    <div class="img-placeholder" style="aspect-ratio: 1082/571;">
+      [IMAGE: folio-lite-frame.jpg — 1082×571px, UI frame/flow overview]
+    </div>
+
+    <p>Next, a prototype presenting the flow from email to record correction to show a clear journey for stakeholders. Done by myself to flag up any potential engineering architectural problems, issues and alignment.</p>
+    <p>I've introduced a flashing alert button, which would become part of the visual language of the platform, always used to tell users there's something wrong that needs attention, or to guide their next step. To help with implementation I googled the react component and checked with the UI engineer before adding it to the design system. You'll notice I've started testing illustrations, using them as a visual anchor to reinforce missing information. The aim is to develop a Qflow brand character by mirroring the founders' sense of humour and other consultants' attitude toward their work. Further development could have meant animation within the platform to congratulate users when they've resolved issues. Gives the platform a more delightful presence.</p>
+  </div>
+
+  <!-- LAPTOP FRAME + RECORD PAGE -->
+  <div class="cs-section">
+    <div class="laptop-frame">
+      <div class="laptop-screen" style="aspect-ratio: 720/401;">
+        [IMAGE: librem-laptop-frame.png + record-missing-data.jpg]<br>WM Table Record with missing data state
+      </div>
+    </div>
+    <p class="cs-caption">✓ Above shows a right-hand panel which can list multiple alerts for a record including Qflow's own recommendation on what to do next. It will only expand if triggered by missing information and draw the user's attention immediately.</p>
+  </div>
+
+  <!-- HOMEPAGE NOTIFICATION EMBED -->
+  <div class="cs-section">
+    <p>Embedding notification into Qflow's homepage. By doing this it will allow customers to pursue either two primary goals from seeing all alerts across all projects, or directly navigate into any module/subject matter to monitor progress.</p>
+
+    <div class="laptop-frame">
+      <div class="laptop-screen" style="aspect-ratio: 16/9;">
+        [IMAGE: librem-laptop-frame.png — 1170×657px]
+      </div>
+    </div>
+
+    <div class="gif-placeholder">
+      <span class="gif-label">Animated GIF</span>
+      <span class="gif-file">[GIF: homepage-final.gif — QF_Homepage-01DONE2.gif]</span>
+    </div>
+    <p class="cs-caption">Final design.</p>
+
+    <p>✓ Other points of customer value:</p>
+    <ul class="check-list">
+      <li>Different shapes for different alert types according to Qflow's notification.</li>
+      <li>Qflow's business value on constant display by showing the customer how many incidents they've discovered.</li>
+      <li>More visibility on other modules the company offers.</li>
+      <li>Easy navigation for those users overseeing multiple construction projects.</li>
+    </ul>
+  </div>
+
+  <!-- NAVIGATION FOR ENTERPRISE -->
+  <div class="cs-section">
+    <h2 style="text-transform: uppercase; font-size: 1rem; letter-spacing: 0.08em; font-weight: 700; color: var(--ink);">Navigation for Enterprise</h2>
+
+    <p>Below presents research exploring the landscape of relevant roles within construction. It reveals a pyramid structure of different level users, their cross-over between construction projects, and overall responsibilities. I used secondary research such as advertised job vacancies, snippets from conferences and asking subject matter stakeholders for more insights.</p>
+
+    <div class="gif-placeholder">
+      <span class="gif-label">Animated GIF</span>
+      <span class="gif-file">[GIF: org-pyramid.gif — ArtboardLLG.gif — pyramid structure of construction roles]</span>
+    </div>
+
+    <p>I wanted to avoid using breadcrumbs navigation as it could cause additional confusion with the established navigation style of the platform but still wanted to give the user the freedom to go in and out from different levels. The next concept rough prototype displays the functional flow of a user navigating to a homepage, main content pages, project (organisation) and settings area.</p>
+
+    <p>Concept solution to address the issue of management and directors overseeing multiple construction projects with different Qflow modules activated. If top level users wanted to aggregate data, Qflow would allow them to make groups and see the overall picture through visualisation and other elements.</p>
+
+    <div class="laptop-frame">
+      <div class="laptop-screen" style="aspect-ratio: 803/449;">
+        [IMAGE: librem-laptop-frame.png + create-group-screen.png — 1170×657px]<br>Projects — Create Group
+      </div>
+    </div>
+
+    <div class="laptop-frame">
+      <div class="laptop-screen" style="aspect-ratio: 710/395;">
+        [IMAGE: librem-laptop-frame.png + groups-pressed-screen.png — 1026×573px]<br>Projects — Groups view with pressed state
+      </div>
+    </div>
+
+    <p>Navigation to different module (subject area) without needing to go back to the homepage. This feature was expanded out to incorporate projects which would help users navigate their multiple assigned construction sites, including groups.</p>
+  </div>
+
+  <!-- FINAL NAVIGATION + SCREENS -->
+  <div class="cs-section">
+    <h2>Final Navigation Structure and Other Screens</h2>
+
+    <div class="img-pair">
+      <div class="gif-placeholder" style="aspect-ratio: 1/1; margin: 0;">
+        <span class="gif-label">Animated GIF</span>
+        <span class="gif-file">[GIF: table-record-scroll.gif]</span>
+      </div>
+      <div class="gif-placeholder" style="aspect-ratio: 1/1; margin: 0;">
+        <span class="gif-label">Animated GIF</span>
+        <span class="gif-file">[GIF: menu-panel.gif — MenuPanelDONE.gif]</span>
+      </div>
+    </div>
+
+    <div class="img-placeholder" style="aspect-ratio: 600/630;">
+      [IMAGE: navigation-screenshot.png — 600×630px, navigation structure, May 2021]
+    </div>
+
+    <div class="img-placeholder" style="aspect-ratio: 980/550;">
+      [IMAGE: filter-applied.png — 980×550px, WM Table with filter applied state]
+    </div>
+
+    <div class="img-placeholder" style="aspect-ratio: 979/549;">
+      [IMAGE: too-many-filters.png — 979×549px, WM Table — too many filters edge case]
+    </div>
+  </div>
+
+  <!-- PEEK GRID -->
+  <div class="peek-section">
+    <p class="peek-caption">You can hover to take a sneak peek 👀 or use my password on restricted cases.</p>
+    <div class="peek-grid">
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-1]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-2]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-3]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-4]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-5]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-6]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-7]</div></div>
+      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-8]</div></div>
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-qf2)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="cc-qf2"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-copy">© 2026 — Lesley Rooney</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:ley.rooney@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+      <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+      <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  (function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx=-100, my=-100, rx=-100, ry=-100;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx - 3}px, ${my - 3}px)`; });
+    const hoverTargets = 'a,button,[role="button"],.peek-cell';
+    document.addEventListener('mouseover', e => { if(e.target.closest(hoverTargets)){ring.classList.add('is-hovering');dot.classList.add('is-hovering');} });
+    document.addEventListener('mouseout',  e => { if(e.target.closest(hoverTargets)){ring.classList.remove('is-hovering');dot.classList.remove('is-hovering');} });
+    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
+    document.addEventListener('mouseleave',() => { dot.style.opacity='0'; ring.style.opacity='0'; });
+    document.addEventListener('mouseenter',() => { dot.style.opacity='1'; ring.style.opacity='1'; });
+    (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
+  })();
+</script>
+</body>
+</html>

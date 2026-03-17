@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medidata EDC Redesign · Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0A0A0A;
+      --ink-mid:   #4A4A4A;
+      --ink-light: #717171;
+      --paper:     #F9F8F7;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      /* EDC-specific accent */
+      --navy:      #1a3a6b;
+      --navy-light: #eef2f8;
+      --faint:     #f5f3ef;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+      --max:   1080px;
+      --sb:    240px;
+      --pad:   40px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: #F9F8F7; }
+    body {
+      background: #F9F8F7;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(249,248,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .cs-hero {
+      width: 100%;
+      height: 245px;
+      background: linear-gradient(135deg, #0d1e3a 0%, #1a3a6b 100%);
+      margin-top: 61px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cs-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .cs-hero-placeholder { font-family: var(--serif); color: rgba(255,255,255,0.35); font-size: 0.85rem; font-style: italic; }
+
+    /* WRAP */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* CASE HEADER */
+    .cs-header {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--rule);
+      opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+    }
+    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+      max-width: 820px;
+    }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--paper-alt); color: var(--ink-mid); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--rule); }
+    .cs-tag.nda { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .cs-tag.navy { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* TWO-COLUMN LAYOUT */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr var(--sb);
+      gap: 48px;
+      align-items: start;
+      padding: 0;
+    }
+    .main-col {}
+    .sidebar-col { display: flex; flex-direction: column; gap: 20px; padding-top: 28px; }
+
+    /* SIDEBAR CARDS */
+    .sidebar-card {
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 20px;
+      background: #F9F8F7;
+    }
+    .sidebar-card h3 {
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .sidebar-list { list-style: none; padding: 0; }
+    .sidebar-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; }
+    .sidebar-list li::before { content: '✦ '; color: var(--navy); font-size: 0.65rem; }
+    .sidebar-list a { color: var(--navy); text-decoration: none; }
+    .sidebar-list a:hover { text-decoration: underline; }
+    .sidebar-divider { border: none; border-top: 1px solid var(--rule); margin: 10px 0; }
+
+    /* TOOL GRID (2-col) */
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .tool-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; color: var(--ink-mid); padding: 4px 0;
+    }
+    .tool-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--navy); flex-shrink: 0; }
+
+    /* SECTION */
+    .cs-section { padding: 48px 0; }
+    .cs-section:last-of-type {}
+    .cs-section h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 680px; margin-bottom: 16px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 20px; line-height: 1.6; }
+    .section-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 10px; }
+
+    /* FULL-WIDTH PROBLEM SECTION */
+    .cs-section--wide h2 { color: var(--navy); }
+    .cs-section--wide p { max-width: 820px; }
+
+    /* IMAGE CARD (caption sits inside, above image) */
+    .img-card {
+      background: var(--faint);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      padding: 28px 28px 0;
+      margin: 32px 0 0;
+      overflow: hidden;
+    }
+    .img-card .cs-caption {
+      margin: 0 0 20px;
+      font-style: italic;
+      color: var(--navy);
+      max-width: none;
+    }
+    .img-card .img-placeholder {
+      margin: 0;
+      border-radius: 10px 10px 0 0;
+    }
+    .img-card img {
+      display: block;
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+    }
+
+    /* NUMBERED LIST (navy badges) */
+    .num-list { list-style: none; padding: 0; margin: 0 0 16px; counter-reset: num-counter; }
+    .num-list li {
+      font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7;
+      padding: 8px 0 8px 36px; position: relative; counter-increment: num-counter;
+      border-bottom: 1px solid var(--rule);
+    }
+    .num-list li:last-child { border-bottom: none; }
+    .num-list li::before {
+      content: counter(num-counter);
+      position: absolute; left: 0; top: 10px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--navy); color: #fff;
+      font-size: 0.7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; line-height: 1;
+    }
+
+    /* BULLET LIST */
+    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 5px 0 5px 20px; position: relative; }
+    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+
+    /* PERSONA LIST */
+    .persona-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .persona-list li { font-size: 0.92rem; color: var(--ink-mid); line-height: 1.7; padding: 4px 0; }
+    .persona-section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin: 16px 0 6px; }
+    hr.persona-rule { border: none; border-top: 1px solid var(--rule); margin: 12px 0; }
+
+    /* QUICK LINKS */
+    .quick-links { margin: 24px 0; padding: 20px; background: var(--faint); border-radius: 10px; border: 1px solid var(--rule); }
+    .quick-links p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 10px; }
+    .quick-links ul { list-style: none; padding: 0; }
+    .quick-links li { font-size: 0.88rem; padding: 3px 0; }
+    .quick-links a { color: var(--navy); text-decoration: none; font-weight: 500; }
+    .quick-links a:hover { text-decoration: underline; }
+
+    /* IMAGE PLACEHOLDER */
+    .img-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-style: italic; font-size: 0.82rem; color: var(--ink-light);
+      text-align: center; padding: 24px; margin: 20px 0;
+    }
+
+    /* NDA PLACEHOLDER */
+    .nda-placeholder {
+      width: 100%; background: #0d1829; border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin: 20px 0;
+      padding: 32px;
+    }
+    .nda-placeholder .nda-lock { font-size: 1.5rem; }
+    .nda-placeholder .nda-text { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+    /* IMAGE PAIR */
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+
+    /* BEFORE / AFTER */
+    .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    .ba-item {}
+    .ba-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 6px; }
+
+    /* CAROUSEL */
+    .carousel { position: relative; margin: 20px 0; }
+    .carousel-track { position: relative; border-radius: 12px; overflow: hidden; }
+    .carousel-slide { display: none; }
+    .carousel-slide.active { display: block; }
+    .carousel-slide .img-placeholder { margin: 0; border-radius: 0; }
+    .carousel-controls {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 10px;
+    }
+    .carousel-btn {
+      width: 36px; height: 36px; border: 1px solid var(--rule); border-radius: 50%;
+      background: #F9F8F7; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: var(--ink-mid); transition: all 0.2s;
+    }
+    .carousel-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .carousel-counter { font-size: 0.78rem; color: var(--ink-light); }
+    .carousel-dots { display: flex; gap: 6px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); cursor: pointer; transition: background 0.2s; }
+    .dot.active { background: var(--navy); }
+
+    /* HOVER REVEAL */
+    .hover-reveal {
+      position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; margin: 20px 0;
+    }
+    .hover-reveal .hr-base { display: block; width: 100%; }
+    .hover-reveal .hr-base .img-placeholder { margin: 0; border-radius: 0; }
+    .hover-reveal .hr-overlay {
+      position: absolute; inset: 0;
+      background: rgba(26, 58, 107, 0.88);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+      flex-direction: column; gap: 10px;
+    }
+    .hover-reveal:hover .hr-overlay { opacity: 1; }
+    .hr-play { width: 52px; height: 52px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .hr-play-icon { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent var(--navy); margin-left: 4px; }
+    .hr-label { font-size: 0.82rem; color: rgba(255,255,255,0.8); text-align: center; padding: 0 20px; }
+
+    /* AUDIO PLAYER */
+    .audio-player {
+      background: var(--faint); border: 1px solid var(--rule); border-radius: 12px;
+      padding: 20px 24px; margin: 20px 0;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .audio-player-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); }
+    .audio-player-title { font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+    .audio-controls { display: flex; align-items: center; gap: 14px; }
+    .audio-play-btn {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;
+    }
+    .audio-play-btn:hover { background: #0d2a55; }
+    .audio-progress-wrap { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .audio-progress { width: 100%; height: 4px; background: var(--rule); border-radius: 2px; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    .audio-progress::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--navy); cursor: pointer; margin-top: -4px; }
+    .audio-progress::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--rule); }
+    .audio-time { font-size: 0.78rem; color: var(--ink-light); text-align: right; }
+
+    /* PROTOTYPE LINK */
+    .proto-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin: 12px 0 20px;
+      transition: all 0.2s;
+    }
+    .proto-link.fill { background: var(--navy); color: #fff; }
+    .proto-link.fill:hover { background: #0d2a55; }
+    .proto-link.outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .proto-link.outline:hover { background: var(--navy-light); }
+
+    /* OUTCOMES BAND */
+    .outcomes-band {
+      background: var(--faint);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 64px 0;
+      margin: 0;
+    }
+    .outcomes-band .wrap {}
+    .outcomes-band h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+    .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; margin-top: 32px; }
+    .outcomes-col h3 {
+      font-family: var(--serif); font-size: 0.9rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem;
+    }
+
+    /* DEEP DIVE SECTION */
+    .deep-dive {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .deep-dive:last-of-type { border-bottom: none; }
+    .dd-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--navy); margin-bottom: 10px;
+    }
+    .deep-dive h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+      font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 24px;
+    }
+    .deep-dive p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 720px; margin-bottom: 16px; }
+    .deep-dive h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
+
+    /* PEEK GRID */
+    .peek-section { padding: 64px 0 80px; }
+    .peek-caption { font-size: 0.9rem; color: var(--ink-mid); margin-bottom: 32px; }
+    .peek-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .peek-cell { aspect-ratio: 1/1; border-radius: 12px; background: var(--paper-alt); border: 1px solid var(--rule); overflow: hidden; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+    .peek-cell:hover { transform: scale(1.04); }
+    .peek-cell img { width: 100%; height: 100%; object-fit: cover; }
+    .peek-cell-placeholder { font-size: 0.72rem; color: var(--ink-light); font-style: italic; }
+
+    /* FOOTER */
+    footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 40px 48px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); margin-bottom: 4px; }
+    .footer-copy  { font-size: 0.8rem; color: var(--ink-light); }
+    .footer-right { display: flex; gap: 32px; }
+    .footer-right a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* CURSOR */
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 780px) {
+      nav { padding: 18px 24px; }
+      .wrap { padding: 0 24px; }
+      :root { --pad: 24px; }
+      .two-col { grid-template-columns: 1fr; }
+      .sidebar-col { order: -1; padding-top: 0; }
+      .outcomes-grid { grid-template-columns: 1fr; }
+      .img-pair, .before-after { grid-template-columns: 1fr; }
+      .peek-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Lesley Rooney</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="influence.html">Influence</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- 2. PAGE TITLE + TAGS -->
+  <div class="cs-header">
+    <p class="cs-eyebrow">Case Study · B2B Enterprise · Medidata EDC</p>
+    <h1>Reimagining Data Capture: Laying the Foundation for a Smarter, Seamless, and Future-Ready Experience</h1>
+    <div class="cs-tags">
+      <span class="cs-tag nda">🔒 NDA</span>
+      <span class="cs-tag">B2B Enterprise</span>
+      <span class="cs-tag">~2.5 years</span>
+    </div>
+  </div>
+
+  <!-- 3. THE PROBLEM — full width, above two-col -->
+  <div class="cs-section cs-section--wide">
+    <h2>The Problem, Every Successful Company Eventually Has to Evolve</h2>
+    <p><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
+    <div class="img-card">
+      <p class="cs-caption">A snapshot of designs I worked on, including synthetic patients, global task filters and data capture pages.</p>
+      <div class="img-placeholder" style="aspect-ratio: 730/410;">[IMAGE: problem-snapshot.jpg — 730×410px]</div>
+    </div>
+  </div>
+
+  <!-- TWO-COLUMN GRID (main + sidebar) -->
+  <div class="two-col">
+
+    <!-- MAIN COLUMN -->
+    <div class="main-col">
+
+      <!-- 4. WHAT ARE EDC PRODUCTS -->
+      <div class="cs-section">
+        <h2>What Are Electronic Data Capture Products?</h2>
+        <p>EDC systems are cloud-based applications used in clinical trials for entering, reviewing, and managing patient-level data. Study teams capture medical results in structured forms or import data from other connected systems.</p>
+        <p class="cs-caption">AI-generated podcast created from a doc I wrote to quickly onboard teams to the redesign</p>
+        <div class="audio-player" id="audio-player">
+          <span class="audio-player-label">NotebookLM generated podcast — Lesley's EDC onboarding</span>
+          <span class="audio-player-title">EDC Redesign Onboarding Podcast · 14:16</span>
+          <div class="audio-controls">
+            <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play/Pause">▶</button>
+            <div class="audio-progress-wrap">
+              <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
+              <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">14:16</span></div>
+            </div>
+          </div>
+          <audio id="audioEl" src="audio/edc-onboarding-podcast.mp3" preload="none"></audio>
+        </div>
+      </div>
+
+      <!-- 5. MY ROLE -->
+      <div class="cs-section">
+        <h2>My Role</h2>
+        <p>I led EDC's data pages (the patient record, a large section of the redesign) working alongside my design partner Anastasiya in a deliberate divide-and-conquer model. Ownership of different areas, to explore with regular syncs to coordinate findings and designs.</p>
+        <p>After our Lead Designer Michael left in 2023, we expanded scope to study listing pages. I independently led AI features, Electronic Health Record integration, and other areas tying into the wider platform ecosystem.</p>
+      </div>
+
+      <!-- 6. BUSINESS CONSTRAINTS -->
+      <div class="cs-section">
+        <h2>Business Constraints and Challenges</h2>
+        <ol class="num-list">
+          <li>Started as a visual reskin, to upgrade to the new evolving design system; past design efforts struggled with domain credibility to convince executives to make changes.</li>
+          <li>Technical debt — Outdated APIs, Angular to React migration, strict backend constraints and a lean engineering team.</li>
+          <li>Cross-product coordination — Multiple company-wide initiatives (homepage, overall navigation, design system, study build &amp; platform integration) required close alignment to lessen the "Frankenstein" experience.</li>
+        </ol>
+      </div>
+
+      <!-- 11. USER PROBLEMS -->
+      <div class="cs-section">
+        <h2>User Problems &amp; Research Insights</h2>
+        <ol class="num-list">
+          <li>Lost task visibility and accuracy — Users lost sight of outstanding tasks when drilling into patient records, forcing unnecessary navigation or reliance on exported reports.</li>
+          <li>Performance issues — Poor system performance pushed users toward unnatural workarounds or competitors.</li>
+          <li>Poor integration &amp; data persistence — Users re-entered the same patient data in multiple places; related information was buried.</li>
+          <li>Broken accessibility — Poor readability, keyboard tab order didn't match expectations for fast data entry workflows.</li>
+          <li>Real estate — Feedback from users and product showed that each redesign reduced visible data density. Users wanted grids to be more compact so they could see more data before scrolling.</li>
+        </ol>
+        <p class="cs-caption">Please note that I list user insights below, but also influenced gathering internal information across the company, so we had the full picture.</p>
+      </div>
+
+      <!-- 12. RESEARCH LOOM -->
+      <div class="cs-section">
+        <p class="cs-caption">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
+        <a href="#" target="_blank" class="hover-reveal" id="loom-reveal">
+          <div class="hr-base">
+            <div class="img-placeholder" style="aspect-ratio: 537/343;">[IMAGE: research-loom-thumbnail.webp — 537×343px]</div>
+          </div>
+          <div class="hr-overlay">
+            <div class="hr-play"><span class="hr-play-icon"></span></div>
+            <span class="hr-label">Watch research highlights on Loom ↗</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- 13. HMW GOALS -->
+      <div class="cs-section">
+        <h2>How Might We Goals</h2>
+        <ol class="num-list">
+          <li>Build a cleaner interface for future capabilities (think AI automation, imported patient records, all that good stuff)</li>
+          <li>Speed up data entry — Reduce errors, cut unnecessary queries. Daily friction points and slowness.</li>
+          <li>Restore task awareness — Bring back what made Rave Classic loved by its users while keeping the best working efficiency gains from the 2017 redesign.</li>
+          <li>Sales demo impact — Make the improvement visually obvious so clients can see the immediate AHA moment.</li>
+        </ol>
+        <hr style="border: none; border-top: 1px solid var(--rule); margin: 28px 0;">
+        <div class="quick-links">
+          <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
+          <ul>
+            <li><a href="#dd1">Streamlining patient data workflows for all personas →</a></li>
+            <li><a href="#dd2">Helping Data Manager find, spot check and lock patients easily →</a></li>
+            <li><a href="#dd3">Unsaid legacy attraction of Rave Classic →</a></li>
+            <li><a href="#dd4">Discovering a root problem from various symptoms →</a></li>
+          </ul>
+        </div>
+    </div><!-- /.main-col -->
+
+    <!-- SIDEBAR COLUMN -->
+    <div class="sidebar-col">
+
+      <!-- 9. TEAM -->
+      <div class="sidebar-card">
+        <h3>Team</h3>
+        <ul class="sidebar-list" style="list-style: none;">
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Product Director (PM) 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Business Analyst 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Back End 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 System Architect 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">3 Engineers (Front End) 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">3 QA 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">2 Data Scientists 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">Design System 🇵🇱 🇺🇦 🇮🇳 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">Customer Support 🇯🇵 🇺🇸 🇰🇷</li>
+        </ul>
+        <hr class="sidebar-divider">
+        <ul class="sidebar-list" style="list-style: none;">
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Lead Designer (left 2023) 🇺🇸</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);"><strong>1 Senior Designer (me) 🇬🇧</strong></li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Designer (agency) 🇵🇱</li>
+          <li style="padding: 2px 0; font-size: 0.8rem; color: var(--ink-mid);">1 Design Director 🇺🇸</li>
+        </ul>
+      </div>
+
+      <!-- 10. DURATION -->
+      <div class="sidebar-card">
+        <h3>Duration</h3>
+        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years</p>
+        <p style="font-size: 0.8rem; color: var(--ink-light); margin-top: 4px; font-style: italic;">Multi-phased releases.</p>
+      </div>
+
+      <!-- 7. WHAT I DID -->
+      <div class="sidebar-card">
+        <h3>What I did 👩🏾‍💻</h3>
+        <ul class="sidebar-list">
+          <li><a href="#dd1">De-risking</a></li>
+          <li><a href="#engineering">Collaboration</a></li>
+          <li><a href="#dd1">Prototyping</a></li>
+          <li>Competitive Analysis</li>
+          <li><a href="#research">User Interviews</a></li>
+          <li>Stakeholder Alignment</li>
+          <li>Introducing interactive patterns to emerging design systems</li>
+        </ul>
+      </div>
+
+      <!-- 8. TOOLS -->
+      <div class="sidebar-card">
+        <h3>Tools</h3>
+        <div class="tool-grid">
+          <div class="tool-item"><span class="tool-dot"></span>Figma</div>
+          <div class="tool-item"><span class="tool-dot"></span>Storybook</div>
+          <div class="tool-item"><span class="tool-dot"></span>Loom</div>
+          <div class="tool-item"><span class="tool-dot"></span>Lovable</div>
+          <div class="tool-item"><span class="tool-dot"></span>Slack</div>
+          <div class="tool-item"><span class="tool-dot"></span>Zoom</div>
+          <div class="tool-item"><span class="tool-dot"></span>Notion</div>
+          <div class="tool-item"><span class="tool-dot"></span>Pendo</div>
+          <div class="tool-item"><span class="tool-dot"></span>Axure</div>
+          <div class="tool-item"><span class="tool-dot"></span>condens</div>
+          <div class="tool-item"><span class="tool-dot"></span>Pen &amp; paper</div>
+          <div class="tool-item"><span class="tool-dot"></span>Gemini</div>
+          <div class="tool-item"><span class="tool-dot"></span>GitHub</div>
+          <div class="tool-item"><span class="tool-dot"></span>ScreenFlow</div>
+        </div>
+      </div>
+
+    </div><!-- /.sidebar-col -->
+
+  </div><!-- /.two-col -->
+
+</div><!-- /.wrap -->
+
+<!-- 19. OUTCOMES BAND (full bleed) — moved above research sections -->
+<div class="outcomes-band">
+  <div class="wrap">
+    <h2>The Outcomes, Impact and Personal Growth</h2>
+    <!-- Carousel: Outcomes -->
+    <div class="carousel" data-carousel="outcomes">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/590;">[IMAGE: outcomes-slide-1.png — 980×590px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/486;">[IMAGE: outcomes-slide-2.png — 980×486px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/639;">[IMAGE: outcomes-slide-3.png — 980×639px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 3</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+    <p class="cs-caption" style="max-width: 720px;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+    <div class="outcomes-grid">
+      <div class="outcomes-col">
+        <h3>Business outcomes</h3>
+        <ul class="cs-list">
+          <li>Removed unused features, reducing years of design/engineering debt and lowering engineering maintenance, increasing company efficiency.</li>
+          <li>Enabled a smoother Classic-to-new platform migration (unified product) and strengthened competitive edge in sales demos.</li>
+          <li>The initiative demonstrated the ROI of embedded research — fewer rework cycles, fewer post-release fixes, and clearer guidance on where engineering should focus backend refactoring.</li>
+        </ul>
+      </div>
+      <div class="outcomes-col">
+        <h3>User outcomes</h3>
+        <ul class="cs-list">
+          <li>Users can reliably glance left for a visual to-do summary, streamlining workflows and boosting productivity by 40–50% fewer clicks. Confirmed from usability studies and beta pilot releases.</li>
+          <li>Increases in discoverability, improved scanning behaviour and reduced support tickets by making core features easier to find. Pilot report revealed faster time to value, especially for newer features.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH & COLLABORATION SECTIONS -->
+<div class="wrap">
+
+  <!-- 14. ALL BRAINS ON DECK -->
+  <div class="cs-section">
+    <h2>🧠 All Brains On Deck Approach</h2>
+    <div class="img-placeholder" style="aspect-ratio: 922/518;">[IMAGE: stakeholder-interviews.jpg — 922×518px]</div>
+    <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 0 0 12px;">The Plan &amp; What We Did</h3>
+    <p>After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
+    <p>What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
+  </div>
+
+  <!-- 15. SYSTEM MAPS -->
+  <div class="cs-section">
+    <p class="cs-caption">Hover to see system maps of interconnected tasks</p>
+    <div class="hover-reveal">
+      <div class="hr-base">
+        <div class="img-placeholder" style="aspect-ratio: 874/491;">[IMAGE: system-maps.jpg — 874×491px]</div>
+      </div>
+      <div class="hr-overlay">
+        <div class="hr-play"><span class="hr-play-icon"></span></div>
+        <span class="hr-label">System maps — confirm hover content with Lesley</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. PERSONAS -->
+  <div class="cs-section">
+    <h2>Meet the Users</h2>
+    <p class="persona-section-label">Sites</p>
+    <ul class="persona-list">
+      <li>🧑🏻‍⚕️ <strong>Clinical Research Coordinator (CRC)</strong> — Conducts visits, enters patient data from multiple sources, resolves queries. Constantly interrupted.</li>
+      <li>👩🏾‍⚕️ <strong>Study Nurse</strong> — Interacts with patients, enters data &amp; queries. Constantly interrupted.</li>
+      <li>👩🏽‍⚕️ <strong>Data Coordinator</strong> — Enters data from site personnel, resolves queries.</li>
+      <li>👨🏻‍⚕️ <strong>Primary Investigator (PI)</strong> — Leads study, oversees procedures, ensures compliance.</li>
+      <li>👩🏽‍⚕️ <strong>Sub-Investigator (Sub I)</strong> — Assists PI, performs trial procedures.</li>
+    </ul>
+    <hr class="persona-rule">
+    <p class="persona-section-label">Client side</p>
+    <ul class="persona-list">
+      <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
+      <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong> — Cleans, validates, and packages clinical data for statisticians.</li>
+    </ul>
+    <p class="cs-caption" style="margin-top: 20px;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
+    <!-- Carousel: Personas -->
+    <div class="carousel" data-carousel="personas">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/988;">[IMAGE: personas-overview-1.webp — 980×988px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/878;">[IMAGE: personas-overview-2.webp — 980×878px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. ENGINEERING COLLABORATION -->
+  <div class="cs-section" id="engineering">
+    <h2>Where the Best Ideas Win (Engineering Collaboration)</h2>
+    <p>I brought engineering into design early to reduce surprises and handoff friction. In a group with strong opinions and history, psychological safety mattered. We kept everyone informed but were selective about which feedback shaped direction. Sharing research clips rather than just conclusions meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
+    <p>In practice this meant 30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups. Tesler's Law applied deliberately. If complexity could live in the system, done programmatically, it shouldn't live in the UI.</p>
+    <p>I also pushed to get design included in cross-product engineering meetings, bug bashes, and peer reviews. And brought in accessibility specialists early, after noticing users were navigating primarily by keyboard. Something that needed to be designed for, not retrofitted.</p>
+    <!-- Carousel: Engineering Collab -->
+    <div class="carousel" data-carousel="engineering">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/590;">[IMAGE: engineering-collab-1.webp — 980×590px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/657;">[IMAGE: engineering-collab-2.webp — 980×657px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/450;">[IMAGE: engineering-collab-3.png — 980×450px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/590;">[IMAGE: engineering-collab-4.webp — 980×590px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 4</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+    <p class="cs-caption">Figma files with JTBD flow with annotations, Loom walkthroughs, and a component tracker that directors referenced throughout the redesign.</p>
+  </div>
+
+  <!-- 18. RESEARCH PLAN -->
+  <div class="cs-section" id="research">
+    <h2>Overall Research Plan — Derisking Assumptions and Increasing Design Quality</h2>
+    <p>I split data page design ownership to give my design partner and me autonomy to explore ideas while allowing me to focus on cross-product challenges. Though initially unpopular, this moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</p>
+    <p>Interviewed 55+ participants over two years either in 1-on-1 or group sessions with 28% returning — building trust through short, focused sessions that respected their time and supported continuous discovery habits. We also shared multiple snippets with designers on other initiatives to influence their teams.</p>
+    <p>Reviewed prior research to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us prioritise features that served multiple personas over their isolated frustrations and contributed to a vision of removing that persona from EDC altogether.</p>
+    <div class="img-pair">
+      <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: research-guidelines-1.png — 430×430px, scrappy research guidelines]</div>
+      <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: competitor-screenshots.webp — 430×430px, competitor screenshots]</div>
+    </div>
+  </div>
+
+</div><!-- /.wrap (research sections) -->
+
+<!-- DEEP DIVES -->
+<div class="wrap">
+
+  <!-- 20. DEEP DIVE 01 -->
+  <div class="deep-dive" id="dd1">
+    <p class="dd-label">Deep Dive: Problem and Solution 01</p>
+    <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
+    <!-- Carousel: DD01 -->
+    <div class="carousel" data-carousel="dd01">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/560;">[IMAGE: deep-dive-01-a.webp — 980×560px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/612;">[IMAGE: deep-dive-01-b.webp — 980×612px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+    <p>My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
+    <p>Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
+    <p>Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
+    <div class="before-after">
+      <div class="ba-item">
+        <p class="ba-label">Before — Rave EDC 2017</p>
+        <div class="img-placeholder" style="aspect-ratio: 848/504; margin: 0;">[IMAGE: before-patient-details-2017.jpg — 848×504px]</div>
+      </div>
+      <div class="ba-item">
+        <p class="ba-label">After — New redesign 2026</p>
+        <div class="img-placeholder" style="aspect-ratio: 913/587; margin: 0;">[IMAGE: after-patient-details-2026.jpg — 913×587px]</div>
+      </div>
+    </div>
+    <p class="cs-caption">Hover to see scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
+    <div class="hover-reveal">
+      <div class="hr-base">
+        <div class="img-placeholder" style="aspect-ratio: 16/9;">[IMAGE: concept-experiments-thumbnail.jpg — hover reveal content to confirm with Lesley]</div>
+      </div>
+      <div class="hr-overlay">
+        <div class="hr-play"><span class="hr-play-icon"></span></div>
+        <span class="hr-label">Scrappy design experiments — confirm reveal content with Lesley</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 21. DEEP DIVE 02 -->
+  <div class="deep-dive" id="dd2">
+    <p class="dd-label">Deep Dive: Problem and Solution 02</p>
+    <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
+    <p>Data Managers were spot-checking patient progress on the drugs more frequently. They were receiving lists of 15 to 100 patient IDs by email or spreadsheet, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: "We now have a problem with Medidata."</p>
+    <p>I designed a bulk-paste solution with a 15-tag maximum that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a reusable design system component that Clinical Data Studio (another product) could adopt.</p>
+    <div class="img-pair">
+      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">[IMAGE: research-guidelines-1.png — 430×430px]</div>
+      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">[IMAGE: competitor-screenshots.webp — 430×430px]</div>
+    </div>
+    <div class="img-placeholder" style="aspect-ratio: 554/373;">[IMAGE: design-system-loading-component.jpg — 554×373px]<br><small>Design System virtual loading component option wasn't right for the use case</small></div>
+    <div class="img-placeholder" style="aspect-ratio: 836/533;">[IMAGE: lovable-experimental-design.jpg — 836×533px]<br><small>Experimental designs: While working in Lovable and riffing on ideas with my front-end lead</small></div>
+    <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill">Patient filter prototype ↗</a>
+    <p class="cs-caption">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
+    <!-- Carousel: DD02 -->
+    <div class="carousel" data-carousel="dd02">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-01.webp — 980×608px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/561;">[IMAGE: final-design-02.webp — 980×561px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/518;">[IMAGE: final-design-03.webp — 980×518px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-04.webp — 980×608px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 4</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+    <p>Another pattern that made it into the design system: a smoother, faster, more forgiving time-input for medication. With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
+    <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link outline">Time picker prototype ↗</a>
+  </div>
+
+  <!-- 22. DEEP DIVE 03 -->
+  <div class="deep-dive" id="dd3">
+    <p class="dd-label">Deep Dive 03</p>
+    <h2>The Unsaid Legacy Attraction — From Custom Code Workaround to Core Feature</h2>
+    <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered a deeper migration risk. Rave Classic let study builders custom-code features outside the core product. Like Figma plugins, these extensions expanded the platform in ways we couldn't track, leaving us blind to what existed or how widely it was used.</p>
+    <p>One such extension surfaced during interviews: dummy patients. Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely. Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
+    <div class="img-placeholder" style="aspect-ratio: 763/474;">[IMAGE: synthetic-patients.jpg — 763×474px]</div>
+    <p>That conversation became one of the value propositions when a Data Scientist realised they could create Synthetic Patient data, transforming an unofficial workaround into a proper product capability using AI to generate realistic historical patient data. The next release will cover the parameters users would like to control what's generated.</p>
+  </div>
+
+  <!-- 23. DEEP DIVE 04 -->
+  <div class="deep-dive" id="dd4">
+    <p class="dd-label">Deep Dive 04</p>
+    <h2>Discovering a Root Problem from Various Symptoms — How Unresolvable Queries Undermine Trust and Data Integrity Across Clinical Teams</h2>
+    <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. The platform treated 'not yet available' data the same as 'missing' data. Take drug returns: when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months. The system didn't account for that. It immediately flagged those fields as queries, creating alerts no one could honestly resolve.</p>
+    <p>To cope, users entered junk data to clear these query alerts temporarily from the system. If they didn't, these queries would clog up task lists across EDC, Clinical Data Studio, and the Homepage, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that a UI patch wouldn't fix a system-level issue. That work was brought to the attention of Design VP and manager to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
+    <p class="cs-caption">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
+    <!-- Carousel: DD04 -->
+    <div class="carousel" data-carousel="dd04">
+      <div class="carousel-track">
+        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/733;">[IMAGE: root-problem-01.webp — 980×733px]</div></div>
+        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/842;">[IMAGE: root-problem-02.webp — 980×842px]</div></div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 24. CANDID REFLECTIONS -->
+  <div class="deep-dive" style="border-bottom: none;">
+    <h2>Candid Reflections</h2>
+    <p>My first redesign was tough. Priorities shifted, people moved on, and cross-product dependencies kept growing, so progress often felt slow. It was also my first time working on a high-risk product with a two-year timeline, where backend mistakes or bugs could cost Medidata a million dollars a day in client penalties. I was always aware of that pressure, so that's why I made sure engineering had the time and clarity they needed to plan and deliver.</p>
+    <p>Coordinating multiple roadmaps meant revisiting earlier work, juggling backup designs, and balancing other projects at the same time. Maintaining enthusiasm and managing tension was challenging, especially since we were used to working on shorter projects. I learned when to push with evidence and when to let go, what truly mattered and why. What a foundational release really meant, and how tricky prioritisation can be when trying to keep people focused. Since launch, early client feedback has been positive, and the effort has been worth it.</p>
+  </div>
+
+  <!-- 25. PEEK GRID -->
+  <div class="peek-section" id="peek">
+    <p class="peek-caption">You can hover to take a sneak peek 👀 or use my password on restricted cases.</p>
+    <div class="peek-grid">
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-1]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-2]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-3]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-4]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-5]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-6]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-7]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-8]</span></div>
+      <div class="peek-cell"><span class="peek-cell-placeholder">[peek-9]</span></div>
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-edc)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="cc-edc"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-copy">© 2026 — Lesley Rooney</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:ley.rooney@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+      <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+      <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+  // ── Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // ── Carousel
+  document.querySelectorAll('.carousel').forEach(carousel => {
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots   = carousel.querySelectorAll('.dot');
+    const counter = carousel.querySelector('.carousel-counter');
+    let current = 0;
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    carousel.querySelector('.prev').addEventListener('click', () => goTo(current - 1));
+    carousel.querySelector('.next').addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+  });
+
+  // ── Audio Player
+  (function() {
+    const audioEl  = document.getElementById('audioEl');
+    const playBtn  = document.getElementById('audioPlayBtn');
+    const progress = document.getElementById('audioProgress');
+    const current  = document.getElementById('audioCurrentTime');
+    if (!audioEl) return;
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60).toString().padStart(2, '0');
+      return `${m}:${sec}`;
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
+
+    audioEl.addEventListener('timeupdate', () => {
+      if (audioEl.duration) {
+        progress.value = (audioEl.currentTime / audioEl.duration) * 100;
+        current.textContent = fmt(audioEl.currentTime);
+      }
+    });
+
+    progress.addEventListener('input', () => {
+      if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration;
+    });
+
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
+  })();
+
+  // ── Custom cursor
+  (function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx=-100, my=-100, rx=-100, ry=-100;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx - 3}px, ${my - 3}px)`; });
+    const hoverTargets = 'a,button,[role="button"],.peek-cell,.hover-reveal,.carousel-btn';
+    document.addEventListener('mouseover', e => { if(e.target.closest(hoverTargets)){ring.classList.add('is-hovering');dot.classList.add('is-hovering');} });
+    document.addEventListener('mouseout',  e => { if(e.target.closest(hoverTargets)){ring.classList.remove('is-hovering');dot.classList.remove('is-hovering');} });
+    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
+    document.addEventListener('mouseleave',() => { dot.style.opacity='0'; ring.style.opacity='0'; });
+    document.addEventListener('mouseenter',() => { dot.style.opacity='1'; ring.style.opacity='1'; });
+    (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
+  })();
+</script>
+</body>
+</html>

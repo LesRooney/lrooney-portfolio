@@ -233,10 +233,49 @@
     /* IMAGE PAIR */
     .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
 
-    /* BEFORE / AFTER */
-    .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
-    .ba-item {}
-    .ba-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 6px; }
+    /* BEFORE / AFTER SLIDER */
+    .ba-slider {
+      position: relative; overflow: hidden; border-radius: 12px;
+      cursor: ew-resize; user-select: none; touch-action: none;
+      margin: 20px 0;
+    }
+    .ba-slider .ba-before { display: block; width: 100%; }
+    .ba-slider .ba-before .img-placeholder { margin: 0; border-radius: 0; }
+    .ba-slider .ba-after {
+      position: absolute; inset: 0; overflow: hidden;
+      clip-path: inset(0 50% 0 0);
+    }
+    .ba-slider .ba-after .img-placeholder {
+      margin: 0; border-radius: 0; width: 100%; height: 100%;
+    }
+    .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 2px; background: #fff;
+      transform: translateX(-50%);
+      pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-grip {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #fff; border: 1.5px solid rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      gap: 3px; flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+    .ba-arrow {
+      width: 0; height: 0; border-style: solid;
+    }
+    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
+    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+    .ba-pill {
+      position: absolute; bottom: 12px;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
+      background: rgba(0,0,0,0.45); color: #fff; pointer-events: none;
+      backdrop-filter: blur(4px);
+    }
+    .ba-pill.before { left: 12px; }
+    .ba-pill.after  { right: 12px; }
 
     /* CAROUSEL */
     .carousel { position: relative; margin: 20px 0; }
@@ -519,6 +558,8 @@
             <li><a href="#dd4">Discovering a root problem from various symptoms →</a></li>
           </ul>
         </div>
+      </div><!-- /.cs-section HMW -->
+
     </div><!-- /.main-col -->
 
     <!-- SIDEBAR COLUMN -->
@@ -754,14 +795,25 @@
     <p>My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p>Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
     <p>Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
-    <div class="before-after">
-      <div class="ba-item">
-        <p class="ba-label">Before — Rave EDC 2017</p>
-        <div class="img-placeholder" style="aspect-ratio: 848/504; margin: 0;">[IMAGE: before-patient-details-2017.jpg — 848×504px]</div>
+    <!-- BEFORE / AFTER SLIDER -->
+    <div class="ba-slider" data-ba-slider>
+      <!-- BEFORE — bottom layer, sets height -->
+      <div class="ba-before">
+        <div class="img-placeholder" style="aspect-ratio: 848/504;">[IMAGE: before-patient-details-2017.jpg — 848×504px]</div>
       </div>
-      <div class="ba-item">
-        <p class="ba-label">After — New redesign 2026</p>
-        <div class="img-placeholder" style="aspect-ratio: 913/587; margin: 0;">[IMAGE: after-patient-details-2026.jpg — 913×587px]</div>
+      <!-- AFTER — top layer, clipped by handle -->
+      <div class="ba-after">
+        <div class="img-placeholder" style="aspect-ratio: 848/504;">[IMAGE: after-patient-details-2026.jpg — 848×504px]</div>
+      </div>
+      <!-- LABELS -->
+      <span class="ba-pill before">Before — 2017</span>
+      <span class="ba-pill after">After — 2026</span>
+      <!-- HANDLE -->
+      <div class="ba-handle">
+        <div class="ba-grip">
+          <span class="ba-arrow left"></span>
+          <span class="ba-arrow right"></span>
+        </div>
       </div>
     </div>
     <p class="cs-caption">Hover to see scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
@@ -942,6 +994,27 @@
 
     audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
   })();
+
+  // ── Before / After sliders
+  document.querySelectorAll('[data-ba-slider]').forEach(slider => {
+    const after  = slider.querySelector('.ba-after');
+    const handle = slider.querySelector('.ba-handle');
+    let dragging = false;
+
+    function setPos(clientX) {
+      const rect = slider.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      after.style.clipPath   = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left      = pct + '%';
+    }
+
+    slider.addEventListener('mousedown',  e => { dragging = true; setPos(e.clientX); });
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mouseup',    () => dragging = false);
+    window.addEventListener('touchend',   () => dragging = false);
+  });
 
   // ── Custom cursor
   (function() {

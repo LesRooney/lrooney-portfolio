@@ -28,8 +28,8 @@
       background: var(--paper);
       color: var(--ink);
       font-family: var(--sans);
-      font-weight: 400;
-      line-height: 1.75;
+      font-weight: 300;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
@@ -74,8 +74,8 @@
     }
 
     .cs-title {
-      font-family: var(--serif); font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700; line-height: 1.15; color: var(--ink);
+      font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink);
       margin-bottom: 20px;
     }
 
@@ -103,11 +103,13 @@
     .cs-section h2 {
       font-family: var(--serif); font-size: 1.5rem; font-weight: 700;
       color: var(--ink); margin-bottom: 20px; line-height: 1.3;
+      letter-spacing: -0.02em;
     }
 
     .cs-section h3 {
       font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
       color: var(--ink); margin-bottom: 12px; margin-top: 40px;
+      letter-spacing: -0.01em;
     }
 
     .cs-section p {
@@ -204,32 +206,17 @@
     .footer-right a:hover { color: var(--ink); }
 
     /* ── CURSOR ── */
-    .cursor-dot, .cursor-ring {
-      position: fixed; pointer-events: none; z-index: 9999;
-      border-radius: 50%; transform: translate(-50%, -50%);
-      transition: opacity 0.3s;
-    }
-    .cursor-dot {
-      width: 8px; height: 8px;
-      background: var(--ink); top: 0; left: 0;
-    }
-    .cursor-ring {
-      width: 40px; height: 40px;
-      border: 1.5px solid rgba(26,26,24,0.35);
-      top: 0; left: 0;
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.3s;
-    }
-    body.cursor-hover .cursor-ring {
-      width: 56px; height: 56px;
-      border-color: rgba(26,26,24,0.6);
-    }
-    @media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:-20px;left:-20px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:-40px;left:-40px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
   </style>
 </head>
 <body>
 
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
   <nav id="mainNav">
     <a href="index.html" class="nav-logo">LR</a>
@@ -665,17 +652,34 @@
       nav.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // Custom cursor
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    function animateCursor() {
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add
+    // ── Custom cursor
+    (function() {
+      if (window.matchMedia('(hover: none)').matches) return;
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = -100, my = -100, rx = -100, ry = -100;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px,${my}px)`;
+      });
+      const hoverTargets = 'a,button,[role="button"]';
+      document.addEventListener('mouseover', e => {
+        if (e.target.closest(hoverTargets)) { ring.classList.add('is-hovering'); dot.classList.add('is-hovering'); }
+      });
+      document.addEventListener('mouseout', e => {
+        if (e.target.closest(hoverTargets)) { ring.classList.remove('is-hovering'); dot.classList.remove('is-hovering'); }
+      });
+      document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+      document.addEventListener('mouseup', () => ring.classList.remove('is-clicking'));
+      document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+      document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+      (function loop() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = `translate(${rx}px,${ry}px)`;
+        requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
+</body>
+</html>

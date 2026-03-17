@@ -19,6 +19,7 @@
       --paper-alt: #efede7;
       --rule:      #e2e0d8;
       --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       --max: 1200px;
     }
 
@@ -27,7 +28,7 @@
     body {
       background: var(--paper);
       color: var(--ink);
-      font-family: var(--serif);
+      font-family: var(--sans);
       font-weight: 300;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
@@ -65,12 +66,12 @@
     .cs-hero img { width: 100%; height: auto; display: block; }
 
     /* ── INTRO ── */
-    .cs-intro { padding: 56px 0 0; }
+    .cs-intro { padding: 101px 0 0; }
     .cs-page-title {
       font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.1;
       letter-spacing: -0.02em;
       color: var(--ink);
     }
@@ -83,6 +84,7 @@
       font-size: 1.35rem;
       font-weight: 700;
       line-height: 1.25;
+      letter-spacing: -0.02em;
       margin-bottom: 6px;
       color: var(--ink);
       display: flex;
@@ -171,16 +173,20 @@
       border-radius: 16px;
       aspect-ratio: 1 / 1;
     }
-    .gallery-item img {
+    .gallery-item img,
+    .gallery-item video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.35s ease;
     }
-    .gallery-item:hover img { transform: scale(1.03); }
-    .gallery-item--tall img { object-fit: cover; object-position: top; }
-    .gallery-item--gif img { object-fit: contain; background: #1a1a18; }
+    .gallery-item:hover img,
+    .gallery-item:hover video { transform: scale(1.03); }
+    .gallery-item--tall img,
+    .gallery-item--tall video { object-fit: cover; object-position: top; }
+    .gallery-item--gif img,
+    .gallery-item--gif video { object-fit: contain; background: #1a1a18; }
     /* ── Carousel tile */
     .gallery-item--carousel .carousel-slide {
       position: absolute;
@@ -204,30 +210,11 @@
       pointer-events: none;
     }
     .gallery-item:hover figcaption { opacity: 1; }
-    .gallery-item--hidden { display: none !important; }
 
     /* ── SHOW MORE ── */
     .gallery-actions { margin-top: 10px; }
     .section-banner { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; object-fit: cover; cursor: zoom-in; }
     .section-video { width: 100%; display: block; border-radius: 16px; margin-bottom: 12px; background: #1a1a18; }
-    .show-more-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 16px;
-      background: transparent;
-      border: 1px solid var(--rule);
-      border-radius: 3px;
-      font-family: var(--serif);
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--ink-mid);
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .show-more-btn:hover { background: var(--paper-alt); color: var(--ink); }
 
     /* ── LIGHTBOX ── */
     #lightbox {
@@ -444,14 +431,20 @@
     <div class="section-body">
       <p>Creating textures for the commercial <a href="https://www.youtube.com/watch?v=CJ2xU9GUPVY" target="_blank" rel="noopener">The Last Game</a> using <a href="https://www.foundry.com/products/mari" target="_blank" rel="noopener">Mari</a>.</p>
     </div>
-    <img src="images/gfx/LastGame%20ClipMovie.gif" alt="The Last Game — clip movie" class="section-banner" loading="lazy" style="margin-bottom: 12px;">
+    <video class="section-video" autoplay loop muted playsinline style="margin-bottom: 12px;" title="The Last Game — clip movie">
+      <source src="images/gfx/LastGame%20ClipMovie.mp4" type="video/mp4">
+    </video>
     <div class="gallery-grid" data-gallery="last-game">
       <figure class="gallery-item gallery-item--gif" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_Movie_Slot01.gif" data-lb-caption="Last Game — Movie clip">
-        <img src="images/gfx/LastGame_Movie_Slot01.gif" alt="Last Game movie clip" loading="lazy">
+        <video autoplay loop muted playsinline title="Last Game movie clip">
+        <source src="images/gfx/LastGame_Movie_Slot01.mp4" type="video/mp4">
+      </video>
         <figcaption>Movie clip</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--gif" data-lb-group="last-game" data-lb-src="images/gfx/LastGame_CommercialClip_Slot02.gif" data-lb-caption="Last Game — Commercial clip">
-        <img src="images/gfx/LastGame_CommercialClip_Slot02.gif" alt="Last Game commercial clip" loading="lazy">
+        <video autoplay loop muted playsinline title="Last Game commercial clip">
+        <source src="images/gfx/LastGame_CommercialClip_Slot02.mp4" type="video/mp4">
+      </video>
         <figcaption>Commercial clip</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="last-game" data-lb-src="images/gfx/LastGamr_C1_ShopFront_Slot03.jpg" data-lb-caption="Shop front textures">
@@ -485,11 +478,15 @@
     </div>
     <div class="gallery-grid" data-gallery="beetle-car">
       <figure class="gallery-item gallery-item--gif" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_MovieClip.gif" data-lb-caption="Beetle Car — Animation clip">
-        <img src="images/gfx/BettleCar_MovieClip.gif" alt="Beetle Car animation" loading="lazy">
+        <video autoplay loop muted playsinline title="Beetle Car animation">
+        <source src="images/gfx/BettleCar_MovieClip.mp4" type="video/mp4">
+      </video>
         <figcaption>Animation clip</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--gif" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_MovieClip02.gif" data-lb-caption="Beetle Car — Animation clip 2">
-        <img src="images/gfx/BettleCar_MovieClip02.gif" alt="Beetle Car animation 2" loading="lazy">
+        <video autoplay loop muted playsinline title="Beetle Car animation 2">
+        <source src="images/gfx/BettleCar_MovieClip02.mp4" type="video/mp4">
+      </video>
         <figcaption>Animation clip 2</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Image01.jpg" data-lb-caption="Beetle Car — Render">
@@ -533,11 +530,15 @@
     <img src="images/gfx/MariChallenge_SplitScreenLarge.png" alt="Mari Challenge split screen" class="section-banner" loading="lazy">
     <div class="gallery-grid" data-gallery="mari-challenge">
       <figure class="gallery-item gallery-item--gif" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_Slot01.gif" data-lb-caption="Mari Competition — Animation">
-        <img src="images/gfx/MariCompetition_Slot01.gif" alt="Mari Competition animation" loading="lazy">
+        <video autoplay loop muted playsinline title="Mari Competition animation">
+        <source src="images/gfx/MariCompetition_Slot01.mp4" type="video/mp4">
+      </video>
         <figcaption>Animation</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--gif" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariChallenge-ImageFace.gif" data-lb-caption="Mari Challenge — Face detail">
-        <img src="images/gfx/MariChallenge-ImageFace.gif" alt="Mari Challenge face detail" loading="lazy">
+        <video autoplay loop muted playsinline title="Mari Challenge face detail">
+        <source src="images/gfx/MariChallenge-ImageFace.mp4" type="video/mp4">
+      </video>
         <figcaption>Face detail</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_MariScreenShot01_Slot02.png" data-lb-caption="Mari Competition — Mari screenshot">
@@ -586,36 +587,31 @@
       <source src="images/gfx/GI%20Joe%20SuitcaseFilmMovie.mp4" type="video/mp4">
     </video>
     <div class="gallery-grid" data-gallery="gi-joe">
-      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Helicopter.gif" data-lb-caption="GI Joe 2 — Helicopter animation">
-        <img src="images/gfx/GiJoe2_Helicopter.gif" alt="GI Joe 2 helicopter animation" loading="lazy">
-        <figcaption>Helicopter animation</figcaption>
-      </figure>
       <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Suitcase02.gif" data-lb-caption="GI Joe 2 — Suitcase animation">
-        <img src="images/gfx/GiJoe2_Suitcase02.gif" alt="GI Joe 2 suitcase animation" loading="lazy">
+        <video autoplay loop muted playsinline title="GI Joe 2 suitcase animation">
+          <source src="images/gfx/GiJoe2_Suitcase02.mp4" type="video/mp4">
+        </video>
         <figcaption>Suitcase animation</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/GIJoe_swordClip.gif" data-lb-caption="GI Joe 2 — Sword animation">
-        <img src="images/gfx/GIJoe_swordClip.gif" alt="GI Joe 2 sword animation" loading="lazy">
-        <figcaption>Sword animation</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="gi-joe" data-lb-src="images/gfx/gijoe-sword-animation.gif" data-lb-caption="GI Joe 2 — Sword clip">
-        <img src="images/gfx/gijoe-sword-animation.gif" alt="GI Joe 2 sword clip" loading="lazy">
-        <figcaption>Sword clip</figcaption>
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Suitcase.jpg" data-lb-caption="GI Joe 2 — Suitcase texture">
+        <img src="images/gfx/GiJoe2_Suitcase.jpg" alt="GI Joe 2 suitcase texture" loading="lazy">
+        <figcaption>Suitcase texture</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm.jpg" data-lb-caption="GI Joe 2 — Helicopter film shot">
         <img src="images/gfx/GiJoe2_HelicopterFilm.jpg" alt="GI Joe 2 helicopter film shot" loading="lazy">
         <figcaption>Helicopter film shot</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--carousel" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm02.jpg" data-lb-caption="GI Joe 2 — Extra views">
-        <img src="images/gfx/GiJoe2_HelicopterFilm02.jpg" alt="GI Joe 2" class="carousel-slide active" loading="lazy">
-        <img src="images/gfx/GiJoe2_HelicopterFil04.jpg" alt="GI Joe 2" class="carousel-slide" loading="lazy">
-        <img src="images/gfx/GiJoe2_HelicopterFilm%2003.jpg" alt="GI Joe 2" class="carousel-slide" loading="lazy">
-        <img src="images/gfx/GiJoe2_Suitcase.jpg" alt="GI Joe 2 suitcase" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GiJoe2_HelicopterFilm02.jpg" alt="GI Joe 2 helicopter" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/GiJoe2_HelicopterFil04.jpg" alt="GI Joe 2 helicopter" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GiJoe2_HelicopterFilm%2003.jpg" alt="GI Joe 2 helicopter" class="carousel-slide" loading="lazy">
         <img src="images/gfx/GiJoe2_Suitcase%2002.jpg" alt="GI Joe 2 suitcase" class="carousel-slide" loading="lazy">
         <figcaption>Extra views</figcaption>
       </figure>
     </div>
-    <img src="images/gfx/GI_Joe_swordTurnaround.gif" alt="GI Joe 2 — Sword turnaround" class="section-banner" loading="lazy" style="margin-top: 12px;">
+    <video class="section-video" autoplay loop muted playsinline style="margin-top: 12px;" title="GI Joe 2 — Sword turnaround">
+      <source src="images/gfx/GI_Joe_swordTurnaround.mp4" type="video/mp4">
+    </video>
   </section>
 
   <!-- ── ENDERS GAME ── -->
@@ -653,15 +649,6 @@
         <img src="images/gfx/EnderGame_Shuttle_FilmShot.jpg" alt="Enders Game film shot" loading="lazy">
         <figcaption>Film shot</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle01Boxed.jpg" data-lb-caption="Enders Game — Shuttle boxed view">
-        <img src="images/gfx/EnderGame_Shuttle01Boxed.jpg" alt="Enders Game shuttle boxed view" loading="lazy">
-        <figcaption>Shuttle boxed view</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--carousel" data-lb-group="enders-game" data-lb-src="images/gfx/EnderGame_Shuttle01%20ExtraShuttelshot.jpeg" data-lb-caption="Enders Game — Extra views">
-        <img src="images/gfx/EnderGame_Shuttle01%20ExtraShuttelshot.jpeg" alt="Enders Game extra shuttle shot" class="carousel-slide active" loading="lazy">
-        <img src="images/gfx/EnderGame_Shuttle01%20Logshot.jpg" alt="Enders Game log shot" class="carousel-slide" loading="lazy">
-        <figcaption>Extra views</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -672,46 +659,34 @@
     <div class="section-body">
       <p>Creating textures for various props and assets including hero pieces for the film <a href="https://www.youtube.com/watch?v=Hv3obL9HqyY" target="_blank" rel="noopener">Hugo</a>, collaborative texture creation on trains.</p>
     </div>
+    <img src="images/gfx/Hugo_Train.jpg" alt="Hugo — Train render" class="section-banner" loading="lazy">
     <div class="gallery-grid" data-gallery="hugo">
       <figure class="gallery-item gallery-item--tall" data-lb-group="hugo" data-lb-src="images/gfx/hugo-lookdev.jpg" data-lb-caption="Look dev renders (not done by me) and screen grab from Mari">
         <img src="images/gfx/hugo-lookdev.jpg" alt="Hugo look dev renders and Mari grab" loading="lazy">
         <figcaption>Look dev renders &amp; Mari screen grab</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-station-clock.jpg" data-lb-caption="Station Clock — Look dev render done by Simon. Textures supplied by myself">
-        <img src="images/gfx/hugo-station-clock.jpg" alt="Hugo station clock" loading="lazy">
-        <figcaption>Station Clock</figcaption>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-AssetRender_Mari%20Clock%2002.jpg" data-lb-caption="Hugo — Mari clock asset render">
+        <img src="images/gfx/hugo-AssetRender_Mari%20Clock%2002.jpg" alt="Hugo Mari clock asset render" loading="lazy">
+        <figcaption>Mari clock asset render</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_882baa4b92954a59b44e5cdd1a704330~mv2.jpg" data-lb-caption="Screen grab from Mari">
-        <img src="images/gfx/658ba4_882baa4b92954a59b44e5cdd1a704330~mv2.jpg" alt="Hugo Mari screen grab" loading="lazy">
-        <figcaption>Screen grab from Mari</figcaption>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-CeilingRender04.jpg" data-lb-caption="Hugo — Ceiling render detail">
+        <img src="images/gfx/hugo-CeilingRender04.jpg" alt="Hugo ceiling render detail" loading="lazy">
+        <figcaption>Ceiling render detail</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_8718db6199064679b254dff75dfd9be0~mv2.jpg" data-lb-caption="Screen shot from film Hugo">
-        <img src="images/gfx/658ba4_8718db6199064679b254dff75dfd9be0~mv2.jpg" alt="Hugo film screenshot" loading="lazy">
-        <figcaption>Screen shot from film Hugo</figcaption>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/Hugo_clock02_slot03.jpg" data-lb-caption="Hugo — Clock texture work">
+        <img src="images/gfx/Hugo_clock02_slot03.jpg" alt="Hugo clock texture work" loading="lazy">
+        <figcaption>Clock texture work</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_720f3b66a1f6436f9dbab1b58e1f8f72~mv2.jpg" data-lb-caption="Screen shot">
-        <img src="images/gfx/658ba4_720f3b66a1f6436f9dbab1b58e1f8f72~mv2.jpg" alt="Hugo screen shot" loading="lazy">
-        <figcaption>Screen shot</figcaption>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-AssetRender.jpg" data-lb-caption="Hugo — Asset render">
+        <img src="images/gfx/hugo-AssetRender.jpg" alt="Hugo asset render" loading="lazy">
+        <figcaption>Asset render</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-render.jpg" data-lb-caption="Render — Look dev render (not done by me). Textures supplied by me and another artist, working collaboratively, in a short timescale">
-        <img src="images/gfx/hugo-render.jpg" alt="Hugo look dev render" loading="lazy">
-        <figcaption>Render</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_7ff2377649bc47f8b8ac47c637e9dc9a~mv2.jpg" data-lb-caption="Film screen shot — Various prop texturing">
-        <img src="images/gfx/658ba4_7ff2377649bc47f8b8ac47c637e9dc9a~mv2.jpg" alt="Hugo film props" loading="lazy">
-        <figcaption>Film screen shot</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/658ba4_72a49a76946d4650a84b05e10f1efdb3~mv2.jpg" data-lb-caption="Screen shot from film showing texturing work on props">
-        <img src="images/gfx/658ba4_72a49a76946d4650a84b05e10f1efdb3~mv2.jpg" alt="Hugo props screen shot" loading="lazy">
-        <figcaption>Screen shot</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hugo" data-lb-src="images/gfx/hugo-film-shot-mari.jpg" data-lb-caption="Film shot — Screen shot from Mari">
-        <img src="images/gfx/hugo-film-shot-mari.jpg" alt="Hugo film shot Mari" loading="lazy">
-        <figcaption>Film shot — Mari screen grab</figcaption>
+      <figure class="gallery-item" data-lb-group="hugo" data-lb-src="images/gfx/hugo-CeilingRender.jpg" data-lb-caption="Hugo — Ceiling render">
+        <img src="images/gfx/hugo-CeilingRender.jpg" alt="Hugo ceiling render" loading="lazy">
+        <figcaption>Ceiling render</figcaption>
       </figure>
     </div>
     <div class="gallery-actions">
-      <button class="show-more-btn" data-gallery="hugo">Show more</button>
     </div>
   </section>
 
@@ -726,45 +701,59 @@
       <p>The project went on to win a Presagis Best Visualisation Award and played a key role in establishing Makemedia — later <a href="https://makereal.co.uk/team/" target="_blank" rel="noopener">Make Real</a> — as a recognised name in the industry.</p>
     </div>
     <div class="gallery-grid" data-gallery="act-uk">
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/658ba4_93f27e05a9ca4a509e48a255121dceb5~mv2.jpg" data-lb-caption="Aldermans Green — Makemedia founder standing in front of screen">
-        <img src="images/gfx/658ba4_93f27e05a9ca4a509e48a255121dceb5~mv2.jpg" alt="ACT-UK Aldermans Green" loading="lazy">
-        <figcaption>Aldermans Green</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-aldermans-gif.gif" data-lb-caption="Aldermans Green — Mobile phone footage of director moving around location">
-        <img src="images/gfx/act-uk-aldermans-gif.gif" alt="ACT-UK Aldermans Green footage" loading="lazy">
+      <figure class="gallery-item gallery-item--gif" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-aldermans-gif_Slot01.gif" data-lb-caption="Aldermans Green — Director moving around the simulation location">
+        <video autoplay loop muted playsinline title="ACT-UK Aldermans Green footage">
+          <source src="images/gfx/act-uk-aldermans-gif_Slot01.mp4" type="video/mp4">
+        </video>
         <figcaption>Aldermans Green footage</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-sim-centre-3.jpg" data-lb-caption="Standing in front of the teaching screen">
-        <img src="images/gfx/act-uk-sim-centre-3.jpg" alt="ACT-UK teaching screen" loading="lazy">
-        <figcaption>Teaching screen</figcaption>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-sim-centre-1_Slot04.jpg" data-lb-caption="ACT-UK — Simulation centre environment">
+        <img src="images/gfx/act-uk-sim-centre-1_Slot04.jpg" alt="ACT-UK simulation centre" loading="lazy">
+        <figcaption>Simulation centre</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-ground-1.jpg" data-lb-caption="Aldermans — Photos taken while manoeuvring around Alderman's Green">
-        <img src="images/gfx/act-uk-ground-1.jpg" alt="ACT-UK site photos" loading="lazy">
-        <figcaption>Manoeuvring Alderman's Green</figcaption>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-1_Slot02.jpg" data-lb-caption="ACT-UK — In-engine screenshot">
+        <img src="images/gfx/act-uk-screenshot-1_Slot02.jpg" alt="ACT-UK in-engine screenshot" loading="lazy">
+        <figcaption>In-engine screenshot</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-sim-centre-4%20Split_Slot07.jpg" data-lb-caption="ACT-UK — Environment split view">
+        <img src="images/gfx/act-uk-sim-centre-4%20Split_Slot07.jpg" alt="ACT-UK environment split view" loading="lazy">
+        <figcaption>Environment split view</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-a.jpg" data-lb-caption="Texture maps — Colour maps from Bodypaint, Timeslice activity 4">
         <img src="images/gfx/act-uk-textures-a.jpg" alt="ACT-UK texture maps" loading="lazy">
         <figcaption>Texture maps</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-b.jpg" data-lb-caption="Texture — Colour maps from Bodypaint, Timeslice activity 4">
-        <img src="images/gfx/act-uk-textures-b.jpg" alt="ACT-UK colour maps" loading="lazy">
-        <figcaption>Colour maps</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-1.jpg" data-lb-caption="Screen example">
-        <img src="images/gfx/act-uk-screenshot-1.jpg" alt="ACT-UK screen example" loading="lazy">
-        <figcaption>Screen example</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-2.jpg" data-lb-caption="Example training">
-        <img src="images/gfx/act-uk-screenshot-2.jpg" alt="ACT-UK training example" loading="lazy">
-        <figcaption>Example training</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-3.jpg" data-lb-caption="Texture — Colour maps from Bodypaint, Timeslice activity 5">
-        <img src="images/gfx/act-uk-textures-3.jpg" alt="ACT-UK texture maps activity 5" loading="lazy">
-        <figcaption>Colour maps, activity 5</figcaption>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-2_Slot03.jpg" data-lb-caption="ACT-UK — More work">
+        <img src="images/gfx/act-uk-screenshot-2_Slot03.jpg" alt="ACT-UK training screenshot" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-2_Slot05.jpg" alt="ACT-UK simulation centre 2" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-3_Slot06.jpg" alt="ACT-UK simulation centre 3" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture01_Slot08.jpg" alt="ACT-UK ground texture" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture02_Slot09.jpg" alt="ACT-UK ground texture 2" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture03.jpg" alt="ACT-UK ground texture 3" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture04.jpg" alt="ACT-UK ground texture 4" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture05.jpg" alt="ACT-UK ground texture 5" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture06.jpg" alt="ACT-UK ground texture 6" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture07.jpg" alt="ACT-UK ground texture 7" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture08.jpg" alt="ACT-UK ground texture 8" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture10.jpg" alt="ACT-UK ground texture 10" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture11.jpg" alt="ACT-UK ground texture 11" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture12.jpg" alt="ACT-UK ground texture 12" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture13.jpg" alt="ACT-UK ground texture 13" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture14.jpg" alt="ACT-UK ground texture 14" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTexture15.jpg" alt="ACT-UK ground texture 15" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTextureCinema4D%2001.jpg" alt="ACT-UK Cinema4D texture" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-GroundTextureCinema4D%2002.jpg" alt="ACT-UK Cinema4D texture 2" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-ZbrushExample.jpg" alt="ACT-UK Zbrush example" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-sim-centre-texture.jpg" alt="ACT-UK texture" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-textures-3.jpg" alt="ACT-UK colour maps activity 5" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-textures-b.jpg" alt="ACT-UK colour maps B" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-textures-c.jpg" alt="ACT-UK colour maps C" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-trench-head.jpg" alt="ACT-UK trench head" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/act-uk-trench.jpg" alt="ACT-UK trench" class="carousel-slide" loading="lazy">
+        <figcaption>More work</figcaption>
       </figure>
     </div>
     <div class="gallery-actions">
-      <button class="show-more-btn" data-gallery="act-uk">Show more</button>
     </div>
   </section>
 
@@ -799,45 +788,32 @@
       <p>Just for fun. Simple modeling.</p>
     </div>
     <div class="gallery-grid" data-gallery="hard-surface">
-      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-reference.png" data-lb-caption="Slum House Reference">
-        <img src="images/gfx/slum-house-reference.png" alt="Slum House reference" loading="lazy">
-        <figcaption>Slum House Reference</figcaption>
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-Reference.jpg" data-lb-caption="Slum House — Reference imagery">
+        <img src="images/gfx/slum-house-Reference.jpg" alt="Slum House reference" loading="lazy">
+        <figcaption>Reference</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-textures.jpg" data-lb-caption="Slum House textures and modelling — Screenshot from Mari">
-        <img src="images/gfx/slum-house-textures.jpg" alt="Slum House textures Mari screenshot" loading="lazy">
-        <figcaption>Slum House textures and modelling</figcaption>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-Movie.gif" data-lb-caption="Slum House — Environment flythrough">
+        <video autoplay loop muted playsinline title="Slum House environment flythrough">
+          <source src="images/gfx/slum-house-Movie.mp4" type="video/mp4">
+        </video>
+        <figcaption>Environment flythrough</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-texture-layers.gif" data-lb-caption="Layers of separated textures — Showing the breakup of textures for greater control">
-        <img src="images/gfx/slum-house-texture-layers.gif" alt="Slum House texture layers" loading="lazy">
-        <figcaption>Layers of separated textures</figcaption>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-modelling-2.gif" data-lb-caption="Slum House — Modelling process">
+        <video autoplay loop muted playsinline title="Slum House modelling process">
+          <source src="images/gfx/slum-house-modelling-2.mp4" type="video/mp4">
+        </video>
+        <figcaption>Modelling process</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-modelling.gif" data-lb-caption="Modelling the environment — UV map objects evenly ready for texturing">
-        <img src="images/gfx/slum-house-modelling.gif" alt="Slum House modelling" loading="lazy">
-        <figcaption>Modelling the environment</figcaption>
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-concrete.jpg" data-lb-caption="Slum House — Concrete texture work">
+        <img src="images/gfx/slum-house-concrete.jpg" alt="Slum House concrete texture" loading="lazy">
+        <figcaption>Concrete texture</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-colour-bump.gif" data-lb-caption="Colour and bump map">
-        <img src="images/gfx/slum-house-colour-bump.gif" alt="Slum House colour and bump map" loading="lazy">
-        <figcaption>Colour and bump map</figcaption>
-      </figure>
-      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-zbrush.png" data-lb-caption="WIP Zbrush">
-        <img src="images/gfx/slum-house-zbrush.png" alt="Slum House WIP Zbrush" loading="lazy">
-        <figcaption>WIP Zbrush</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-concrete-zbrush.png" data-lb-caption="WIP Concrete Zbrush">
-        <img src="images/gfx/slum-house-concrete-zbrush.png" alt="Slum House concrete Zbrush" loading="lazy">
-        <figcaption>WIP Concrete Zbrush</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-concrete-wip.png" data-lb-caption="WIP Concrete — Done in Brush">
-        <img src="images/gfx/slum-house-concrete-wip.png" alt="Slum House concrete WIP" loading="lazy">
-        <figcaption>WIP Concrete</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-brushwork.jpeg" data-lb-caption="WIP Brush work">
+      <figure class="gallery-item" data-lb-group="hard-surface" data-lb-src="images/gfx/slum-house-brushwork.jpeg" data-lb-caption="Slum House — Brush work">
         <img src="images/gfx/slum-house-brushwork.jpeg" alt="Slum House brush work" loading="lazy">
-        <figcaption>WIP Brush work</figcaption>
+        <figcaption>Brush work</figcaption>
       </figure>
     </div>
     <div class="gallery-actions">
-      <button class="show-more-btn" data-gallery="hard-surface">Show more</button>
     </div>
   </section>
 
@@ -850,44 +826,39 @@
     </div>
     <div class="gallery-grid" data-gallery="pro-games">
       <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/games-prop-animation.gif" data-lb-caption="In game dynamic prop animation — Hand animated objects. Modelled, textured and animated by myself to give the sense of dynamic movement when kicked by characters.">
-        <img src="images/gfx/games-prop-animation.gif" alt="In game dynamic prop animation" loading="lazy">
+        <video autoplay loop muted playsinline title="In game dynamic prop animation">
+          <source src="images/gfx/games-prop-animation.mp4" type="video/mp4">
+        </video>
         <figcaption>In game dynamic prop animation</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.jpg" data-lb-caption="Level of detail prop for simulation — Created for Aldermen Green simulation project">
-        <img src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.jpg" alt="Level of detail prop for simulation" loading="lazy">
-        <figcaption>Level of detail prop for simulation</figcaption>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/GameWork_Animation_slot01.gif" data-lb-caption="Game work — Animation clip">
+        <video autoplay loop muted playsinline title="Game work animation">
+          <source src="images/gfx/GameWork_Animation_slot01.mp4" type="video/mp4">
+        </video>
+        <figcaption>Game work animation</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/58e4d8d88aa5a695708691.gif" data-lb-caption="Level of detail props — Game work">
-        <img src="images/gfx/58e4d8d88aa5a695708691.gif" alt="Level of detail props" loading="lazy">
-        <figcaption>Level of detail props</figcaption>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/GameWork_Slot02.jpg" data-lb-caption="Game work — Environment">
+        <img src="images/gfx/GameWork_Slot02.jpg" alt="Game work environment" loading="lazy">
+        <figcaption>Game work — Environment</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/img-5C.jpeg" data-lb-caption="Unpublished Zombie game — Texturing">
-        <img src="images/gfx/img-5C.jpeg" alt="Unpublished zombie game texturing" loading="lazy">
-        <figcaption>Unpublished Zombie game — Texturing</figcaption>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/Game_texture_slot02.jpg" data-lb-caption="Game texture work">
+        <img src="images/gfx/Game_texture_slot02.jpg" alt="Game texture work" loading="lazy">
+        <figcaption>Game texture work</figcaption>
       </figure>
-      <figure class="gallery-item gallery-item--gif" data-lb-group="pro-games" data-lb-src="images/gfx/58e4e19d3597e682211914.gif" data-lb-caption="Zombie Game — In game screenshots">
-        <img src="images/gfx/58e4e19d3597e682211914.gif" alt="Zombie game in game screenshots" loading="lazy">
-        <figcaption>Zombie Game — In game</figcaption>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/games-cartoon-boxcar.jpg" data-lb-caption="Cartoon stylised boxcar texture test">
+        <img src="images/gfx/games-cartoon-boxcar.jpg" alt="Cartoon stylised boxcar" loading="lazy">
+        <figcaption>Cartoon boxcar texture</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.jpg" data-lb-caption="Zombie game engine screen grab — In game screen grab">
-        <img src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.jpg" alt="Zombie game engine screen grab" loading="lazy">
-        <figcaption>Zombie game engine screen grab</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/img-10B.jpeg" data-lb-caption="Zombie game in game screen shot">
-        <img src="images/gfx/img-10B.jpeg" alt="Zombie game in game screen shot" loading="lazy">
-        <figcaption>Zombie game in game screen shot</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.jpg" data-lb-caption="Zombie game engine screen grab — Texture work">
-        <img src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.jpg" alt="Zombie game engine screen grab" loading="lazy">
-        <figcaption>Zombie game engine screen grab</figcaption>
-      </figure>
-      <figure class="gallery-item gallery-item--hidden" data-lb-group="pro-games" data-lb-src="images/gfx/games-cartoon-boxcar.jpg" data-lb-caption="Cartoon stylised boxcar texture test">
-        <img src="images/gfx/games-cartoon-boxcar.jpg" alt="Cartoon stylised boxcar texture test" loading="lazy">
-        <figcaption>Cartoon stylised boxcar texture test</figcaption>
+      <figure class="gallery-item gallery-item--carousel" data-lb-group="pro-games" data-lb-src="images/gfx/games-vfx-hero-2.png" data-lb-caption="Games — More work">
+        <img src="images/gfx/games-vfx-hero-2.png" alt="Games VFX hero 2" class="carousel-slide active" loading="lazy">
+        <img src="images/gfx/games-vfx-hero-3.png" alt="Games VFX hero 3" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.jpg" alt="Zombie game engine screen grab" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/GameWork_Slot03.gif" alt="Game work animation clip" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/Game_LoDClip.gif" alt="Game level of detail clip" class="carousel-slide" loading="lazy">
+        <figcaption>More work</figcaption>
       </figure>
     </div>
     <div class="gallery-actions">
-      <button class="show-more-btn" data-gallery="pro-games">Show more</button>
     </div>
   </section>
 
@@ -972,7 +943,7 @@
   let lbItems = [], lbIdx = 0;
 
   function openLightbox(group, clickedEl) {
-    lbItems = Array.from(document.querySelectorAll(`[data-lb-group="${group}"]:not(.gallery-item--hidden)`));
+    lbItems = Array.from(document.querySelectorAll(`[data-lb-group="${group}"]`));
     lbIdx = lbItems.indexOf(clickedEl);
     if (lbIdx < 0) lbIdx = 0;
     showLbImage();
@@ -1040,71 +1011,43 @@
     });
   });
 
-  // ── Show More
-  document.querySelectorAll('.show-more-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const gallery = btn.dataset.gallery;
-      const grid = document.querySelector(`.gallery-grid[data-gallery="${gallery}"]`);
-      if (!grid) return;
-      grid.querySelectorAll('.gallery-item--hidden').forEach(item => {
-        item.classList.remove('gallery-item--hidden');
-      });
-      btn.style.display = 'none';
-    });
-  });
-
-  // ── Carousel tiles — auto-cycle every 1 second
-  document.querySelectorAll('.gallery-item--carousel').forEach(item => {
-    const slides = item.querySelectorAll('.carousel-slide');
-    if (slides.length < 2) return;
-    let idx = 0;
-    setInterval(() => {
-      slides[idx].classList.remove('active');
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add('active');
-      // Keep lightbox src in sync with whatever's currently showing
-      item.dataset.lbSrc = slides[idx].src;
-    }, 400);
-  });
-
-  // ── Section image loading progress bars
+  // ── Section load bars
   (function () {
-    document.querySelectorAll('h2.section-heading').forEach(heading => {
-      // Walk forward up to 5 siblings to find the gallery-grid
-      let grid = null;
-      let el = heading.nextElementSibling;
-      for (let i = 0; i < 5 && el; i++) {
-        if (el.classList.contains('gallery-grid')) { grid = el; break; }
-        el = el.nextElementSibling;
-      }
-      if (!grid) return;
+    document.querySelectorAll('.cs-section').forEach(function (section) {
+      var heading = section.querySelector('.section-heading');
+      if (!heading) return;
 
-      const imgs = Array.from(grid.querySelectorAll('img'));
-      if (!imgs.length) return;
-
-      // Inject bar inside heading
-      const bar = document.createElement('span');
+      // Build the bar and append to the heading
+      var bar = document.createElement('span');
       bar.className = 'section-load-bar';
-      const fill = document.createElement('span');
+      bar.setAttribute('aria-hidden', 'true');
+      var fill = document.createElement('span');
       fill.className = 'section-load-fill';
       bar.appendChild(fill);
       heading.appendChild(bar);
 
-      let loaded = 0;
-      const total = imgs.length;
+      // Collect all <img> elements inside this section
+      var imgs = Array.from(section.querySelectorAll('img'));
+      var total = imgs.length;
 
+      // No images? hide the bar straight away
+      if (total === 0) {
+        bar.style.opacity = '0';
+        return;
+      }
+
+      var loaded = 0;
       function onLoad() {
         loaded = Math.min(loaded + 1, total);
-        fill.style.width = (loaded / total * 100) + '%';
+        fill.style.width = Math.round((loaded / total) * 100) + '%';
         if (loaded >= total) {
-          setTimeout(() => {
+          setTimeout(function () {
             bar.style.opacity = '0';
-            setTimeout(() => bar.remove(), 500);
           }, 400);
         }
       }
 
-      imgs.forEach(img => {
+      imgs.forEach(function (img) {
         if (img.complete && img.naturalWidth > 0) {
           onLoad();
         } else {

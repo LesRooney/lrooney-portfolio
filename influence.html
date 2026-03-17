@@ -408,59 +408,12 @@
     }
     .footer-right a:hover { color: var(--ink); }
 
-    /* ── CUSTOM CURSOR ── */
-    @media (hover: hover) {
-      *, *::before, *::after { cursor: none !important; }
-    }
-    #cursor-dot {
-      position: fixed;
-      top: -4px; left: -4px;
-      width: 8px; height: 8px;
-      background: var(--ink);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: width 0.25s ease, height 0.25s ease,
-                  background 0.25s ease, opacity 0.3s ease;
-      transform: translate(-100px, -100px);
-      will-change: transform;
-    }
-    #cursor-ring {
-      position: fixed;
-      top: -20px; left: -20px;
-      width: 40px; height: 40px;
-      border: 1.5px solid var(--ink);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      opacity: 0.5;
-      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
-                  height 0.35s cubic-bezier(0.23,1,0.32,1),
-                  top 0.35s cubic-bezier(0.23,1,0.32,1),
-                  left 0.35s cubic-bezier(0.23,1,0.32,1),
-                  border-color 0.25s ease,
-                  opacity 0.3s ease,
-                  background 0.3s ease;
-      transform: translate(-100px, -100px);
-      will-change: transform;
-    }
-    #cursor-dot.is-hovering {
-      width: 4px; height: 4px;
-      background: var(--accent);
-    }
-    #cursor-ring.is-hovering {
-      width: 56px; height: 56px;
-      top: -28px; left: -28px;
-      border-color: var(--accent);
-      opacity: 0.35;
-      background: rgba(200, 96, 58, 0.07);
-    }
-    #cursor-ring.is-clicking {
-      width: 32px; height: 32px;
-      top: -16px; left: -16px;
-      opacity: 0.7;
-      background: rgba(200, 96, 58, 0.15);
-    }
+    /* ── CURSOR ── */
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:-20px;left:-20px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:-40px;left:-40px;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -789,30 +742,4 @@
     })();
   </script>
 </body>
-</html
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
-    (function() {
-      if (window.matchMedia('(hover: none)').matches) return;
-      const dot = document.getElementById('cursor-dot');
-      const ring = document.getElementById('cursor-ring');
-      let mx=-100,my=-100,rx=-100,ry=-100;
-      document.addEventListener('mousemove', e => {
-        mx=e.clientX; my=e.clientY;
-        dot.style.transform=`translate(${mx}px,${my}px)`;
-      });
-      const hoverTargets='a,button,.influence-item,[role="button"]';
-      document.addEventListener('mouseover', e => {
-        if(e.target.closest(hoverTargets)){ring.classList.add('is-hovering');dot.classList.add('is-hovering');}
-      });
-      document.addEventListener('mouseout', e => {
-        if(e.target.closest(hoverTargets)){ring.classList.remove('is-hovering');dot.classList.remove('is-hovering');}
-      });
-      document.addEventListener('mousedown',()=>ring.classList.add('is-clicking'));
-      document.addEventListener('mouseup',()=>ring.classList.remove('is-clicking'));
-      document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
-      document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
-      (function loop(){rx+=
+</html>

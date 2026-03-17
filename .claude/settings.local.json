@@ -35,7 +35,10 @@
       "Bash(ls -lh /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/gfx/hugo-Asset* /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/gfx/hugo-Ceiling* /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/gfx/hugo-Clock*)",
       "Bash(/tmp/ffmpeg-bin/ffmpeg -y -i \"act-uk-aldermans-gif_Slot01.gif\" -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart -an \"act-uk-aldermans-gif_Slot01.mp4\")",
       "Bash(for gif:*)",
-      "Bash(do mp4=\"$gif%.gif.mp4\" /tmp/ffmpeg-bin/ffmpeg -y -i \"$gif\" -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart -an \"$mp4\")"
+      "Bash(do mp4=\"$gif%.gif.mp4\" /tmp/ffmpeg-bin/ffmpeg -y -i \"$gif\" -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart -an \"$mp4\")",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Bash(xargs echo:*)"
     ]
   }
 }

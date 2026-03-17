@@ -38,7 +38,10 @@
       "Bash(do mp4=\"$gif%.gif.mp4\" /tmp/ffmpeg-bin/ffmpeg -y -i \"$gif\" -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart -an \"$mp4\")",
       "Bash(for f:*)",
       "Bash(do echo:*)",
-      "Bash(xargs echo:*)"
+      "Bash(xargs echo:*)",
+      "Bash(ls -la /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(git push:*)",
+      "Bash(gh auth:*)"
     ]
   }
 }

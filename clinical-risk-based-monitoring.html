@@ -71,7 +71,6 @@
     /* CASE HEADER */
     .cs-header {
       padding: 48px 0 40px;
-      border-bottom: 1px solid var(--rule);
       opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
     }
     .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
@@ -84,12 +83,21 @@
       color: var(--ink);
       margin-bottom: 20px;
     }
-    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--paper-alt); color: var(--ink-mid); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--rule); }
-    .cs-tag.lock { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--ink); color: var(--paper); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--ink); }
+    /* AUDIO PLAYER — badge-height inline pill */
+    .audio-player { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); border: 1px solid var(--ink); border-radius: 20px; padding: 4px 10px 4px 5px; }
+    .audio-play-btn { width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.55rem; transition: opacity 0.15s; line-height: 1; }
+    .audio-play-btn:hover { opacity: 0.75; }
+    .audio-player-label { font-size: 0.75rem; font-weight: 500; color: var(--paper); white-space: nowrap; }
+    .audio-progress-wrap { display: flex; align-items: center; gap: 6px; }
+    .audio-progress { width: 72px; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; cursor: pointer; appearance: none; -webkit-appearance: none; flex-shrink: 0; }
+    .audio-progress::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; border-radius: 50%; background: var(--paper); cursor: pointer; margin-top: -2px; }
+    .audio-progress::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.25); }
+    .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
 
     /* SECTION */
-    .cs-section { padding: 52px 0; border-bottom: 1px solid var(--rule); }
+    .cs-section { padding: 28px 0 0; border-bottom: none; }
     .cs-section:last-of-type { border-bottom: none; }
     .cs-section h2 {
       font-family: var(--serif);
@@ -97,17 +105,17 @@
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .cs-section h3 {
       font-family: var(--serif);
       font-size: 1.05rem;
       font-weight: 600;
       color: var(--ink);
-      margin: 28px 0 10px;
+      margin: 24px 0 8px;
     }
     .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 720px; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 20px; line-height: 1.6; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; }
     .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
 
     /* META GRID */
@@ -125,7 +133,7 @@
     .tag-item { font-size: 0.8rem; background: var(--paper-alt); color: var(--ink-mid); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--rule); }
 
     /* ICON ROW */
-    .icon-row { display: flex; flex-wrap: wrap; gap: 16px 20px; margin-top: 16px; }
+    .icon-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
     .icon-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .icon-box { width: 48px; height: 48px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-alt); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 600; color: var(--ink-mid); text-align: center; padding: 4px; }
     .icon-label { font-size: 0.68rem; color: var(--ink-light); text-align: center; }
@@ -141,7 +149,7 @@
     /* NDA PLACEHOLDER */
     .nda-placeholder {
       width: 100%; aspect-ratio: 16/9; background: var(--ink); border-radius: 12px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; margin: 24px 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 24px 0;
     }
     .nda-placeholder .nda-lock { font-size: 2rem; }
     .nda-placeholder .nda-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
@@ -153,7 +161,7 @@
     /* HOVER AUDIO PLACEHOLDER */
     .hover-audio-placeholder {
       width: 100%; aspect-ratio: 4/3; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; margin: 16px 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 16px 0;
       cursor: pointer; transition: background 0.2s;
     }
     .hover-audio-placeholder:hover { background: var(--rule); }
@@ -166,7 +174,7 @@
     /* PEEK GRID */
     .peek-section { padding: 64px 0 80px; }
     .peek-caption { font-size: 0.9rem; color: var(--ink-mid); margin-bottom: 32px; }
-    .peek-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .peek-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .peek-cell { aspect-ratio: 1/1; border-radius: 12px; background: var(--paper-alt); border: 1px solid var(--rule); overflow: hidden; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
     .peek-cell:hover { transform: scale(1.04); }
     .peek-cell img { width: 100%; height: 100%; object-fit: cover; }
@@ -230,9 +238,16 @@
     <p class="cs-eyebrow">Case Study · B2B Enterprise · Medidata</p>
     <h1>Risk Management: From Near-Cancellation to Strategic Vision</h1>
     <div class="cs-tags">
-      <span class="cs-tag lock">🔒 NDA</span>
       <span class="cs-tag">B2B Enterprise</span>
-      <span class="cs-tag">~7 months</span>
+      <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
+        <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
+        <span class="audio-player-label">Listen instead</span>
+        <div class="audio-progress-wrap">
+          <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
+        </div>
+        <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">--:--</span></div>
+        <audio id="audioEl" src="" preload="none"></audio>
+      </div>
     </div>
   </div>
 
@@ -540,6 +555,31 @@
     document.addEventListener('mouseleave',() => { dot.style.opacity='0'; ring.style.opacity='0'; });
     document.addEventListener('mouseenter',() => { dot.style.opacity='1'; ring.style.opacity='1'; });
     (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
+  })();
+
+  // ── Audio player ──
+  (function() {
+    const audioEl  = document.getElementById('audioEl');
+    const playBtn  = document.getElementById('audioPlayBtn');
+    const progress = document.getElementById('audioProgress');
+    const current  = document.getElementById('audioCurrentTime');
+    const durEl    = document.getElementById('audioDuration');
+    if (!audioEl) return;
+    audioEl.playbackRate = 1.3;
+    function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+    audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
+    playBtn.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
+    audioEl.addEventListener('timeupdate', () => {
+      if (audioEl.duration) {
+        progress.value = (audioEl.currentTime / audioEl.duration) * 100;
+        current.textContent = fmt(audioEl.currentTime);
+      }
+    });
+    progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
   })();
 </script>
 </body>

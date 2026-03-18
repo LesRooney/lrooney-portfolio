@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond Optimization: Aligning Business Ambition with User Reality · Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0A0A0A;
+      --ink-mid:   #4A4A4A;
+      --ink-light: #717171;
+      --paper:     #F9F8F7;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+      --max: 1080px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: #F9F8F7; }
+    body {
+      background: #F9F8F7;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(249,248,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .cs-hero {
+      width: 100%;
+      height: 320px;
+      margin-top: 61px;
+      overflow: hidden;
+      background: var(--paper-alt);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cs-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .cs-hero-placeholder {
+      font-family: var(--serif);
+      color: var(--ink-light);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
+    /* WRAP */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+
+    /* CASE HEADER */
+    .cs-header {
+      padding: 48px 0 40px;
+      opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+    }
+    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--ink); color: var(--paper); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--ink); }
+
+    /* AUDIO PLAYER — badge-height inline pill */
+    .audio-player { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); border: 1px solid var(--ink); border-radius: 20px; padding: 4px 10px 4px 5px; }
+    .audio-play-btn { width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.55rem; transition: opacity 0.15s; line-height: 1; }
+    .audio-play-btn:hover { opacity: 0.75; }
+    .audio-player-label { font-size: 0.75rem; font-weight: 500; color: var(--paper); white-space: nowrap; }
+    .audio-progress-wrap { display: flex; align-items: center; gap: 6px; }
+    .audio-progress { width: 72px; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; cursor: pointer; appearance: none; -webkit-appearance: none; flex-shrink: 0; }
+    .audio-progress::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; border-radius: 50%; background: var(--paper); cursor: pointer; margin-top: -2px; }
+    .audio-progress::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.25); }
+    .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
+
+    /* SECTION */
+    .cs-section { padding: 28px 0 0; border-bottom: none; }
+    .cs-section:last-of-type { border-bottom: none; }
+    .cs-section h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .cs-section h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 24px 0 8px;
+    }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 720px; margin-bottom: 16px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; max-width: 720px; }
+    .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+
+    /* META GRID */
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 48px; padding: 40px 0 0; }
+    .meta-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 8px; }
+    .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
+
+    /* BULLET LIST */
+    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
+    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+
+    /* ORDERED LIST */
+    .cs-ol { list-style: none; padding: 0; margin: 0 0 16px; counter-reset: cs-counter; }
+    .cs-ol li {
+      font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75;
+      padding: 8px 0 8px 32px; position: relative;
+      counter-increment: cs-counter;
+    }
+    .cs-ol li::before {
+      content: counter(cs-counter);
+      position: absolute; left: 0; top: 10px;
+      width: 20px; height: 20px;
+      background: var(--ink); color: var(--paper);
+      border-radius: 50%;
+      font-size: 0.68rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+
+    /* IMAGE PLACEHOLDER */
+    .img-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light);
+      text-align: center; padding: 24px; margin: 24px 0;
+    }
+
+    /* LAPTOP FRAME */
+    .laptop-frame-wrap { margin: 24px 0; }
+    .laptop-frame {
+      width: 100%; background: #1a1a18; border-radius: 14px;
+      padding: 16px 16px 10px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    .laptop-screen {
+      width: 100%; background: var(--paper-alt); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--ink-mid); font-style: italic;
+      text-align: center; padding: 32px 16px;
+      min-height: 200px;
+    }
+    .laptop-notch {
+      width: 80px; height: 8px; background: #0a0a0a; border-radius: 0 0 6px 6px;
+      margin: 8px auto 0;
+    }
+
+    /* CAROUSEL */
+    .carousel { position: relative; margin: 24px 0; }
+    .carousel-track-wrap { overflow: hidden; border-radius: 12px; border: 1px solid var(--rule); }
+    .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .carousel-slide { flex: 0 0 100%; }
+    .carousel-slide .img-placeholder { margin: 0; border-radius: 0; border: none; }
+    .carousel-slide img { width: 100%; display: block; border-radius: 0; }
+    .carousel-controls {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      margin-top: 12px;
+    }
+    .carousel-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--ink); color: var(--paper);
+      border: none; cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.15s;
+    }
+    .carousel-btn:hover { opacity: 0.75; }
+    .carousel-btn:disabled { opacity: 0.2; cursor: default; }
+    .carousel-counter { font-size: 0.78rem; color: var(--ink-mid); }
+
+    /* ZOOMABLE IMAGE */
+    .zoom-img {
+      position: relative; display: inline-block; width: 100%; cursor: zoom-in; margin: 24px 0;
+    }
+    .zoom-img .img-placeholder { margin: 0; }
+    .zoom-hint {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(10,10,10,0.72); color: #fff;
+      font-size: 0.7rem; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+      pointer-events: none; letter-spacing: 0.04em;
+    }
+    .img-pair-zoom { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(10,10,10,0.92);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-inner img { max-width: 90vw; max-height: 90vh; border-radius: 8px; display: block; }
+    .lightbox-close {
+      position: absolute; top: -40px; right: 0;
+      background: none; border: none; color: rgba(255,255,255,0.7);
+      font-size: 1.8rem; cursor: pointer; line-height: 1;
+      transition: color 0.15s;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-caption {
+      margin-top: 12px; font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      font-style: italic; text-align: center;
+    }
+
+    /* GIF PLACEHOLDER */
+    .gif-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      padding: 48px 24px; margin: 24px 0; font-family: var(--serif);
+    }
+    .gif-badge { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 3px 8px; border-radius: 4px; }
+    .gif-label { font-size: 0.85rem; color: var(--ink-light); font-style: italic; text-align: center; max-width: 320px; line-height: 1.5; }
+
+    /* FOOTER */
+    footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 40px 48px; margin-top: 80px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); margin-bottom: 4px; }
+    .footer-copy  { font-size: 0.8rem; color: var(--ink-light); }
+    .footer-right { display: flex; gap: 32px; }
+    .footer-right a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* CURSOR */
+    #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 780px) {
+      nav { padding: 18px 24px; }
+      .wrap { padding: 0 24px; }
+      .meta-grid { grid-template-columns: 1fr 1fr; gap: 24px 32px; }
+      .img-pair-zoom { grid-template-columns: 1fr; }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .meta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Lesley Rooney</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="influence.html">Influence</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+  </ul>
+</nav>
+
+<!-- 1. HERO IMAGE -->
+<div class="cs-hero">
+  <span class="cs-hero-placeholder">[IMAGE: homerenter-hero.jpg — 980×653px — property/letting context]</span>
+</div>
+
+<div class="wrap">
+
+  <!-- CASE HEADER -->
+  <div class="cs-header">
+    <p class="cs-eyebrow">Case Study · PropTech · HomeRenter</p>
+    <h1>Beyond Optimization: Aligning Business Ambition with User Reality</h1>
+    <div class="cs-tags">
+      <span class="cs-tag">PropTech</span>
+      <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
+        <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
+        <span class="audio-player-label">Listen instead</span>
+        <div class="audio-progress-wrap">
+          <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
+        </div>
+        <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">--:--</span></div>
+        <audio id="audioEl" src="" preload="none"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO NOTE -->
+  <div class="cs-section">
+    <p><em>I've kept this 2018 case study because it reminds me how much I learned about product–market fit and target users in a young start-up. Since then, I've made early user investigation a habit whenever I can.</em></p>
+  </div>
+
+  <!-- 3. LAPTOP FRAME -->
+  <div class="cs-section">
+    <div class="laptop-frame-wrap">
+      <div class="laptop-frame">
+        <div class="laptop-screen">
+          [IMAGE: librem-laptop-frame.png — 1029×576px — Librem 13Sml.png shared file]
+        </div>
+        <div class="laptop-notch"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. WHAT IS HOMERENTER? -->
+  <div class="cs-section">
+    <h2>What is HomeRenter?</h2>
+    <p>HomeRenter set out to be a fairer, low-cost alternative to traditional letting agents by connecting landlords, renters, keyholders and tradespeople in one place. Founded by landlords and property developers (Q Developments), the site looked great but hid a few tech and conversion issues.</p>
+    <p>To drive growth, the company introduced a 30-day free listing period alongside its low-cost subscription, giving landlords access to Rightmove and Zoopla to advertise their properties. Paid add-ons like gas safety certificates rounded out the offering.</p>
+    <h3>It competed with:</h3>
+    <ul class="cs-list">
+      <li>Online platforms like OpenRent, HouseSimple, Urban, Upad, Howsy, etc.</li>
+      <li>Traditional brick and mortar high-street estate agents</li>
+    </ul>
+  </div>
+
+  <!-- 5. MY ROLE -->
+  <div class="cs-section">
+    <h2>My Role</h2>
+    <p>I joined a year post-launch as the sole UX/UI designer. Initially tasked with shaping the online rental service vision, but also looked into low customer conversion issues. Working closely with the product manager and lead developer.</p>
+    <div class="meta-grid">
+      <div>
+        <p class="meta-label">Role</p>
+        <p class="meta-value">Sole UX/UI Designer</p>
+      </div>
+      <div>
+        <p class="meta-label">Team</p>
+        <p class="meta-value">Product Manager · Lead Developer</p>
+      </div>
+      <div>
+        <p class="meta-label">Period</p>
+        <p class="meta-value">2018</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. SO WHAT'S THE PROBLEM? -->
+  <div class="cs-section">
+    <h2>So What's the Problem</h2>
+    <p>Product decisions focused on landlords because they were the paying users with the most monetisation potential. However, despite the free offer, the company wasn't attracting as many landlords as expected. When I joined, a new property-creation flow (e.g., property type, bedrooms, bathrooms) was being implemented to reduce steps, as this was considered the faster, preferred experience.</p>
+    <p>I spent a few weeks on customer support, auditing emails, speaking with landlords, and weighing business value against issues. The findings surprised me: a good percentage of landlords tolerated property creation despite a few issues. They were more frustrated by the confusing post-offer tenant experience, and some were even paying competitors £100 to £200 just for a simpler handover. The free offer and subscription also felt complicated and unclear, causing them to pause and call us. Compared to competitors the site attracted more… 🤷🏽‍♀️:</p>
+    <ul class="cs-list">
+      <li>Live-in landlords looking for lodgers, unlikely to buy extras like photography, key-holder services, or the other add-ons on offer. And with Rightmove being the wrong channel and no SpareRoom partnership, this audience was a poor fit.</li>
+      <li>Professional landlords and small agents were cheekily using the platform mainly for cheap portal access, sometimes cycling through multiple email addresses to keep exploiting the free offer while handling everything else themselves.</li>
+    </ul>
+  </div>
+
+  <!-- 7. RECOMMENDATIONS AND QUICK FIXES -->
+  <div class="cs-section">
+    <h2>Recommendations and Quick Fixes</h2>
+    <p>Based on the research, I recommended targeted design and copy updates to fix the core website mismatch and increase traffic from the company's bi-monthly newspaper and online advertising. Get more traffic.</p>
+    <ol class="cs-ol">
+      <li>Landlords weren't discovering services like referencing and photography because they were buried in the dashboard. Adding a checkout-style step within property creation surfaced these add-ons at the right moment and made their existence clear, while keeping them optional to avoid added friction.</li>
+      <li>Trying the experience myself, I noticed landlords were forced to write full descriptions before moving onto the next stage of quick description tags like parking or ensuite. A simple reorder would help them to write a shorter description.</li>
+      <li>Offer a clear one-off payment option, as the subscription created hesitation and added pricing complexity to landlords who only needed to let one property. Kind of putting them off.</li>
+      <li>Unexpected charges were a recurring theme in support emails around the subscription model, so making free trial terms explicit ("No credit card needed") to reduce sign-up anxiety and potentially impact sign-up drop-off or remove subscription altogether.</li>
+      <li>User testing of the current site revealed landlords were unclear about what HomeRenter offered and whether it was for them. Simplified the landing page by clarifying messaging, restructuring FAQs to better chunk information based on frequent customer questions, and removing distractions such as tradesmen and keyholders. Recommended removing confusing £20K/month property examples and instead showcasing a wider range of properties from their portfolio to better reflect their offering.</li>
+      <li>The site asked for trust it hadn't earned yet. There were no let properties on display on the main homepage, no testimonials, no evidence it worked. Showcasing recently let properties, even if it had to be updated or hacked manually by an engineer every 2 to 4 weeks, was a low-cost way to build credibility quickly.</li>
+      <li>The toughest discussion centred on refining our core messaging and removing "One Stop Shop" from multiple landing pages. The tagline tested well, but it overstated the breadth and geographic reach of the service, blurring who we were actually built for. That gap between promise and reality caused frustration among landlords who felt misled and ultimately chose competitors, resulting in avoidable lost sales that would be hard to win back.</li>
+    </ol>
+  </div>
+
+  <!-- 8. THE OUTCOME -->
+  <div class="cs-section">
+    <h2>The Outcome</h2>
+    <p>Due to the Founder taking extended leave, broader strategic decisions were paused and some recommendations could not move forward. Despite these constraints, progress was made where possible.</p>
+    <ol class="cs-ol">
+      <li>Some of my recommendations were implemented within the first month, including copy changes that increased site traffic. While I observed an estimated 50% rise in properties approved for Rightmove advertising, conversion to paid add-ons remained low.</li>
+    </ol>
+  </div>
+
+  <!-- 9. THE WORK BEHIND THE RECOMMENDATIONS -->
+  <div class="cs-section">
+    <h2>The Work Behind the Recommendations</h2>
+    <p>A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
+
+    <div class="img-placeholder" style="aspect-ratio: 661/527;">
+      [IMAGE: traffic-sources-map.png — 661×527px — traffic source map showing referral sources and drop-off points]
+    </div>
+
+    <p>Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
+
+    <div class="img-pair-zoom">
+      <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
+        <div class="img-placeholder" style="aspect-ratio: 672/498;">
+          [IMAGE: competitor-analysis-1.png — 672×498px — competitor pricing / property range comparison]
+        </div>
+        <span class="zoom-hint">↔ Click to zoom</span>
+      </div>
+      <div class="zoom-img" data-zoom data-caption="Competitor analysis 2">
+        <div class="img-placeholder" style="aspect-ratio: 898/530;">
+          [IMAGE: competitor-analysis-2.png — 898×530px — competitor pricing / property range comparison]
+        </div>
+        <span class="zoom-hint">↔ Click to zoom</span>
+      </div>
+    </div>
+
+    <p>One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
+
+    <!-- CAROUSEL: Accommodation analysis (3 slides) -->
+    <div class="carousel" data-carousel>
+      <div class="carousel-track-wrap">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/633;">
+              [IMAGE: shared-accommodation-analysis-1.png — 980×633px]
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/1455; max-height: 560px; overflow: auto;">
+              [IMAGE: pricing-package-concept.png — 980×1455px — one-off payment package concept — scroll to see full image]
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 847/447;">
+              [IMAGE: shared-accommodation-analysis-3.png — 847×447px]
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+        <span class="carousel-counter">1 / 3</span>
+        <button class="carousel-btn next" aria-label="Next slide">→</button>
+      </div>
+    </div>
+    <p class="cs-caption">The second image shows a fixed one-off second package could be considered, showing clear real value rather than the subscription. Test with customers.</p>
+
+    <p>Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
+
+    <div class="img-placeholder" style="aspect-ratio: 854/432;">
+      [IMAGE: free-banner.png — 854×432px — marketing banner "no strings attached, no credit card needed"]
+    </div>
+  </div>
+
+  <!-- 10. LANDLORD CREATION FLOW -->
+  <div class="cs-section">
+    <h2>Landlord Creation Flow</h2>
+    <p class="cs-caption">Below: a map of the landlord creation flow that was being implemented when I started.</p>
+
+    <!-- CAROUSEL: Creation flow (2 slides) -->
+    <div class="carousel" data-carousel>
+      <div class="carousel-track-wrap">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/648;">
+              [IMAGE: landlord-creation-flow-1.png — 980×648px — landlord property creation flow map]
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/871;">
+              [IMAGE: landlord-creation-flow-2.png — 980×871px — landlord creation flow detail / continuation]
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next" aria-label="Next slide">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. DESIGN CONCEPTS -->
+  <div class="cs-section">
+    <h2>Design Concepts</h2>
+    <p>Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
+
+    <div class="img-placeholder" style="aspect-ratio: 473/1192;">
+      [IMAGE: landing-page-redesign.png — 473×1192px — landing page redesign concept, tall portrait — FAQ Before / After]
+    </div>
+
+    <ul class="cs-list">
+      <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
+      <li>Added blog links and advice on navigating the letting market.</li>
+      <li>Reordered FAQs by importance and spread key answers across the site.</li>
+      <li>Added a clear "How it works" for each audience.</li>
+    </ul>
+
+    <div class="gif-placeholder">
+      <span class="gif-badge">GIF</span>
+      <span class="gif-label">[GIF: iphones-small.gif — mobile UI animation showing the redesigned experience]</span>
+    </div>
+
+    <p>Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
+
+    <!-- CAROUSEL: Journey map (2 slides) -->
+    <div class="carousel" data-carousel>
+      <div class="carousel-track-wrap">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/597;">
+              [IMAGE: landlord-journey-map-1.png — 980×597px — landlord journey map in Trello]
+            </div>
+          </div>
+          <div class="carousel-slide">
+            <div class="img-placeholder" style="aspect-ratio: 980/693;">
+              [IMAGE: landlord-journey-map-2.png — 980×693px — landlord journey map detail / continuation]
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next" aria-label="Next slide">→</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image zoom">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-hr)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="cc-hr"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-copy">© 2026 — Lesley Rooney</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:ley.rooney@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+      <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+      <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+  // ── Nav scroll ──
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // ── Custom cursor ──
+  (function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx=-100, my=-100, rx=-100, ry=-100;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx - 3}px, ${my - 3}px)`; });
+    const hoverTargets = 'a,button,[role="button"],.zoom-img,.carousel-btn';
+    document.addEventListener('mouseover', e => { if(e.target.closest(hoverTargets)){ring.classList.add('is-hovering');dot.classList.add('is-hovering');} });
+    document.addEventListener('mouseout',  e => { if(e.target.closest(hoverTargets)){ring.classList.remove('is-hovering');dot.classList.remove('is-hovering');} });
+    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
+    document.addEventListener('mouseleave',() => { dot.style.opacity='0'; ring.style.opacity='0'; });
+    document.addEventListener('mouseenter',() => { dot.style.opacity='1'; ring.style.opacity='1'; });
+    (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
+  })();
+
+  // ── Carousels ──
+  document.querySelectorAll('[data-carousel]').forEach(function(carousel) {
+    const track   = carousel.querySelector('.carousel-track');
+    const slides  = carousel.querySelectorAll('.carousel-slide');
+    const prevBtn = carousel.querySelector('.carousel-btn.prev');
+    const nextBtn = carousel.querySelector('.carousel-btn.next');
+    const counter = carousel.querySelector('.carousel-counter');
+    let current = 0;
+    const total = slides.length;
+
+    function update() {
+      track.style.transform = `translateX(-${current * 100}%)`;
+      counter.textContent = (current + 1) + ' / ' + total;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === total - 1;
+    }
+
+    prevBtn.addEventListener('click', function() { if (current > 0) { current--; update(); } });
+    nextBtn.addEventListener('click', function() { if (current < total - 1) { current++; update(); } });
+    update();
+  });
+
+  // ── Zoomable images ──
+  const lightbox      = document.getElementById('lightbox');
+  const lightboxImg   = document.getElementById('lightboxImg');
+  const lightboxCap   = document.getElementById('lightboxCaption');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  document.querySelectorAll('[data-zoom]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      // When real images are in place, set lightboxImg.src from the <img> inside
+      // For now open the lightbox with placeholder text
+      const imgEl = el.querySelector('img');
+      if (imgEl) {
+        lightboxImg.src = imgEl.src;
+        lightboxImg.alt = imgEl.alt;
+      } else {
+        lightboxImg.src = '';
+        lightboxImg.alt = '';
+      }
+      lightboxCap.textContent = el.dataset.caption || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Audio player ──
+  (function() {
+    const audioEl  = document.getElementById('audioEl');
+    const playBtn  = document.getElementById('audioPlayBtn');
+    const progress = document.getElementById('audioProgress');
+    const current  = document.getElementById('audioCurrentTime');
+    const durEl    = document.getElementById('audioDuration');
+    if (!audioEl) return;
+    audioEl.playbackRate = 1.3;
+    function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+    audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
+    playBtn.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
+    audioEl.addEventListener('timeupdate', () => {
+      if (audioEl.duration) {
+        progress.value = (audioEl.currentTime / audioEl.duration) * 100;
+        current.textContent = fmt(audioEl.currentTime);
+      }
+    });
+    progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
+  })();
+</script>
+
+</body>
+</html>

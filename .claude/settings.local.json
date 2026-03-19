@@ -41,7 +41,17 @@
       "Bash(xargs echo:*)",
       "Bash(ls -la /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
       "Bash(git push:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(ffmpeg -i \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/medidata-risk-preview.mp4\" -vframes 1 -f image2 \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.webp\" -y)",
+      "Bash(python3 -c \"import subprocess; subprocess.run\\([''python3'', ''-m'', ''pip'', ''show'', ''Pillow'']\\)\")",
+      "Bash(python3 -c \"import cv2; print\\(''cv2 available''\\)\")",
+      "Bash(python3 -c \"import av; print\\(''av available''\\)\")",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//Applications/**)",
+      "Bash(qlmanage -t -s 800 -o /tmp/ \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/medidata-risk-preview.mp4\")",
+      "Read(//private/tmp/**)",
+      "Bash(sips -s format webp /tmp/medidata-risk-preview.mp4.png --out \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.webp\")",
+      "Bash(sips -s format jpeg /tmp/medidata-risk-preview.mp4.png --out \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.jpg\")"
     ]
   }
 }

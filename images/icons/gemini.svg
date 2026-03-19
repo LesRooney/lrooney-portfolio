@@ -1,12 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
-  <defs>
-    <linearGradient id="gem-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4285F4"/>
-      <stop offset="50%" stop-color="#9C27B0"/>
-      <stop offset="100%" stop-color="#EA4335"/>
-    </linearGradient>
-  </defs>
-  <rect width="36" height="36" rx="9" fill="url(#gem-grad)"/>
-  <!-- Gemini star/sparkle shape -->
-  <path d="M18 6c0 7-5 10-12 12 7 2 12 5 12 12 0-7 5-10 12-12-7-2-12-5-12-12z" fill="#fff"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-bbox="1.407 1.407 252.9 252.9" viewBox="0 0 256 256" height="256" width="256" xmlns="http://www.w3.org/2000/svg" data-type="ugc">
+    <g transform="translate(1.407 1.407)scale(2.81)" stroke-width="0" stroke-miterlimit="10">
+        <linearGradient y2="52.867" x2="34.844" y1="33.34" x1="60.053" gradientUnits="userSpaceOnUse" id="199ebc10-28e6-4c3b-b826-fef7c6b156c8" fill="none">
+            <stop offset="0%" stop-color="#9168c0"/>
+            <stop offset="34.3%" stop-color="#5684d1"/>
+            <stop offset="67.2%" stop-color="#1ba1e3"/>
+        </linearGradient>
+        <path d="M90 45.09C65.838 46.573 46.573 65.838 45.09 90h-.18C43.43 65.837 24.163 46.57 0 45.09v-.18C24.163 43.43 43.43 24.163 44.91 0h.18C46.573 24.162 65.838 43.427 90 44.91z" fill="url(#199ebc10-28e6-4c3b-b826-fef7c6b156c8)"/>
+    </g>
 </svg>

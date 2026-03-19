@@ -127,7 +127,7 @@
     /* TOOL GRID (2-col) */
     .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
     .tool-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ink-mid); padding: 4px 0; }
-    .tool-icon { width: 24px; height: 24px; flex-shrink: 0; object-fit: contain; }
+    .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
 
     /* SECTION */
     .cs-section { padding: 28px 0 0; }
@@ -445,13 +445,13 @@
 
   <!-- 2. PAGE TITLE + TAGS -->
   <div class="cs-header">
-    <p class="cs-eyebrow">Case Study · B2B Enterprise · Medidata EDC</p>
+    <p class="cs-eyebrow">Case Study · B2B Enterprise · Mixture of Existing and New Features</p>
     <h1>Reimagining Data Capture: Laying the Foundation for a Smarter, Seamless, and Future-Ready Experience</h1>
     <div class="cs-tags">
-      <span class="cs-tag">B2B Enterprise</span>
+
       <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
         <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
-        <span class="audio-player-label">Listen to a summary of the case study</span>
+        <span class="audio-player-label">Summary of case study</span>
         <div class="audio-progress-wrap">
           <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
         </div>
@@ -576,12 +576,6 @@
       </div>
 
       <!-- 10. DURATION -->
-      <div class="sidebar-card">
-        <h3>Duration</h3>
-        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years</p>
-        <p style="font-size: 0.8rem; color: var(--ink-light); margin-top: 4px; font-style: italic;">Multi-phased releases.</p>
-      </div>
-
       <!-- 7. WHAT I DID -->
       <div class="sidebar-card">
         <h3>What I did 👩🏾‍💻</h3>
@@ -596,6 +590,12 @@
         </ul>
       </div>
 
+      <div class="sidebar-card">
+        <h3>Duration</h3>
+        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years</p>
+        <p style="font-size: 0.8rem; color: var(--ink-light); margin-top: 4px; font-style: italic;">Multi-phased releases.</p>
+      </div>
+
       <!-- 8. TOOLS -->
       <div class="sidebar-card">
         <h3>Tools</h3>
@@ -604,12 +604,12 @@
           <div class="tool-item"><img class="tool-icon" src="images/icons/storybook.svg" alt="">Storybook</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/loom.svg" alt="">Loom</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/lovable.svg" alt="">Lovable</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/slack.svg" alt="Slack" title="Slack"></div>
+          <div class="tool-item"><img class="tool-icon" src="images/icons/slack.svg" alt="Slack" title="Slack">Slack</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/zoom.svg" alt="">Zoom</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/notion.svg" alt="">Notion</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/pendo.svg" alt="">Pendo</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/axure.svg" alt="">Axure</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/condens.svg" alt="condens" title="condens" style="width:auto;height:20px;"></div>
+          <div class="tool-item"><img class="tool-icon" src="images/icons/pendo.svg" alt="Pendo" title="Pendo" style="width:auto;height:26px;"></div>
+          <div class="tool-item"><img class="tool-icon" src="images/icons/axure.svg" alt="Axure" title="Axure" style="width:auto;height:16px;"></div>
+          <div class="tool-item"><img class="tool-icon" src="images/icons/condens.svg" alt="condens" title="condens" style="width:auto;height:16px;"></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/pen-paper.svg" alt="">Pen &amp; paper</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/gemini.svg" alt="">Gemini</div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/github.svg" alt="">GitHub</div>

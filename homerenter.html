@@ -287,9 +287,7 @@
 </nav>
 
 <!-- 1. HERO IMAGE -->
-<div class="cs-hero">
-  <span class="cs-hero-placeholder">[IMAGE: homerenter-hero.jpg — 980×653px — property/letting context]</span>
-</div>
+
 
 <div class="wrap">
 
@@ -298,7 +296,6 @@
     <p class="cs-eyebrow">Case Study · PropTech · HomeRenter</p>
     <h1>Beyond Optimization: Aligning Business Ambition with User Reality</h1>
     <div class="cs-tags">
-      <span class="cs-tag">PropTech</span>
       <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
         <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
         <span class="audio-player-label">Listen instead</span>
@@ -306,7 +303,7 @@
           <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
         </div>
         <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">--:--</span></div>
-        <audio id="audioEl" src="" preload="none"></audio>
+        <audio id="audioEl" src="audio/homerenter-narration.mp3" preload="metadata"></audio>
       </div>
     </div>
   </div>
@@ -649,7 +646,7 @@
     const current  = document.getElementById('audioCurrentTime');
     const durEl    = document.getElementById('audioDuration');
     if (!audioEl) return;
-    audioEl.playbackRate = 1.3;
+    audioEl.playbackRate = 1.1;
     function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
     audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
     playBtn.addEventListener('click', () => {

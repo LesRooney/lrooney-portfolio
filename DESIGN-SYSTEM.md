@@ -13,7 +13,7 @@ All colours are defined as CSS custom properties on `:root`.
 | `--ink` | `#0A0A0A` | Primary text — all headings (h1–h3), bold labels, nav logo |
 | `--ink-mid` | `#4A4A4A` | Secondary text — body copy, nav links, list items, sidebar text |
 | `--ink-light` | `#717171` | Tertiary text — captions, eyebrows, placeholder labels, icon labels |
-| `--paper` | `#F9F8F7` | Page background (html, body, nav backdrop base) |
+| `--paper` | `#f5f5f5` | Page background (html, body, nav backdrop base) |
 | `--paper-alt` | `#efede7` | Card backgrounds, image placeholder surfaces, secondary containers |
 | `--rule` | `#e2e0d8` | Borders, dividers, subtle container outlines |
 | `--faint` | `#f5f3ef` | Very light surface — outcomes band, img-card background (EDC page) |
@@ -220,7 +220,7 @@ gap: 8px;
 ```css
 position: fixed;
 padding: 20px 48px;
-background: rgba(249,248,247,0.92);
+background: rgba(245,245,245,0.82);
 backdrop-filter: blur(12px);
 /* border-bottom appears on scroll via .scrolled class */
 ```
@@ -312,6 +312,12 @@ Stored in `/images/icons/`. Used in the **IconRow** and **Tools sidebar card** c
 | `axure.svg` | Axure |
 | `condens.svg` | Condens |
 | `gemini.svg` | Gemini |
+| `confluence.svg` | Confluence |
+| `claude.svg` | Claude (footer credit icon) |
+| `sketch.svg` | Sketch |
+| `miro.svg` | Miro |
+| `zeplin.svg` | Zeplin |
+| `quicktime.svg` | QuickTime |
 
 ### Adding a new icon
 1. Export as `.svg`, optimise (remove unnecessary metadata)

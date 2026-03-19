@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-bbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-type="ugc">
+    <g>
+        <linearGradient y2="4" y1="20" x2="12" x1="12" id="244bf12b-b645-4b99-8c39-59b20c7a4924" gradientUnits="userSpaceOnUse">
+            <stop offset=".168" stop-color="#15bef0"/>
+            <stop offset="1" stop-color="#374499"/>
+        </linearGradient>
+        <path fill="url(#244bf12b-b645-4b99-8c39-59b20c7a4924)" d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0"/>
+        <linearGradient y2="20.5" y1="3.5" x2="12" x1="12" id="4f2a62d8-ed72-4075-9a37-f50b25fe7a62" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+            <stop offset="1" stop-color="#ffffff" stop-opacity=".3"/>
+        </linearGradient>
+        <path fill="url(#4f2a62d8-ed72-4075-9a37-f50b25fe7a62)" d="M20.5 12a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0"/>
+        <path fill="#333333" d="M21.953 18.684c1.669-2.475 2.355-5.437 1.919-8.457C23.132 5.11 19.034.95 13.926.151 5.81-1.119-1.119 5.81.151 13.926c.8 5.108 4.96 9.206 10.076 9.946 3.02.436 5.982-.25 8.457-1.919L20.798 24H24v-3.202zM9.5 12c0 .668.26 1.296.738 1.773l5.477 5.305A7.96 7.96 0 0 1 12 20c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8a7.96 7.96 0 0 1-.922 3.715l-5.31-5.483A2.48 2.48 0 0 0 12 9.5 2.503 2.503 0 0 0 9.5 12"/>
+        <radialGradient r="22.77" id="ec79c942-b890-4c50-8c6e-1839c363c523" gradientUnits="userSpaceOnUse" cy="-1.5" cx="11.333">
+            <stop offset="0" stop-color="#ffffff" stop-opacity=".4"/>
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <path fill="url(#ec79c942-b890-4c50-8c6e-1839c363c523)" d="M21.953 18.684c1.669-2.475 2.355-5.437 1.919-8.457C23.132 5.11 19.034.95 13.926.151 5.81-1.119-1.119 5.81.151 13.926c.8 5.108 4.96 9.206 10.076 9.946 3.02.436 5.982-.25 8.457-1.919L20.798 24H24v-3.202zM9.5 12c0 .668.26 1.296.738 1.773l5.477 5.305A7.96 7.96 0 0 1 12 20c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8a7.96 7.96 0 0 1-.922 3.715l-5.31-5.483A2.48 2.48 0 0 0 12 9.5 2.503 2.503 0 0 0 9.5 12"/>
+        <linearGradient y2="18.738" y1="6.927" x2="26.454" x1="1.126" id="6545adf2-20df-4180-a7bc-29f7ec10392f" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffffff" stop-opacity=".2"/>
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+        <path fill="url(#6545adf2-20df-4180-a7bc-29f7ec10392f)" d="M21.953 18.684c1.669-2.475 2.355-5.437 1.919-8.457C23.132 5.11 19.034.95 13.926.151 5.81-1.119-1.119 5.81.151 13.926c.8 5.108 4.96 9.206 10.076 9.946 3.02.436 5.982-.25 8.457-1.919L20.798 24H24v-3.202z"/>
+    </g>
+</svg>

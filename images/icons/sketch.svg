@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-bbox="0 0 256 231.662" preserveAspectRatio="xMidYMid" xmlns="http://www.w3.org/2000/svg" viewBox="0 -12 256 256" height="800" width="800" data-type="color">
+    <g>
+        <path fill="#FDB300" d="M128 0 55.855 7.628 0 82.608l128 149.054L256 82.607 200.146 7.628z" data-color="1"/>
+        <path fill="#EB6C00" d="m0 82.608 128 149.054L51.846 82.608z" data-color="2"/>
+        <path fill="#EB6C00" d="M204.153 82.608 128 231.662 256 82.608z" data-color="2"/>
+        <path fill="#FDAD00" d="M51.846 82.608 128 231.662l76.154-149.054z" data-color="3"/>
+        <path fill="#FDD231" d="m55.855 7.628-4.01 74.98L128 0z" data-color="4"/>
+        <path fill="#FDD231" d="m204.153 82.608-4.008-74.98L128 0z" data-color="4"/>
+        <path fill="#FDAD00" d="M204.154 82.608H256l-55.854-74.98z" data-color="3"/>
+        <path fill="#FDAD00" d="M0 82.608h51.846l4.009-74.98z" data-color="3"/>
+        <path fill="#FEEEB7" d="M128 0 51.846 82.607h152.308z" data-color="5"/>
+    </g>
+</svg>

@@ -14,12 +14,14 @@
       --ink:       #0A0A0A;
       --ink-mid:   #4A4A4A;
       --ink-light: #717171;
-      --paper:     #F9F8F7;
+      --paper:     #f5f5f5;
       --paper-alt: #efede7;
       --rule:      #e2e0d8;
+      --navy:      #1e3a5f;
       --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
       --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
       --max: 1080px;
+      --sb: 280px;
     }
 
     html { font-size: 16px; scroll-behavior: smooth; background: #F9F8F7; }
@@ -38,7 +40,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
       padding: 20px 48px;
-      background: rgba(249,248,247,0.92);
+      background: rgba(245,245,245,0.82);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
       transition: border-color 0.3s;
@@ -198,8 +200,22 @@
 
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
+    /* TWO-COLUMN LAYOUT */
+    .two-col { display: grid; grid-template-columns: 1fr var(--sb); gap: 48px; align-items: start; padding: 0; }
+    .main-col {}
+    .sidebar-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+    .sidebar-card { border: 1px solid var(--rule); border-radius: 12px; padding: 20px; background: var(--paper); }
+    .sidebar-card h3 { font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+    .sidebar-list { list-style: none; padding: 0; }
+    .sidebar-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; }
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .tool-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ink-mid); padding: 4px 0; }
+    .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
+
     /* RESPONSIVE */
     @media (max-width: 780px) {
+      .two-col { grid-template-columns: 1fr; }
+      .sidebar-col { padding-top: 0; }
       nav { padding: 18px 24px; }
       .wrap { padding: 0 24px; }
       .meta-grid { grid-template-columns: 1fr 1fr; gap: 24px 32px; }
@@ -260,59 +276,17 @@
         [IMAGE: librem-laptop-frame.png — 1266×708px + risk-mgmt-product-screen.jpg — 863×485px]<br>Risk Management UI
       </div>
     </div>
-    <div class="nda-placeholder" style="aspect-ratio: 4/1;">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm asset with Lesley</span>
-    </div>
     <p class="cs-caption">Below: A short-term vision concept with an updated design system and branding, 2021</p>
   </div>
+
+  <!-- TWO-COL LAYOUT -->
+  <div class="two-col">
+  <div class="main-col">
 
   <!-- THE STAKES -->
   <div class="cs-section">
     <h2>The Stakes and Business Challenges</h2>
     <p>After years of development and millions in investment, Medidata's RACT (Risk Assessment Categorisation Tool) had only one mid-market customer and was nearing cancellation. Its convoluted, fragmented workflows led prospects to dismiss it in sales demos, believing Excel or SharePoint easily met their needs.</p>
-  </div>
-
-  <!-- META: TEAM, TOOLS, DURATION, RESPONSIBILITIES -->
-  <div class="cs-section">
-    <div class="meta-grid">
-      <div class="meta-block">
-        <p class="meta-label">Team &amp; Location</p>
-        <div class="meta-value">
-          1 Product Director 🇺🇸<br>
-          1 Business Analyst 🇮🇳<br>
-          1 Product Owner 🇬🇧<br>
-          1 Project Manager 🇮🇳<br>
-          7 Engineers 🇮🇳<br>
-          1 Engineering Director 🇬🇧<br>
-          <strong>1 Product Designer (me) 🇬🇧</strong>
-        </div>
-      </div>
-      <div class="meta-block">
-        <p class="meta-label">Duration</p>
-        <div class="meta-value">~7 months</div>
-        <p class="meta-label" style="margin-top: 20px;">My Responsibilities</p>
-        <div class="tag-list" style="margin-top: 8px;">
-          <span class="tag-item">Design + research</span>
-          <span class="tag-item">Learning domain knowledge</span>
-          <span class="tag-item">Stakeholder management</span>
-          <span class="tag-item">Alignment with engineering</span>
-          <span class="tag-item">Introducing new interactive patterns to emerging design systems</span>
-        </div>
-      </div>
-      <div class="meta-block">
-        <p class="meta-label">Tools</p>
-        <div class="icon-row">
-          <div class="icon-item"><div class="icon-box">Pen &amp;<br>Paper</div><span class="icon-label">Pen &amp; Paper</span></div>
-          <div class="icon-item"><div class="icon-box">Figma</div><span class="icon-label">Figma</span></div>
-          <div class="icon-item"><div class="icon-box">Axure</div><span class="icon-label">Axure</span></div>
-          <div class="icon-item"><div class="icon-box">Confluence</div><span class="icon-label">Confluence</span></div>
-          <div class="icon-item"><div class="icon-box">Zoom</div><span class="icon-label">Zoom</span></div>
-          <div class="icon-item"><div class="icon-box">Pendo</div><span class="icon-label">Pendo</span></div>
-          <div class="icon-item"><div class="icon-box">Slack</div><span class="icon-label">Slack</span></div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- THE APPLICATION -->
@@ -497,13 +471,60 @@
     </div>
   </div>
 
+  </div><!-- /.main-col -->
+
+  <!-- SIDEBAR -->
+  <div class="sidebar-col">
+
+    <div class="sidebar-card">
+      <h3>Team &amp; Location</h3>
+      <ul class="sidebar-list">
+        <li>1 Product Director 🇺🇸</li>
+        <li>1 Business Analyst 🇮🇳</li>
+        <li>1 Product Owner 🇬🇧</li>
+        <li>1 Project Manager 🇮🇳</li>
+        <li>7 Engineers 🇮🇳</li>
+        <li>1 Engineering Director 🇬🇧</li>
+        <li><strong>1 Product Designer (me) 🇬🇧</strong></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Duration</h3>
+      <p style="font-size: 0.9rem; color: var(--ink-mid);">~7 months</p>
+      <h3 style="margin-top: 16px;">What I did 👩🏾‍💻</h3>
+      <ul class="sidebar-list">
+        <li>Design + research</li>
+        <li>Learning domain knowledge</li>
+        <li>Stakeholder management</li>
+        <li>Alignment with engineering</li>
+        <li>Introducing new interactive patterns to emerging design systems</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Tools</h3>
+      <div class="tool-grid">
+        <div class="tool-item"><img class="tool-icon" src="images/icons/pen-paper.svg" alt="">Pen &amp; Paper</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/figma.svg" alt="">Figma</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/axure.svg" alt="Axure" title="Axure" style="width:auto;height:16px;"></div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/zoom.svg" alt="">Zoom</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/pendo.svg" alt="Pendo" title="Pendo" style="width:auto;height:26px;"></div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/slack.svg" alt="Slack" title="Slack">Slack</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/confluence.svg" alt="Confluence" title="Confluence">Confluence</div>
+      </div>
+    </div>
+
+  </div><!-- /.sidebar-col -->
+
+  </div><!-- /.two-col -->
 
 </div><!-- /.wrap -->
 
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
-      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-rm)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="#f7f6f2"/><path d="M200 60H180V80H200V60Z" fill="#f7f6f2"/></g><defs><clipPath id="cc-rm"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-rm)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="black"/><path d="M200 60H180V80H200V60Z" fill="black"/></g><defs><clipPath id="cc-rm"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
       <p class="footer-copy">© 2026 — Lesley Rooney</p>
     </div>
     <div class="footer-right">

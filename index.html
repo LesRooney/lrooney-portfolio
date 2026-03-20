@@ -158,17 +158,26 @@
     /* ── RIVE DIVIDER ── */
     .rive-divider {
       width: 100%;
+      height: 56px;
       overflow: hidden;
+      position: relative;
       line-height: 0;
       background: transparent;
     }
     .rive-divider canvas {
-      display: block;
-      width: 100%;
-      height: 160px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 56px;
+      height: 56px;
       background: transparent;
       mix-blend-mode: multiply;
-      filter: grayscale(1) brightness(0);
+      filter: grayscale(1) contrast(20);
+      animation: rive-walk 39s linear infinite;
+    }
+    @keyframes rive-walk {
+      from { transform: translateX(-56px); }
+      to   { transform: translateX(100vw); }
     }
 
     /* ── FOOTER ── */
@@ -504,6 +513,43 @@
       card.addEventListener('mouseleave', () => video.pause());
     });
 
+    // ── Typewriter for intro blocks
+    (function () {
+      function typewriterHTML(el, speed, onDone) {
+        const original = el.innerHTML;
+        // Parse into tokens: individual text chars or complete HTML tags (inserted atomically)
+        const tokens = [];
+        let i = 0;
+        while (i < original.length) {
+          if (original[i] === '<') {
+            const end = original.indexOf('>', i);
+            tokens.push({ tag: true, val: original.slice(i, end + 1) });
+            i = end + 1;
+          } else {
+            tokens.push({ tag: false, val: original[i] });
+            i++;
+          }
+        }
+        el.innerHTML = '';
+        let t = 0, built = '';
+        function next() {
+          if (t >= tokens.length) { el.innerHTML = original; if (onDone) onDone(); return; }
+          const tok = tokens[t++];
+          built += tok.val;
+          el.innerHTML = built;
+          tok.tag ? next() : setTimeout(next, speed);
+        }
+        next();
+      }
+      // Cascade: each block starts 900ms after the previous — slight overlap
+      window.addEventListener('load', () => {
+        const blocks = document.querySelectorAll('.intro-text');
+        blocks.forEach((el, idx) => {
+          setTimeout(() => typewriterHTML(el, 22, null), idx * 900);
+        });
+      });
+    })();
+
     // ── Scroll-in animation
     const cardItems = document.querySelectorAll('.card-item');
     const observer = new IntersectionObserver((entries) => {
@@ -548,24 +594,19 @@
   <script>
     (function () {
       const canvas = document.getElementById('rive-divider-canvas');
-      // Size canvas to match its CSS dimensions at device pixel ratio
-      function sizeCanvas() {
-        const rect = canvas.getBoundingClientRect();
-        canvas.width  = rect.width  * window.devicePixelRatio;
-        canvas.height = rect.height * window.devicePixelRatio;
-      }
-      sizeCanvas();
-      window.addEventListener('resize', sizeCanvas);
 
-      new rive.Rive({
+      const r = new rive.Rive({
         src: 'images/logistics-man-boxes.riv',
         canvas: canvas,
         autoplay: true,
-        stateMachines: 'State Machine 1',
-        // Transparent canvas — do not fill background
-        isTouchScrollEnabled: true,
-        onLoad() { this.resizeDrawingSurfaceToCanvas(); }
+        animations: 'Idle',
+        layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.Center }),
+        onLoad() {
+          r.resizeDrawingSurfaceToCanvas();
+        }
       });
+
+      window.addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas());
     })();
   </script>
 </body>

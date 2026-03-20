@@ -120,8 +120,8 @@
     .card-thumb, .card-video {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     }
-    .card-thumb { transition: opacity 0.4s ease; }
-    .card-video { opacity: 0; transition: opacity 0.4s ease; }
+    .card-thumb { transition: opacity 0.2s ease; }
+    .card-video { opacity: 0; transition: opacity 0.2s ease; }
     .card-item:hover .card-thumb { opacity: 0; }
     .card-item:hover .card-video { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px); }
@@ -155,12 +155,28 @@
       padding-bottom: 80px;
     }
 
+    /* ── RIVE DIVIDER ── */
+    .rive-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      background: transparent;
+    }
+    .rive-divider canvas {
+      display: block;
+      width: 100%;
+      height: 160px;
+      background: transparent;
+      mix-blend-mode: multiply;
+      filter: grayscale(1) brightness(0);
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--paper);
       border-top: 1px solid var(--rule);
       padding: 40px 48px;
-      margin-top: 80px;
+      margin-top: 0;
     }
     .footer-inner {
       max-width: var(--max);
@@ -366,7 +382,7 @@
           <a href="/clinical-risk-based-monitoring.html" class="card-item" id="card-1">
             <div class="card">
               <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool">
-              <video class="card-video" muted loop playsinline preload="none">
+              <video class="card-video" muted loop playsinline preload="metadata">
                 <source src="videos/medidata-risk-preview.mp4" type="video/mp4">
               </video>
             </div>
@@ -379,7 +395,7 @@
           <a href="#" class="card-item" id="card-2">
             <div class="card">
               <img class="card-thumb" src="images/qualis-airquality-thumb.webp" alt="Qualis Flow — Air Quality">
-              <video class="card-video" muted loop playsinline preload="none">
+              <video class="card-video" muted loop playsinline preload="metadata">
                 <source src="videos/qualis-airquality-preview.mp4" type="video/mp4">
               </video>
             </div>
@@ -392,7 +408,7 @@
           <a href="/qualisflow-02.html" class="card-item" id="card-3">
             <div class="card">
               <img class="card-thumb" src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts & IA">
-              <video class="card-video" muted loop playsinline preload="none">
+              <video class="card-video" muted loop playsinline preload="metadata">
                 <source src="videos/qualis-alerts-preview.mp4" type="video/mp4">
               </video>
             </div>
@@ -405,7 +421,7 @@
           <a href="homerenter.html" class="card-item" id="card-4">
             <div class="card">
               <img class="card-thumb" src="images/homerenter-thumb.webp" alt="HomeRenter">
-              <video class="card-video" muted loop playsinline preload="none">
+              <video class="card-video" muted loop playsinline preload="metadata">
                 <source src="videos/homerenter-preview.mp4" type="video/mp4">
               </video>
             </div>
@@ -426,7 +442,7 @@
       <a href="#" class="card-item" id="card-5">
         <div class="card">
           <img class="card-thumb" src="images/animation-thumb.webp" alt="Animation">
-          <video class="card-video" muted loop playsinline preload="none">
+          <video class="card-video" muted loop playsinline preload="metadata">
             <source src="videos/animation-preview.mp4" type="video/mp4">
           </video>
         </div>
@@ -439,7 +455,7 @@
       <a href="lesleyrooney-games-sims-vfxworks.html" class="card-item" id="card-6">
         <div class="card">
           <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films">
-          <video class="card-video" muted loop playsinline preload="none">
+          <video class="card-video" muted loop playsinline preload="metadata">
             <source src="videos/games-preview.mp4" type="video/mp4">
           </video>
         </div>
@@ -453,6 +469,11 @@
 
   </section>
 
+
+  <!-- Rive animation divider -->
+  <div class="rive-divider">
+    <canvas id="rive-divider-canvas"></canvas>
+  </div>
 
   <footer id="about">
     <div class="footer-inner">
@@ -519,6 +540,32 @@
       document.addEventListener('mouseleave',()=>{dot.style.opacity='0';ring.style.opacity='0';});
       document.addEventListener('mouseenter',()=>{dot.style.opacity='1';ring.style.opacity='1';});
       (function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`;requestAnimationFrame(loop);})();
+    })();
+  </script>
+
+  <!-- Rive runtime -->
+  <script src="https://unpkg.com/@rive-app/canvas@2.23.0/rive.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('rive-divider-canvas');
+      // Size canvas to match its CSS dimensions at device pixel ratio
+      function sizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width  = rect.width  * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+      }
+      sizeCanvas();
+      window.addEventListener('resize', sizeCanvas);
+
+      new rive.Rive({
+        src: 'images/logistics-man-boxes.riv',
+        canvas: canvas,
+        autoplay: true,
+        stateMachines: 'State Machine 1',
+        // Transparent canvas — do not fill background
+        isTouchScrollEnabled: true,
+        onLoad() { this.resizeDrawingSurfaceToCanvas(); }
+      });
     })();
   </script>
 </body>

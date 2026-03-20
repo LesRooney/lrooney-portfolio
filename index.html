@@ -65,7 +65,8 @@
     }
     .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
     .hero-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; max-width: 860px; }
-    .intro-block { padding-left: 0; }
+    .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .intro-block.in-view { opacity: 1; transform: translateY(0); }
     .intro-label { font-family: var(--serif); font-size: 1rem; font-weight: 600; letter-spacing: 0; text-transform: capitalize; color: var(--ink); margin-bottom: 8px; }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
 
@@ -513,42 +514,13 @@
       card.addEventListener('mouseleave', () => video.pause());
     });
 
-    // ── Typewriter for intro blocks
-    (function () {
-      function typewriterHTML(el, speed, onDone) {
-        const original = el.innerHTML;
-        // Parse into tokens: individual text chars or complete HTML tags (inserted atomically)
-        const tokens = [];
-        let i = 0;
-        while (i < original.length) {
-          if (original[i] === '<') {
-            const end = original.indexOf('>', i);
-            tokens.push({ tag: true, val: original.slice(i, end + 1) });
-            i = end + 1;
-          } else {
-            tokens.push({ tag: false, val: original[i] });
-            i++;
-          }
-        }
-        el.innerHTML = '';
-        let t = 0, built = '';
-        function next() {
-          if (t >= tokens.length) { el.innerHTML = original; if (onDone) onDone(); return; }
-          const tok = tokens[t++];
-          built += tok.val;
-          el.innerHTML = built;
-          tok.tag ? next() : setTimeout(next, speed);
-        }
-        next();
-      }
-      // Cascade: each block starts 900ms after the previous — slight overlap
-      window.addEventListener('load', () => {
-        const blocks = document.querySelectorAll('.intro-text');
-        blocks.forEach((el, idx) => {
-          setTimeout(() => typewriterHTML(el, 22, null), idx * 900);
-        });
+    // ── Staggered slide-up for intro blocks
+    window.addEventListener('load', () => {
+      const delays = [0, 150, 300, 450];
+      document.querySelectorAll('.intro-block').forEach((el, idx) => {
+        setTimeout(() => el.classList.add('in-view'), delays[idx]);
       });
-    })();
+    });
 
     // ── Scroll-in animation
     const cardItems = document.querySelectorAll('.card-item');

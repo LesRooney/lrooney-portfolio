@@ -123,8 +123,10 @@
 
     .cs-section p {
       font-size: 1rem; color: var(--ink-mid); line-height: 1.8;
-      margin-bottom: 16px;
+      max-width: 100%; margin-bottom: 16px;
     }
+    .two-col .cs-section p, .two-col p { max-width: 720px; }
+    .two-col .cs-caption { max-width: 720px; }
 
     .cs-section p:last-child { margin-bottom: 0; }
 
@@ -724,5 +726,133 @@
       audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
     })();
   </script>
+
+  <!-- ── PAGE TOC — remove both blocks below to revert ── -->
+  <style id="page-toc-styles">
+    @media (min-width: 1024px) {
+      .page-toc {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        z-index: 90;
+        pointer-events: none;
+      }
+      .page-toc-inner {
+        padding: 0 12px 0 20px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: auto;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      .page-toc.is-visible .page-toc-inner { opacity: 1; }
+      .page-toc-list { list-style: none; margin: 0; padding: 0; }
+      .page-toc-list li {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .page-toc-list li::before {
+        content: '—';
+        color: var(--rule, #e2e0d8);
+        font-size: 0.65rem;
+        flex-shrink: 0;
+        transition: color 0.2s;
+      }
+      .page-toc-list a {
+        font-size: 0.7rem;
+        color: var(--ink-light, #717171);
+        text-decoration: none;
+        line-height: 1.4;
+        transition: color 0.2s;
+        font-family: var(--sans, system-ui, sans-serif);
+      }
+      .page-toc-list a:hover { color: var(--ink, #1a1a1a); }
+      .page-toc-list li.toc-active::before { color: var(--ink, #1a1a1a); }
+      .page-toc-list li.toc-active a {
+        color: var(--ink, #1a1a1a);
+        font-weight: 600;
+      }
+    }
+    @media (max-width: 1023px) { .page-toc { display: none !important; } }
+  </style>
+  <script id="page-toc-script">
+  (function () {
+    if (window.innerWidth < 1024) return;
+    const headings = Array.from(document.querySelectorAll('h2')).filter(h => h.offsetParent !== null && h.textContent.trim());
+    if (headings.length < 2) return;
+
+    // Ensure every heading has an id
+    const seen = {};
+    headings.forEach(h => {
+      if (!h.id) {
+        let base = 'toc-' + h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40);
+        let id = base, n = 1;
+        while (seen[id]) id = base + '-' + (++n);
+        seen[id] = true;
+        h.id = id;
+      } else {
+        seen[h.id] = true;
+      }
+    });
+
+    // Build nav
+    const nav = document.createElement('nav');
+    nav.className = 'page-toc';
+    nav.setAttribute('aria-label', 'Page sections');
+    const inner = document.createElement('div');
+    inner.className = 'page-toc-inner';
+    const ul = document.createElement('ul');
+    ul.className = 'page-toc-list';
+
+    headings.forEach(h => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      // Truncate long headings
+      const text = h.textContent.trim();
+      a.textContent = text.length > 36 ? text.slice(0, 34) + '…' : text;
+      a.title = text;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+
+    inner.appendChild(ul);
+    nav.appendChild(inner);
+    document.body.appendChild(nav);
+
+    // Show on hover near left edge
+    document.addEventListener('mousemove', e => {
+      nav.classList.toggle('is-visible', e.clientX < 220);
+    });
+
+    // Highlight active section via IntersectionObserver
+    const items = ul.querySelectorAll('li');
+    let activeId = null;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activeId = entry.target.id;
+          items.forEach(li => {
+            const a = li.querySelector('a');
+            li.classList.toggle('toc-active', a && a.getAttribute('href') === '#' + activeId);
+          });
+        }
+      });
+    }, { rootMargin: '-5% 0px -85% 0px', threshold: 0 });
+
+    headings.forEach(h => obs.observe(h));
+  })();
+  </script>
+  <!-- ── END PAGE TOC ── -->
 </body>
 </html>

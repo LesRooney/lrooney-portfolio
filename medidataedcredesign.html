@@ -140,8 +140,8 @@
       color: var(--ink);
       margin-bottom: 16px;
     }
-    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 680px; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
     .section-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 10px; }
 
     /* FULL-WIDTH PROBLEM SECTION */
@@ -362,10 +362,26 @@
       color: var(--ink);
       margin-bottom: 28px;
     }
-    .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; margin-top: 32px; }
+    .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    .outcomes-col {
+      background: var(--ink);
+      border-radius: 12px;
+      padding: 16px;
+    }
     .outcomes-col h3 {
-      font-family: var(--serif); font-size: 0.9rem; font-weight: 700; color: var(--ink);
+      font-family: var(--serif); font-weight: 700; color: #ffffff;
       margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem;
+    }
+    .outcomes-col .cs-list li {
+      color: #d4d4d4;
+    }
+    .outcomes-col .cs-list li strong {
+      color: #ffffff;
+    }
+    .outcomes-col .cs-list li::before {
+      content: '•';
+      color: #888888;
+      background: none;
     }
 
     /* DEEP DIVE SECTION */
@@ -383,7 +399,7 @@
       font-size: clamp(1.2rem, 2.2vw, 1.6rem);
       font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 24px;
     }
-    .deep-dive p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 720px; margin-bottom: 16px; }
+    .deep-dive p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
     .deep-dive h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
 
     /* PEEK GRID */
@@ -464,7 +480,7 @@
   <!-- 3. THE PROBLEM — full width, above two-col -->
   <div class="cs-section cs-section--wide">
     <h2>The Problem, Every Successful Company Eventually Has to Evolve</h2>
-    <p><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
+    <p style="max-width: 100%;"><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
     <div class="img-card">
       <p class="cs-caption">A snapshot of designs I worked on, including synthetic patients, global task filters and data capture pages.</p>
       <div class="img-placeholder" style="aspect-ratio: 730/410;">[IMAGE: problem-snapshot.jpg — 730×410px]</div>
@@ -641,21 +657,21 @@
         <button class="carousel-btn next">→</button>
       </div>
     </div>
-    <p class="cs-caption" style="max-width: 720px;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+    <p class="cs-caption" style="max-width: 100%;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
     <div class="outcomes-grid">
       <div class="outcomes-col">
         <h3>Business outcomes</h3>
         <ul class="cs-list">
-          <li>Removed unused features, reducing years of design/engineering debt and lowering engineering maintenance, increasing company efficiency.</li>
+          <li><strong>Removed unused features, reducing years of design/engineering</strong> debt and lowering engineering maintenance, increasing company efficiency.</li>
           <li>Enabled a smoother Classic-to-new platform migration (unified product) and strengthened competitive edge in sales demos.</li>
-          <li>The initiative demonstrated the ROI of embedded research — fewer rework cycles, fewer post-release fixes, and clearer guidance on where engineering should focus backend refactoring.</li>
+          <li>The initiative demonstrated the <strong>ROI of embedded research — fewer rework cycles,</strong> fewer post-release fixes, and clearer guidance on where engineering should focus backend refactoring.</li>
         </ul>
       </div>
       <div class="outcomes-col">
         <h3>User outcomes</h3>
         <ul class="cs-list">
-          <li>Users can reliably glance left for a visual to-do summary, streamlining workflows and boosting productivity by 40–50% fewer clicks. Confirmed from usability studies and beta pilot releases.</li>
-          <li>Increases in discoverability, improved scanning behaviour and reduced support tickets by making core features easier to find. Pilot report revealed faster time to value, especially for newer features.</li>
+          <li><strong>Users can reliably glance left for a visual to-do summary, streamlining workflows and boosting productivity by 40–50% fewer clicks.</strong> Confirmed from usability studies and beta pilot releases.</li>
+          <li><strong>Increases in discoverability, improved scanning behaviour</strong> and reduced support tickets by making core features easier to find. Pilot report revealed faster time to value, especially for newer features.</li>
         </ul>
       </div>
     </div>
@@ -670,8 +686,8 @@
     <h2>🧠 All Brains On Deck Approach</h2>
     <div class="img-placeholder" style="aspect-ratio: 922/518;">[IMAGE: stakeholder-interviews.jpg — 922×518px]</div>
     <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 0 0 12px;">The Plan &amp; What We Did</h3>
-    <p>After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
-    <p>What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
+    <p style="max-width: 100%;">After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
+    <p style="max-width: 100%;">What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
   </div>
 
   <!-- 15. SYSTEM MAPS -->
@@ -724,8 +740,8 @@
   <!-- 17. ENGINEERING COLLABORATION -->
   <div class="cs-section" id="engineering">
     <h2>Where the Best Ideas Win (Engineering Collaboration)</h2>
-    <p>I brought engineering into design early to reduce surprises and handoff friction. In a group with strong opinions and history, psychological safety mattered. We kept everyone informed but were selective about which feedback shaped direction. Sharing research clips rather than just conclusions meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
-    <p>In practice this meant 30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups. Tesler's Law applied deliberately. If complexity could live in the system, done programmatically, it shouldn't live in the UI.</p>
+    <p style="max-width: 100%;">I brought engineering into design early to reduce surprises and handoff friction. In a group with strong opinions and history, psychological safety mattered. We kept everyone informed but were selective about which feedback shaped direction. Sharing research clips rather than just conclusions meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
+    <p style="max-width: 100%;">In practice this meant 30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups. Tesler's Law applied deliberately. If complexity could live in the system, done programmatically, it shouldn't live in the UI.</p>
     <p>I also pushed to get design included in cross-product engineering meetings, bug bashes, and peer reviews. And brought in accessibility specialists early, after noticing users were navigating primarily by keyboard. Something that needed to be designed for, not retrofitted.</p>
     <!-- Carousel: Engineering Collab -->
     <div class="carousel" data-carousel="engineering">
@@ -748,9 +764,9 @@
   <!-- 18. RESEARCH PLAN -->
   <div class="cs-section" id="research">
     <h2>Overall Research Plan — Derisking Assumptions and Increasing Design Quality</h2>
-    <p>I split data page design ownership to give my design partner and me autonomy to explore ideas while allowing me to focus on cross-product challenges. Though initially unpopular, this moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</p>
-    <p>Interviewed 55+ participants over two years either in 1-on-1 or group sessions with 28% returning — building trust through short, focused sessions that respected their time and supported continuous discovery habits. We also shared multiple snippets with designers on other initiatives to influence their teams.</p>
-    <p>Reviewed prior research to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us prioritise features that served multiple personas over their isolated frustrations and contributed to a vision of removing that persona from EDC altogether.</p>
+    <p style="max-width: 100%;">I split data page design ownership to give my design partner and me autonomy to explore ideas while allowing me to focus on cross-product challenges. Though initially unpopular, this moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</p>
+    <p style="max-width: 100%;">Interviewed 55+ participants over two years either in 1-on-1 or group sessions with 28% returning — building trust through short, focused sessions that respected their time and supported continuous discovery habits. We also shared multiple snippets with designers on other initiatives to influence their teams.</p>
+    <p style="max-width: 100%;">Reviewed prior research to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us prioritise features that served multiple personas over their isolated frustrations and contributed to a vision of removing that persona from EDC altogether.</p>
     <div class="img-pair">
       <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: research-guidelines-1.png — 430×430px, scrappy research guidelines]</div>
       <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: competitor-screenshots.webp — 430×430px, competitor screenshots]</div>
@@ -779,9 +795,9 @@
         <button class="carousel-btn next">→</button>
       </div>
     </div>
-    <p>My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
-    <p>Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
-    <p>Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
+    <p style="max-width: 100%;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
+    <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
+    <p style="max-width: 100%;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
     <!-- BEFORE / AFTER SLIDER -->
     <div class="ba-slider" data-ba-slider>
       <!-- BEFORE — bottom layer, sets height -->
@@ -1011,5 +1027,133 @@
     (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
   })();
 </script>
+
+  <!-- ── PAGE TOC — remove both blocks below to revert ── -->
+  <style id="page-toc-styles">
+    @media (min-width: 1024px) {
+      .page-toc {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        z-index: 90;
+        pointer-events: none;
+      }
+      .page-toc-inner {
+        padding: 0 12px 0 20px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: auto;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      .page-toc.is-visible .page-toc-inner { opacity: 1; }
+      .page-toc-list { list-style: none; margin: 0; padding: 0; }
+      .page-toc-list li {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .page-toc-list li::before {
+        content: '—';
+        color: var(--rule, #e2e0d8);
+        font-size: 0.65rem;
+        flex-shrink: 0;
+        transition: color 0.2s;
+      }
+      .page-toc-list a {
+        font-size: 0.7rem;
+        color: var(--ink-light, #717171);
+        text-decoration: none;
+        line-height: 1.4;
+        transition: color 0.2s;
+        font-family: var(--sans, system-ui, sans-serif);
+      }
+      .page-toc-list a:hover { color: var(--ink, #1a1a1a); }
+      .page-toc-list li.toc-active::before { color: var(--ink, #1a1a1a); }
+      .page-toc-list li.toc-active a {
+        color: var(--ink, #1a1a1a);
+        font-weight: 600;
+      }
+    }
+    @media (max-width: 1023px) { .page-toc { display: none !important; } }
+  </style>
+  <script id="page-toc-script">
+  (function () {
+    if (window.innerWidth < 1024) return;
+    const headings = Array.from(document.querySelectorAll('h2')).filter(h => h.offsetParent !== null && h.textContent.trim());
+    if (headings.length < 2) return;
+
+    // Ensure every heading has an id
+    const seen = {};
+    headings.forEach(h => {
+      if (!h.id) {
+        let base = 'toc-' + h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40);
+        let id = base, n = 1;
+        while (seen[id]) id = base + '-' + (++n);
+        seen[id] = true;
+        h.id = id;
+      } else {
+        seen[h.id] = true;
+      }
+    });
+
+    // Build nav
+    const nav = document.createElement('nav');
+    nav.className = 'page-toc';
+    nav.setAttribute('aria-label', 'Page sections');
+    const inner = document.createElement('div');
+    inner.className = 'page-toc-inner';
+    const ul = document.createElement('ul');
+    ul.className = 'page-toc-list';
+
+    headings.forEach(h => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      // Truncate long headings
+      const text = h.textContent.trim();
+      a.textContent = text.length > 36 ? text.slice(0, 34) + '…' : text;
+      a.title = text;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+
+    inner.appendChild(ul);
+    nav.appendChild(inner);
+    document.body.appendChild(nav);
+
+    // Show on hover near left edge
+    document.addEventListener('mousemove', e => {
+      nav.classList.toggle('is-visible', e.clientX < 220);
+    });
+
+    // Highlight active section via IntersectionObserver
+    const items = ul.querySelectorAll('li');
+    let activeId = null;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          activeId = entry.target.id;
+          items.forEach(li => {
+            const a = li.querySelector('a');
+            li.classList.toggle('toc-active', a && a.getAttribute('href') === '#' + activeId);
+          });
+        }
+      });
+    }, { rootMargin: '-5% 0px -85% 0px', threshold: 0 });
+
+    headings.forEach(h => obs.observe(h));
+  })();
+  </script>
+  <!-- ── END PAGE TOC ── -->
 </body>
 </html>

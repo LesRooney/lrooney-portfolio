@@ -51,7 +51,24 @@
       "Bash(qlmanage -t -s 800 -o /tmp/ \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/medidata-risk-preview.mp4\")",
       "Read(//private/tmp/**)",
       "Bash(sips -s format webp /tmp/medidata-risk-preview.mp4.png --out \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.webp\")",
-      "Bash(sips -s format jpeg /tmp/medidata-risk-preview.mp4.png --out \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.jpg\")"
+      "Bash(sips -s format jpeg /tmp/medidata-risk-preview.mp4.png --out \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/medidata-risk-thumb.jpg\")",
+      "Bash(do)",
+      "Bash(perl -i -0pe 's/\\\\n?\\\\s*<!-- ── PAGE TOC.*?<!-- ── END PAGE TOC ── -->\\\\n?//gs' \"$f\")",
+      "Bash(echo \"Done: $f\")",
+      "Bash(done)",
+      "Bash(perl -i -0pe 's/\\\\n?\\\\s*<!-- PEEK GRID -->\\\\n\\\\s*<div class=\"\"peek-section\"\">.*?<\\\\/div>\\\\s*<\\\\/div>\\\\n?//gs' \"$f\")",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/lesleyrooney/Library/Mobile Documents/com~apple~CloudDocs/WebsiteBackup/Librem-13SmlTRANS.gif\")",
+      "Bash(ls \"/Users/lesleyrooney/Documents/GitHub/source-images/Mock\\(laptopMobile\\)/\")",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/10 - Q_About4BBC_X_710_ADONE.mp4\")",
+      "Bash(ffprobe -v quiet -select_streams v:0 -show_entries stream=width,height -of csv=p=0 \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/10 - Q_About4BBC_X_710_ADONE.mp4\")",
+      "Bash(mdls -name kMDItemPixelWidth -name kMDItemPixelHeight \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/10 - Q_About4BBC_X_710_ADONE.mp4\")",
+      "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/Mock\\(laptopMobile\\)/Dell XPS 13.svg\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/dell-xps-13.svg\")",
+      "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/10 - Q_About4BBC_X_710_ADONE.mp4\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/homerenter-laptop.mp4\")",
+      "Bash(unzip -l /Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/HomeRenter.zip)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/traffic-sources-map.png)",
+      "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/Screenshot 2018-10-30 at 10.08.12.png\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-website-latest-props.png\")",
+      "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/Screenshot 2018-11-02 at 06.21.17.png\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/ll-landing-comparison.png\")",
+      "Bash(python3 -c \"from PIL import Image; img = Image.open\\(''/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/ll-landing-page-full.png''\\); print\\(img.size\\)\")"
     ]
   }
 }

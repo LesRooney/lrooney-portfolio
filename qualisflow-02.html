@@ -123,7 +123,7 @@
     /* BULLET LIST */
     .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
     .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
-    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+    .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
 
     /* CHECK LIST */
     .check-list { list-style: none; padding: 0; margin: 12px 0 16px; }
@@ -419,75 +419,8 @@
 
     </div><!-- /.main-col -->
 
-    <!-- SIDEBAR -->
-    <div class="sidebar-col">
 
-      <!-- TEAM CARD -->
-      <div class="sidebar-card">
-        <h3>Team</h3>
-        <ul class="sidebar-list">
-          <li>2 Founders (Ex-environmental consultant &amp; civil engineer)</li>
-          <li>1 CTO / backend engineer</li>
-          <li>1 Product owner</li>
-          <li>2 Engineers (back and front end)</li>
-          <li><strong>Sole Product Designer (Me)</strong></li>
-          <li>1 Tester</li>
-          <li>1 Lead Engineer (joined later)</li>
-        </ul>
-      </div>
-
-      <!-- WHAT I DID CARD -->
-      <div class="sidebar-card">
-        <h3>What I did 👩🏾‍💻</h3>
-        <ul class="sidebar-list">
-          <li>Observational research</li>
-          <li>Customer &amp; stakeholder interviews</li>
-          <li>Remote user testing</li>
-          <li>Internal testing</li>
-          <li>Active listening</li>
-          <li>Sketching</li>
-          <li>Wireframes</li>
-          <li>Information Architecture</li>
-          <li>Iterations</li>
-          <li>Component Library</li>
-          <li>Illustrations</li>
-          <li>Interactive patterns</li>
-          <li>Customer feedback</li>
-          <li>Mixpanel</li>
-        </ul>
-      </div>
-
-      <!-- DURATION CARD -->
-      <div class="sidebar-card">
-        <h3>Duration</h3>
-        <p style="font-size: 0.9rem; color: var(--ink-mid);">~6 months</p>
-      </div>
-
-      <!-- TOOLS CARD -->
-      <div class="sidebar-card">
-        <h3>Tools</h3>
-        <div class="tool-grid">
-          <div class="tool-item"><img class="tool-icon" src="images/icons/pen-paper.svg" alt="">Pen &amp; Paper</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/sketch.svg" alt="">Sketch</div>
-          <div class="tool-item">Principle</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/zeplin.svg" alt="">Zeplin</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/miro.svg" alt="">Miro</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/screenflow.svg" alt="">ScreenFlow</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/zoom.svg" alt="">Zoom</div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/quicktime.svg" alt="">QuickTime</div>
-        </div>
-      </div>
-
-    </div><!-- /.sidebar-col -->
-
-  </div><!-- /.two-col -->
-
-  <!-- PEEK GRID -->
-  <div class="peek-section">
-    <p class="peek-caption">You can hover to take a sneak peek 👀 or use my password on restricted cases.</p>
-    <div class="peek-grid">
-      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-1]</div></div>
-      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-2]</div></div>
+  </div><!-- /.two-col -->      <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-2]</div></div>
       <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-3]</div></div>
       <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-4]</div></div>
       <div class="peek-cell"><div class="peek-cell-placeholder">[peek-thumb-5]</div></div>
@@ -561,134 +494,5 @@
     progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
     audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
   })();
-</script>
-
-  <!-- ── PAGE TOC — remove both blocks below to revert ── -->
-  <style id="page-toc-styles">
-    @media (min-width: 1024px) {
-      .page-toc {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 200px;
-        display: flex;
-        align-items: center;
-        z-index: 90;
-        pointer-events: none;
-      }
-      .page-toc-inner {
-        padding: 0 12px 0 20px;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        pointer-events: auto;
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-      .page-toc.is-visible .page-toc-inner { opacity: 1; }
-      .page-toc-list { list-style: none; margin: 0; padding: 0; }
-      .page-toc-list li {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-      .page-toc-list li::before {
-        content: '—';
-        color: var(--rule, #e2e0d8);
-        font-size: 0.65rem;
-        flex-shrink: 0;
-        transition: color 0.2s;
-      }
-      .page-toc-list a {
-        font-size: 0.7rem;
-        color: var(--ink-light, #717171);
-        text-decoration: none;
-        line-height: 1.4;
-        transition: color 0.2s;
-        font-family: var(--sans, system-ui, sans-serif);
-      }
-      .page-toc-list a:hover { color: var(--ink, #1a1a1a); }
-      .page-toc-list li.toc-active::before { color: var(--ink, #1a1a1a); }
-      .page-toc-list li.toc-active a {
-        color: var(--ink, #1a1a1a);
-        font-weight: 600;
-      }
-    }
-    @media (max-width: 1023px) { .page-toc { display: none !important; } }
-  </style>
-  <script id="page-toc-script">
-  (function () {
-    if (window.innerWidth < 1024) return;
-    const headings = Array.from(document.querySelectorAll('h2')).filter(h => h.offsetParent !== null && h.textContent.trim());
-    if (headings.length < 2) return;
-
-    // Ensure every heading has an id
-    const seen = {};
-    headings.forEach(h => {
-      if (!h.id) {
-        let base = 'toc-' + h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40);
-        let id = base, n = 1;
-        while (seen[id]) id = base + '-' + (++n);
-        seen[id] = true;
-        h.id = id;
-      } else {
-        seen[h.id] = true;
-      }
-    });
-
-    // Build nav
-    const nav = document.createElement('nav');
-    nav.className = 'page-toc';
-    nav.setAttribute('aria-label', 'Page sections');
-    const inner = document.createElement('div');
-    inner.className = 'page-toc-inner';
-    const ul = document.createElement('ul');
-    ul.className = 'page-toc-list';
-
-    headings.forEach(h => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = '#' + h.id;
-      // Truncate long headings
-      const text = h.textContent.trim();
-      a.textContent = text.length > 36 ? text.slice(0, 34) + '…' : text;
-      a.title = text;
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-
-    inner.appendChild(ul);
-    nav.appendChild(inner);
-    document.body.appendChild(nav);
-
-    // Show on hover near left edge
-    document.addEventListener('mousemove', e => {
-      nav.classList.toggle('is-visible', e.clientX < 220);
-    });
-
-    // Highlight active section via IntersectionObserver
-    const items = ul.querySelectorAll('li');
-    let activeId = null;
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          activeId = entry.target.id;
-          items.forEach(li => {
-            const a = li.querySelector('a');
-            li.classList.toggle('toc-active', a && a.getAttribute('href') === '#' + activeId);
-          });
-        }
-      });
-    }, { rootMargin: '-5% 0px -85% 0px', threshold: 0 });
-
-    headings.forEach(h => obs.observe(h));
-  })();
-  </script>
-  <!-- ── END PAGE TOC ── -->
-</body>
+</script></body>
 </html>

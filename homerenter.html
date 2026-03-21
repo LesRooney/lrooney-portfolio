@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    strong { font-weight: 700; }
 
     :root {
       --ink:       #0A0A0A;
@@ -118,6 +119,18 @@
     }
     .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
     .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
+    .cs-pullquote { font-size: 1.05rem; font-style: italic; color: var(--ink-mid); border-left: 3px solid var(--ink); padding: 4px 0 4px 20px; margin: 24px 0 8px; line-height: 1.7; }
+
+    /* TWO-COL + SIDEBAR */
+    :root { --sb: 260px; }
+    .two-col { display: grid; grid-template-columns: 1fr var(--sb); gap: 48px; align-items: start; }
+    .main-col {}
+    .sidebar-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+    .sidebar-card { border: 1px solid var(--rule); border-radius: 12px; padding: 20px; background: #F9F8F7; }
+    .sidebar-card h3 { font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+    .sidebar-list { list-style: none; padding: 0; margin: 0; }
+    .sidebar-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; }
+    .sidebar-list li::before { content: '✦ '; color: var(--ink-light); font-size: 0.65rem; }
     .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
 
     /* META GRID */
@@ -128,7 +141,7 @@
     /* BULLET LIST */
     .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
     .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
-    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+    .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
 
     /* ORDERED LIST */
     .cs-ol { list-style: none; padding: 0; margin: 0 0 16px; counter-reset: cs-counter; }
@@ -173,6 +186,21 @@
     .laptop-notch {
       width: 80px; height: 8px; background: #0a0a0a; border-radius: 0 0 6px 6px;
       margin: 8px auto 0;
+    }
+
+    /* BRUSH HIGHLIGHT */
+    .brush-highlight {
+      background: linear-gradient(104deg,
+        rgba(254, 240, 138, 0) 0%,
+        rgba(254, 240, 138, 0.85) 2%,
+        rgba(253, 230, 80, 0.6) 50%,
+        rgba(254, 240, 138, 0.85) 98%,
+        rgba(254, 240, 138, 0) 100%
+      );
+      border-radius: 0.6em 0.2em 0.5em 0.15em;
+      padding: 0.1em 0.3em;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
     }
 
     /* CAROUSEL */
@@ -268,6 +296,8 @@
       footer { padding: 40px 24px; }
       .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
       .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+      .two-col { grid-template-columns: 1fr; }
+      .sidebar-col { position: static; order: -1; padding-top: 0; }
     }
     @media (max-width: 480px) {
       .meta-grid { grid-template-columns: 1fr; }
@@ -308,152 +338,181 @@
     </div>
   </div>
 
-  <!-- INTRO NOTE -->
-  <div class="cs-section">
-    <p><em>I've kept this 2018 case study because it reminds me how much I learned about product–market fit and target users in a young start-up. Since then, I've made early user investigation a habit whenever I can.</em></p>
-  </div>
+  <!-- TWO-COL: intro + laptop + what is / sidebar cards -->
+  <div class="two-col">
 
-  <!-- 3. LAPTOP FRAME -->
-  <div class="cs-section">
-    <div class="laptop-frame-wrap">
-      <div class="laptop-frame">
-        <div class="laptop-screen">
-          [IMAGE: librem-laptop-frame.png — 1029×576px — Librem 13Sml.png shared file]
-        </div>
-        <div class="laptop-notch"></div>
+    <div class="main-col">
+
+      <!-- INTRO NOTE -->
+      <div class="cs-section">
+        <p><em>I've kept this case study because it taught me something I still use today: <strong>don't optimise for the wrong problem, and take the time to identify what truly deserves prioritisation.</strong></em></p>
       </div>
-    </div>
-  </div>
 
-  <!-- 4. WHAT IS HOMERENTER? -->
-  <div class="cs-section">
-    <h2>What is HomeRenter?</h2>
-    <p>HomeRenter set out to be a fairer, low-cost alternative to traditional letting agents by connecting landlords, renters, keyholders and tradespeople in one place. Founded by landlords and property developers (Q Developments), the site looked great but hid a few tech and conversion issues.</p>
-    <p>To drive growth, the company introduced a 30-day free listing period alongside its low-cost subscription, giving landlords access to Rightmove and Zoopla to advertise their properties. Paid add-ons like gas safety certificates rounded out the offering.</p>
-    <h3>It competed with:</h3>
-    <ul class="cs-list">
-      <li>Online platforms like OpenRent, HouseSimple, Urban, Upad, Howsy, etc.</li>
-      <li>Traditional brick and mortar high-street estate agents</li>
-    </ul>
-  </div>
+      <!-- 3. LAPTOP FRAME -->
+      <div class="cs-section">
+        <div class="laptop-frame-wrap">
+          <div style="position: relative; display: block; line-height: 0;">
+            <img src="images/dell-xps-13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
+            <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.55%; object-fit: cover;">
+              <source src="videos/homerenter-laptop.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. WHAT IS HOMERENTER? -->
+      <div class="cs-section">
+        <h2>What is HomeRenter?</h2>
+        <p><strong>HomeRenter set out to be a fairer, low-cost alternative to traditional letting agents by connecting landlords, renters, keyholders and tradespeople in one place.</strong> Founded by landlords and property developers (Q Developments), the site looked great but hid a few tech and conversion issues.</p>
+        <p>To drive growth, the company introduced a 30-day free listing period alongside its low-cost subscription, giving landlords access to Rightmove and Zoopla to advertise their properties. Paid add-ons like gas safety certificates rounded out the offering.</p>
+        <h3>It competed with:</h3>
+        <ul class="cs-list">
+          <li>Online platforms like <strong>OpenRent, HouseSimple, Urban, Upad, Howsy, etc.</strong></li>
+          <li>Traditional brick and mortar high-street estate agents</li>
+        </ul>
+      </div>
+
+    </div><!-- /.main-col -->
+
+    <!-- SIDEBAR CARDS -->
+    <div class="sidebar-col">
+
+      <div class="sidebar-card">
+        <h3>Team</h3>
+        <ul class="sidebar-list">
+          <li>Product Manager</li>
+          <li>Lead Engineer</li>
+          <li>Remote engineers</li>
+          <li><strong>UI/UX Designer (Me)</strong></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>What I did 👩🏾‍💻</h3>
+        <ul class="sidebar-list">
+          <li>Research</li>
+          <li>Customer service desk</li>
+          <li>Marketing</li>
+          <li>Various maps</li>
+          <li>UI changes</li>
+          <li>Supporting implementation</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>Duration</h3>
+        <p style="font-size: 0.9rem; color: var(--ink-mid);">~4 months</p>
+      </div>
+
+    </div><!-- /.sidebar-col -->
+
+  </div><!-- /.two-col -->
 
   <!-- 5. MY ROLE -->
   <div class="cs-section">
     <h2>My Role</h2>
-    <p>I joined a year post-launch as the sole UX/UI designer. Initially tasked with shaping the online rental service vision, but also looked into low customer conversion issues. Working closely with the product manager and lead developer.</p>
-    <div class="meta-grid">
-      <div>
-        <p class="meta-label">Role</p>
-        <p class="meta-value">Sole UX/UI Designer</p>
-      </div>
-      <div>
-        <p class="meta-label">Team</p>
-        <p class="meta-value">Product Manager · Lead Developer</p>
-      </div>
-      <div>
-        <p class="meta-label">Duration</p>
-        <p class="meta-value">~3 months</p>
-      </div>
-    </div>
+    <p>I joined as the <strong>sole UX/UI designer</strong>, working closely with the product manager and lead developer. Initially tasked with shaping the online rental service vision, I also investigated why the platform wasn't converting as many customers as expected.</p>
   </div>
 
-  <!-- 6. SO WHAT'S THE PROBLEM? -->
+  <!-- 6. SO WHAT WAS THE PROBLEM? -->
   <div class="cs-section">
-    <h2>So What's the Problem</h2>
-    <p>Product decisions focused on landlords because they were the paying users with the most monetisation potential. However, despite the free offer, the company wasn't attracting as many landlords as expected. When I joined, a new property-creation flow (e.g., property type, bedrooms, bathrooms) was being implemented to reduce steps, as this was considered the faster, preferred experience.</p>
-    <p>I spent a few weeks on customer support, auditing emails, speaking with landlords, and weighing business value against issues. The findings surprised me: a good percentage of landlords tolerated property creation despite a few issues. They were more frustrated by the confusing post-offer tenant experience, and some were even paying competitors £100 to £200 just for a simpler handover. The free offer and subscription also felt complicated and unclear, causing them to pause and call us. Compared to competitors the site attracted more… 🤷🏽‍♀️:</p>
+    <h2>So What Was the Problem?</h2>
+    <p><strong>Product decisions prioritised landlords,</strong> as they were the primary paying users with the greatest monetisation potential. <strong>As a result, other user journeys were developed but not explored to the same depth.</strong> But despite the free offer, the company wasn't attracting as many landlords as expected.</p>
+    <p>When I joined, a new <strong>property-creation flow (where landlords describe their rental property</strong> — such as whether it's a flat or house, and the number of bedrooms) was being implemented to reduce steps — this was considered the faster, preferred experience. But I spent a few weeks on <strong>customer support: auditing emails, speaking with landlords,</strong> and weighing business value against their actual issues.</p>
+    <p><span class="brush-highlight"><strong>The findings surprised me. A good chunk of landlords tolerated property creation despite a few hiccups.</strong></span> <span class="brush-highlight"><strong>What really frustrated them was the confusing post-offer tenant experience</strong> — <strong>some were paying competitors £100–£200</strong></span> just for a simpler handover. Resulting in the site neglecting convenience for them after getting over the hurdle of advertising their property.</p>
+    <p>The free offer and subscription also felt unclear, causing people to pause and call us — and of course that could be at any time of day, night, or over the weekend.</p>
+    <p>Compared to competitors, the site was attracting subset groups that were a poor fit for the business model:</p>
     <ul class="cs-list">
-      <li>Live-in landlords looking for lodgers, unlikely to buy extras like photography, key-holder services, or the other add-ons on offer. And with Rightmove being the wrong channel and no SpareRoom partnership, this audience was a poor fit.</li>
-      <li>Professional landlords and small agents were cheekily using the platform mainly for cheap portal access, sometimes cycling through multiple email addresses to keep exploiting the free offer while handling everything else themselves.</li>
+      <li><strong>Live-in landlords looking for lodgers</strong> — unlikely to buy extras like photography or key-holder services, and with no SpareRoom partnership, the wrong channel entirely.</li>
+      <li><strong>Professional landlords exploiting the free listing</strong> by cycling through email addresses, while handling everything else themselves.</li>
     </ul>
   </div>
 
-  <!-- 7. RECOMMENDATIONS AND QUICK FIXES -->
+  <!-- 7. SEVEN THINGS WORTH FIXING -->
   <div class="cs-section">
-    <h2>Recommendations and Quick Fixes</h2>
-    <p>Based on the research, I recommended targeted design and copy updates to fix the core website mismatch and increase traffic from the company's bi-monthly newspaper and online advertising. Get more traffic.</p>
+    <h2>Seven Things Worth Fixing</h2>
+    <p>Based on the research, I recommended targeted design and copy updates to fix the core mismatch and bring in better-fit traffic from the company's advertising.</p>
     <ol class="cs-ol">
-      <li>Landlords weren't discovering services like referencing and photography because they were buried in the dashboard. Adding a checkout-style step within property creation surfaced these add-ons at the right moment and made their existence clear, while keeping them optional to avoid added friction.</li>
-      <li>Trying the experience myself, I noticed landlords were forced to write full descriptions before moving onto the next stage of quick description tags like parking or ensuite. A simple reorder would help them to write a shorter description.</li>
-      <li>Offer a clear one-off payment option, as the subscription created hesitation and added pricing complexity to landlords who only needed to let one property. Kind of putting them off.</li>
-      <li>Unexpected charges were a recurring theme in support emails around the subscription model, so making free trial terms explicit ("No credit card needed") to reduce sign-up anxiety and potentially impact sign-up drop-off or remove subscription altogether.</li>
-      <li>User testing of the current site revealed landlords were unclear about what HomeRenter offered and whether it was for them. Simplified the landing page by clarifying messaging, restructuring FAQs to better chunk information based on frequent customer questions, and removing distractions such as tradesmen and keyholders. Recommended removing confusing £20K/month property examples and instead showcasing a wider range of properties from their portfolio to better reflect their offering.</li>
-      <li>The site asked for trust it hadn't earned yet. There were no let properties on display on the main homepage, no testimonials, no evidence it worked. Showcasing recently let properties, even if it had to be updated or hacked manually by an engineer every 2 to 4 weeks, was a low-cost way to build credibility quickly.</li>
-      <li>The toughest discussion centred on refining our core messaging and removing "One Stop Shop" from multiple landing pages. The tagline tested well, but it overstated the breadth and geographic reach of the service, blurring who we were actually built for. That gap between promise and reality caused frustration among landlords who felt misled and ultimately chose competitors, resulting in avoidable lost sales that would be hard to win back.</li>
+      <li><strong>Surface the add-ons earlier.</strong> Target landlords weren't discovering services like referencing and photography — they were buried in the dashboard. A checkout-style step within property creation could surface them at the right moment, while keeping them optional.</li>
+      <li><strong>Reorder the description step.</strong> Landlords were forced to write full descriptions before moving on. A simple reorder let them start with quick-description tags like parking or ensuite — much lower friction.</li>
+      <li><strong>Offer a one-off payment option.</strong> The subscription created hesitation for landlords who only needed to let one property. A clear single-payment route removed that barrier.</li>
+      <li><strong>Make the free trial terms explicit.</strong> Unexpected charges were a recurring theme in support emails. I recommended adding "No credit card needed" alongside free to marketing materials and banners — reducing sign-up anxiety before landlords even reached the site.</li>
+      <li><strong>Simplify the landing page.</strong> User testing revealed landlords were unclear about what HomeRenter even offered. I simplified the messaging, restructured the FAQs around frequent support questions, and <strong>removed distractions like tradesmen and keyholders.</strong></li>
+      <li><strong>Build basic credibility.</strong> The site asked for trust it hadn't earned. <strong>No let properties on display</strong>, no testimonials. Showcasing recently let properties — even if manually updated by an engineer every few weeks — was a low-cost way to build credibility quickly.</li>
+      <li><strong>Drop "One Stop Shop."</strong> The toughest conversation. The tagline tested well but overstated the breadth and geographic reach of the service the company had resources to support, blurring who the platform was actually built for. That gap between promise and reality was causing landlords to choose competitors.</li>
     </ol>
   </div>
 
-  <!-- 8. THE OUTCOME -->
+  <!-- 8. WHAT HAPPENED -->
   <div class="cs-section">
-    <h2>The Outcome</h2>
-    <p>Due to the Founder taking extended leave, broader strategic decisions were paused and some recommendations could not move forward. Despite these constraints, progress was made where possible.</p>
-    <ol class="cs-ol">
-      <li>Some of my recommendations were implemented within the first month, including copy changes that increased site traffic. While I observed an estimated 50% rise in properties approved for Rightmove advertising, conversion to paid add-ons remained low.</li>
-    </ol>
+    <h2>What Happened</h2>
+    <p>Some recommendations went live in the first month — like <strong>removing £20k-a-month rentals from the homepage, because the average landlord would wonder if the site was even for them.</strong> I double checked who the target audience was.</p>
+    <p>On the marketing side, adding "No credit card needed" to banners and advertising copy reduced sign-up anxiety and drove more curious landlords to the site — I observed an estimated <strong>50% rise in properties approved for Rightmove advertising,</strong> though conversion to paid add-ons remained low.</p>
   </div>
+
+  <!-- 9. WHAT I COULDN'T CHANGE -->
+  <div class="cs-section">
+    <h2>What I Couldn't Change</h2>
+    <p><strong>The founder was on extended leave,</strong> which meant broader strategic decisions — pricing model changes and repositioning the audience — couldn't move forward. The most impactful recommendations stayed on the shelf. That was a useful lesson too: good research findings don't automatically translate into action. You need the right people in the room.</p>
+    <blockquote class="cs-pullquote">Making something faster doesn't matter if you're optimising the wrong journey. That's stayed with me.</blockquote>
+  </div>
+
+  <hr style="border: none; border-top: 1px solid var(--rule); margin: 48px 0 0;">
 
   <!-- 9. THE WORK BEHIND THE RECOMMENDATIONS -->
   <div class="cs-section">
     <h2>The Work Behind the Recommendations</h2>
     <p>A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
 
-    <div class="img-placeholder" style="aspect-ratio: 661/527;">
-      [IMAGE: traffic-sources-map.png — 661×527px — traffic source map showing referral sources and drop-off points]
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
+      <img src="images/traffic-sources-map.png" alt="Traffic sources map showing referral sources and drop-off points" style="width:100%; display:block;">
     </div>
 
-    <p>Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
-
-    <div class="img-pair-zoom">
-      <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
-        <div class="img-placeholder" style="aspect-ratio: 672/498;">
-          [IMAGE: competitor-analysis-1.png — 672×498px — competitor pricing / property range comparison]
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
+      <p style="margin:0 0 16px;">Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
+      <div class="img-pair-zoom">
+        <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
+          <img src="images/competitor-analysis-1.png" alt="Competitor pricing and property range comparison" style="width:100%; height:280px; object-fit:cover; object-position:top; display:block; border-radius:12px;">
+          <span class="zoom-hint">↔ Click to zoom</span>
         </div>
-        <span class="zoom-hint">↔ Click to zoom</span>
-      </div>
-      <div class="zoom-img" data-zoom data-caption="Competitor analysis 2">
-        <div class="img-placeholder" style="aspect-ratio: 898/530;">
-          [IMAGE: competitor-analysis-2.png — 898×530px — competitor pricing / property range comparison]
+        <div class="zoom-img" data-zoom data-caption="Competitor analysis 2">
+          <img src="images/competitor-analysis-2.png" alt="Competitor pricing and property range comparison" style="width:100%; height:280px; object-fit:cover; object-position:top; display:block; border-radius:12px;">
+          <span class="zoom-hint">↔ Click to zoom</span>
         </div>
-        <span class="zoom-hint">↔ Click to zoom</span>
       </div>
     </div>
 
-    <p>One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
-
-    <!-- CAROUSEL: Accommodation analysis (3 slides) -->
-    <div class="carousel" data-carousel>
-      <div class="carousel-track-wrap">
-        <div class="carousel-track">
-          <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/633;">
-              [IMAGE: shared-accommodation-analysis-1.png — 980×633px]
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
+      <p style="margin:0 0 16px;">One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
+      <!-- CAROUSEL: Research evidence (auto-advancing) -->
+      <div class="carousel" data-carousel data-autoplay="2000" style="margin:0;">
+        <div class="carousel-track-wrap" style="overflow:hidden;">
+          <div class="carousel-track">
+            <div class="carousel-slide">
+              <img src="images/shared-accommodation-analysis-1.png" alt="Homepage A/B/C variant comparison" style="width:100%; height:633px; object-fit:cover; object-position:top; display:block;">
             </div>
-          </div>
-          <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/1455; max-height: 560px; overflow: auto;">
-              [IMAGE: pricing-package-concept.png — 980×1455px — one-off payment package concept — scroll to see full image]
+            <div class="carousel-slide">
+              <img src="images/homerenter-website-latest-props.png" alt="HomeRenter website latest properties section" style="width:100%; height:633px; object-fit:contain; background:#F5F5F4; display:block;">
             </div>
-          </div>
-          <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 847/447;">
-              [IMAGE: shared-accommodation-analysis-3.png — 847×447px]
+            <div class="carousel-slide">
+              <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow diagram" style="width:100%; height:633px; object-fit:cover; object-position:top; display:block;">
+            </div>
+            <div class="carousel-slide">
+              <img src="images/ll-landing-comparison.png" alt="Landlord landing page A/B/C variants" style="width:100%; height:633px; object-fit:contain; background:#F5F5F4; display:block;">
             </div>
           </div>
         </div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
-        <span class="carousel-counter">1 / 3</span>
-        <button class="carousel-btn next" aria-label="Next slide">→</button>
+        <div class="carousel-controls">
+          <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+          <span class="carousel-counter">1 / 4</span>
+          <button class="carousel-btn next" aria-label="Next slide">→</button>
+        </div>
       </div>
     </div>
-    <p class="cs-caption">The second image shows a fixed one-off second package could be considered, showing clear real value rather than the subscription. Test with customers.</p>
 
     <p>Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
 
-    <div class="img-placeholder" style="aspect-ratio: 854/432;">
-      [IMAGE: free-banner.png — 854×432px — marketing banner "no strings attached, no credit card needed"]
-    </div>
+    <img src="images/free-banner.png" alt="Marketing banner: no strings attached, no credit card needed" style="width:100%; display:block; border-radius:12px;">
   </div>
 
   <!-- 10. LANDLORD CREATION FLOW -->
@@ -466,14 +525,10 @@
       <div class="carousel-track-wrap">
         <div class="carousel-track">
           <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/648;">
-              [IMAGE: landlord-creation-flow-1.png — 980×648px — landlord property creation flow map]
-            </div>
+            <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map" style="width:100%; height:659px; object-fit:contain; object-position:top; background:#fff; display:block;">
           </div>
           <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/871;">
-              [IMAGE: landlord-creation-flow-2.png — 980×871px — landlord creation flow detail / continuation]
-            </div>
+            <img src="images/landlord-creation-flow-2.png" alt="Landlord creation flow detail" style="width:100%; height:659px; object-fit:contain; object-position:top; background:#fff; display:block;">
           </div>
         </div>
       </div>
@@ -488,22 +543,20 @@
   <!-- 11. DESIGN CONCEPTS -->
   <div class="cs-section">
     <h2>Design Concepts</h2>
-    <p>Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
-
-    <div class="img-placeholder" style="aspect-ratio: 473/1192;">
-      [IMAGE: landing-page-redesign.png — 473×1192px — landing page redesign concept, tall portrait — FAQ Before / After]
+    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px;">
+      <p style="margin:0;">Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
+      <img src="images/ll-landing-page-full.png" alt="Landing page redesign concept" style="width:30%; display:block; margin:0 auto; border-radius:8px;">
     </div>
 
-    <ul class="cs-list">
-      <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
-      <li>Added blog links and advice on navigating the letting market.</li>
-      <li>Reordered FAQs by importance and spread key answers across the site.</li>
-      <li>Added a clear "How it works" for each audience.</li>
-    </ul>
-
-    <div class="gif-placeholder">
-      <span class="gif-badge">GIF</span>
-      <span class="gif-label">[GIF: iphones-small.gif — mobile UI animation showing the redesigned experience]</span>
+    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px; margin-top:16px;">
+      <img src="images/faqs-redesign-annotated.png" alt="FAQs page redesign with annotations" style="width:90%; display:block; margin:0 auto; border-radius:8px;">
+      <ul class="cs-list" style="margin:0;">
+        <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
+        <li>Added blog links and advice on navigating the letting market.</li>
+        <li>Reordered FAQs by importance and spread key answers across the site.</li>
+        <li>Added a clear "How it works" for each audience.</li>
+      </ul>
+      <img src="images/iphones-small.gif" alt="Mobile UI animation showing the redesigned HomeRenter experience" style="width:100%; display:block; border-radius:8px;">
     </div>
 
     <p>Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
@@ -513,14 +566,10 @@
       <div class="carousel-track-wrap">
         <div class="carousel-track">
           <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/597;">
-              [IMAGE: landlord-journey-map-1.png — 980×597px — landlord journey map in Trello]
-            </div>
+            <img src="images/landlord-journey-map-1.png" alt="Landlord journey map in Trello" style="width:100%; display:block;">
           </div>
           <div class="carousel-slide">
-            <div class="img-placeholder" style="aspect-ratio: 980/693;">
-              [IMAGE: landlord-journey-map-2.png — 980×693px — landlord journey map detail / continuation]
-            </div>
+            <img src="images/landlord-journey-map-2.png" alt="Landlord journey map detail" style="width:100%; display:block;">
           </div>
         </div>
       </div>
@@ -600,9 +649,33 @@
       nextBtn.disabled = current === total - 1;
     }
 
-    prevBtn.addEventListener('click', function() { if (current > 0) { current--; update(); } });
-    nextBtn.addEventListener('click', function() { if (current < total - 1) { current++; update(); } });
+    prevBtn.addEventListener('click', function() { if (current > 0) { current--; update(); } stopAuto(); });
+    nextBtn.addEventListener('click', function() { if (current < total - 1) { current++; update(); } stopAuto(); });
     update();
+
+    // Auto-advance if data-autoplay is set (value = interval in ms, loops)
+    const autoMs = parseInt(carousel.dataset.autoplay, 10);
+    let autoTimer = null;
+    function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+    if (autoMs) {
+      autoTimer = setInterval(function() {
+        current = (current + 1) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        counter.textContent = (current + 1) + ' / ' + total;
+        prevBtn.disabled = false;
+        nextBtn.disabled = false;
+      }, autoMs);
+      carousel.addEventListener('mouseenter', stopAuto);
+      carousel.addEventListener('mouseleave', function() {
+        autoTimer = setInterval(function() {
+          current = (current + 1) % total;
+          track.style.transform = `translateX(-${current * 100}%)`;
+          counter.textContent = (current + 1) + ' / ' + total;
+          prevBtn.disabled = false;
+          nextBtn.disabled = false;
+        }, autoMs);
+      });
+    }
   });
 
   // ── Zoomable images ──
@@ -663,134 +736,5 @@
     audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
   })();
 </script>
-
-  <!-- ── PAGE TOC — remove both blocks below to revert ── -->
-  <style id="page-toc-styles">
-    @media (min-width: 1024px) {
-      .page-toc {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 200px;
-        display: flex;
-        align-items: center;
-        z-index: 90;
-        pointer-events: none;
-      }
-      .page-toc-inner {
-        padding: 0 12px 0 20px;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        pointer-events: auto;
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-      .page-toc.is-visible .page-toc-inner { opacity: 1; }
-      .page-toc-list { list-style: none; margin: 0; padding: 0; }
-      .page-toc-list li {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-      .page-toc-list li::before {
-        content: '—';
-        color: var(--rule, #e2e0d8);
-        font-size: 0.65rem;
-        flex-shrink: 0;
-        transition: color 0.2s;
-      }
-      .page-toc-list a {
-        font-size: 0.7rem;
-        color: var(--ink-light, #717171);
-        text-decoration: none;
-        line-height: 1.4;
-        transition: color 0.2s;
-        font-family: var(--sans, system-ui, sans-serif);
-      }
-      .page-toc-list a:hover { color: var(--ink, #1a1a1a); }
-      .page-toc-list li.toc-active::before { color: var(--ink, #1a1a1a); }
-      .page-toc-list li.toc-active a {
-        color: var(--ink, #1a1a1a);
-        font-weight: 600;
-      }
-    }
-    @media (max-width: 1023px) { .page-toc { display: none !important; } }
-  </style>
-  <script id="page-toc-script">
-  (function () {
-    if (window.innerWidth < 1024) return;
-    const headings = Array.from(document.querySelectorAll('h2')).filter(h => h.offsetParent !== null && h.textContent.trim());
-    if (headings.length < 2) return;
-
-    // Ensure every heading has an id
-    const seen = {};
-    headings.forEach(h => {
-      if (!h.id) {
-        let base = 'toc-' + h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40);
-        let id = base, n = 1;
-        while (seen[id]) id = base + '-' + (++n);
-        seen[id] = true;
-        h.id = id;
-      } else {
-        seen[h.id] = true;
-      }
-    });
-
-    // Build nav
-    const nav = document.createElement('nav');
-    nav.className = 'page-toc';
-    nav.setAttribute('aria-label', 'Page sections');
-    const inner = document.createElement('div');
-    inner.className = 'page-toc-inner';
-    const ul = document.createElement('ul');
-    ul.className = 'page-toc-list';
-
-    headings.forEach(h => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = '#' + h.id;
-      // Truncate long headings
-      const text = h.textContent.trim();
-      a.textContent = text.length > 36 ? text.slice(0, 34) + '…' : text;
-      a.title = text;
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-
-    inner.appendChild(ul);
-    nav.appendChild(inner);
-    document.body.appendChild(nav);
-
-    // Show on hover near left edge
-    document.addEventListener('mousemove', e => {
-      nav.classList.toggle('is-visible', e.clientX < 220);
-    });
-
-    // Highlight active section via IntersectionObserver
-    const items = ul.querySelectorAll('li');
-    let activeId = null;
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          activeId = entry.target.id;
-          items.forEach(li => {
-            const a = li.querySelector('a');
-            li.classList.toggle('toc-active', a && a.getAttribute('href') === '#' + activeId);
-          });
-        }
-      });
-    }, { rootMargin: '-5% 0px -85% 0px', threshold: 0 });
-
-    headings.forEach(h => obs.observe(h));
-  })();
-  </script>
-  <!-- ── END PAGE TOC ── -->
-
 </body>
 </html>

@@ -22,10 +22,10 @@
       --max: 860px;
     }
 
-    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+    html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
 
     body {
-      background: var(--paper);
+      background: #FDFDFC;
       color: var(--ink);
       font-family: var(--sans);
       font-weight: 300;
@@ -49,6 +49,12 @@
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    #nav-audio-controls { display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    #nav-audio-controls.visible { opacity: 1; pointer-events: auto; }
+    .nav-audio-btn { height: 28px; padding: 4px 10px 4px 4px; border-radius: 14px; background: var(--ink); color: #fff; border: none; cursor: pointer; font-size: 0.72rem; font-family: var(--sans); font-weight: 500; letter-spacing: 0.03em; display: flex; align-items: center; gap: 7px; transition: opacity 0.2s; flex-shrink: 0; white-space: nowrap; }
+    .nav-audio-btn:hover { opacity: 0.7; }
+    #nav-audio-icon { width: 20px; height: 20px; border-radius: 50%; background: #f0f0f0; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; line-height: 1; }
 
     /* ── PAGE ── */
     main { padding-top: 100px; padding-bottom: 120px; }
@@ -101,7 +107,7 @@
     .cs-meta-value { font-size: 0.9rem; color: var(--ink); }
 
     /* ── SECTIONS ── */
-    .cs-section { margin-bottom: 0; padding-top: 28px; }
+    .cs-section { margin-bottom: 0; padding-top: 32px; }
 
     .cs-section-label {
       font-family: var(--serif); font-size: 0.75rem; font-weight: 600;
@@ -138,7 +144,7 @@
       border: 1px solid var(--rule); border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       color: var(--ink-light); font-size: 0.8rem; letter-spacing: 0.06em;
-      text-transform: uppercase; margin-bottom: 12px;
+      text-transform: uppercase; margin: 24px 0;
     }
     .img-placeholder.aspect-wide { aspect-ratio: 16/9; }
     .img-placeholder.aspect-sq { aspect-ratio: 1/1; }
@@ -228,12 +234,17 @@
 
   <nav id="mainNav">
     <a href="index.html" class="nav-logo">LR</a>
+    <div class="nav-right">
+    <div id="nav-audio-controls" aria-label="Audio controls">
+      <button class="nav-audio-btn" id="nav-audio-toggle" aria-label="Pause narration"><span id="nav-audio-icon">⏸</span><span>Narration</span></button>
+    </div>
     <ul class="nav-links">
       <li><a href="index.html">Work</a></li>
       <li><a href="influence.html">Influence</a></li>
       <li><a href="#">About</a></li>
       <li><a href="/cdn-cgi/l/email-protection#6a060f1344180505040f132a0d070b030644090507">Get in touch</a></li>
     </ul>
+    </div>
   </nav>
 
   <main>
@@ -703,27 +714,46 @@
 
     // ── Audio player ──
     (function() {
-      const audioEl  = document.getElementById('audioEl');
-      const playBtn  = document.getElementById('audioPlayBtn');
-      const progress = document.getElementById('audioProgress');
-      const current  = document.getElementById('audioCurrentTime');
-      const durEl    = document.getElementById('audioDuration');
+      const audioEl   = document.getElementById('audioEl');
+      const playBtn   = document.getElementById('audioPlayBtn');
+      const progress  = document.getElementById('audioProgress');
+      const current   = document.getElementById('audioCurrentTime');
+      const durEl     = document.getElementById('audioDuration');
+      const navCtrl   = document.getElementById('nav-audio-controls');
+      const navToggle = document.getElementById('nav-audio-toggle');
+      const navIcon   = document.getElementById('nav-audio-icon');
       if (!audioEl) return;
       audioEl.playbackRate = 1.3;
+      let audioStarted = false, inlineVisible = true;
       function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+      function syncNavControls() {
+        if (!navCtrl) return;
+        navCtrl.classList.toggle('visible', audioStarted && !inlineVisible);
+        if (navToggle && navIcon) {
+          if (audioEl.paused) { navIcon.textContent = '▶'; navToggle.setAttribute('aria-label', 'Resume narration'); }
+          else { navIcon.textContent = '⏸'; navToggle.setAttribute('aria-label', 'Pause narration'); }
+        }
+      }
+      const inlinePlayer = document.getElementById('audio-player');
+      if (inlinePlayer && 'IntersectionObserver' in window) {
+        new IntersectionObserver(function(entries) { inlineVisible = entries[0].isIntersecting; syncNavControls(); }, { threshold: 0.1 }).observe(inlinePlayer);
+      }
       audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
       playBtn.addEventListener('click', () => {
         if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
         else { audioEl.pause(); playBtn.textContent = '▶'; }
       });
+      audioEl.addEventListener('play',  () => { audioStarted = true; syncNavControls(); });
+      audioEl.addEventListener('pause', syncNavControls);
       audioEl.addEventListener('timeupdate', () => {
-        if (audioEl.duration) {
-          progress.value = (audioEl.currentTime / audioEl.duration) * 100;
-          current.textContent = fmt(audioEl.currentTime);
-        }
+        if (audioEl.duration) { progress.value = (audioEl.currentTime / audioEl.duration) * 100; current.textContent = fmt(audioEl.currentTime); }
       });
       progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
-      audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
+      audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; audioStarted = false; syncNavControls(); });
+      if (navToggle) navToggle.addEventListener('click', () => {
+        if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+        else { audioEl.pause(); playBtn.textContent = '▶'; }
+      });
     })();
   </script></body>
 </html>

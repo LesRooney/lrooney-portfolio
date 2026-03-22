@@ -23,9 +23,9 @@
       --max: 1080px;
     }
 
-    html { font-size: 16px; scroll-behavior: smooth; background: #F9F8F7; }
+    html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
     body {
-      background: #F9F8F7;
+      background: #FDFDFC;
       color: var(--ink);
       font-family: var(--sans);
       font-weight: 300;
@@ -46,9 +46,27 @@
     }
     nav.scrolled { border-color: var(--rule); }
     .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--ink); }
+    #nav-audio-controls { display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    #nav-audio-controls.visible { opacity: 1; pointer-events: auto; }
+    .nav-audio-btn {
+      height: 28px; padding: 4px 10px 4px 4px; border-radius: 14px;
+      background: var(--ink); color: #fff;
+      border: none; cursor: pointer; font-size: 0.72rem;
+      font-family: var(--sans); font-weight: 500; letter-spacing: 0.03em;
+      display: flex; align-items: center; gap: 7px;
+      transition: opacity 0.2s; flex-shrink: 0; white-space: nowrap;
+    }
+    .nav-audio-btn:hover { opacity: 0.7; }
+    #nav-audio-icon {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #f0f0f0; color: var(--ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; flex-shrink: 0; line-height: 1;
+    }
 
     /* HERO */
     .cs-hero {
@@ -100,7 +118,7 @@
     .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
 
     /* SECTION */
-    .cs-section { padding: 28px 0 0; border-bottom: none; }
+    .cs-section { padding: 32px 0 0; border-bottom: none; }
     .cs-section:last-of-type { border-bottom: none; }
     .cs-section h2 {
       font-family: var(--serif);
@@ -125,12 +143,12 @@
     :root { --sb: 260px; }
     .two-col { display: grid; grid-template-columns: 1fr var(--sb); gap: 48px; align-items: start; }
     .main-col {}
-    .sidebar-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
-    .sidebar-card { border: 1px solid var(--rule); border-radius: 12px; padding: 20px; background: #F9F8F7; }
-    .sidebar-card h3 { font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
-    .sidebar-list { list-style: none; padding: 0; margin: 0; }
-    .sidebar-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; }
-    .sidebar-list li::before { content: '✦ '; color: var(--ink-light); font-size: 0.65rem; }
+    .info-panel-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+    .info-panel-card { border: 1px solid var(--rule); border-radius: 12px; padding: 20px; background: transparent; }
+    .info-panel-card h3 { font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+    .info-panel-list { list-style: none; padding: 0; margin: 0; }
+    .info-panel-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; display: flex; align-items: baseline; gap: 8px; }
+    .info-panel-list li::before { content: '✦'; color: var(--ink); font-size: 0.65rem; flex-shrink: 0; }
     .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
 
     /* META GRID */
@@ -208,6 +226,11 @@
     .carousel-track-wrap { overflow: hidden; border-radius: 12px; border: 1px solid var(--rule); }
     .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
     .carousel-slide { flex: 0 0 100%; }
+    /* Fade carousel mode */
+    .carousel[data-fade] .carousel-track { display: block; }
+    .carousel[data-fade] .carousel-slide { display: none; }
+    .carousel[data-fade] .carousel-slide.is-active { display: block; animation: csFade 0.28s ease; }
+    @keyframes csFade { from { opacity: 0; } to { opacity: 1; } }
     .carousel-slide .img-placeholder { margin: 0; border-radius: 0; border: none; }
     .carousel-slide img { width: 100%; display: block; border-radius: 0; }
     .carousel-controls {
@@ -297,7 +320,7 @@
       .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
       .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
       .two-col { grid-template-columns: 1fr; }
-      .sidebar-col { position: static; order: -1; padding-top: 0; }
+      .info-panel-col { position: static; order: -1; padding-top: 0; }
     }
     @media (max-width: 480px) {
       .meta-grid { grid-template-columns: 1fr; }
@@ -308,12 +331,17 @@
 
 <nav id="nav">
   <a href="index.html" class="nav-logo">Lesley Rooney</a>
-  <ul class="nav-links">
-    <li><a href="index.html#work">Work</a></li>
-    <li><a href="influence.html">Influence</a></li>
-    <li><a href="index.html#about">About</a></li>
-    <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
-  </ul>
+  <div class="nav-right">
+    <div id="nav-audio-controls" aria-label="Audio controls">
+      <button class="nav-audio-btn" id="nav-audio-toggle" aria-label="Pause narration"><span id="nav-audio-icon">⏸</span><span>Narration</span></button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="influence.html">Influence</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- 1. HERO IMAGE -->
@@ -375,11 +403,11 @@
     </div><!-- /.main-col -->
 
     <!-- SIDEBAR CARDS -->
-    <div class="sidebar-col">
+    <div class="info-panel-col">
 
-      <div class="sidebar-card">
+      <div class="info-panel-card">
         <h3>Team</h3>
-        <ul class="sidebar-list">
+        <ul class="info-panel-list">
           <li>Product Manager</li>
           <li>Lead Engineer</li>
           <li>Remote engineers</li>
@@ -387,9 +415,9 @@
         </ul>
       </div>
 
-      <div class="sidebar-card">
+      <div class="info-panel-card">
         <h3>What I did 👩🏾‍💻</h3>
-        <ul class="sidebar-list">
+        <ul class="info-panel-list">
           <li>Research</li>
           <li>Customer service desk</li>
           <li>Marketing</li>
@@ -399,12 +427,12 @@
         </ul>
       </div>
 
-      <div class="sidebar-card">
+      <div class="info-panel-card">
         <h3>Duration</h3>
         <p style="font-size: 0.9rem; color: var(--ink-mid);">~4 months</p>
       </div>
 
-    </div><!-- /.sidebar-col -->
+    </div><!-- /.info-panel-col -->
 
   </div><!-- /.two-col -->
 
@@ -462,13 +490,12 @@
   <!-- 9. THE WORK BEHIND THE RECOMMENDATIONS -->
   <div class="cs-section">
     <h2>The Work Behind the Recommendations</h2>
-    <p>A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
-
-    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; display:flex; flex-direction:column; gap:24px;">
+      <p style="margin:0;">A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
       <img src="images/traffic-sources-map.png" alt="Traffic sources map showing referral sources and drop-off points" style="width:100%; display:block;">
     </div>
 
-    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:24px;">
       <p style="margin:0 0 16px;">Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
       <div class="img-pair-zoom">
         <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
@@ -482,14 +509,14 @@
       </div>
     </div>
 
-    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:20px;">
-      <p style="margin:0 0 16px;">One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:24px;">
+      <p style="margin:0 0 24px;">One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
       <!-- CAROUSEL: Research evidence (auto-advancing) -->
       <div class="carousel" data-carousel data-autoplay="2000" style="margin:0;">
         <div class="carousel-track-wrap" style="overflow:hidden;">
           <div class="carousel-track">
             <div class="carousel-slide">
-              <img src="images/shared-accommodation-analysis-1.png" alt="Homepage A/B/C variant comparison" style="width:100%; height:633px; object-fit:cover; object-position:top; display:block;">
+              <img src="images/Homerenter/StuffOnRightmove.webp" alt="Rightmove bar chart comparing HomeRenter, I Am The Agent, and House Simple by property type" style="width:100%; height:633px; object-fit:contain; background:#fff; display:block;">
             </div>
             <div class="carousel-slide">
               <img src="images/homerenter-website-latest-props.png" alt="HomeRenter website latest properties section" style="width:100%; height:633px; object-fit:contain; background:#F5F5F4; display:block;">
@@ -510,45 +537,31 @@
       </div>
     </div>
 
-    <p>Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
-
-    <img src="images/free-banner.png" alt="Marketing banner: no strings attached, no credit card needed" style="width:100%; display:block; border-radius:12px;">
+    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:24px; margin-top:24px;">
+      <p style="margin:0;">Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
+      <img src="images/Homerenter/LL_Let_prop_freeBannerHalf.png" alt="Ad variants: Landlords enjoy a free 30 day listing on Rightmove and Zoopla" style="width:70%; display:block; border-radius:8px; margin:0 auto;">
+    </div>
   </div>
 
   <!-- 10. LANDLORD CREATION FLOW -->
   <div class="cs-section">
     <h2>Landlord Creation Flow</h2>
-    <p class="cs-caption">Below: a map of the landlord creation flow that was being implemented when I started.</p>
-
     <!-- CAROUSEL: Creation flow (2 slides) -->
-    <div class="carousel" data-carousel>
-      <div class="carousel-track-wrap">
-        <div class="carousel-track">
-          <div class="carousel-slide">
-            <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map" style="width:100%; height:659px; object-fit:contain; object-position:top; background:#fff; display:block;">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/landlord-creation-flow-2.png" alt="Landlord creation flow detail" style="width:100%; height:659px; object-fit:contain; object-position:top; background:#fff; display:block;">
-          </div>
-        </div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next" aria-label="Next slide">→</button>
-      </div>
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; margin-top:24px; display:flex; flex-direction:column; gap:24px;">
+      <p style="margin:0;" class="cs-caption">Below: a map of the landlord creation flow that was being implemented when I started.</p>
+      <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block; border-radius:8px;">
     </div>
   </div>
 
   <!-- 11. DESIGN CONCEPTS -->
   <div class="cs-section">
     <h2>Design Concepts</h2>
-    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px;">
+    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:24px;">
       <p style="margin:0;">Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
       <img src="images/ll-landing-page-full.png" alt="Landing page redesign concept" style="width:30%; display:block; margin:0 auto; border-radius:8px;">
     </div>
 
-    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px; margin-top:16px;">
+    <div style="background:#F5F5F4; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:24px; margin-top:24px;">
       <img src="images/faqs-redesign-annotated.png" alt="FAQs page redesign with annotations" style="width:90%; display:block; margin:0 auto; border-radius:8px;">
       <ul class="cs-list" style="margin:0;">
         <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
@@ -559,24 +572,25 @@
       <img src="images/iphones-small.gif" alt="Mobile UI animation showing the redesigned HomeRenter experience" style="width:100%; display:block; border-radius:8px;">
     </div>
 
-    <p>Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
-
-    <!-- CAROUSEL: Journey map (2 slides) -->
-    <div class="carousel" data-carousel>
-      <div class="carousel-track-wrap">
-        <div class="carousel-track">
-          <div class="carousel-slide">
-            <img src="images/landlord-journey-map-1.png" alt="Landlord journey map in Trello" style="width:100%; display:block;">
-          </div>
-          <div class="carousel-slide">
-            <img src="images/landlord-journey-map-2.png" alt="Landlord journey map detail" style="width:100%; display:block;">
+    <div style="background:#F5F5F4; border-radius:16px; overflow:hidden; padding:20px; display:flex; flex-direction:column; gap:24px; margin-top:24px;">
+      <p style="margin:0;">Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
+      <!-- CAROUSEL: Journey map (2 slides) -->
+      <div class="carousel" data-carousel data-autoplay="1400" data-fade style="margin:0;">
+        <div class="carousel-track-wrap">
+          <div class="carousel-track">
+            <div class="carousel-slide">
+              <img src="images/Homerenter/LL_journ01.webp" alt="Landlord journey map in Trello — steps 0 to 3" style="width:100%; height:520px; object-fit:cover; object-position:top; display:block;">
+            </div>
+            <div class="carousel-slide">
+              <img src="images/Homerenter/LL_journ02.webp" alt="Landlord journey map in Trello — steps 4 to 8" style="width:100%; height:520px; object-fit:cover; object-position:top; display:block;">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next" aria-label="Next slide">→</button>
+        <div class="carousel-controls">
+          <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+          <span class="carousel-counter">1 / 2</span>
+          <button class="carousel-btn next" aria-label="Next slide">→</button>
+        </div>
       </div>
     </div>
   </div>
@@ -634,6 +648,7 @@
 
   // ── Carousels ──
   document.querySelectorAll('[data-carousel]').forEach(function(carousel) {
+    const isFade  = carousel.hasAttribute('data-fade');
     const track   = carousel.querySelector('.carousel-track');
     const slides  = carousel.querySelectorAll('.carousel-slide');
     const prevBtn = carousel.querySelector('.carousel-btn.prev');
@@ -643,7 +658,11 @@
     const total = slides.length;
 
     function update() {
-      track.style.transform = `translateX(-${current * 100}%)`;
+      if (isFade) {
+        slides.forEach(function(s, i) { s.classList.toggle('is-active', i === current); });
+      } else {
+        track.style.transform = `translateX(-${current * 100}%)`;
+      }
       counter.textContent = (current + 1) + ' / ' + total;
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === total - 1;
@@ -657,24 +676,23 @@
     const autoMs = parseInt(carousel.dataset.autoplay, 10);
     let autoTimer = null;
     function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
-    if (autoMs) {
+    function startAuto() {
       autoTimer = setInterval(function() {
         current = (current + 1) % total;
-        track.style.transform = `translateX(-${current * 100}%)`;
+        if (isFade) {
+          slides.forEach(function(s, i) { s.classList.toggle('is-active', i === current); });
+        } else {
+          track.style.transform = `translateX(-${current * 100}%)`;
+        }
         counter.textContent = (current + 1) + ' / ' + total;
         prevBtn.disabled = false;
         nextBtn.disabled = false;
       }, autoMs);
+    }
+    if (autoMs) {
+      startAuto();
       carousel.addEventListener('mouseenter', stopAuto);
-      carousel.addEventListener('mouseleave', function() {
-        autoTimer = setInterval(function() {
-          current = (current + 1) % total;
-          track.style.transform = `translateX(-${current * 100}%)`;
-          counter.textContent = (current + 1) + ' / ' + total;
-          prevBtn.disabled = false;
-          nextBtn.disabled = false;
-        }, autoMs);
-      });
+      carousel.addEventListener('mouseleave', startAuto);
     }
   });
 
@@ -713,19 +731,54 @@
 
   // ── Audio player ──
   (function() {
-    const audioEl  = document.getElementById('audioEl');
-    const playBtn  = document.getElementById('audioPlayBtn');
-    const progress = document.getElementById('audioProgress');
-    const current  = document.getElementById('audioCurrentTime');
-    const durEl    = document.getElementById('audioDuration');
+    const audioEl    = document.getElementById('audioEl');
+    const playBtn    = document.getElementById('audioPlayBtn');
+    const progress   = document.getElementById('audioProgress');
+    const current    = document.getElementById('audioCurrentTime');
+    const durEl      = document.getElementById('audioDuration');
+    const navCtrl    = document.getElementById('nav-audio-controls');
+    const navToggle  = document.getElementById('nav-audio-toggle');
+    const navIcon    = document.getElementById('nav-audio-icon');
     if (!audioEl) return;
     audioEl.playbackRate = 1.1;
+    let audioStarted  = false;
+    let inlineVisible = true; // inline player starts visible at top of page
+
     function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+
+    function syncNavControls() {
+      if (!navCtrl) return;
+      // Show nav controls only when audio has started AND inline player is scrolled out of view
+      const shouldShow = audioStarted && !inlineVisible;
+      navCtrl.classList.toggle('visible', shouldShow);
+      // Toggle icon between pause and play
+      if (navToggle && navIcon) {
+        if (audioEl.paused) {
+          navIcon.textContent = '▶';
+          navToggle.setAttribute('aria-label', 'Resume narration');
+        } else {
+          navIcon.textContent = '⏸';
+          navToggle.setAttribute('aria-label', 'Pause narration');
+        }
+      }
+    }
+
+    // Watch inline player visibility — fade nav controls when it scrolls into view
+    const inlinePlayer = document.getElementById('audio-player');
+    if (inlinePlayer && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        inlineVisible = entries[0].isIntersecting;
+        syncNavControls();
+      }, { threshold: 0.1 }).observe(inlinePlayer);
+    }
+
     audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
     playBtn.addEventListener('click', () => {
       if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
       else { audioEl.pause(); playBtn.textContent = '▶'; }
     });
+    audioEl.addEventListener('play',  () => { audioStarted = true; syncNavControls(); });
+    audioEl.addEventListener('pause', syncNavControls);
     audioEl.addEventListener('timeupdate', () => {
       if (audioEl.duration) {
         progress.value = (audioEl.currentTime / audioEl.duration) * 100;
@@ -733,7 +786,13 @@
       }
     });
     progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
-    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; audioStarted = false; syncNavControls(); });
+
+    // Nav toggle: play if paused, pause if playing
+    if (navToggle) navToggle.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
   })();
 </script>
 </body>

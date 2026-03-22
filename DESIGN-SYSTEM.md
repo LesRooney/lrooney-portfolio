@@ -13,7 +13,8 @@ All colours are defined as CSS custom properties on `:root`.
 | `--ink` | `#0A0A0A` | Primary text — all headings (h1–h3), bold labels, nav logo |
 | `--ink-mid` | `#4A4A4A` | Secondary text — body copy, nav links, list items, sidebar text |
 | `--ink-light` | `#717171` | Tertiary text — captions, eyebrows, placeholder labels, icon labels |
-| `--paper` | `#f5f5f5` | Page background (html, body, nav backdrop base) |
+| `--paper` | `#f5f5f5` | Nav backdrop base, footer background |
+| Page fill | `#FDFDFC` | `html` and `body` background on all pages — set directly, not via `--paper` |
 | `--paper-alt` | `#efede7` | Card backgrounds, image placeholder surfaces, secondary containers |
 | `--rule` | `#e2e0d8` | Borders, dividers, subtle container outlines |
 | `--faint` | `#f5f3ef` | Very light surface — outcomes band, img-card background (EDC page) |
@@ -158,7 +159,7 @@ border-radius: 20px;
 
 ## Spacing System
 
-All spacing values are multiples of **8px**. The one deliberate exception is `28px` (section gap), which is a specified design token.
+All spacing values are multiples of **8px**.
 
 | Step | Value | Usage |
 |---|---|---|
@@ -166,9 +167,8 @@ All spacing values are multiples of **8px**. The one deliberate exception is `28
 | xs | `8px` | Tag row gaps, small component spacing, peek-grid gap |
 | sm | `16px` | H2 → paragraph gap, component internal padding, icon row gap |
 | — | `20px` | Nav vertical padding, sidebar card padding |
-| — | `24px` | Image/placeholder margins, h3 top margin |
-| **section** | **`28px`** | **Vertical gap before next section title (`.cs-section` `padding-top`)** |
-| — | `32px` | Large grid gaps, sidebar column `padding-top`, card bottom margin |
+| — | `24px` | Image/placeholder margins, h3 top margin, card image-to-title gap |
+| **section** | **`32px`** | **Vertical gap before next section title (`.cs-section` `padding-top`); large grid gaps, sidebar column `padding-top`, card bottom margin** |
 | — | `40px` | Header bottom padding, footer padding |
 | — | `48px` | Nav horizontal padding, two-column gap, work-section padding |
 | — | `64px` | Peek section top/bottom padding |
@@ -246,7 +246,7 @@ backdrop-filter: blur(12px);
 
 - `hr.section-rule` → `display: none` (hidden on all pages)
 - `hr.persona-rule` → `display: none`
-- `.sidebar-divider` → `display: none`
+- `.info-panel-divider` → `display: none`
 - `.cs-header` has no `border-bottom`
 - `.cs-section` has no `border-bottom`
 
@@ -384,8 +384,259 @@ Drag handle to reveal before/after states. Uses `clip-path: inset()` driven by p
 ### HoverReveal
 Dark overlay with play icon appears on hover over a thumbnail. Uses navy (now `--ink`) overlay at 92% opacity.
 
+### Right Side Info Panel Card
+
+The right-hand column on all case study pages. Displays at-a-glance project metadata: Team, What I did, Duration, Tools. Sits in a two-column grid alongside the main content column.
+
+**Component name:** Right Side Info Panel Card
+**CSS classes:** `.info-panel-col`, `.info-panel-card`, `.info-panel-list`
+
+#### Layout
+The column sits in the two-column grid defined by `.two-col`:
+```css
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr var(--sb); /* var(--sb) = 240px */
+  gap: 48px;
+  align-items: start;
+}
+.info-panel-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 32px;
+}
+```
+
+On mobile the column stacks above the main content:
+```css
+@media (max-width: 768px) {
+  .two-col { grid-template-columns: 1fr; }
+  .info-panel-col { order: -1; padding-top: 0; }
+}
+```
+
+#### Card
+Each individual card within the panel:
+```css
+.info-panel-card {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 20px;
+  background: transparent;
+}
+.info-panel-card h3 {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+```
+
+#### List (inside each card)
+```css
+.info-panel-list { list-style: none; padding: 0; margin: 0; }
+.info-panel-list li {
+  font-size: 0.82rem;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding: 3px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.info-panel-list li::before {
+  content: '✦';
+  color: var(--ink);
+  font-size: 0.65rem;
+  flex-shrink: 0;
+}
+```
+
+#### HTML structure
+```html
+<div class="info-panel-col">
+
+  <div class="info-panel-card">
+    <h3>Team</h3>
+    <ul class="info-panel-list">
+      <li>Role name 🇬🇧</li>
+      <li><strong>Product Designer — Me 🇬🇧</strong></li>
+    </ul>
+  </div>
+
+  <div class="info-panel-card">
+    <h3>What I did 👩🏾‍💻</h3>
+    <ul class="info-panel-list">
+      <li>Activity</li>
+    </ul>
+  </div>
+
+  <div class="info-panel-card">
+    <h3>Duration</h3>
+    <p style="font-size: 0.9rem; color: var(--ink-mid);">~X months</p>
+  </div>
+
+</div><!-- /.info-panel-col -->
+```
+
+#### Rules
+- Gap between ✦ bullet and text: always `8px` (via `gap`, not spaces in `content`)
+- Bullet colour: `var(--ink)` — never `--ink-light` or `--navy`
+- `flex-shrink: 0` on `::before` prevents bullet collapsing on long lines
+- Card background: `transparent` — inherits page fill (`#FDFDFC`)
+- "Me" entry in Team list: always `<strong>` to distinguish the designer's own role
+- Do not add a border-bottom divider between cards — gap alone provides separation
+
 ### AudioPlayer (EDC only)
 Wired to `<audio>` element. Play/pause toggle, range input progress bar, timestamp display.
+
+### NavNarrationButton
+A persistent audio control that appears in the top navigation when a case study narration is playing **and** the inline audio player has been scrolled out of view. Fades out again when the inline player re-enters the viewport or audio ends.
+
+Used on all case study pages that have an `<audio>` narration track.
+
+#### Behaviour
+- Hidden by default (`opacity: 0; pointer-events: none`)
+- Becomes visible when **both** conditions are true: `audioStarted === true` AND `inlineVisible === false`
+- Visibility is driven by `IntersectionObserver` watching `#audio-player` (threshold: `0.1`)
+- Icon toggles between `⏸` (playing) and `▶` (paused)
+- Clicking the nav button toggles play/pause, keeping the inline player button in sync
+
+#### HTML (inside `<nav>`, wrapped in `.nav-right`)
+```html
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Lesley Rooney</a>
+  <div class="nav-right">
+    <div id="nav-audio-controls" aria-label="Audio controls">
+      <button class="nav-audio-btn" id="nav-audio-toggle" aria-label="Pause narration">
+        <span id="nav-audio-icon">⏸</span>
+        <span>Narration</span>
+      </button>
+    </div>
+    <ul class="nav-links">…</ul>
+  </div>
+</nav>
+```
+
+#### CSS
+```css
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#nav-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#nav-audio-controls.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav-audio-btn {
+  height: 28px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.nav-audio-btn:hover { opacity: 0.7; }
+#nav-audio-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+```
+
+#### JS (self-contained IIFE, added after inline audio player script)
+```js
+(function() {
+  const audioEl   = document.getElementById('audioEl');
+  const playBtn   = document.getElementById('audioPlayBtn');
+  const progress  = document.getElementById('audioProgress');
+  const current   = document.getElementById('audioCurrentTime');
+  const durEl     = document.getElementById('audioDuration');
+  const navCtrl   = document.getElementById('nav-audio-controls');
+  const navToggle = document.getElementById('nav-audio-toggle');
+  const navIcon   = document.getElementById('nav-audio-icon');
+  if (!audioEl) return;
+  audioEl.playbackRate = 1.3; // adjust per page (EDC: 1.2, others: 1.3)
+  let audioStarted = false, inlineVisible = true;
+  function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+  function syncNavControls() {
+    if (!navCtrl) return;
+    navCtrl.classList.toggle('visible', audioStarted && !inlineVisible);
+    if (navToggle && navIcon) {
+      if (audioEl.paused) { navIcon.textContent = '▶'; navToggle.setAttribute('aria-label','Resume narration'); }
+      else { navIcon.textContent = '⏸'; navToggle.setAttribute('aria-label','Pause narration'); }
+    }
+  }
+  const inlinePlayer = document.getElementById('audio-player');
+  if (inlinePlayer && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      inlineVisible = entries[0].isIntersecting;
+      syncNavControls();
+    }, { threshold: 0.1 }).observe(inlinePlayer);
+  }
+  audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
+  playBtn.addEventListener('click', () => {
+    if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+    else { audioEl.pause(); playBtn.textContent = '▶'; }
+  });
+  audioEl.addEventListener('play',  () => { audioStarted = true; syncNavControls(); });
+  audioEl.addEventListener('pause', syncNavControls);
+  audioEl.addEventListener('timeupdate', () => {
+    if (audioEl.duration) { progress.value = (audioEl.currentTime / audioEl.duration) * 100; current.textContent = fmt(audioEl.currentTime); }
+  });
+  progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
+  audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; audioStarted = false; syncNavControls(); });
+  if (navToggle) navToggle.addEventListener('click', () => {
+    if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+    else { audioEl.pause(); playBtn.textContent = '▶'; }
+  });
+})();
+```
+
+#### Playback rate by page
+| Page | `playbackRate` |
+|---|---|
+| `medidataedcredesign.html` | `1.2` |
+| `clinical-risk-based-monitoring.html` | `1.3` |
+| `qualisflow-02.html` | `1.3` |
+| `lesleyrooney-games-sims-vfxworks.html` | `1.3` |
+| `games-simulations-films.html` | `1.3` |
+| `homerenter.html` | `1.1` |
+
+#### Special case — `lesleyrooney-games-sims-vfxworks.html`
+This page also has a Vimeo showreel stop button (`#showreel-stop`) inside `.nav-right`. Order inside `.nav-right` is: narration button → nav links → showreel stop button.
+
+---
 
 ### NDA Placeholder
 Dark (`--ink`) background with lock emoji and "NDA" label. Used when screens are protected.
@@ -410,8 +661,9 @@ color: rgba(255,255,255,0.5);
 - Mobile-first CSS
 - No jQuery — vanilla JS only
 - No frameworks or npm packages without discussion
-- All padding and gaps must be **multiples of 8px** (exception: `28px` section gap)
+- All padding and gaps must be **multiples of 8px**
 - H2 → paragraph gap: **16px**
-- Section-to-section gap (before next title): **28px**
+- Card image-to-title gap: **24px**
+- Section-to-section gap (before next title): **32px**
 - Do not change the colour palette or typography without updating this file
 - Do not add horizontal rules between section or page titles

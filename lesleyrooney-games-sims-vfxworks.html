@@ -23,10 +23,10 @@
       --max: 1200px;
     }
 
-    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+    html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
 
     body {
-      background: var(--paper);
+      background: #FDFDFC;
       color: var(--ink);
       font-family: var(--sans);
       font-weight: 300;
@@ -50,6 +50,23 @@
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    #nav-audio-controls { display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    #nav-audio-controls.visible { opacity: 1; pointer-events: auto; }
+    .nav-audio-btn { height: 28px; padding: 4px 10px 4px 4px; border-radius: 14px; background: var(--ink); color: #fff; border: none; cursor: pointer; font-size: 0.72rem; font-family: var(--sans); font-weight: 500; letter-spacing: 0.03em; display: flex; align-items: center; gap: 7px; transition: opacity 0.2s; flex-shrink: 0; white-space: nowrap; }
+    .nav-audio-btn:hover { opacity: 0.7; }
+    #nav-audio-icon { width: 20px; height: 20px; border-radius: 50%; background: #f0f0f0; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; line-height: 1; }
+    #showreel-stop {
+      display: none; align-items: center; gap: 6px;
+      height: 24px; padding: 0 10px; border-radius: 6px;
+      background: var(--ink); color: #fff;
+      border: none; cursor: pointer;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+      font-family: var(--sans); white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    #showreel-stop:hover { opacity: 0.75; }
+    #showreel-stop.visible { display: flex; }
 
     /* ── CURSOR ── */
     #cursor-dot { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
@@ -87,7 +104,7 @@
     .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
 
     /* ── SECTION ── */
-    .cs-section { padding: 28px 0 0; }
+    .cs-section { padding: 32px 0 0; }
     .section-rule { display: none; }
     .section-heading {
       font-family: var(--serif);
@@ -371,11 +388,17 @@
 
 <nav id="nav">
   <a href="/" class="nav-logo">Lesley Rooney</a>
-  <ul class="nav-links">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/influence.html">Influence</a></li>
-    <li><a href="/#about">Contact</a></li>
-  </ul>
+  <div class="nav-right">
+    <div id="nav-audio-controls" aria-label="Audio controls">
+      <button class="nav-audio-btn" id="nav-audio-toggle" aria-label="Pause narration"><span id="nav-audio-icon">⏸</span><span>Narration</span></button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/#work">Work</a></li>
+      <li><a href="/influence.html">Influence</a></li>
+      <li><a href="/#about">Contact</a></li>
+    </ul>
+    <button id="showreel-stop" aria-label="Stop showreel">&#9646;&#9646; Stop showreel</button>
+  </div>
 </nav>
 
 <div class="cs-page">
@@ -420,7 +443,8 @@
       <p>My texturing showreel showcasing VFX work from hero pieces to background assets</p>
     </div>
     <div class="video-wrap">
-      <iframe src="https://player.vimeo.com/video/67950765?title=0&byline=0&portrait=0"
+      <iframe id="showreel-iframe"
+              src="https://player.vimeo.com/video/67950765?title=0&byline=0&portrait=0&api=1"
               frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture"
               allowfullscreen
@@ -959,6 +983,21 @@
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
 
+  // ── Showreel stop button (Vimeo postMessage API)
+  const showreelIframe = document.getElementById('showreel-iframe');
+  const showreelStop   = document.getElementById('showreel-stop');
+  window.addEventListener('message', function(e) {
+    if (!e.data) return;
+    let data;
+    try { data = (typeof e.data === 'string') ? JSON.parse(e.data) : e.data; } catch(err) { return; }
+    if (data.event === 'play')  showreelStop.classList.add('visible');
+    if (data.event === 'pause' || data.event === 'finish') showreelStop.classList.remove('visible');
+  });
+  showreelStop.addEventListener('click', function() {
+    showreelIframe.contentWindow.postMessage('{"method":"pause"}', '*');
+    showreelStop.classList.remove('visible');
+  });
+
   // ── Lightbox
   let lbItems = [], lbIdx = 0;
 
@@ -1109,27 +1148,46 @@
 
   // ── Audio player ──
   (function() {
-    const audioEl  = document.getElementById('audioEl');
-    const playBtn  = document.getElementById('audioPlayBtn');
-    const progress = document.getElementById('audioProgress');
-    const current  = document.getElementById('audioCurrentTime');
-    const durEl    = document.getElementById('audioDuration');
+    const audioEl   = document.getElementById('audioEl');
+    const playBtn   = document.getElementById('audioPlayBtn');
+    const progress  = document.getElementById('audioProgress');
+    const current   = document.getElementById('audioCurrentTime');
+    const durEl     = document.getElementById('audioDuration');
+    const navCtrl   = document.getElementById('nav-audio-controls');
+    const navToggle = document.getElementById('nav-audio-toggle');
+    const navIcon   = document.getElementById('nav-audio-icon');
     if (!audioEl) return;
     audioEl.playbackRate = 1.3;
+    let audioStarted = false, inlineVisible = true;
     function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
+    function syncNavControls() {
+      if (!navCtrl) return;
+      navCtrl.classList.toggle('visible', audioStarted && !inlineVisible);
+      if (navToggle && navIcon) {
+        if (audioEl.paused) { navIcon.textContent = '▶'; navToggle.setAttribute('aria-label', 'Resume narration'); }
+        else { navIcon.textContent = '⏸'; navToggle.setAttribute('aria-label', 'Pause narration'); }
+      }
+    }
+    const inlinePlayer = document.getElementById('audio-player');
+    if (inlinePlayer && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) { inlineVisible = entries[0].isIntersecting; syncNavControls(); }, { threshold: 0.1 }).observe(inlinePlayer);
+    }
     audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
     playBtn.addEventListener('click', () => {
       if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
       else { audioEl.pause(); playBtn.textContent = '▶'; }
     });
+    audioEl.addEventListener('play',  () => { audioStarted = true; syncNavControls(); });
+    audioEl.addEventListener('pause', syncNavControls);
     audioEl.addEventListener('timeupdate', () => {
-      if (audioEl.duration) {
-        progress.value = (audioEl.currentTime / audioEl.duration) * 100;
-        current.textContent = fmt(audioEl.currentTime);
-      }
+      if (audioEl.duration) { progress.value = (audioEl.currentTime / audioEl.duration) * 100; current.textContent = fmt(audioEl.currentTime); }
     });
     progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
-    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; audioStarted = false; syncNavControls(); });
+    if (navToggle) navToggle.addEventListener('click', () => {
+      if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
+      else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
   })();
 </script>
 </body>

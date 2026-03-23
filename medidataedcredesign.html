@@ -156,8 +156,32 @@
     .cs-section--wide h2 { color: var(--navy); }
     .cs-section--wide p { max-width: 820px; }
 
+    /* CAROUSEL PAUSE OVERLAY */
+    .carousel-pause-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+      pointer-events: none; border-radius: 16px; z-index: 10;
+    }
+    .img-card:hover .carousel-pause-overlay { opacity: 1; pointer-events: auto; }
+    .carousel-pause-btn {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.92); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15); transition: transform 0.15s;
+    }
+    .carousel-pause-btn:hover { transform: scale(1.08); }
+    /* Pause bars (default — auto playing) */
+    .carousel-pause-icon { display: flex; gap: 4px; align-items: stretch; width: 14px; height: 18px; }
+    .carousel-pause-icon::before, .carousel-pause-icon::after { content: ''; flex: 1; background: var(--ink); border-radius: 2px; }
+    /* Play triangle (when paused) */
+    .carousel-pause-btn.is-paused .carousel-pause-icon { display: block; width: 0; height: 0; border-style: solid; border-width: 9px 0 9px 16px; border-color: transparent transparent transparent var(--ink); margin-left: 3px; }
+    .carousel-pause-btn.is-paused .carousel-pause-icon::before,
+    .carousel-pause-btn.is-paused .carousel-pause-icon::after { display: none; }
+
     /* IMAGE CARD (caption sits inside, above image) */
     .img-card {
+      position: relative;
       background: var(--faint);
       border: 1px solid var(--rule);
       border-radius: 16px;
@@ -323,6 +347,29 @@
     .hr-play-icon { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent var(--navy); margin-left: 4px; }
     .hr-label { font-size: 0.82rem; color: rgba(255,255,255,0.8); text-align: center; padding: 0 20px; }
 
+    /* System maps: autoplay always on — hover shows pause/play button only, no dark overlay */
+    #system-maps-reveal .hr-overlay { background: transparent; }
+    #system-maps-reveal:hover .hr-overlay { opacity: 1; background: transparent; }
+    #system-maps-reveal .hr-label { display: none; }
+
+    /* Default = pause icon (two bars), toggled to play triangle when paused */
+    #system-maps-reveal .hr-play-icon {
+      width: 14px; height: 18px; display: flex; gap: 4px; align-items: stretch;
+      border: none;
+    }
+    #system-maps-reveal .hr-play-icon::before,
+    #system-maps-reveal .hr-play-icon::after {
+      content: ''; flex: 1; background: var(--navy); border-radius: 2px;
+    }
+    #system-maps-reveal .hr-play.is-paused .hr-play-icon {
+      display: block; width: 0; height: 0;
+      border-style: solid; border-width: 9px 0 9px 16px;
+      border-color: transparent transparent transparent var(--navy);
+      margin-left: 3px;
+    }
+    #system-maps-reveal .hr-play.is-paused .hr-play-icon::before,
+    #system-maps-reveal .hr-play.is-paused .hr-play-icon::after { display: none; }
+
     /* AUDIO PLAYER — badge-height inline pill */
     .audio-player {
       display: inline-flex; align-items: center; gap: 8px;
@@ -359,7 +406,7 @@
 
     /* OUTCOMES BAND */
     .outcomes-band {
-      background: var(--faint);
+      background: #FDFDFC;
       border-top: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
       padding: 64px 0;
@@ -505,7 +552,7 @@
         <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width:100%; display:block;">
         <!-- Screen overlay — positioned over the display area of the SVG -->
         <div style="position:absolute; left:7.74%; top:0.77%; width:84.73%; height:93.11%; overflow:hidden; border-radius:6px; background:#000; padding:5px; box-sizing:border-box;">
-          <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:contain; object-position:center top; display:block;">
+          <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:contain; object-position:center top; display:block; position:relative; top:8px;">
             <source src="images/EDCRedesign/EDC_leftSide_NewMovie.mp4" type="video/mp4">
           </video>
           <!-- Browser chrome toolbar sits above the video -->
@@ -644,7 +691,14 @@
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>
           <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_Outcome.png" alt="EDC outcome: customer feedback and product analytics" style="width:100%; display:block; border-radius:8px;"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/658ba4_d2621156a4a74d4f85a110ac66d05a33~mv2.png-2.avif" alt="EDC community feedback" style="width:100%; display:block; border-radius:8px;"></div>
         </div>
+      </div>
+      <!-- Hover pause/resume button -->
+      <div class="carousel-pause-overlay">
+        <button class="carousel-pause-btn" id="outcomes-pause-btn" aria-label="Pause slideshow">
+          <span class="carousel-pause-icon"></span>
+        </button>
       </div>
     </div>
     <p class="cs-caption" style="max-width: 100%;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
@@ -674,7 +728,11 @@
   <!-- 14. ALL BRAINS ON DECK -->
   <div class="cs-section">
     <h2>🧠 All Brains On Deck Approach</h2>
-    <div class="img-placeholder" style="aspect-ratio: 922/518;">[IMAGE: stakeholder-interviews.jpg — 922×518px]</div>
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:10px;">
+        <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
+      </video>
+    </div>
     <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 0 0 12px;">The Plan &amp; What We Did</h3>
     <p style="max-width: 100%;">After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
     <p style="max-width: 100%;">What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
@@ -682,14 +740,18 @@
 
   <!-- 15. SYSTEM MAPS -->
   <div class="cs-section">
-    <p class="cs-caption">Hover to see system maps of interconnected tasks</p>
-    <div class="hover-reveal">
-      <div class="hr-base">
-        <div class="img-placeholder" style="aspect-ratio: 874/491;">[IMAGE: system-maps.jpg — 874×491px]</div>
-      </div>
-      <div class="hr-overlay">
-        <div class="hr-play"><span class="hr-play-icon"></span></div>
-        <span class="hr-label">System maps — confirm hover content with Lesley</span>
+    <div class="img-card" style="padding: 20px; gap: 24px; display: flex; flex-direction: column; border: none;">
+      <p class="cs-caption" style="margin: 0;">Hover to see system maps of interconnected tasks</p>
+      <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
+        <div class="hr-base">
+          <video id="system-maps-video" autoplay muted loop playsinline preload="auto" style="width:100%; display:block; border-radius:10px;">
+            <source src="images/EDCRedesign/SystemMaps&amp;ScrappyFrameworks.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hr-overlay" style="border-radius: 10px;">
+          <div class="hr-play"><span class="hr-play-icon"></span></div>
+          <span class="hr-label">System maps of interconnected tasks</span>
+        </div>
       </div>
     </div>
   </div>
@@ -942,8 +1004,33 @@
     dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 
     const delay = parseInt(carousel.getAttribute('data-autoplay'), 10);
-    if (delay) setInterval(() => goTo(current + 1), delay);
+    if (delay) {
+      carousel._timer = setInterval(() => goTo(current + 1), delay);
+      carousel._delay = delay;
+      carousel._goTo  = goTo;
+    }
   });
+
+  // ── Outcomes carousel pause button
+  (function() {
+    const btn      = document.getElementById('outcomes-pause-btn');
+    const carousel = document.querySelector('[data-carousel="outcomes"]');
+    if (!btn || !carousel) return;
+    btn.addEventListener('click', function() {
+      if (carousel._timer) {
+        clearInterval(carousel._timer);
+        carousel._timer = null;
+        btn.classList.add('is-paused');
+        btn.setAttribute('aria-label', 'Resume slideshow');
+      } else {
+        carousel._timer = setInterval(() => carousel._goTo(
+          Array.from(carousel.querySelectorAll('.carousel-slide')).findIndex(s => s.classList.contains('active')) + 1
+        ), carousel._delay);
+        btn.classList.remove('is-paused');
+        btn.setAttribute('aria-label', 'Pause slideshow');
+      }
+    });
+  })();
 
   // ── Audio Player
   (function() {
@@ -1027,6 +1114,19 @@
     (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
   })();
 
+  // System Maps: pause/resume toggle on click
+  (function() {
+    const wrap  = document.getElementById('system-maps-reveal');
+    const video = document.getElementById('system-maps-video');
+    const btn   = wrap ? wrap.querySelector('.hr-play') : null;
+    if (!wrap || !video || !btn) return;
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (video.paused) { video.play(); btn.classList.remove('is-paused'); }
+      else { video.pause(); btn.classList.add('is-paused'); }
+    });
+  })();
+
   // Loom hover-video: play on hover, pause + reset on hover-off
   (function() {
     const wrap  = document.getElementById('loom-reveal');
@@ -1035,5 +1135,6 @@
     wrap.addEventListener('mouseenter', () => video.play());
     wrap.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
   })();
+
 </script></body>
 </html>

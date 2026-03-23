@@ -979,19 +979,9 @@
     <p class="dd-label">Deep Dive: Problem and Solution 01</p>
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
-    <!-- Carousel: DD01 -->
-    <div class="img-card" style="padding: 20px; border: none;">
-      <div class="carousel" data-carousel="dd01" data-fade data-autoplay="4000">
-        <div class="carousel-track">
-          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Before_patientMatrix.webp" alt="Rave EDC patient form matrix — visit columns with status icons" style="width:100%; display:block; border-radius:8px;"></div>
-          <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_Before_patientPage.webp" alt="Rave EDC concomitant medications form — data entry page" style="width:100%; display:block; border-radius:8px;"></div>
-        </div>
-      </div>
-    </div>
-    <p style="max-width: 100%;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
-    <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
     <!-- BEFORE / AFTER SLIDER -->
-    <div class="ba-slider" data-ba-slider>
+    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="ba-slider" data-ba-slider style="margin: 0;">
       <!-- BEFORE — bottom layer, sets height; auto-cycles between 2 images -->
       <div class="ba-before">
         <div class="ba-before-reel" style="position:relative; aspect-ratio:848/504; overflow:hidden;">
@@ -1011,8 +1001,8 @@
         </video>
       </div>
       <!-- LABELS -->
-      <span class="ba-pill before">Before — 2017</span>
-      <span class="ba-pill after">After — 2026</span>
+      <span class="ba-pill before">Redesign — 2025</span>
+      <span class="ba-pill after">Redesign — 2017</span>
       <!-- HANDLE -->
       <div class="ba-handle">
         <div class="ba-grip">
@@ -1021,6 +1011,9 @@
         </div>
       </div>
     </div>
+    </div>
+    <p style="max-width: 100%;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
+    <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
     <p class="cs-caption">Hover to see scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
     <div class="hover-reveal">
       <div class="hr-base">
@@ -1226,7 +1219,7 @@
     });
   })();
 
-  // ── Before / After sliders
+  // ── Before / After sliders (left/right split)
   document.querySelectorAll('[data-ba-slider]').forEach(slider => {
     const after  = slider.querySelector('.ba-after');
     const handle = slider.querySelector('.ba-handle');
@@ -1235,16 +1228,68 @@
     function setPos(clientX) {
       const rect = slider.getBoundingClientRect();
       const pct  = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
-      after.style.clipPath   = `inset(0 ${100 - pct}% 0 0)`;
-      handle.style.left      = pct + '%';
+      after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left    = pct + '%';
     }
 
-    slider.addEventListener('mousedown',  e => { dragging = true; setPos(e.clientX); });
-    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    slider.addEventListener('mousedown',  e => { dragging = true; userTouched = true; cancelAutoSweep(); setPos(e.clientX); });
+    slider.addEventListener('touchstart', e => { dragging = true; userTouched = true; cancelAutoSweep(); setPos(e.touches[0].clientX); }, { passive: true });
     window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
     window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
     window.addEventListener('mouseup',    () => dragging = false);
     window.addEventListener('touchend',   () => dragging = false);
+
+    // ── Auto-sweep: glides back and forth (ping-pong), pauses at each end
+    let userTouched = false;
+    let rafId = null;
+    let sweepStart = null;
+    let direction = 1; // 1 = right→left (revealing redesign), -1 = left→right
+    const SWEEP_DURATION = 4000;
+    const PAUSE_AT_END   = 1200;
+
+    function cancelAutoSweep() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function autoSweep(ts) {
+      if (userTouched) return;
+      if (!sweepStart) sweepStart = ts;
+      const elapsed = ts - sweepStart;
+
+      if (elapsed < SWEEP_DURATION) {
+        const t    = elapsed / SWEEP_DURATION;
+        const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        // direction 1: 10% → 90% (reveal redesign left-to-right)
+        // direction -1: 90% → 10% (reveal classic right-to-left)
+        const pct = direction === 1
+          ? 10 + ease * 80
+          : 90 - ease * 80;
+        after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+        handle.style.left    = pct + '%';
+        rafId = requestAnimationFrame(autoSweep);
+      } else {
+        // Pause at end, flip direction, restart
+        setTimeout(() => {
+          if (userTouched) return;
+          direction *= -1;
+          sweepStart = null;
+          rafId = requestAnimationFrame(autoSweep);
+        }, PAUSE_AT_END);
+      }
+    }
+
+    // Start auto-sweep when slider scrolls into view
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !userTouched) {
+          sweepStart = null;
+          rafId = requestAnimationFrame(autoSweep);
+        } else {
+          cancelAutoSweep();
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(slider);
   });
 
   // ── BA before image cycling

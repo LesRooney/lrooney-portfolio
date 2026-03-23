@@ -357,15 +357,22 @@
     }
     .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
     .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+    .ba-label-row {
+      display: flex; justify-content: space-between;
+      margin-bottom: 10px;
+    }
     .ba-pill {
-      position: absolute; bottom: 12px;
       font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
       text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
-      background: rgba(0,0,0,0.45); color: #fff; pointer-events: none;
-      backdrop-filter: blur(4px);
+      background: #000; color: #fff; pointer-events: none;
     }
-    .ba-pill.before { left: 12px; }
-    .ba-pill.after  { right: 12px; }
+    /* Handle hover state */
+    .ba-handle.ba-hover { background: #0070BF; }
+    .ba-handle.ba-hover .ba-grip {
+      background: #0070BF; border-color: #0070BF;
+    }
+    .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
+    .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
 
     /* CAROUSEL */
     .carousel { position: relative; margin: 24px 0; }
@@ -461,13 +468,13 @@
     .sm-scrubber-track:hover { height: 6px; }
     .sm-scrubber-fill {
       position: absolute; left: 0; top: 0; height: 100%;
-      background: var(--ink); border-radius: 2px; width: 0%;
+      background: #0070BF; border-radius: 2px; width: 0%;
       pointer-events: none; transition: width 0.1s linear;
     }
     .sm-scrubber-thumb {
       position: absolute; top: 50%; left: 0%;
       transform: translate(-50%, -50%);
-      width: 12px; height: 12px; background: var(--ink); border-radius: 50%;
+      width: 12px; height: 12px; background: #0070BF; border-radius: 50%;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2); pointer-events: none;
     }
 
@@ -868,7 +875,7 @@
         <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
       </video>
     </div>
-    <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 0 0 12px;">The Plan &amp; What We Did</h3>
+    <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 28px 0 28px;">The Plan &amp; What We Did</h3>
     <p style="max-width: 100%;">After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
     <p style="max-width: 100%;">What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
   </div>
@@ -981,6 +988,10 @@
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
     <!-- BEFORE / AFTER SLIDER -->
     <div class="img-card" style="padding: 20px; border: none;">
+    <div class="ba-label-row">
+      <span class="ba-pill before">Redesign — 2025</span>
+      <span class="ba-pill after">Redesign — 2017</span>
+    </div>
     <div class="ba-slider" data-ba-slider style="margin: 0;">
       <!-- BEFORE — bottom layer, sets height; auto-cycles between 2 images -->
       <div class="ba-before">
@@ -1000,9 +1011,6 @@
           <source src="images/EDCRedesign/EDC_leftSide_NewMovie.mp4" type="video/mp4">
         </video>
       </div>
-      <!-- LABELS -->
-      <span class="ba-pill before">Redesign — 2025</span>
-      <span class="ba-pill after">Redesign — 2017</span>
       <!-- HANDLE -->
       <div class="ba-handle">
         <div class="ba-grip">
@@ -1012,17 +1020,13 @@
       </div>
     </div>
     </div>
-    <p style="max-width: 100%;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
+    <p style="max-width: 100%; margin-top: 28px;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
-    <p class="cs-caption">Hover to see scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
-    <div class="hover-reveal">
-      <div class="hr-base">
-        <div class="img-placeholder" style="aspect-ratio: 16/9;">[IMAGE: concept-experiments-thumbnail.jpg — hover reveal content to confirm with Lesley]</div>
-      </div>
-      <div class="hr-overlay">
-        <div class="hr-play"><span class="hr-play-icon"></span></div>
-        <span class="hr-label">Scrappy design experiments — confirm reveal content with Lesley</span>
-      </div>
+    <div class="img-card" style="padding: 20px; border: none;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
+      <video muted loop playsinline data-hover-play style="width:100%; display:block; border-radius:8px;">
+        <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 
@@ -1031,31 +1035,31 @@
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p>Data Managers were spot-checking patient progress on the drugs more frequently. They were receiving lists of 15 to 100 patient IDs by email or spreadsheet, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: "We now have a problem with Medidata."</p>
-    <p>I designed a bulk-paste solution with a 15-tag maximum that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a reusable design system component that Clinical Data Studio (another product) could adopt.</p>
-    <div class="img-pair">
-      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">[IMAGE: research-guidelines-1.png — 430×430px]</div>
-      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">[IMAGE: competitor-screenshots.webp — 430×430px]</div>
+    <div class="img-card" style="padding: 20px; border: none;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Design system option</p>
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <source src="images/EDCRedesign/EDCPatientFilterNew_DesignSystem.mp4" type="video/mp4">
+      </video>
     </div>
-    <div class="img-placeholder" style="aspect-ratio: 554/373;">[IMAGE: design-system-loading-component.jpg — 554×373px]<br><small>Design System virtual loading component option wasn't right for the use case</small></div>
-    <div class="img-placeholder" style="aspect-ratio: 836/533;">[IMAGE: lovable-experimental-design.jpg — 836×533px]<br><small>Experimental designs: While working in Lovable and riffing on ideas with my front-end lead</small></div>
-    <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill">Patient filter prototype ↗</a>
-    <p class="cs-caption">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
+    <div class="img-card" style="padding: 20px; border: none;">
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
+      </video>
+      <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block;">Try the prototype ↗</a>
+    </div>
     <!-- Carousel: DD02 -->
-    <div class="carousel" data-carousel="dd02">
-      <div class="carousel-track">
-        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-01.webp — 980×608px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/561;">[IMAGE: final-design-02.webp — 980×561px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/518;">[IMAGE: final-design-03.webp — 980×518px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-04.webp — 980×608px]</div></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-        <span class="carousel-counter">1 / 4</span>
-        <button class="carousel-btn next">→</button>
+    <div class="img-card" style="padding: 20px; border: none; margin-top: 28px;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
+      <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000">
+        <div class="carousel-track">
+          <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-01.webp — 980×608px]</div></div>
+          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/561;">[IMAGE: final-design-02.webp — 980×561px]</div></div>
+          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/518;">[IMAGE: final-design-03.webp — 980×518px]</div></div>
+          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-04.webp — 980×608px]</div></div>
+        </div>
       </div>
     </div>
-    <p>Another pattern that made it into the design system: a smoother, faster, more forgiving time-input for medication. With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
+    <p style="margin-top: 28px;">Another pattern that made it into the design system: a smoother, faster, more forgiving time-input for medication. With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
     <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link outline">Time picker prototype ↗</a>
   </div>
 
@@ -1232,51 +1236,86 @@
       handle.style.left    = pct + '%';
     }
 
-    slider.addEventListener('mousedown',  e => { dragging = true; userTouched = true; cancelAutoSweep(); setPos(e.clientX); });
-    slider.addEventListener('touchstart', e => { dragging = true; userTouched = true; cancelAutoSweep(); setPos(e.touches[0].clientX); }, { passive: true });
-    window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
-    window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
-    window.addEventListener('mouseup',    () => dragging = false);
-    window.addEventListener('touchend',   () => dragging = false);
-
     // ── Auto-sweep: glides back and forth (ping-pong), pauses at each end
     let userTouched = false;
+    let resumeTimer = null;
     let rafId = null;
     let sweepStart = null;
-    let direction = 1; // 1 = right→left (revealing redesign), -1 = left→right
+    let direction = 1;
     const SWEEP_DURATION = 4000;
     const PAUSE_AT_END   = 1200;
+    const RESUME_DELAY   = 500;
 
     function cancelAutoSweep() {
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function scheduleResume() {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => {
+        userTouched = false;
+        sweepStart  = null;
+        rafId = requestAnimationFrame(autoSweep);
+      }, RESUME_DELAY);
     }
 
     function autoSweep(ts) {
       if (userTouched) return;
       if (!sweepStart) sweepStart = ts;
       const elapsed = ts - sweepStart;
-
       if (elapsed < SWEEP_DURATION) {
         const t    = elapsed / SWEEP_DURATION;
         const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        // direction 1: 10% → 90% (reveal redesign left-to-right)
-        // direction -1: 90% → 10% (reveal classic right-to-left)
-        const pct = direction === 1
-          ? 10 + ease * 80
-          : 90 - ease * 80;
+        const pct  = direction === 1 ? 10 + ease * 80 : 90 - ease * 80;
         after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
         handle.style.left    = pct + '%';
         rafId = requestAnimationFrame(autoSweep);
       } else {
-        // Pause at end, flip direction, restart
         setTimeout(() => {
           if (userTouched) return;
-          direction *= -1;
-          sweepStart = null;
+          direction  *= -1;
+          sweepStart  = null;
           rafId = requestAnimationFrame(autoSweep);
         }, PAUSE_AT_END);
       }
     }
+
+    // Hover detection — highlight handle when mouse is within 20px of it
+    slider.addEventListener('mousemove', e => {
+      const rect     = slider.getBoundingClientRect();
+      const handleX  = rect.left + (parseFloat(handle.style.left || '50') / 100) * rect.width;
+      const dist     = Math.abs(e.clientX - handleX);
+      if (dist < 20 || dragging) {
+        handle.classList.add('ba-hover');
+      } else {
+        handle.classList.remove('ba-hover');
+      }
+    });
+    slider.addEventListener('mouseleave', () => {
+      if (!dragging) handle.classList.remove('ba-hover');
+    });
+
+    slider.addEventListener('mousedown',  e => {
+      dragging = true; userTouched = true;
+      clearTimeout(resumeTimer);
+      cancelAutoSweep();
+      handle.classList.add('ba-hover');
+      setPos(e.clientX);
+    });
+    slider.addEventListener('touchstart', e => {
+      dragging = true; userTouched = true;
+      clearTimeout(resumeTimer);
+      cancelAutoSweep();
+      setPos(e.touches[0].clientX);
+    }, { passive: true });
+    window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mouseup',    () => {
+      if (dragging) { dragging = false; scheduleResume(); }
+    });
+    window.addEventListener('touchend',   () => {
+      if (dragging) { dragging = false; scheduleResume(); }
+    });
 
     // Start auto-sweep when slider scrolls into view
     const observer = new IntersectionObserver(entries => {
@@ -1290,6 +1329,13 @@
       });
     }, { threshold: 0.4 });
     observer.observe(slider);
+  });
+
+  // ── Hover-to-play videos
+  document.querySelectorAll('video[data-hover-play]').forEach(vid => {
+    vid.pause();
+    vid.addEventListener('mouseenter', () => { vid.currentTime = 0; vid.play(); });
+    vid.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
   });
 
   // ── BA before image cycling

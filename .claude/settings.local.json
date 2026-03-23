@@ -77,7 +77,12 @@
       "Bash(grep -rn \"padding: 40px 0 0\\\\|padding-top: 40px\\\\|padding: 48px 0 0\\\\|padding-top: 48px\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
       "Bash(grep -rn \"hr\\\\|divider\\\\|section-rule\\\\|persona-rule\\\\|info-panel-divider\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
       "Bash(grep -rn \"section-rule\\\\|persona-rule\\\\|\\\\.hr\\\\b\\\\|<hr\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
-      "Bash(grep -rn \"section-rule\\\\|persona-rule\\\\|past-work-divider\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
+      "Bash(grep -rn \"section-rule\\\\|persona-rule\\\\|past-work-divider\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(ls /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/*.mp4)",
+      "Bash(ls -lh /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/*.mp4)",
+      "Bash(ffmpeg -i \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDCPatientFilterNewSplitScreen.mp4\" -vcodec libx264 -crf 28 -preset slow -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -movflags +faststart -an \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDCPatientFilterNewSplitScreen_compressed.mp4\")",
+      "Bash(/opt/homebrew/bin/ffmpeg -version)",
+      "Bash(/usr/local/bin/ffmpeg -version)"
     ]
   }
 }

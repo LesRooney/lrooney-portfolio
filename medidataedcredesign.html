@@ -908,20 +908,24 @@
   <!-- 16. PERSONAS -->
   <div class="cs-section">
     <h2>Meet the Users</h2>
-    <p class="persona-section-label">Sites</p>
-    <ul class="persona-list">
-      <li>🧑🏻‍⚕️ <strong>Clinical Research Coordinator (CRC)</strong> — Conducts visits, enters patient data from multiple sources, resolves queries. Constantly interrupted.</li>
-      <li>👩🏾‍⚕️ <strong>Study Nurse</strong> — Interacts with patients, enters data &amp; queries. Constantly interrupted.</li>
-      <li>👩🏽‍⚕️ <strong>Data Coordinator</strong> — Enters data from site personnel, resolves queries.</li>
-      <li>👨🏻‍⚕️ <strong>Primary Investigator (PI)</strong> — Leads study, oversees procedures, ensures compliance.</li>
-      <li>👩🏽‍⚕️ <strong>Sub-Investigator (Sub I)</strong> — Assists PI, performs trial procedures.</li>
-    </ul>
+    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px;">
+      <p class="persona-section-label">Sites</p>
+      <ul class="persona-list">
+        <li>🧑🏻‍⚕️ <strong>Clinical Research Coordinator (CRC)</strong> — Conducts visits, enters patient data from multiple sources, resolves queries. Constantly interrupted.</li>
+        <li>👩🏾‍⚕️ <strong>Study Nurse</strong> — Interacts with patients, enters data &amp; queries. Constantly interrupted.</li>
+        <li>👩🏽‍⚕️ <strong>Data Coordinator</strong> — Enters data from site personnel, resolves queries.</li>
+        <li>👨🏻‍⚕️ <strong>Primary Investigator (PI)</strong> — Leads study, oversees procedures, ensures compliance.</li>
+        <li>👩🏽‍⚕️ <strong>Sub-Investigator (Sub I)</strong> — Assists PI, performs trial procedures.</li>
+      </ul>
+    </div>
     <hr class="persona-rule">
-    <p class="persona-section-label">Client side</p>
-    <ul class="persona-list">
-      <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
-      <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong> — Cleans, validates, and packages clinical data for statisticians.</li>
-    </ul>
+    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px;">
+      <p class="persona-section-label">Client side</p>
+      <ul class="persona-list">
+        <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
+        <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong> — Cleans, validates, and packages clinical data for statisticians.</li>
+      </ul>
+    </div>
     <!-- Carousel: Personas — auto-advancing, no controls -->
     <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
       <p class="cs-caption" style="margin: 0;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
@@ -1052,15 +1056,14 @@
       <p class="cs-caption" style="margin: 0 0 16px;">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
       <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000">
         <div class="carousel-track">
-          <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-01.webp — 980×608px]</div></div>
-          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/561;">[IMAGE: final-design-02.webp — 980×561px]</div></div>
-          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/518;">[IMAGE: final-design-03.webp — 980×518px]</div></div>
-          <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/608;">[IMAGE: final-design-04.webp — 980×608px]</div></div>
+          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_DesignSystem_PatientFilter_Ideas.webp" alt="Patient filter design ideas" style="width:100%; display:block; border-radius:8px;"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_DesignSystem_PatientFilter_implemented.webp" alt="Patient filter implemented" style="width:100%; display:block; border-radius:8px;"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_DesignSystem_PatientFilter_implementedSandbox.webp" alt="Patient filter sandbox" style="width:100%; display:block; border-radius:8px;"></div>
         </div>
       </div>
     </div>
     <p style="margin-top: 28px;">Another pattern that made it into the design system: a smoother, faster, more forgiving time-input for medication. With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
-    <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link outline">Time picker prototype ↗</a>
+    <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link fill">Time picker prototype ↗</a>
   </div>
 
   <!-- 22. DEEP DIVE 03 -->
@@ -1069,7 +1072,12 @@
     <h2>The Unsaid Legacy Attraction — From Custom Code Workaround to Core Feature</h2>
     <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered a deeper migration risk. Rave Classic let study builders custom-code features outside the core product. Like Figma plugins, these extensions expanded the platform in ways we couldn't track, leaving us blind to what existed or how widely it was used.</p>
     <p>One such extension surfaced during interviews: dummy patients. Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely. Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
-    <div class="img-placeholder" style="aspect-ratio: 763/474;">[IMAGE: synthetic-patients.jpg — 763×474px]</div>
+    <div style="position: relative; display: block; width: 90%; margin: 0 auto;">
+      <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width: 100%; display: block;">
+      <video autoplay muted loop playsinline style="position: absolute; left: 7.74%; top: 0.77%; width: 84.73%; height: 91.39%; object-fit: cover; border-radius: 2px;">
+        <source src="images/EDCRedesign/AI Feature3Small.mp4" type="video/mp4">
+      </video>
+    </div>
     <p>That conversation became one of the value propositions when a Data Scientist realised they could create Synthetic Patient data, transforming an unofficial workaround into a proper product capability using AI to generate realistic historical patient data. The next release will cover the parameters users would like to control what's generated.</p>
   </div>
 
@@ -1083,8 +1091,8 @@
     <!-- Carousel: DD04 -->
     <div class="carousel" data-carousel="dd04">
       <div class="carousel-track">
-        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/733;">[IMAGE: root-problem-01.webp — 980×733px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/842;">[IMAGE: root-problem-02.webp — 980×842px]</div></div>
+        <div class="carousel-slide active"><img src="images/EDCRedesign/SystemQueryIssue_B.webp" alt="Story of query object" style="width:100%; display:block; border-radius:8px;"></div>
+        <div class="carousel-slide"><img src="images/EDCRedesign/MD_SystemQueryissues01.webp" alt="System Impact Map: Unresolvable Queries in EDC" style="width:100%; display:block; border-radius:8px;"></div>
       </div>
       <div class="carousel-controls">
         <button class="carousel-btn prev">←</button>

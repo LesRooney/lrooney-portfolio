@@ -24,7 +24,9 @@
     }
 
     html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
+    @keyframes pageReveal { from { opacity: 0; } to { opacity: 1; } }
     body {
+      animation: pageReveal 0.45s ease both;
       background: #FDFDFC;
       color: var(--ink);
       font-family: var(--sans);
@@ -229,7 +231,7 @@
     /* Fade carousel mode */
     .carousel[data-fade] .carousel-track { display: block; }
     .carousel[data-fade] .carousel-slide { display: none; }
-    .carousel[data-fade] .carousel-slide.is-active { display: block; animation: csFade 0.28s ease; }
+    .carousel[data-fade] .carousel-slide.is-active { display: block; animation: csFade 2s ease; }
     @keyframes csFade { from { opacity: 0; } to { opacity: 1; } }
     .carousel-slide .img-placeholder { margin: 0; border-radius: 0; border: none; }
     .carousel-slide img { width: 100%; display: block; border-radius: 0; }

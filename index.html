@@ -111,7 +111,22 @@
     .card-item:hover .card-thumb { opacity: 0; }
     .card-item:hover .card-video { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px); }
-    .card { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+    .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
+    .card-item.is-dimmed .card { filter: blur(0.5px); opacity: 0.88; }
+
+    /* Immediately cover the thumbnail on click before JS overlay fires */
+    .card-item:active .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #FDFDFC;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .card-item.is-dimmed .card-title,
+    .card-item.is-dimmed .card-sub { opacity: 0.75; transition: opacity 0.35s ease; }
+    .card-item .card-title,
+    .card-item .card-sub { transition: opacity 0.35s ease; }
 
     /* Badges stay on the thumb */
     .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
@@ -306,6 +321,22 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── PAGE TRANSITION OVERLAY ── */
+    #pt-overlay {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      background: #FDFDFC;
+      border-radius: 24px;
+      opacity: 1;
+      transition:
+        top    0.58s cubic-bezier(0.4, 0, 0.2, 1),
+        left   0.58s cubic-bezier(0.4, 0, 0.2, 1),
+        width  0.58s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.58s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.58s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero { padding: 48px 24px 56px; }
@@ -484,6 +515,54 @@
       card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(() => {}); });
       card.addEventListener('mouseleave', () => video.pause());
     });
+
+    // ── Blur sibling cards on hover
+    (function() {
+      const allCards = Array.from(document.querySelectorAll('.card-item'));
+      allCards.forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+          allCards.forEach(function(other) {
+            if (other !== card) other.classList.add('is-dimmed');
+          });
+        });
+        card.addEventListener('mouseleave', function() {
+          allCards.forEach(function(other) { other.classList.remove('is-dimmed'); });
+        });
+      });
+    })();
+
+    // ── Card expand page transition
+    (function() {
+      document.querySelectorAll('.card-item').forEach(function(cardItem) {
+        const href = cardItem.getAttribute('href');
+        if (!href || href === '#') return;
+        cardItem.addEventListener('click', function(e) {
+          e.preventDefault();
+          const thumb = this.querySelector('.card');
+          const rect  = thumb.getBoundingClientRect();
+          // Create overlay positioned exactly over the card thumbnail
+          const ptColor = this.getAttribute('data-pt-color') || '#FDFDFC';
+          const ov = document.createElement('div');
+          ov.id = 'pt-overlay';
+          ov.style.background = ptColor;
+          ov.style.top    = rect.top  + 'px';
+          ov.style.left   = rect.left + 'px';
+          ov.style.width  = rect.width  + 'px';
+          ov.style.height = rect.height + 'px';
+          document.body.appendChild(ov);
+          // Force reflow
+          ov.getBoundingClientRect();
+          // Expand to fill viewport
+          ov.style.top    = '0';
+          ov.style.left   = '0';
+          ov.style.width  = '100vw';
+          ov.style.height = '100vh';
+          ov.style.borderRadius = '0';
+          // Navigate once expansion completes
+          setTimeout(function() { window.location.href = href; }, 600);
+        });
+      });
+    })();
 
     // ── Staggered slide-up for intro blocks
     window.addEventListener('load', () => {

@@ -68,7 +68,16 @@
       "Bash(sips -g pixelWidth -g pixelHeight /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/traffic-sources-map.png)",
       "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/Screenshot 2018-10-30 at 10.08.12.png\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-website-latest-props.png\")",
       "Bash(cp \"/Users/lesleyrooney/Documents/GitHub/source-images/HomeRenter/Screenshot 2018-11-02 at 06.21.17.png\" \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/ll-landing-comparison.png\")",
-      "Bash(python3 -c \"from PIL import Image; img = Image.open\\(''/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/ll-landing-page-full.png''\\); print\\(img.size\\)\")"
+      "Bash(python3 -c \"from PIL import Image; img = Image.open\\(''/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/ll-landing-page-full.png''\\); print\\(img.size\\)\")",
+      "Bash(grep -rn \"margin-bottom: 16px\\\\|\\\\.cs-section h2\\\\|padding-top: 32px\\\\|cs-section {\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(grep -rn \"\\\\.cs-section {.*padding\\\\|padding: 32px 0 0\\\\|margin-bottom: 16px\\\\|margin-bottom: 28px\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(sed -i '' 's/\\\\.cs-section { padding: 40px 0 0; border-bottom: none; }/.cs-section { padding: 48px 0 0; border-bottom: none; }/g' clinical-risk-based-monitoring.html homerenter.html qualisflow-02.html)",
+      "Bash(sed -i '' 's/\\\\.cs-section { padding: 40px 0 0; }/.cs-section { padding: 48px 0 0; }/g' medidataedcredesign.html lesleyrooney-games-sims-vfxworks.html)",
+      "Bash(sed -i '' 's/\\\\.cs-section { margin-bottom: 0; padding-top: 40px; }/.cs-section { margin-bottom: 0; padding-top: 48px; }/g' games-simulations-films.html)",
+      "Bash(grep -rn \"padding: 40px 0 0\\\\|padding-top: 40px\\\\|padding: 48px 0 0\\\\|padding-top: 48px\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(grep -rn \"hr\\\\|divider\\\\|section-rule\\\\|persona-rule\\\\|info-panel-divider\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(grep -rn \"section-rule\\\\|persona-rule\\\\|\\\\.hr\\\\b\\\\|<hr\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(grep -rn \"section-rule\\\\|persona-rule\\\\|past-work-divider\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
     ]
   }
 }

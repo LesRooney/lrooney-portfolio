@@ -84,7 +84,7 @@ font-size: clamp(1.2rem, 2vw, 1.6rem);
 font-weight: 700;
 letter-spacing: -0.01em;
 color: var(--ink);
-margin-bottom: 16px;   /* 16px gap between h2 and following paragraph */
+margin-bottom: 28px;   /* 28px gap between h2 and following content (body, image, card) */
 ```
 
 #### Section H3 — inline (`.cs-section h3`)
@@ -168,7 +168,7 @@ All spacing values are multiples of **8px**.
 | sm | `16px` | H2 → paragraph gap, component internal padding, icon row gap |
 | — | `20px` | Nav vertical padding, sidebar card padding |
 | — | `24px` | Image/placeholder margins, h3 top margin, card image-to-title gap |
-| **section** | **`32px`** | **Vertical gap before next section title (`.cs-section` `padding-top`); large grid gaps, sidebar column `padding-top`, card bottom margin** |
+| **section** | **`48px`** | **Vertical gap before next section title (`.cs-section` `padding-top`)** |
 | — | `40px` | Header bottom padding, footer padding |
 | — | `48px` | Nav horizontal padding, two-column gap, work-section padding |
 | — | `64px` | Peek section top/bottom padding |
@@ -251,6 +251,27 @@ backdrop-filter: blur(12px);
 - `.cs-section` has no `border-bottom`
 
 Borders are permitted only on: footer (`border-top`), nav on scroll (`border-bottom`), list items within components.
+
+### Divider spacing rule
+
+If a divider (`<hr>`) is used between sections it must be centred with **24px above and below**:
+
+```css
+hr.section-rule,
+hr.persona-rule,
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 24px 0;      /* 24px top, 24px bottom */
+}
+
+/* Full-width dividers that span outside the wrap use auto sides */
+hr.past-work-divider {
+  margin: 24px auto;
+}
+```
+
+This rule is already baked into every divider class across all pages. Do not override it with a larger or smaller margin without updating this file.
 
 ---
 
@@ -377,6 +398,178 @@ aspect-ratio: 1/1; border-radius: 12px;
 
 ### Carousel
 Prev/next buttons, dot indicators, slide counter. Pure JS, no library.
+
+### Post-it Note Cards
+
+A row of three cards styled to look like physical post-it notes. Used to surface key research insights or process notes in a human, informal way. Each card has a slight rotation for a natural scattered feel.
+
+**CSS classes:** `.postit-row`, `.postit`, `.postit--1` / `.postit--2` / `.postit--3`, `.postit-emoji`
+
+#### Layout
+```css
+.postit-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 8px 0 32px;
+}
+@media (max-width: 680px) {
+  .postit-row { flex-direction: column; }
+  .postit--1, .postit--2, .postit--3 { transform: none; }
+}
+```
+
+#### Card
+```css
+.postit {
+  flex: 1;
+  background: #FFFBCC;        /* light yellow — do not change */
+  border-radius: 16px;
+  padding: 24px 22px 28px;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  /* Shadow is intentionally subtle — do not increase */
+}
+```
+
+#### Rotations (scattered effect)
+```css
+.postit--1 { transform: rotate(-2deg); }
+.postit--2 { transform: rotate(1.5deg); }
+.postit--3 { transform: rotate(-1deg); }
+```
+
+#### Emoji
+```css
+.postit-emoji {
+  font-size: 2rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 14px;
+}
+```
+
+#### Text
+```css
+.postit p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+```
+
+#### HTML structure
+```html
+<div class="postit-row">
+  <div class="postit postit--1">
+    <span class="postit-emoji">📁</span>
+    <p>Text with optional <strong>bold emphasis</strong>.</p>
+  </div>
+  <div class="postit postit--2">
+    <span class="postit-emoji">🧍</span>
+    <p>Text. Optional <span class="highlight-pen">highlighted phrase</span>.</p>
+  </div>
+  <div class="postit postit--3">
+    <span class="postit-emoji">🕵🏾‍♀️</span>
+    <p>Text.</p>
+  </div>
+</div>
+```
+
+#### Rules
+- Background: always `#FFFBCC` — do not substitute another colour
+- Shadow: keep subtle (`0.05` / `0.03` opacity) — do not increase
+- Rotations: alternating small angles only — do not exceed ±3deg
+- Emoji: one per card, displayed at `2rem`, `14px` below to text
+- On mobile: stacks vertically, rotations reset to `none`
+- Highlighter pen effect on inline text: use `.highlight-pen` class (see below)
+
+### Highlighter Pen
+
+Inline text highlight that mimics a real highlighter marker stroke. Used sparingly for key phrases — maximum one highlight per card or paragraph.
+
+```css
+.highlight-pen {
+  background: linear-gradient(
+    104deg,
+    transparent 0%,
+    rgba(255, 220, 50, 0.55) 2%,
+    rgba(255, 220, 50, 0.45) 96%,
+    transparent 98%
+  );
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0.05em 0.15em;
+  border-radius: 2px;
+}
+```
+
+Usage: `<span class="highlight-pen">text to highlight</span>`
+
+---
+
+### LockedFadeCarousel
+
+A fade carousel variant where the container height is **locked** — the page never jumps between images of different sizes. Slides are stacked via `position: absolute` and crossfade using `opacity` transitions. Any image that doesn't fill the frame scales down automatically via `object-fit: contain`.
+
+**When to use:** Any `data-fade` carousel with multiple images of differing dimensions where page jump would be visible.
+
+#### HTML
+```html
+<div class="carousel" data-fade data-autoplay="4000"
+     data-carousel="[name]"
+     style="--carousel-ratio: 16/9;">
+  <div class="carousel-track">
+    <div class="carousel-slide active"><img src="…" alt="…"></div>
+    <div class="carousel-slide"><img src="…" alt="…"></div>
+  </div>
+</div>
+```
+
+Set `--carousel-ratio` to match the content:
+| Content type | Ratio |
+|---|---|
+| Widescreen screenshots, spreadsheets | `16/9` |
+| Ecosystem/relationship diagrams | `4/3` |
+| Square thumbnails | `1/1` |
+
+#### CSS (global — applies to all `data-fade` carousels)
+```css
+.carousel[data-fade] .carousel-track {
+  display: block;
+  position: relative;
+  aspect-ratio: var(--carousel-ratio, 16/9);
+  overflow: hidden;
+}
+.carousel[data-fade] .carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.carousel[data-fade] .carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.carousel[data-fade] .carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+```
+
+#### Rules
+- Always set `--carousel-ratio` on the carousel element — do not rely on the default
+- Do not add `display: none` to individual slides — opacity/position handles visibility
+- No prev/next controls or dots needed — autoplay only (no controls markup required)
+- Wrap in `.img-card` with caption above the carousel for full design system compliance
 
 ### Before/After Slider
 Drag handle to reveal before/after states. Uses `clip-path: inset()` driven by pointer position.

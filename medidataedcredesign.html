@@ -138,18 +138,19 @@
     .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
 
     /* SECTION */
-    .cs-section { padding: 32px 0 0; }
+    .cs-section { padding: 48px 0 0; }
     .cs-section:last-of-type {}
+
     .cs-section h2 {
       font-family: var(--serif);
       font-size: clamp(1.2rem, 2vw, 1.6rem);
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
-      margin-bottom: 16px;
+      margin-bottom: 28px;
     }
     .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-mid); font-style: normal; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
     .section-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 10px; }
 
     /* FULL-WIDTH PROBLEM SECTION */
@@ -191,8 +192,8 @@
     }
     .img-card .cs-caption {
       margin: 0 0 20px;
-      font-style: italic;
-      color: var(--navy);
+      font-style: normal;
+      color: var(--ink-mid);
       max-width: none;
     }
     .img-card .img-placeholder {
@@ -203,6 +204,68 @@
       display: block;
       width: 100%;
       border-radius: 10px 10px 0 0;
+    }
+    .carousel[data-carousel="engineering"] .carousel-slide {
+      line-height: 0;
+    }
+    .carousel[data-carousel="engineering"] img {
+      width: 100%;
+      max-height: 560px;
+      object-fit: contain;
+      object-position: center top;
+      background: transparent;
+      border-radius: 10px 10px 0 0;
+    }
+
+    /* Post-it notes — research section */
+    .postit-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin: 8px 0 32px;
+    }
+    .postit {
+      flex: 1;
+      background: #FFFBCC;
+      border-radius: 16px;
+      padding: 24px 22px 28px;
+      box-shadow: 1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .postit-emoji {
+      font-size: 2rem;
+      line-height: 1;
+      display: block;
+      margin-bottom: 14px;
+    }
+    /* Highlighter pen effect */
+    .highlight-pen {
+      background: linear-gradient(
+        104deg,
+        transparent 0%,
+        rgba(255, 220, 50, 0.55) 2%,
+        rgba(255, 220, 50, 0.45) 96%,
+        transparent 98%
+      );
+      background-repeat: no-repeat;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      padding: 0.05em 0.15em;
+      border-radius: 2px;
+    }
+
+    .postit p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--ink);
+      max-width: none;
+    }
+    .postit--1 { transform: rotate(-2deg); }
+    .postit--2 { transform: rotate(1.5deg); }
+    .postit--3 { transform: rotate(-1deg); }
+    @media (max-width: 680px) {
+      .postit-row { flex-direction: column; }
+      .postit--1, .postit--2, .postit--3 { transform: none; }
     }
 
     /* NUMBERED LIST (navy badges) */
@@ -230,7 +293,7 @@
     .persona-list { list-style: none; padding: 0; margin: 0 0 16px; }
     .persona-list li { font-size: 0.92rem; color: var(--ink-mid); line-height: 1.7; padding: 4px 0; }
     .persona-section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin: 16px 0 6px; }
-    hr.persona-rule { display: none; }
+    hr.persona-rule { display: none; margin: 24px 0; border: none; border-top: 1px solid var(--rule); }
 
     /* QUICK LINKS */
     .quick-links { margin: 24px 0; padding: 20px; background: var(--faint); border-radius: 10px; border: 1px solid var(--rule); }
@@ -309,9 +372,42 @@
     .carousel-track { position: relative; border-radius: 12px; overflow: hidden; }
     .carousel-slide { display: none; }
     .carousel-slide.active { display: block; }
-    .carousel[data-fade] .carousel-track { display: block; }
-    .carousel[data-fade] .carousel-slide { display: none; }
-    .carousel[data-fade] .carousel-slide.active { display: block; animation: csFade 2s ease; }
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LockedFadeCarousel
+       Fade carousel variant where the container height is locked.
+       Slides are stacked via position:absolute and crossfade with
+       opacity so the page never jumps between images of different
+       sizes. Images that don't fill the frame scale down via
+       object-fit:contain. Set --carousel-ratio on the element
+       to control the aspect ratio (default 16/9).
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .carousel[data-fade] .carousel-track {
+      display: block;
+      position: relative;
+      aspect-ratio: var(--carousel-ratio, 16/9);
+      overflow: hidden;
+    }
+    .carousel[data-fade] .carousel-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+    .carousel[data-fade] .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .carousel[data-fade] .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
     @keyframes csFade { from { opacity: 0; } to { opacity: 1; } }
     .carousel-slide .img-placeholder { margin: 0; border-radius: 0; }
     .carousel-controls {
@@ -347,9 +443,39 @@
     .hr-play-icon { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent var(--navy); margin-left: 4px; }
     .hr-label { font-size: 0.82rem; color: rgba(255,255,255,0.8); text-align: center; padding: 0 20px; }
 
-    /* System maps: autoplay always on — hover shows pause/play button only, no dark overlay */
-    #system-maps-reveal .hr-overlay { background: transparent; }
+    /* Loom reveal: transparent overlay, play button only */
+    #loom-reveal .hr-overlay { background: transparent; }
+    #loom-reveal:hover .hr-overlay { opacity: 1; background: transparent; }
+    #loom-reveal .hr-label { display: none; }
+
+    /* System maps scrubber — bottom of overlay, only visible when paused */
+    .sm-scrubber {
+      position: absolute; bottom: 16px; left: 20px; right: 20px;
+      opacity: 0; transition: opacity 0.25s ease; pointer-events: none; z-index: 6;
+    }
+    #system-maps-reveal.is-paused .sm-scrubber { opacity: 1; pointer-events: auto; }
+    .sm-scrubber-track {
+      position: relative; width: 100%; height: 4px;
+      background: rgba(10,10,10,0.18); border-radius: 2px; cursor: pointer;
+    }
+    .sm-scrubber-track:hover { height: 6px; }
+    .sm-scrubber-fill {
+      position: absolute; left: 0; top: 0; height: 100%;
+      background: var(--ink); border-radius: 2px; width: 0%;
+      pointer-events: none; transition: width 0.1s linear;
+    }
+    .sm-scrubber-thumb {
+      position: absolute; top: 50%; left: 0%;
+      transform: translate(-50%, -50%);
+      width: 12px; height: 12px; background: var(--ink); border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2); pointer-events: none;
+    }
+
+    /* System maps: full-area click target, transparent overlay, pause/play button on hover */
+    #system-maps-reveal { cursor: pointer; }
+    #system-maps-reveal .hr-overlay { background: transparent; pointer-events: auto; }
     #system-maps-reveal:hover .hr-overlay { opacity: 1; background: transparent; }
+    #system-maps-reveal.is-paused .hr-overlay { opacity: 1; }
     #system-maps-reveal .hr-label { display: none; }
 
     /* Default = pause icon (two bars), toggled to play triangle when paused */
@@ -423,23 +549,23 @@
     }
     .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
     .outcomes-col {
-      background: var(--ink);
+      background: #E7F2FE;
       border-radius: 12px;
       padding: 16px;
     }
     .outcomes-col h3 {
-      font-family: var(--serif); font-weight: 700; color: #ffffff;
-      margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem;
+      font-family: var(--serif); font-weight: 700; color: var(--ink);
+      margin-bottom: 12px; font-size: 0.95rem; letter-spacing: 0.01em;
     }
     .outcomes-col .cs-list li {
-      color: #d4d4d4;
+      color: var(--ink-mid);
     }
     .outcomes-col .cs-list li strong {
-      color: #ffffff;
+      color: var(--ink);
     }
     .outcomes-col .cs-list li::before {
       content: '•';
-      color: #888888;
+      color: var(--ink-mid);
       background: none;
     }
 
@@ -606,12 +732,18 @@
 
       <!-- 12. RESEARCH LOOM -->
       <div class="cs-section">
-        <p class="cs-caption">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
-        <div class="hover-reveal" id="loom-reveal">
-          <div class="hr-base">
-            <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:0;">
-              <source src="images/EDCRedesign/51 - Enhancing Data Entry with New Features and Icons_Small2.mp4" type="video/mp4">
-            </video>
+        <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+          <p class="cs-caption" style="margin: 0;">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
+          <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
+            <div class="hr-base">
+              <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px;">
+                <source src="images/EDCRedesign/51 - Enhancing Data Entry with New Features and Icons_Small2.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="hr-overlay" style="border-radius: 10px;">
+              <div class="hr-play"><span class="hr-play-icon"></span></div>
+              <span class="hr-label">Watch research highlights on Loom ↗</span>
+            </div>
           </div>
         </div>
       </div>
@@ -652,15 +784,16 @@
           <li>2 Data Scientists 🇺🇸</li>
           <li>Design System team 🇵🇱🇺🇦🇮🇳🇺🇸</li>
           <li>Lead Designer (left 2023) 🇺🇸</li>
-          <li>Design Director (left 2024) 🇺🇸</li>
           <li><strong>Senior Designer — Me 🇬🇧</strong></li>
+          <li>Designer (agency) 🇵🇱</li>
+          <li>Design Director (left 2024, overall support) 🇺🇸</li>
         </ul>
       </div>
 
       <div class="info-panel-card">
         <h3>What I did 👩🏾‍💻</h3>
         <ul class="info-panel-list">
-          <li>De-risking</li>
+          <li>De-risking decisions</li>
           <li>Collaboration</li>
           <li>Prototyping</li>
           <li>Competitive Analysis</li>
@@ -681,13 +814,16 @@
 
 </div><!-- /.wrap -->
 
+<div class="wrap"><hr style="border: none; border-top: 1px solid var(--rule); margin: 24px 0;"></div>
+
 <!-- 19. OUTCOMES BAND (full bleed) — moved above research sections -->
 <div class="outcomes-band">
   <div class="wrap">
     <h2>The Outcomes, Impact and Personal Growth</h2>
     <!-- Carousel: Outcomes -->
-    <div class="img-card">
-      <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500">
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+      <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>
           <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_Outcome.png" alt="EDC outcome: customer feedback and product analytics" style="width:100%; display:block; border-radius:8px;"></div>
@@ -701,7 +837,6 @@
         </button>
       </div>
     </div>
-    <p class="cs-caption" style="max-width: 100%;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
     <div class="outcomes-grid">
       <div class="outcomes-col">
         <h3>Business outcomes</h3>
@@ -744,13 +879,20 @@
       <p class="cs-caption" style="margin: 0;">Hover to see system maps of interconnected tasks</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base">
-          <video id="system-maps-video" autoplay muted loop playsinline preload="auto" style="width:100%; display:block; border-radius:10px;">
+          <video id="system-maps-video" muted loop playsinline preload="auto" style="width:100%; display:block; border-radius:10px;">
             <source src="images/EDCRedesign/SystemMaps&amp;ScrappyFrameworks.mp4" type="video/mp4">
           </video>
         </div>
         <div class="hr-overlay" style="border-radius: 10px;">
           <div class="hr-play"><span class="hr-play-icon"></span></div>
           <span class="hr-label">System maps of interconnected tasks</span>
+          <!-- Scrubber — visible only when paused -->
+          <div class="sm-scrubber" id="sm-scrubber">
+            <div class="sm-scrubber-track" id="sm-scrubber-track">
+              <div class="sm-scrubber-fill" id="sm-scrubber-fill"></div>
+              <div class="sm-scrubber-thumb" id="sm-scrubber-thumb"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -773,18 +915,14 @@
       <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
       <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong> — Cleans, validates, and packages clinical data for statisticians.</li>
     </ul>
-    <p class="cs-caption" style="margin-top: 20px;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
-    <!-- Carousel: Personas -->
-    <div class="carousel" data-carousel="personas">
-      <div class="carousel-track">
-        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/988;">[IMAGE: personas-overview-1.webp — 980×988px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/878;">[IMAGE: personas-overview-2.webp — 980×878px]</div></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next">→</button>
+    <!-- Carousel: Personas — auto-advancing, no controls -->
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+      <p class="cs-caption" style="margin: 0;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
+      <div class="carousel" data-carousel="personas" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
+        <div class="carousel-track">
+          <div class="carousel-slide active"><img src="images/EDCRedesign/EDC_EcoSystem02.webp" alt="EDC ecosystem: all personas and their roles mapped as a bubble diagram"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_ClinicalEcosystem.webp" alt="Clinical trial ecosystem: Study Trial Conduct diagram showing interconnected stakeholder circles"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -796,32 +934,38 @@
     <p style="max-width: 100%;">In practice this meant 30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups. Tesler's Law applied deliberately. If complexity could live in the system, done programmatically, it shouldn't live in the UI.</p>
     <p>I also pushed to get design included in cross-product engineering meetings, bug bashes, and peer reviews. And brought in accessibility specialists early, after noticing users were navigating primarily by keyboard. Something that needed to be designed for, not retrofitted.</p>
     <!-- Carousel: Engineering Collab -->
-    <div class="carousel" data-carousel="engineering">
-      <div class="carousel-track">
-        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/590;">[IMAGE: engineering-collab-1.webp — 980×590px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/657;">[IMAGE: engineering-collab-2.webp — 980×657px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/450;">[IMAGE: engineering-collab-3.png — 980×450px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/590;">[IMAGE: engineering-collab-4.webp — 980×590px]</div></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-        <span class="carousel-counter">1 / 4</span>
-        <button class="carousel-btn next">→</button>
+    <div class="img-card">
+      <p class="cs-caption">Figma files with JTBD flow with annotations, Loom walkthroughs, and a component tracker that directors referenced throughout the redesign.</p>
+      <div class="carousel" data-fade data-autoplay="4000" data-carousel="engineering" style="--carousel-ratio: 16/9;">
+        <div class="carousel-track">
+          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.webp" alt="Design system value buckets spreadsheet"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_LoomCommunication.webp" alt="Loom communication library grid"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_NEXTLargeStage02.webp" alt="Patients grid — Data manager and power user permissions"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_FigmaProtoTypeLoops.webp" alt="Figma prototype flow — patient grid states and transitions"></div>
+        </div>
       </div>
     </div>
-    <p class="cs-caption">Figma files with JTBD flow with annotations, Loom walkthroughs, and a component tracker that directors referenced throughout the redesign.</p>
   </div>
 
   <!-- 18. RESEARCH PLAN -->
   <div class="cs-section" id="research">
     <h2>Overall Research Plan — Derisking Assumptions and Increasing Design Quality</h2>
-    <p style="max-width: 100%;">I split data page design ownership to give my design partner and me autonomy to explore ideas while allowing me to focus on cross-product challenges. Though initially unpopular, this moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</p>
-    <p style="max-width: 100%;">Interviewed 55+ participants over two years either in 1-on-1 or group sessions with 28% returning — building trust through short, focused sessions that respected their time and supported continuous discovery habits. We also shared multiple snippets with designers on other initiatives to influence their teams.</p>
-    <p style="max-width: 100%;">Reviewed prior research to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us prioritise features that served multiple personas over their isolated frustrations and contributed to a vision of removing that persona from EDC altogether.</p>
-    <div class="img-pair">
-      <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: research-guidelines-1.png — 430×430px, scrappy research guidelines]</div>
-      <div class="img-placeholder" style="aspect-ratio: 430/430; margin: 0;">[IMAGE: competitor-screenshots.webp — 430×430px, competitor screenshots]</div>
+    <div class="postit-row">
+      <div class="postit postit--1">
+        <span class="postit-emoji">📁</span>
+        <p>I <strong>split data page design ownership</strong> to give my design partner and me <strong>autonomy to explore ideas</strong> while allowing me to focus on cross-product challenges. Though initially unpopular, this <strong>moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</strong></p>
+      </div>
+      <div class="postit postit--2">
+        <span class="postit-emoji">🧍</span>
+        <p><strong>Interviewed 55+ participants over two years either in 1-on-1 or group sessions with 28% returning</strong> — building trust through short, focused sessions that respected their time and supported continuous discovery habits. <span class="highlight-pen"><strong>We also shared multiple snippets with designers on other initiatives to</strong> influence their teams.</span></p>
+      </div>
+      <div class="postit postit--3">
+        <span class="postit-emoji">🕵🏾‍♀️</span>
+        <p><strong>Reviewed prior research</strong> to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us <strong>prioritise features that served multiple personas over their isolated frustrations</strong> and contributed to a vision of removing that persona from EDC altogether.</p>
+      </div>
+    </div>
+    <div class="img-card" style="padding: 20px; border: none;">
+      <img src="images/EDCRedesign/MD_ResearchCollection.webp" alt="Research collection: user interviews, stakeholder sessions, LinkedIn outreach, and Japan evaluations" style="width: 100%; display: block; border-radius: 8px;">
     </div>
   </div>
 
@@ -834,31 +978,37 @@
   <div class="deep-dive" id="dd1">
     <p class="dd-label">Deep Dive: Problem and Solution 01</p>
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
+    <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
     <!-- Carousel: DD01 -->
-    <div class="carousel" data-carousel="dd01">
-      <div class="carousel-track">
-        <div class="carousel-slide active"><div class="img-placeholder" style="aspect-ratio: 980/560;">[IMAGE: deep-dive-01-a.webp — 980×560px]</div></div>
-        <div class="carousel-slide"><div class="img-placeholder" style="aspect-ratio: 980/612;">[IMAGE: deep-dive-01-b.webp — 980×612px]</div></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next">→</button>
+    <div class="img-card" style="padding: 20px; border: none;">
+      <div class="carousel" data-carousel="dd01" data-fade data-autoplay="4000">
+        <div class="carousel-track">
+          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Before_patientMatrix.webp" alt="Rave EDC patient form matrix — visit columns with status icons" style="width:100%; display:block; border-radius:8px;"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_EDC_Before_patientPage.webp" alt="Rave EDC concomitant medications form — data entry page" style="width:100%; display:block; border-radius:8px;"></div>
+        </div>
       </div>
     </div>
     <p style="max-width: 100%;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
-    <p style="max-width: 100%;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
     <!-- BEFORE / AFTER SLIDER -->
     <div class="ba-slider" data-ba-slider>
-      <!-- BEFORE — bottom layer, sets height -->
+      <!-- BEFORE — bottom layer, sets height; auto-cycles between 2 images -->
       <div class="ba-before">
-        <div class="img-placeholder" style="aspect-ratio: 848/504;">[IMAGE: before-patient-details-2017.jpg — 848×504px]</div>
+        <div class="ba-before-reel" style="position:relative; aspect-ratio:848/504; overflow:hidden;">
+          <img class="ba-reel-img" src="images/EDCRedesign/MD_EDC_Before_patientMatrix.webp"
+               alt="Before: Rave Classic patient form matrix"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 0.8s ease;">
+          <img class="ba-reel-img" src="images/EDCRedesign/MD_EDC_Before_patientPage.webp"
+               alt="Before: Rave Classic concomitant medications form"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.8s ease;">
+        </div>
       </div>
-      <!-- AFTER — top layer, clipped by handle -->
+      <!-- AFTER — top layer, clipped by handle; looping video -->
       <div class="ba-after">
-        <div class="img-placeholder" style="aspect-ratio: 848/504;">[IMAGE: after-patient-details-2026.jpg — 848×504px]</div>
+        <video autoplay muted loop playsinline
+               style="width:100%;height:100%;object-fit:cover;display:block;">
+          <source src="images/EDCRedesign/EDC_leftSide_NewMovie.mp4" type="video/mp4">
+        </video>
       </div>
       <!-- LABELS -->
       <span class="ba-pill before">Before — 2017</span>
@@ -1097,6 +1247,18 @@
     window.addEventListener('touchend',   () => dragging = false);
   });
 
+  // ── BA before image cycling
+  document.querySelectorAll('.ba-before-reel').forEach(reel => {
+    const imgs = reel.querySelectorAll('.ba-reel-img');
+    if (imgs.length < 2) return;
+    let cur = 0;
+    setInterval(() => {
+      imgs[cur].style.opacity = '0';
+      cur = (cur + 1) % imgs.length;
+      imgs[cur].style.opacity = '1';
+    }, 4000);
+  });
+
   // ── Custom cursor
   (function() {
     if (window.matchMedia('(hover: none)').matches) return;
@@ -1114,16 +1276,78 @@
     (function loop(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
   })();
 
-  // System Maps: pause/resume toggle on click
+  // System Maps: scroll-triggered autoplay + pause/resume + scrubber
   (function() {
-    const wrap  = document.getElementById('system-maps-reveal');
-    const video = document.getElementById('system-maps-video');
-    const btn   = wrap ? wrap.querySelector('.hr-play') : null;
+    const wrap   = document.getElementById('system-maps-reveal');
+    const video  = document.getElementById('system-maps-video');
+    const btn    = wrap ? wrap.querySelector('.hr-play') : null;
+    const track  = document.getElementById('sm-scrubber-track');
+    const fill   = document.getElementById('sm-scrubber-fill');
+    const thumb  = document.getElementById('sm-scrubber-thumb');
     if (!wrap || !video || !btn) return;
+    let manuallyPaused = false;
+
+    function setPaused(paused) {
+      btn.classList.toggle('is-paused', paused);
+      wrap.classList.toggle('is-paused', paused);
+    }
+
+    function updateScrubber() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      fill.style.width  = pct + '%';
+      thumb.style.left  = pct + '%';
+    }
+
+    // Scrubber seek on click or drag — stop propagation so it doesn't trigger overlay click
+    function seekFromEvent(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      video.currentTime = pct * video.duration;
+      updateScrubber();
+    }
+    let dragging = false;
+    track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; seekFromEvent(e); });
+    document.addEventListener('mousemove', function(e) { if (dragging) seekFromEvent(e); });
+    document.addEventListener('mouseup',   function()  { dragging = false; });
+
+    // Click anywhere on the overlay to pause/resume
+    const overlay = wrap.querySelector('.hr-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target.closest('.sm-scrubber') || e.target.closest('.hr-play')) return;
+        if (video.paused) { manuallyPaused = false; video.play(); setPaused(false); }
+        else              { manuallyPaused = true;  video.pause(); setPaused(true); updateScrubber(); }
+      });
+    }
+
+    video.addEventListener('timeupdate', updateScrubber);
+
+    // Play when scrolled near, pause when out of view
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          if (!manuallyPaused) { video.play(); setPaused(false); }
+        } else {
+          video.pause();
+        }
+      }, { threshold: 0.3 }).observe(video);
+    }
+
+    // Manual pause/resume on button click
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      if (video.paused) { video.play(); btn.classList.remove('is-paused'); }
-      else { video.pause(); btn.classList.add('is-paused'); }
+      if (video.paused) {
+        manuallyPaused = false;
+        video.play();
+        setPaused(false);
+      } else {
+        manuallyPaused = true;
+        video.pause();
+        setPaused(true);
+        updateScrubber();
+      }
     });
   })();
 
@@ -1132,7 +1356,8 @@
     const wrap  = document.getElementById('loom-reveal');
     const video = document.getElementById('loom-video');
     if (!wrap || !video) return;
-    wrap.addEventListener('mouseenter', () => video.play());
+    video.playbackRate = 1.2;
+    wrap.addEventListener('mouseenter', () => { video.playbackRate = 1.2; video.play(); });
     wrap.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
   })();
 

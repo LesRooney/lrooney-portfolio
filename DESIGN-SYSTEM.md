@@ -277,19 +277,89 @@ This rule is already baked into every divider class across all pages. Do not ove
 
 ## Animation
 
+Animations are subtle — professional portfolio, not a showreel.
+
+---
+
+### Page Entrance — `fadeUp`
+
+Used on every page. Content fades up 20px into position on load. The nav is excluded by wrapping all post-nav content in `#page-content`.
+
+**Named after:** the influence page, where this behaviour originated.
+
 ```css
-/* Page load fade-up (hero, header) */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+```
 
-/* Work cards scroll-in */
+**CSS — page-level (case study pages):**
+```css
+#page-content {
+  animation: fadeUp 0.8s 0.2s both;
+}
+```
+
+**HTML — wrap all content after `</nav>`:**
+```html
+</nav>
+
+<div id="page-content">
+  <!-- all page content here -->
+</div><!-- /#page-content -->
+```
+
+**Per-element stagger (influence page pattern):**
+```css
+.influence-hero  { opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.work-header     { opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
+```
+
+---
+
+### Case Study Header Stagger — Title + Narration
+
+The preferred pattern for case study pages. The whole page fades in as a base layer, then the `h1` and audio/narration button stagger in on top — 0.2s apart. Gives a layered "page arrives, then title, then controls" feel.
+
+**Live on:** `medidataedcredesign.html`
+
+```css
+/* Base layer — whole page enters together */
+#page-content {
+  animation: fadeUp 0.6s 0.1s both;
+}
+
+/* Title — arrives first */
+.cs-header h1 {
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+/* Narration / audio button — follows 0.2s after title */
+.cs-header .cs-tags {
+  opacity: 0;
+  animation: fadeUp 0.7s 0.4s forwards;
+}
+```
+
+**Why layered:** `#page-content` at `opacity: 0` means the sidebar and lower sections don't flash in while the title is still invisible. Everything moves as one wave, with the title and audio trailing slightly behind.
+
+#### Rules
+- Always use `#page-content` wrapper on case study pages — keeps the fixed nav from being affected by the transform
+- Do not animate `body` directly — `position: fixed` children (the nav) shift with it
+- Keep `0.2s` gap between staggered elements — tighter feels rushed, wider feels disconnected
+- `forwards` fill-mode on child elements, `both` on the page wrapper
+- If a page has no audio player, apply the same pattern to the next meaningful element (e.g. `.cs-eyebrow`)
+
+---
+
+### Scroll-in — work cards
+
+```css
 .card-item { opacity: 0; transform: translateY(32px); transition: opacity 0.55s ease, transform 0.55s ease; }
 .card-item.in-view { opacity: 1; transform: translateY(0); }
 ```
-
-Animations are subtle — professional portfolio, not a showreel.
 
 ---
 
@@ -396,8 +466,73 @@ grid-template-columns: repeat(3, 1fr); gap: 8px;
 aspect-ratio: 1/1; border-radius: 12px;
 ```
 
+### img-card
+
+A content card that wraps images, videos, carousels, or hover-reveals. Provides a subtle background surface, rounded corners, and consistent internal spacing.
+
+**CSS class:** `.img-card`
+
+```css
+.img-card {
+  background: var(--faint);     /* #f5f3ef */
+  border-radius: 16px;
+  padding: 20px;
+  border: none;
+}
+```
+
+#### HTML structure (image)
+```html
+<div class="img-card">
+  <p class="cs-caption">Caption above the image.</p>
+  <img src="images/example.webp" alt="Description" style="width:100%; display:block; border-radius:8px;">
+</div>
+```
+
+#### HTML structure (wrapping a carousel or video)
+```html
+<div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+  <p class="cs-caption">Caption.</p>
+  <!-- carousel or video goes here -->
+</div>
+```
+
+#### Rules
+- Inner images: `border-radius: 8px`
+- `border: none` when the card wraps a carousel or video (removes double-border look)
+- Always add `display: flex; flex-direction: column; gap: 24px` when stacking a caption + media inside
+
+---
+
 ### Carousel
-Prev/next buttons, dot indicators, slide counter. Pure JS, no library.
+
+#### Standard carousel (prev/next controls + dots)
+Use for 2–6 images where manual paging is appropriate. Wired by the shared carousel JS.
+
+```html
+<div class="carousel" data-carousel="[unique-name]">
+  <div class="carousel-track">
+    <div class="carousel-slide active">
+      <img src="images/slide-1.webp" alt="Slide 1" style="width:100%; display:block; border-radius:8px;">
+    </div>
+    <div class="carousel-slide">
+      <img src="images/slide-2.webp" alt="Slide 2" style="width:100%; display:block; border-radius:8px;">
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button class="carousel-btn prev">←</button>
+    <div class="carousel-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+    </div>
+    <span class="carousel-counter">1 / 2</span>
+    <button class="carousel-btn next">→</button>
+  </div>
+</div>
+```
+
+#### Autoplay fade carousel (LockedFadeCarousel)
+Use for 3+ images of varying dimensions where page-jump would be visible. See **LockedFadeCarousel** section below for full CSS and rules.
 
 ### Post-it Note Cards
 
@@ -572,10 +707,301 @@ Set `--carousel-ratio` to match the content:
 - Wrap in `.img-card` with caption above the carousel for full design system compliance
 
 ### Before/After Slider
-Drag handle to reveal before/after states. Uses `clip-path: inset()` driven by pointer position.
+
+Left/right drag handle to compare two states (e.g. redesign vs. legacy). Uses `clip-path: inset()` driven by pointer/touch position. Auto-sweeps on scroll-into-view; pauses when user drags; resumes 500ms after release.
+
+#### Behaviour
+- **Auto-sweep**: ping-pongs 10%→90%→10% with an ease-in-out curve, 4s per direction, 1.2s pause at each end
+- **Drag**: mouse and touch; handle highlights blue (`#0070BF`) within 20px proximity
+- **Before layer**: static images — supports 1 or 2 images; if 2, they cross-fade every 4s automatically (`.ba-before-reel`)
+- **After layer**: looping `<video>` (or single `<img>`) clipped by the handle
+- **Label pills**: sit above the slider inside `.ba-label-row`, black background, white uppercase text
+
+#### HTML structure
+```html
+<div class="img-card" style="padding: 20px; border: none;">
+  <!-- Label row: left pill = new design, right pill = old design -->
+  <div class="ba-label-row">
+    <span class="ba-pill before">Redesign — 2025</span>
+    <span class="ba-pill after">Redesign — 2017</span>
+  </div>
+
+  <div class="ba-slider" data-ba-slider style="margin: 0;">
+
+    <!-- BEFORE — bottom layer, sets height; use ba-before-reel for 2-image cycling -->
+    <div class="ba-before">
+      <div class="ba-before-reel" style="position:relative; aspect-ratio:848/504; overflow:hidden;">
+        <img class="ba-reel-img" src="images/before-01.webp" alt="Before state A"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 0.8s ease;">
+        <img class="ba-reel-img" src="images/before-02.webp" alt="Before state B"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.8s ease;">
+      </div>
+    </div>
+
+    <!-- AFTER — top layer, clipped by handle; use video or img -->
+    <div class="ba-after">
+      <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+        <source src="videos/after.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- HANDLE -->
+    <div class="ba-handle">
+      <div class="ba-grip">
+        <span class="ba-arrow left"></span>
+        <span class="ba-arrow right"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+
+> For a single before image (no cycling), omit `.ba-before-reel` and use a plain `<img>` inside `.ba-before`.
+
+#### CSS
+```css
+/* Slider container */
+.ba-slider {
+  position: relative; overflow: hidden; border-radius: 12px;
+  cursor: ew-resize; user-select: none; touch-action: none;
+  margin: 20px 0;
+}
+
+/* Before layer — sets height */
+.ba-slider .ba-before { display: block; width: 100%; }
+
+/* After layer — sits on top, clipped left of handle */
+.ba-slider .ba-after {
+  position: absolute; inset: 0; overflow: hidden;
+  clip-path: inset(0 50% 0 0); /* handle starts at 50% */
+}
+
+/* Vertical handle line */
+.ba-handle {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: #fff;
+  transform: translateX(-50%);
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Circular grip knob */
+.ba-grip {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; border: 1.5px solid rgba(0,0,0,0.12);
+  display: flex; align-items: center; justify-content: center;
+  gap: 3px; flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+
+/* Arrow chevrons inside grip */
+.ba-arrow { width: 0; height: 0; border-style: solid; }
+.ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
+.ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+
+/* Hover/drag state — handle turns blue */
+.ba-handle.ba-hover { background: #0070BF; }
+.ba-handle.ba-hover .ba-grip { background: #0070BF; border-color: #0070BF; }
+.ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
+.ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
+
+/* Label row above slider */
+.ba-label-row {
+  display: flex; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.ba-pill {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
+  background: #000; color: #fff; pointer-events: none;
+}
+```
+
+#### JS
+```javascript
+// ── Before / After sliders
+document.querySelectorAll('[data-ba-slider]').forEach(slider => {
+  const after  = slider.querySelector('.ba-after');
+  const handle = slider.querySelector('.ba-handle');
+  let dragging = false;
+
+  function setPos(clientX) {
+    const rect = slider.getBoundingClientRect();
+    const pct  = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+    after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    handle.style.left    = pct + '%';
+  }
+
+  // Auto-sweep (ping-pong, ease-in-out)
+  let userTouched = false, resumeTimer = null, rafId = null;
+  let sweepStart = null, direction = 1;
+  const SWEEP_DURATION = 4000, PAUSE_AT_END = 1200, RESUME_DELAY = 500;
+
+  function cancelAutoSweep() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  function scheduleResume() {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => { userTouched = false; sweepStart = null; rafId = requestAnimationFrame(autoSweep); }, RESUME_DELAY);
+  }
+
+  function autoSweep(ts) {
+    if (userTouched) return;
+    if (!sweepStart) sweepStart = ts;
+    const elapsed = ts - sweepStart;
+    if (elapsed < SWEEP_DURATION) {
+      const t = elapsed / SWEEP_DURATION;
+      const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const pct = direction === 1 ? 10 + ease * 80 : 90 - ease * 80;
+      after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left    = pct + '%';
+      rafId = requestAnimationFrame(autoSweep);
+    } else {
+      setTimeout(() => { if (userTouched) return; direction *= -1; sweepStart = null; rafId = requestAnimationFrame(autoSweep); }, PAUSE_AT_END);
+    }
+  }
+
+  // Hover highlight
+  slider.addEventListener('mousemove', e => {
+    const rect = slider.getBoundingClientRect();
+    const handleX = rect.left + (parseFloat(handle.style.left || '50') / 100) * rect.width;
+    handle.classList.toggle('ba-hover', Math.abs(e.clientX - handleX) < 20 || dragging);
+  });
+  slider.addEventListener('mouseleave', () => { if (!dragging) handle.classList.remove('ba-hover'); });
+
+  // Drag (mouse + touch)
+  slider.addEventListener('mousedown',  e => { dragging = true; userTouched = true; clearTimeout(resumeTimer); cancelAutoSweep(); handle.classList.add('ba-hover'); setPos(e.clientX); });
+  slider.addEventListener('touchstart', e => { dragging = true; userTouched = true; clearTimeout(resumeTimer); cancelAutoSweep(); setPos(e.touches[0].clientX); }, { passive: true });
+  window.addEventListener('mousemove',  e => { if (dragging) setPos(e.clientX); });
+  window.addEventListener('touchmove',  e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+  window.addEventListener('mouseup',    () => { if (dragging) { dragging = false; scheduleResume(); } });
+  window.addEventListener('touchend',   () => { if (dragging) { dragging = false; scheduleResume(); } });
+
+  // Start sweep when 40% of slider is in viewport
+  new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !userTouched) { sweepStart = null; rafId = requestAnimationFrame(autoSweep); }
+      else { cancelAutoSweep(); }
+    });
+  }, { threshold: 0.4 }).observe(slider);
+});
+
+// ── Before image cycling (cross-fade every 4s)
+document.querySelectorAll('.ba-before-reel').forEach(reel => {
+  const imgs = reel.querySelectorAll('.ba-reel-img');
+  if (imgs.length < 2) return;
+  let cur = 0;
+  setInterval(() => {
+    imgs[cur].style.opacity = '0';
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].style.opacity = '1';
+  }, 4000);
+});
+```
+
+#### Rules
+- Always wrap inside `.img-card` with `.ba-label-row` above the slider
+- `data-ba-slider` attribute is required — the JS targets this selector
+- `.ba-before` sets the height — always give its inner element an explicit `aspect-ratio`
+- `.ba-after` must be `position: absolute; inset: 0` and match the before dimensions
+- Images: `.webp` at 2× resolution; video: `autoplay muted loop playsinline`
+- `.ba-before-reel` cycling requires exactly 2 `.ba-reel-img` elements; first `opacity:1`, second `opacity:0`
+- Handle starts at `left: 50%`; auto-sweep runs 10%–90% to avoid clipping edge content
+- Do not use `clip-path` on the `.ba-slider` container itself — it would break the absolute-positioned after layer
 
 ### HoverReveal
-Dark overlay with play icon appears on hover over a thumbnail. Uses navy (now `--ink`) overlay at 92% opacity.
+
+Dark overlay with play icon appears on hover over a thumbnail. Clicking plays the video (or opens the Loom link). Uses `--ink` overlay at 92% opacity.
+
+**CSS classes:** `.hover-reveal`, `.hr-base`, `.hr-overlay`, `.hr-play`, `.hr-play-icon`, `.hr-label`
+
+#### HTML structure
+```html
+<div class="hover-reveal" id="[unique-id]" style="margin: 0; border-radius: 10px;">
+  <div class="hr-base">
+    <video id="[video-id]" muted loop playsinline preload="metadata"
+           style="width:100%; display:block; border-radius:10px;">
+      <source src="images/folder/video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hr-overlay" style="border-radius: 10px;">
+    <div class="hr-play"><span class="hr-play-icon"></span></div>
+    <span class="hr-label">Hover label text ↗</span>
+  </div>
+</div>
+```
+
+#### Rules
+- Use `preload="metadata"` for Loom/highlight videos; `preload="auto"` for scrubber-driven videos (system maps)
+- The overlay hides on `:hover` via CSS — no JS needed for basic show/hide
+- Always wrap inside an `.img-card` with a caption above for consistent spacing
+- `border-radius: 10px` on both `.hover-reveal` and `.hr-overlay` to match inner media
+
+---
+
+### Hover-Play Video (inline autoplay on hover)
+
+A plain `<video>` element that pauses by default and plays only when hovered. Uses the `data-hover-play` attribute, wired by shared JS.
+
+No overlay or label — the video itself is the content.
+
+```html
+<video muted loop playsinline data-hover-play
+       style="width:100%; display:block; border-radius:8px;">
+  <source src="images/folder/video.mp4" type="video/mp4">
+</video>
+```
+
+JS (already in shared script — no per-page code needed):
+```js
+document.querySelectorAll('video[data-hover-play]').forEach(vid => {
+  vid.addEventListener('mouseenter', () => vid.play());
+  vid.addEventListener('mouseleave', () => vid.pause());
+});
+```
+
+#### Rules
+- Always `muted loop playsinline` — never autoplay without mute
+- Wrap in `.img-card` with caption for design-system compliance
+- Use for product demo clips and experiment previews — not for the main HoverReveal pattern
+
+---
+
+### Laptop Mockup
+
+A `<video>` or `<img>` overlaid on a Dell XPS 13 SVG frame. The laptop SVG sets the outer dimensions; the media is positioned absolutely to sit inside the screen area.
+
+**Asset:** `images/Mockups/Dell XPS 13.svg`
+
+```html
+<div style="position: relative; display: block; width: 90%; margin: 0 auto;">
+  <img src="images/Mockups/Dell XPS 13.svg"
+       alt="Dell XPS 13 laptop mockup"
+       style="width: 100%; display: block;">
+  <video autoplay muted loop playsinline
+         style="position: absolute;
+                left: 7.74%; top: 0.77%;
+                width: 84.73%; height: 91.39%;
+                object-fit: cover;
+                border-radius: 2px;">
+    <source src="images/folder/screen-video.mp4" type="video/mp4">
+  </video>
+</div>
+```
+
+Screen position constants (do not change — calibrated to the SVG):
+| Property | Value |
+|---|---|
+| `left` | `7.74%` |
+| `top` | `0.77%` |
+| `width` | `84.73%` |
+| `height` | `91.39%` |
+
+#### Rules
+- Container width: `90%` with `margin: 0 auto` — keeps the mockup centred and slightly inset
+- `border-radius: 2px` on the overlaid media to match the SVG screen corner
+- Use `autoplay muted loop` for demo videos inside the frame
+- To use a static image instead of a video, swap `<video>` for `<img>` with the same position/size styles
 
 ### Right Side Info Panel Card
 
@@ -837,6 +1263,221 @@ Dark (`--ink`) background with lock emoji and "NDA" label. Used when screens are
 background: var(--ink); border-radius: 12px; aspect-ratio: 16/9;
 color: rgba(255,255,255,0.5);
 ```
+
+---
+
+## Video Player — Hover Video with Control Bar (Scrubber + Countdown + Sound)
+
+Used on case study pages for inline video demos (e.g. loom-reveal, exp-video on EDC).
+
+### Behaviour
+- Video is **muted by default** (browser autoplay policy requirement)
+- On **mouseenter**: video plays; if user hasn't manually muted, sound unmutes automatically
+- On **mouseleave**: video pauses, resets to 0:00, re-mutes; countdown resets to full duration
+- **Control bar** fades in on hover — contains scrubber, countdown, and sound button in one row
+- **Scrubber**: user can click or drag the dot anywhere along the track to jump to that position
+- Sound icon reflects current mute state at all times
+
+### Sound toggle — states
+| State | Icon file | Alt text |
+|---|---|---|
+| Sound on | `images/icons/Sound on.svg` | Sound on |
+| Sound off | `images/icons/Sound off.svg` | Sound off |
+
+---
+
+### Control bar — CSS
+
+The control bar is a single row pinned to the bottom of the video. It appears on hover via opacity transition.
+
+```css
+/* Wrapper — video must be position:relative */
+.video-wrap { position: relative; display: block; }
+
+/* Control bar */
+.vid-controls {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.45));
+  border-radius: 0 0 8px 8px;
+  opacity: 0; transition: opacity 0.2s;
+  z-index: 10; pointer-events: none;
+}
+/* Show on hover of video-wrap or loom-reveal */
+.video-wrap:hover .vid-controls,
+#loom-reveal:hover .vid-controls,
+.vid-controls.is-active { opacity: 1; pointer-events: auto; }
+
+/* Scrubber track — takes remaining width */
+.vid-track {
+  flex: 1; position: relative; height: 4px;
+  background: rgba(255,255,255,0.3); border-radius: 2px;
+  cursor: pointer; transition: height 0.15s;
+}
+.vid-track:hover { height: 6px; }
+
+/* Fill — progress indicator */
+.vid-fill {
+  position: absolute; left: 0; top: 0; height: 100%;
+  background: #fff; border-radius: 2px; width: 0%;
+  pointer-events: none;
+}
+
+/* Thumb — draggable dot */
+.vid-thumb {
+  position: absolute; top: 50%; left: 0%;
+  transform: translate(-50%, -50%);
+  width: 12px; height: 12px; background: #fff; border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35); pointer-events: none;
+}
+
+/* Countdown label */
+.vid-duration {
+  font-size: 12px; line-height: 1; color: #fff;
+  font-family: var(--sans); font-weight: 500; opacity: 0.9;
+  white-space: nowrap; pointer-events: none;
+  min-width: 32px; text-align: right;
+}
+
+/* Sound button */
+.sound-toggle {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(255,255,255,0.15); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0; transition: background 0.2s;
+}
+.sound-toggle:hover { background: rgba(255,255,255,0.3); }
+.sound-toggle img {
+  width: 18px; height: 18px; display: block;
+  filter: brightness(0) invert(1);
+}
+```
+
+---
+
+### HTML structure
+
+```html
+<div class="video-wrap">
+  <video id="[id]-video" muted loop playsinline
+         style="width:100%; display:block; border-radius:8px;">
+    <source src="images/folder/video.mp4" type="video/mp4">
+  </video>
+
+  <!-- Unified control bar -->
+  <div class="vid-controls" id="[id]-controls">
+    <div class="vid-track" id="[id]-track">
+      <div class="vid-fill"  id="[id]-fill"></div>
+      <div class="vid-thumb" id="[id]-thumb"></div>
+    </div>
+    <span class="vid-duration" id="[id]-duration"></span>
+    <button class="sound-toggle" id="[id]-sound-btn" aria-label="Toggle sound">
+      <img id="[id]-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+    </button>
+  </div>
+</div>
+```
+
+> **For loom-style hover-reveals** (inside `.hover-reveal`): place the `.vid-controls` div as a sibling of `.hr-overlay`, still inside the `.hover-reveal` wrapper. Add `#loom-reveal:hover .vid-controls` to the CSS hover rule.
+
+---
+
+### JS pattern
+
+```javascript
+(function() {
+  const wrap     = document.querySelector('#[id]-video').closest('.video-wrap'); // or getElementById for loom
+  const video    = document.getElementById('[id]-video');
+  const btn      = document.getElementById('[id]-sound-btn');
+  const icon     = document.getElementById('[id]-sound-icon');
+  const duration = document.getElementById('[id]-duration');
+  const track    = document.getElementById('[id]-track');
+  const fill     = document.getElementById('[id]-fill');
+  const thumb    = document.getElementById('[id]-thumb');
+  if (!video || !wrap) return;
+
+  let userMuted = false;
+
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+  function setIcon(muted) {
+    icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg';
+    icon.alt = muted ? 'Sound off' : 'Sound on';
+  }
+  function updateBar() {
+    if (!video.duration) return;
+    const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+    if (fill)  fill.style.width = pct;
+    if (thumb) thumb.style.left = pct;
+    if (duration) duration.textContent = fmt(video.duration - video.currentTime);
+  }
+
+  // Set initial duration
+  video.addEventListener('loadedmetadata', function() {
+    if (duration) duration.textContent = fmt(video.duration);
+  });
+  if (video.readyState >= 1 && duration) duration.textContent = fmt(video.duration);
+
+  // Drive bar + countdown on every frame
+  video.addEventListener('timeupdate', updateBar);
+
+  // Drag scrubbing
+  function scrubTo(e) {
+    if (!video.duration) return;
+    const rect = track.getBoundingClientRect();
+    const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    video.currentTime = pct * video.duration;
+    updateBar();
+  }
+  let dragging = false;
+  track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
+  document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
+  document.addEventListener('mouseup',   function()  { dragging = false; });
+
+  // Hover play / leave reset
+  wrap.addEventListener('mouseenter', function() {
+    video.muted = userMuted;
+    video.play().catch(function() { video.muted = true; userMuted = true; setIcon(true); });
+  });
+  wrap.addEventListener('mouseleave', function() {
+    if (dragging) return; // don't reset while user is scrubbing
+    video.pause();
+    video.currentTime = 0;
+    video.muted = true;
+    if (fill)  fill.style.width = '0%';
+    if (thumb) thumb.style.left = '0%';
+    if (duration) duration.textContent = fmt(video.duration);
+    setIcon(userMuted);
+  });
+
+  // Sound toggle
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userMuted = !userMuted;
+      video.muted = userMuted;
+      setIcon(userMuted);
+    });
+  }
+})();
+```
+
+---
+
+### Rules
+- Replace `[id]` with the video's unique prefix (e.g. `loom`, `exp`)
+- Always wrap video + controls in `.video-wrap` with `position: relative; display: block`
+- Control bar is a **single unified row**: scrubber left, countdown centre-right, sound button far right
+- Countdown shows **total duration at rest**, counts **down to 0:00** while playing, resets on `mouseleave`
+- Scrubber thumb is **12×12px white circle**; track is **4px**, expands to 6px on hover
+- Sound icon: **18×18px**, always white (`brightness(0) invert(1)`); button: **28×28px** rounded
+- Do **not** reset video position while the user is dragging (`if (dragging) return` guard on mouseleave)
+- `.vid-controls.is-active` class can be added via JS to keep bar visible programmatically
+- Button size: **32×32px**, rounded, `rgba(0,0,0,0.5)` background
 
 ---
 

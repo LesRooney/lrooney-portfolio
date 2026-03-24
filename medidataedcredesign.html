@@ -29,9 +29,28 @@
     }
 
     html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
-    @keyframes pageReveal { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ── PAGE ENTRANCE — staggered fadeUp ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* Whole page fades in as base layer */
+    #page-content {
+      animation: fadeUp 0.6s 0.1s both;
+    }
+    /* Title and audio stagger on top — 0.2s apart */
+    .cs-header h1 {
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .cs-header .cs-tags {
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
     body {
-      animation: pageReveal 0.45s ease both;
+      animation: none;
       background: #FDFDFC;
       color: var(--ink);
       font-family: var(--sans);
@@ -82,7 +101,7 @@
     /* CASE HEADER */
     .cs-header {
       padding: 48px 0 40px;
-      opacity: 0; animation: fadeUp 0.8s 0.1s forwards;
+      opacity: 1;
     }
     .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
     .cs-header h1 {
@@ -450,10 +469,82 @@
     .hr-play-icon { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent var(--navy); margin-left: 4px; }
     .hr-label { font-size: 0.82rem; color: rgba(255,255,255,0.8); text-align: center; padding: 0 20px; }
 
+    /* ── VIDEO CONTROL BAR (scrubber + sound) ── */
+    .video-wrap { position: relative; display: block; }
+
+    /* Control bar — bottom of video, visible on hover */
+    .vid-controls {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.45));
+      border-radius: 0 0 8px 8px;
+      opacity: 0; transition: opacity 0.2s;
+      z-index: 10; pointer-events: none;
+    }
+    .video-wrap:hover .vid-controls,
+    #loom-reveal:hover .vid-controls,
+    .vid-controls.is-active { opacity: 1; pointer-events: auto; }
+
+    /* Scrubber track */
+    .vid-track {
+      flex: 1; position: relative; height: 4px;
+      background: rgba(255,255,255,0.3); border-radius: 2px;
+      cursor: pointer; transition: height 0.15s;
+    }
+    .vid-track:hover { height: 6px; }
+    .vid-fill {
+      position: absolute; left: 0; top: 0; height: 100%;
+      background: #fff; border-radius: 2px; width: 0%;
+      pointer-events: none;
+    }
+    .vid-thumb {
+      position: absolute; top: 50%; left: 0%;
+      transform: translate(-50%, -50%);
+      width: 12px; height: 12px; background: #fff; border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35); pointer-events: none;
+    }
+
+    /* Duration label in control bar */
+    .vid-duration {
+      font-size: 12px; line-height: 1; color: #fff;
+      font-family: var(--sans); font-weight: 500; opacity: 0.9;
+      white-space: nowrap; pointer-events: none; min-width: 32px; text-align: right;
+    }
+
+    /* Sound button in control bar */
+    .sound-toggle {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.15); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; padding: 0; transition: background 0.2s;
+    }
+    .sound-toggle:hover { background: rgba(255,255,255,0.3); }
+    .sound-toggle img { width: 18px; height: 18px; display: block; filter: brightness(0) invert(1); }
+
     /* Loom reveal: transparent overlay, play button only */
     #loom-reveal .hr-overlay { background: transparent; }
     #loom-reveal:hover .hr-overlay { opacity: 1; background: transparent; }
     #loom-reveal .hr-label { display: none; }
+
+    /* Loom play/pause icon — default = pause (two bars, video is playing) */
+    #loom-reveal .hr-play-icon {
+      width: 14px; height: 18px; display: flex; gap: 4px; align-items: stretch;
+      border: none;
+    }
+    #loom-reveal .hr-play-icon::before,
+    #loom-reveal .hr-play-icon::after {
+      content: ''; flex: 1; background: var(--navy); border-radius: 2px;
+    }
+    /* .is-paused = show play triangle */
+    #loom-reveal .hr-play.is-paused .hr-play-icon {
+      display: block; width: 0; height: 0;
+      border-style: solid; border-width: 9px 0 9px 16px;
+      border-color: transparent transparent transparent var(--navy);
+      margin-left: 3px;
+    }
+    #loom-reveal .hr-play.is-paused .hr-play-icon::before,
+    #loom-reveal .hr-play.is-paused .hr-play-icon::after { display: none; }
 
     /* System maps scrubber — bottom of overlay, only visible when paused */
     .sm-scrubber {
@@ -654,6 +745,8 @@
   </div>
 </nav>
 
+<div id="page-content">
+
 <div class="wrap">
 
   <!-- 2. PAGE TITLE + TAGS -->
@@ -679,7 +772,6 @@
     <h2>The Problem, Every Successful Company Eventually Has to Evolve</h2>
     <p style="max-width: 100%;"><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
     <div>
-      <p class="cs-caption">A snapshot of designs I worked on, including synthetic patients, global task filters and data capture pages.</p>
       <!-- Laptop mockup composite: Dell XPS 13 + EDC video + browser toolbar -->
       <div class="mockup-composite" style="position:relative; width:100%; line-height:0;">
         <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width:100%; display:block;">
@@ -692,6 +784,7 @@
           <img src="images/Mockups/Toolbar.svg" alt="" aria-hidden="true" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; display:block;">
         </div>
       </div>
+      <p class="cs-caption" style="margin-top: 16px;">A snapshot of designs I worked on, including synthetic patients, global task filters and data capture pages.</p>
     </div>
   </div>
 
@@ -744,12 +837,23 @@
           <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
             <div class="hr-base">
               <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px;">
-                <source src="images/EDCRedesign/51 - Enhancing Data Entry with New Features and Icons_Small2.mp4" type="video/mp4">
+                <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
               </video>
             </div>
             <div class="hr-overlay" style="border-radius: 10px;">
               <div class="hr-play"><span class="hr-play-icon"></span></div>
               <span class="hr-label">Watch research highlights on Loom ↗</span>
+            </div>
+            <!-- control bar: scrubber + duration + sound -->
+            <div class="vid-controls" id="loom-controls" style="border-radius: 0 0 10px 10px; z-index: 20;">
+              <div class="vid-track" id="loom-track">
+                <div class="vid-fill" id="loom-fill"></div>
+                <div class="vid-thumb" id="loom-thumb"></div>
+              </div>
+              <span class="vid-duration" id="loom-duration"></span>
+              <button class="sound-toggle" id="loom-sound-btn" aria-label="Toggle sound">
+                <img id="loom-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+              </button>
             </div>
           </div>
         </div>
@@ -759,10 +863,10 @@
       <div class="cs-section">
         <h2>How Might We Goals</h2>
         <ol class="num-list">
-          <li>Build a cleaner interface for future capabilities (think AI automation, imported patient records, all that good stuff)</li>
-          <li>Speed up data entry — Reduce errors, cut unnecessary queries. Daily friction points and slowness.</li>
-          <li>Restore task awareness — Bring back what made Rave Classic loved by its users while keeping the best working efficiency gains from the 2017 redesign.</li>
-          <li>Sales demo impact — Make the improvement visually obvious so clients can see the immediate AHA moment.</li>
+          <li>Build a cleaner interface for future capabilities (think <strong>AI automation, imported patient records</strong>, all that good stuff)</li>
+          <li><strong>Speed up data entry</strong> — Reduce errors, cut unnecessary queries. Daily friction points and slowness.</li>
+          <li><strong>Restore task awareness</strong> — Bring back what made <strong>Rave Classic</strong> loved by its users while keeping the best working efficiency gains from the 2017 redesign.</li>
+          <li><strong>Sales demo impact</strong> — Make the improvement visually obvious so clients can see the immediate <strong>AHA moment</strong>.</li>
         </ol>
         <div class="quick-links">
           <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
@@ -812,7 +916,7 @@
 
       <div class="info-panel-card">
         <h3>Duration</h3>
-        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years. Multi-phased releases.</p>
+        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years (<strong>Multi-phased releases and dependencies. Last release 2026</strong>)</p>
       </div>
 
     </div><!-- /.info-panel-col -->
@@ -829,7 +933,7 @@
     <h2>The Outcomes, Impact and Personal Growth</h2>
     <!-- Carousel: Outcomes -->
     <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
-      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023. The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
       <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>
@@ -854,7 +958,7 @@
         </ul>
       </div>
       <div class="outcomes-col">
-        <h3>User outcomes</h3>
+        <h3>User Benefits</h3>
         <ul class="cs-list">
           <li><strong>Users can reliably glance left for a visual to-do summary, streamlining workflows and boosting productivity by 40–50% fewer clicks.</strong> Confirmed from usability studies and beta pilot releases.</li>
           <li><strong>Increases in discoverability, improved scanning behaviour</strong> and reduced support tickets by making core features easier to find. Pilot report revealed faster time to value, especially for newer features.</li>
@@ -875,9 +979,8 @@
         <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
       </video>
     </div>
-    <h3 style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 28px 0 28px;">The Plan &amp; What We Did</h3>
-    <p style="max-width: 100%;">After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.</p>
-    <p style="max-width: 100%;">What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</p>
+    <p style="max-width: 100%; margin-top: 24px;">I partnered with the Lead Designer and PM to broaden discovery beyond end users. <strong>Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering</strong> — the format that surfaces candid, unfiltered insight.</p>
+    <p style="max-width: 100%;">What we heard was consistent: <strong>clients saw us as stagnant.</strong> Legacy dependencies were driving performance issues. And <strong>the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.</strong></p>
   </div>
 
   <!-- 15. SYSTEM MAPS -->
@@ -919,7 +1022,7 @@
       </ul>
     </div>
     <hr class="persona-rule">
-    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px;">
+    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px; margin-top: 24px;">
       <p class="persona-section-label">Client side</p>
       <ul class="persona-list">
         <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
@@ -941,16 +1044,15 @@
   <!-- 17. ENGINEERING COLLABORATION -->
   <div class="cs-section" id="engineering">
     <h2>Where the Best Ideas Win (Engineering Collaboration)</h2>
-    <p style="max-width: 100%;">I brought engineering into design early to reduce surprises and handoff friction. In a group with strong opinions and history, psychological safety mattered. We kept everyone informed but were selective about which feedback shaped direction. Sharing research clips rather than just conclusions meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
-    <p style="max-width: 100%;">In practice this meant 30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups. Tesler's Law applied deliberately. If complexity could live in the system, done programmatically, it shouldn't live in the UI.</p>
-    <p>I also pushed to get design included in cross-product engineering meetings, bug bashes, and peer reviews. And brought in accessibility specialists early, after noticing users were navigating primarily by keyboard. Something that needed to be designed for, not retrofitted.</p>
+    <p style="max-width: 100%;">I brought engineering into design early to reduce surprises and handoff friction. <strong>In a group with strong opinions and history, psychological safety mattered.</strong> We kept everyone informed but were selective about which feedback shaped direction. <strong>Sharing research clips rather than just conclusions</strong> meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
+    <p style="max-width: 100%;">In practice this meant <strong>30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups.</strong> Tesler's Law applied deliberately. <strong>If complexity could live in the system, done programmatically, it shouldn't live in the UI.</strong></p>
+    <p>I also pushed to get design included in <strong>cross-product engineering meetings, bug bashes, and peer reviews.</strong> And brought in <strong>accessibility specialists early</strong>, after noticing users were navigating primarily by keyboard. <strong>Something that needed to be designed for, not retrofitted.</strong></p>
     <!-- Carousel: Engineering Collab -->
     <div class="img-card">
       <p class="cs-caption">Figma files with JTBD flow with annotations, Loom walkthroughs, and a component tracker that directors referenced throughout the redesign.</p>
       <div class="carousel" data-fade data-autoplay="4000" data-carousel="engineering" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
-          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.webp" alt="Design system value buckets spreadsheet"></div>
-          <div class="carousel-slide"><img src="images/EDCRedesign/MD_LoomCommunication.webp" alt="Loom communication library grid"></div>
+          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_LoomCommunication.webp" alt="Loom communication library grid"></div>
           <div class="carousel-slide"><img src="images/EDCRedesign/MD_NEXTLargeStage02.webp" alt="Patients grid — Data manager and power user permissions"></div>
           <div class="carousel-slide"><img src="images/EDCRedesign/MD_FigmaProtoTypeLoops.webp" alt="Figma prototype flow — patient grid states and transitions"></div>
         </div>
@@ -989,7 +1091,7 @@
   <div class="deep-dive" id="dd1">
     <p class="dd-label">Deep Dive: Problem and Solution 01</p>
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
-    <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: find patient → drill in → lose context → navigate back → reapply filters → repeat. The monochromatic interface made scanning hard, and task visibility vanished the moment they clicked into a patient record.</p>
+    <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: <strong>find patient → drill in → lose context → navigate back → reapply filters → repeat.</strong> The monochromatic interface made scanning hard, and <strong>task visibility vanished the moment they clicked into a patient record.</strong></p>
     <!-- BEFORE / AFTER SLIDER -->
     <div class="img-card" style="padding: 20px; border: none;">
     <div class="ba-label-row">
@@ -1024,13 +1126,26 @@
       </div>
     </div>
     </div>
-    <p style="max-width: 100%; margin-top: 28px;">My idea was simple: make patient visits folders (left hand side) communicate more at a glance. I added right-aligned status badges — red for critical blocking work, yellow for next priority, neutral for low priority tasks that could wait, coordinating with Michael for the left side study visit. In space-constrained views, only the highest-priority indicator shows with an overflow indicator, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
-    <p style="max-width: 100%;">Smart filtering and form search reduced reliance on the matrix grid that disappeared once a user selected a patient form. A hover-to-preview the tasks on visit folders (like an accelerator) meant users could check tasks without drilling in. And a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page, updating dynamically without a refresh.</p>
+    <p style="max-width: 100%; margin-top: 28px;">My idea was simple: <strong>make patient visits folders (left hand side) communicate more at a glance.</strong> I added right-aligned status badges — <strong>red for critical blocking work, yellow for next priority, neutral for low priority tasks</strong> that could wait, coordinating with Michael for the left side study visit. In space-constrained views, <strong>only the highest-priority indicator shows with an overflow indicator</strong>, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
+    <p style="max-width: 100%;"><strong>Smart filtering and form search</strong> reduced reliance on the matrix grid that disappeared once a user selected a patient form. <strong>A hover-to-preview the tasks on visit folders</strong> (like an accelerator) meant users could check tasks without drilling in. And <strong>a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page</strong>, updating dynamically without a refresh.</p>
     <div class="img-card" style="padding: 20px; border: none;">
-      <p class="cs-caption" style="margin: 0 0 16px;">Scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
-      <video muted loop playsinline data-hover-play style="width:100%; display:block; border-radius:8px;">
-        <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
-      </video>
+      <p class="cs-caption" style="margin: 0 0 16px;">Hover to listen to scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
+      <div class="video-wrap">
+        <video id="exp-video" muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
+        </video>
+        <!-- control bar: scrubber + duration + sound -->
+        <div class="vid-controls" id="exp-controls">
+          <div class="vid-track" id="exp-track">
+            <div class="vid-fill" id="exp-fill"></div>
+            <div class="vid-thumb" id="exp-thumb"></div>
+          </div>
+          <span class="vid-duration" id="exp-duration"></span>
+          <button class="sound-toggle" id="exp-sound-btn" aria-label="Toggle sound">
+            <img id="exp-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1038,7 +1153,7 @@
   <div class="deep-dive" id="dd2">
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
-    <p>Data Managers were spot-checking patient progress on the drugs more frequently. They were receiving lists of 15 to 100 patient IDs by email or spreadsheet, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: "We now have a problem with Medidata."</p>
+    <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
     <div class="img-card" style="padding: 20px; border: none;">
       <p class="cs-caption" style="margin: 0 0 16px;">Design system option</p>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
@@ -1062,7 +1177,7 @@
         </div>
       </div>
     </div>
-    <p style="margin-top: 28px;">Another pattern that made it into the design system: a smoother, faster, more forgiving time-input for medication. With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
+    <p style="margin-top: 28px;">Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
     <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link fill">Time picker prototype ↗</a>
   </div>
 
@@ -1070,35 +1185,31 @@
   <div class="deep-dive" id="dd3">
     <p class="dd-label">Deep Dive 03</p>
     <h2>The Unsaid Legacy Attraction — From Custom Code Workaround to Core Feature</h2>
-    <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered a deeper migration risk. Rave Classic let study builders custom-code features outside the core product. Like Figma plugins, these extensions expanded the platform in ways we couldn't track, leaving us blind to what existed or how widely it was used.</p>
-    <p>One such extension surfaced during interviews: dummy patients. Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely. Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
-    <div style="position: relative; display: block; width: 90%; margin: 0 auto;">
+    <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered <strong>a deeper migration risk. Rave Classic</strong> let study builders custom-code features outside the core product. Like Figma plugins, <strong>these extensions expanded the platform in ways we couldn't track</strong>, leaving us blind to what existed or how widely it was used.</p>
+    <p>One such extension surfaced during interviews: <strong>dummy patients.</strong> Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. <strong>Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely.</strong> Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
+    <div style="position: relative; display: block; width: 90%; margin: 32px auto;">
       <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width: 100%; display: block;">
       <video autoplay muted loop playsinline style="position: absolute; left: 7.74%; top: 0.77%; width: 84.73%; height: 91.39%; object-fit: cover; border-radius: 2px;">
         <source src="images/EDCRedesign/AI Feature3Small.mp4" type="video/mp4">
       </video>
     </div>
-    <p>That conversation became one of the value propositions when a Data Scientist realised they could create Synthetic Patient data, transforming an unofficial workaround into a proper product capability using AI to generate realistic historical patient data. The next release will cover the parameters users would like to control what's generated.</p>
+    <p>That conversation became one of the value propositions when a Data Scientist realised they could create <strong>Synthetic Patient data</strong>, transforming an unofficial workaround into <strong>a proper product capability using AI to generate realistic historical patient data.</strong> The next release will cover the parameters users would like to control what's generated.</p>
   </div>
 
   <!-- 23. DEEP DIVE 04 -->
   <div class="deep-dive" id="dd4">
     <p class="dd-label">Deep Dive 04</p>
     <h2>Discovering a Root Problem from Various Symptoms — How Unresolvable Queries Undermine Trust and Data Integrity Across Clinical Teams</h2>
-    <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. The platform treated 'not yet available' data the same as 'missing' data. Take drug returns: when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months. The system didn't account for that. It immediately flagged those fields as queries, creating alerts no one could honestly resolve.</p>
-    <p>To cope, users entered junk data to clear these query alerts temporarily from the system. If they didn't, these queries would clog up task lists across EDC, Clinical Data Studio, and the Homepage, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that a UI patch wouldn't fix a system-level issue. That work was brought to the attention of Design VP and manager to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
-    <p class="cs-caption">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
-    <!-- Carousel: DD04 -->
-    <div class="carousel" data-carousel="dd04">
-      <div class="carousel-track">
-        <div class="carousel-slide active"><img src="images/EDCRedesign/SystemQueryIssue_B.webp" alt="Story of query object" style="width:100%; display:block; border-radius:8px;"></div>
-        <div class="carousel-slide"><img src="images/EDCRedesign/MD_SystemQueryissues01.webp" alt="System Impact Map: Unresolvable Queries in EDC" style="width:100%; display:block; border-radius:8px;"></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span></div>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next">→</button>
+    <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. <strong>The platform treated 'not yet available' data the same as 'missing' data.</strong> Take drug returns: <strong>when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months.</strong> The system didn't account for that. It immediately flagged those fields as queries, <strong>creating alerts no one could honestly resolve.</strong></p>
+    <p>To cope, <strong>users entered junk data to clear these query alerts temporarily from the system.</strong> If they didn't, these queries would clog up task lists across <strong>EDC, Clinical Data Studio, and the Homepage</strong>, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that <strong>a UI patch wouldn't fix a system-level issue.</strong> That work was brought to the attention of <strong>Design VP and manager</strong> to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
+    <!-- Carousel: DD04 — autoplay fade -->
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+      <p class="cs-caption" style="margin: 0;">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
+      <div class="carousel" data-carousel="dd04" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
+        <div class="carousel-track">
+          <div class="carousel-slide active"><img src="images/EDCRedesign/MD_SystemQueryissues01.webp" alt="System Impact Map: Unresolvable Queries in EDC"></div>
+          <div class="carousel-slide"><img src="images/EDCRedesign/MD_NEXTLargeStage02.webp" alt="Patients grid — Data manager and power user permissions"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1106,8 +1217,8 @@
   <!-- 24. CANDID REFLECTIONS -->
   <div class="deep-dive" style="border-bottom: none;">
     <h2>Candid Reflections</h2>
-    <p>My first redesign was tough. Priorities shifted, people moved on, and cross-product dependencies kept growing, so progress often felt slow. It was also my first time working on a high-risk product with a two-year timeline, where backend mistakes or bugs could cost Medidata a million dollars a day in client penalties. I was always aware of that pressure, so that's why I made sure engineering had the time and clarity they needed to plan and deliver.</p>
-    <p>Coordinating multiple roadmaps meant revisiting earlier work, juggling backup designs, and balancing other projects at the same time. Maintaining enthusiasm and managing tension was challenging, especially since we were used to working on shorter projects. I learned when to push with evidence and when to let go, what truly mattered and why. What a foundational release really meant, and how tricky prioritisation can be when trying to keep people focused. Since launch, early client feedback has been positive, and the effort has been worth it.</p>
+    <p>My first redesign was tough. Priorities shifted, people moved on, and cross-product dependencies kept growing, so progress often felt slow. <strong>It was also my first time working on a high-risk product with a two-year timeline, where backend mistakes or bugs could cost Medidata a million dollars a day in client penalties.</strong> I was always aware of that pressure, so that's why I made sure engineering had the time and clarity they needed to plan and deliver.</p>
+    <p>Coordinating multiple roadmaps meant revisiting earlier work, juggling backup designs, and balancing other projects at the same time. Maintaining enthusiasm and managing tension was challenging, especially since we were used to working on shorter projects. <strong>I learned when to push with evidence and when to let go</strong>, what truly mattered and why. What a foundational release really meant, and how tricky prioritisation can be when trying to keep people focused. <strong>Since launch, early client feedback has been positive, and the effort has been worth it.</strong></p>
   </div>
 
 
@@ -1450,15 +1561,166 @@
     });
   })();
 
-  // Loom hover-video: play on hover, pause + reset on hover-off
+  /* ── LOOM VIDEO — hover to play with sound, scrubber + countdown ── */
   (function() {
-    const wrap  = document.getElementById('loom-reveal');
-    const video = document.getElementById('loom-video');
+    const wrap     = document.getElementById('loom-reveal');
+    const video    = document.getElementById('loom-video');
+    const btn      = document.getElementById('loom-sound-btn');
+    const icon     = document.getElementById('loom-sound-icon');
+    const duration = document.getElementById('loom-duration');
+    const track    = document.getElementById('loom-track');
+    const fill     = document.getElementById('loom-fill');
+    const thumb    = document.getElementById('loom-thumb');
+    const playBtn  = wrap ? wrap.querySelector('.hr-play') : null;
     if (!wrap || !video) return;
-    video.playbackRate = 1.2;
-    wrap.addEventListener('mouseenter', () => { video.playbackRate = 1.2; video.play(); });
-    wrap.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+
+    let userMuted = false;
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+    function setIcon(muted) {
+      icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg';
+      icon.alt = muted ? 'Sound off' : 'Sound on';
+    }
+    function setPlaying(playing) {
+      if (playBtn) playBtn.classList.toggle('is-paused', !playing);
+    }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (duration) duration.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    // Start in paused state (play triangle shown)
+    setPlaying(false);
+
+    video.addEventListener('loadedmetadata', function() {
+      if (duration) duration.textContent = fmt(video.duration);
+    });
+    if (video.readyState >= 1 && duration) duration.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    // Drag scrubbing
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      video.currentTime = pct * video.duration;
+      updateBar();
+    }
+    let dragging = false;
+    track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
+    document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
+    document.addEventListener('mouseup',   function()  { dragging = false; });
+
+    wrap.addEventListener('mouseenter', function() {
+      video.muted = userMuted;
+      video.play().catch(function() { video.muted = true; userMuted = true; setIcon(true); });
+      setPlaying(true);
+    });
+    wrap.addEventListener('mouseleave', function() {
+      if (dragging) return;
+      video.pause();
+      video.currentTime = 0;
+      video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (duration) duration.textContent = fmt(video.duration);
+      setIcon(userMuted);
+      setPlaying(false);
+    });
+
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userMuted = !userMuted;
+        video.muted = userMuted;
+        setIcon(userMuted);
+      });
+    }
   })();
 
-</script></body>
+  /* ── EXPERIMENTS VIDEO — hover to play with sound, scrubber + countdown ── */
+  (function() {
+    const wrap     = document.querySelector('#exp-video').closest('.video-wrap');
+    const video    = document.getElementById('exp-video');
+    const btn      = document.getElementById('exp-sound-btn');
+    const icon     = document.getElementById('exp-sound-icon');
+    const duration = document.getElementById('exp-duration');
+    const track    = document.getElementById('exp-track');
+    const fill     = document.getElementById('exp-fill');
+    const thumb    = document.getElementById('exp-thumb');
+    if (!video || !wrap) return;
+
+    let userMuted = false;
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+    function setIcon(muted) {
+      icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg';
+      icon.alt = muted ? 'Sound off' : 'Sound on';
+    }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (duration) duration.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', function() {
+      if (duration) duration.textContent = fmt(video.duration);
+    });
+    if (video.readyState >= 1 && duration) duration.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    // Drag scrubbing
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      video.currentTime = pct * video.duration;
+      updateBar();
+    }
+    let dragging = false;
+    track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
+    document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
+    document.addEventListener('mouseup',   function()  { dragging = false; });
+
+    wrap.addEventListener('mouseenter', function() {
+      video.muted = userMuted;
+      video.play().catch(function() { video.muted = true; userMuted = true; setIcon(true); });
+    });
+    wrap.addEventListener('mouseleave', function() {
+      if (dragging) return;
+      video.pause();
+      video.currentTime = 0;
+      video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (duration) duration.textContent = '';
+      setIcon(userMuted);
+    });
+
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userMuted = !userMuted;
+        video.muted = userMuted;
+        setIcon(userMuted);
+      });
+    }
+  })();
+
+</script>
+</div><!-- /#page-content -->
+</body>
 </html>

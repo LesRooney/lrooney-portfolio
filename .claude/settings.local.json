@@ -83,7 +83,10 @@
       "Bash(ffmpeg -i \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDCPatientFilterNewSplitScreen.mp4\" -vcodec libx264 -crf 28 -preset slow -vf \"scale=trunc\\(iw/2\\)*2:trunc\\(ih/2\\)*2\" -movflags +faststart -an \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDCPatientFilterNewSplitScreen_compressed.mp4\")",
       "Bash(/opt/homebrew/bin/ffmpeg -version)",
       "Bash(/usr/local/bin/ffmpeg -version)",
-      "Bash(find /Users/lesleyrooney/Documents/GitHub -name *root-problem* -o -name *SystemQuery* -o -name *query*impact* -o -name *impact*map*)"
+      "Bash(find /Users/lesleyrooney/Documents/GitHub -name *root-problem* -o -name *SystemQuery* -o -name *query*impact* -o -name *impact*map*)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio log --oneline --follow -- games-simulations-films.html lesleyrooney-games-sims-vfxworks.html)",
+      "WebSearch",
+      "Bash(identify /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/MD_SystemQueryissues01.webp /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/SystemQueryIssue_B.webp)"
     ]
   }
 }

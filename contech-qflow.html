@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qualis Flow — Air Quality · Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #0A0A0A;
+      --ink-mid:   #4A4A4A;
+      --ink-light: #717171;
+      --paper:     #f5f5f5;
+      --paper-alt: #efede7;
+      --rule:      #e2e0d8;
+      --faint:     #f5f3ef;
+      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
+      --max:   1080px;
+      --sb:    240px;
+      --pad:   40px;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #page-content { animation: fadeUp 0.6s 0.1s both; }
+    .cs-header h1 { opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .cs-header .cs-tags { opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
+
+    body {
+      animation: none;
+      background: #FDFDFC;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    strong, b { font-weight: 600; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px;
+      background: rgba(245,245,245,0.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--rule); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    #nav-audio-controls { display: flex; align-items: center; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    #nav-audio-controls.visible { opacity: 1; pointer-events: auto; }
+    .nav-audio-btn { height: 28px; padding: 4px 10px 4px 4px; border-radius: 14px; background: var(--ink); color: #fff; border: none; cursor: pointer; font-size: 0.72rem; font-family: var(--sans); font-weight: 500; letter-spacing: 0.03em; display: flex; align-items: center; gap: 7px; transition: opacity 0.2s; flex-shrink: 0; white-space: nowrap; }
+    .nav-audio-btn:hover { opacity: 0.7; }
+    #nav-audio-icon { width: 20px; height: 20px; border-radius: 50%; background: #f0f0f0; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; font-size: 0.65rem; flex-shrink: 0; line-height: 1; }
+
+    /* ── WRAP ── */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── CASE HEADER ── */
+    .cs-header {
+      padding: calc(61px + 48px) 0 40px;
+      opacity: 1;
+    }
+    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+      max-width: 820px;
+    }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--ink); color: var(--paper); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--ink); }
+
+    /* ── AUDIO PLAYER (inline pill) ── */
+    .audio-player { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); border: 1px solid var(--ink); border-radius: 20px; padding: 4px 10px 4px 5px; }
+    .audio-play-btn { width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.55rem; transition: opacity 0.15s; line-height: 1; }
+    .audio-play-btn:hover { opacity: 0.75; }
+    .audio-player-label { font-size: 0.75rem; font-weight: 500; color: var(--paper); white-space: nowrap; }
+    .audio-progress-wrap { display: flex; align-items: center; gap: 6px; }
+    .audio-progress { width: 72px; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; cursor: pointer; appearance: none; -webkit-appearance: none; flex-shrink: 0; }
+    .audio-progress::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; border-radius: 50%; background: var(--paper); cursor: pointer; margin-top: -2px; }
+    .audio-progress::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.25); }
+    .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
+
+    /* ── SECTIONS ── */
+    .cs-section { padding: 48px 0 0; }
+    .cs-section h2 { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 28px; }
+    .cs-section h3 { font-size: 1.05rem; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; margin-bottom: 16px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; }
+    .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+
+    /* ── LISTS ── */
+    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
+    .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
+
+    /* ── TWO-COLUMN ── */
+    .two-col { display: grid; grid-template-columns: 1fr var(--sb); gap: 48px; align-items: start; }
+    .info-panel-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+    .info-panel-card { border: 1px solid var(--rule); border-radius: 12px; padding: 20px; background: transparent; }
+    .info-panel-card h3 { font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+    .info-panel-list { list-style: none; padding: 0; margin: 0; }
+    .info-panel-list li { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.6; padding: 3px 0; display: flex; align-items: baseline; gap: 8px; }
+    .info-panel-list li::before { content: '✦'; color: var(--ink); font-size: 0.65rem; flex-shrink: 0; }
+
+    /* ── IMG CARD ── */
+    .img-card { background: var(--faint); border-radius: 16px; padding: 20px; }
+    .img-card.borderless { border: none; }
+
+    /* ── IMAGE PLACEHOLDER ── */
+    .img-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light);
+      text-align: center; padding: 24px; margin: 24px 0;
+    }
+
+    /* ── ICON ROW (tools) ── */
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .tool-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--ink-mid); padding: 4px 0; }
+    .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
+
+    /* ── ACTIVITIES TWO-COL LIST ── */
+    .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; margin-bottom: 16px; }
+    .activity-grid .cs-list { margin: 0; }
+
+    /* ── GIF GRID (2×2) ── */
+    .gif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .gif-item { border-radius: 12px; overflow: hidden; background: var(--paper-alt); border: 1px solid var(--rule); }
+    .gif-item .img-placeholder { margin: 0; border-radius: 0; border: none; }
+
+    /* ── PHOTO GRID (team photos) ── */
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+    .photo-grid .img-placeholder { margin: 0; aspect-ratio: 1/1; }
+
+    /* ── IMAGE PAIR ── */
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+
+    /* ── HOVER REVEAL ── */
+    .hover-reveal { position: relative; overflow: hidden; cursor: pointer; border-radius: 12px; }
+    .hr-base { width: 100%; }
+    .hr-base img, .hr-base video { width: 100%; display: block; }
+    .hr-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; opacity: 0; transition: opacity 0.3s ease; border-radius: 12px; }
+    .hover-reveal:hover .hr-overlay { opacity: 1; }
+    .hr-play { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; }
+    .hr-play-icon { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 18px; border-color: transparent transparent transparent #fff; margin-left: 3px; }
+    .hr-label { font-size: 0.8rem; color: rgba(255,255,255,0.8); letter-spacing: 0.04em; text-align: center; max-width: 260px; }
+
+    /* ── HOVER AUDIO PLACEHOLDER ── */
+    .hover-audio-placeholder {
+      width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      margin: 16px 0; padding: 48px 24px; cursor: pointer; transition: background 0.2s;
+    }
+    .hover-audio-placeholder:hover { background: var(--rule); }
+    .hover-audio-placeholder .audio-icon { font-size: 2rem; }
+    .hover-audio-placeholder .audio-label { font-size: 0.8rem; color: var(--ink-mid); font-style: italic; text-align: center; max-width: 300px; line-height: 1.5; }
+
+    /* ── CAROUSEL ── */
+    .carousel { position: relative; margin: 24px 0; }
+    .carousel-track { border-radius: 12px; overflow: hidden; position: relative; }
+    .carousel-slide { display: none; }
+    .carousel-slide.active { display: block; }
+    .carousel-slide img { width: 100%; display: block; border-radius: 12px; }
+    .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; }
+    .carousel-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--rule); background: #fff; cursor: pointer; font-size: 1rem; color: var(--ink-mid); display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; }
+    .carousel-btn:hover { background: var(--ink); color: #fff; }
+    .carousel-dots { display: flex; gap: 6px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); cursor: pointer; transition: background 0.2s; }
+    .dot.active { background: var(--ink); }
+    .carousel-counter { font-size: 0.75rem; color: var(--ink-light); }
+
+    /* ── LIGHTBOX ── */
+    .lb-trigger { cursor: zoom-in; }
+    #lightbox { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10,10,10,0.92); align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lb-img { max-width: 90vw; max-height: 88vh; border-radius: 8px; object-fit: contain; }
+    #lb-close { position: absolute; top: 20px; right: 28px; background: none; border: none; color: rgba(255,255,255,0.7); font-size: 2rem; cursor: pointer; line-height: 1; }
+    #lb-close:hover { color: #fff; }
+    #lb-caption { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.6); font-style: italic; }
+    #lb-prev, #lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 1.4rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    #lb-prev:hover, #lb-next:hover { background: rgba(255,255,255,0.2); }
+    #lb-prev { left: 24px; }
+    #lb-next { right: 24px; }
+
+    /* ── PEEK GRID ── */
+    .peek-section { padding: 64px 0 80px; }
+    .peek-caption { font-size: 0.9rem; color: var(--ink-mid); margin-bottom: 32px; }
+    .peek-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .peek-cell { aspect-ratio: 1/1; border-radius: 12px; background: var(--paper-alt); border: 1px solid var(--rule); overflow: hidden; cursor: pointer; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+    .peek-cell:hover { transform: scale(1.04); }
+    .peek-cell img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 40px 48px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .footer-built { font-size: 0.85rem; color: var(--ink-mid); margin-bottom: 4px; }
+    .footer-copy { font-size: 0.8rem; color: var(--ink-light); }
+    .footer-right { display: flex; gap: 32px; }
+    .footer-right a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--ink); }
+
+    /* ── CURSOR ── */
+    #cursor-dot  { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
+    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
+    #cursor-dot.is-hovering  { width:10px;height:10px; }
+    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
+    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 780px) {
+      .two-col { grid-template-columns: 1fr; }
+      .info-panel-col { padding-top: 0; }
+      nav { padding: 18px 24px; }
+      .wrap { padding: 0 24px; }
+      .gif-grid, .img-pair, .activity-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .peek-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 40px 24px; }
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Lesley Rooney</a>
+  <div class="nav-right">
+    <div id="nav-audio-controls" aria-label="Audio controls">
+      <button class="nav-audio-btn" id="nav-audio-toggle" aria-label="Pause narration"><span id="nav-audio-icon">⏸</span><span>Narration</span></button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="influence.html">Influence</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="page-content">
+
+<div class="wrap">
+
+  <!-- 1. PAGE HEADER -->
+  <div class="cs-header">
+    <p class="cs-eyebrow">SaaS · Qualis Flow</p>
+    <h1>The Quality of Air Around Construction Sites</h1>
+    <div class="cs-tags">
+      <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
+        <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
+        <span class="audio-player-label">Listen to a summary instead</span>
+        <div class="audio-progress-wrap">
+          <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
+        </div>
+        <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">--:--</span></div>
+        <audio id="audioEl" src="" preload="none"></audio>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. INTRO -->
+  <div class="cs-section" style="padding-top: 0;">
+    <p style="font-size: 1rem; color: var(--ink-mid); max-width: 820px; line-height: 1.8;">This project taught me to balance bold visions with resource reality. While the goal was to use AI to automate manual work, the lesson was in 'failing fast' to protect the company's runway. I now focus on finding pragmatic paths that deliver value while keeping a close eye on indirect competitors.</p>
+  </div>
+
+  <!-- TWO-COLUMN LAYOUT -->
+  <div class="two-col">
+  <div class="main-col">
+
+    <!-- 3. HERO GIF -->
+    <div class="cs-section">
+      <div class="img-card borderless" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+        <div class="img-placeholder" style="aspect-ratio: 16/9; margin: 0;">
+          [GIF: air-quality-ui.gif — Qflow air quality interface animation]
+        </div>
+        <p class="cs-caption" style="margin: 0;">Displaying air quality with empty state work packages (Gantt chart) below.</p>
+      </div>
+    </div>
+
+    <!-- 4. WHAT IS QFLOW -->
+    <div class="cs-section">
+      <h2>Air Quality Opportunity — What is Qflow and Its Vision?</h2>
+      <p>Qualis Flow is a SaaS platform that uses AI to tackle environmental risks on construction projects. It pulls data from devices so teams can track, predict, and analyse issues in real time, helping them stay compliant, avoiding fines while protecting the environment. Built for environmental consultants and project managers, it makes handling compliance on mega projects simpler and more efficient.</p>
+      <p>Environmental consultants used to spend days manually pulling data from air quality sensors, a workload that was increasing due to large construction project demands. By the time they imported everything into Power BI for stakeholder meetings, the process had taken so long that teams were stuck reacting to pollution breaches instead of getting ahead of them.</p>
+      <p>Qflow's Air Quality module automatically aggregates sensor data and will use AI trained on historical readings to predict pollutant behaviour based on construction schedules. This lets project managers tweak their plans and immediately see any risks ahead, turning compliance from a hassle into a strategic advantage.</p>
+      <p>The company already had a client lined up to test the product on a major project where pollution breaches were a constant problem. With small competition in this niche sector and the potential for big financial gains, our focus was on building a real-time, scalable solution that could serve multiple clients.</p>
+    </div>
+
+    <!-- 5. MY ROLE -->
+    <div class="cs-section">
+      <h2>My Role</h2>
+      <p>Sole UX/UI designer in an agile start-up, responsible for delivering a 0→1 end-to-end product from discovery through to handover.</p>
+      <p>I quickly got up to speed through site visits, customer interviews, and observing real environmental workflows. Observing users' tools, workarounds, and frustrations firsthand to clarify problems the company needed to solve. I worked closely with the founders — an ex-environmental manager and a civil engineer — using their expertise to ask sharper questions while keeping a beginner's mindset so I could challenge assumptions rather than inherit them.</p>
+      <p>Highlighted insights were pulled into videos, audio clips, and customer journey maps, which helped the whole team step into the customer's world and get aligned on which MVPs to prioritise.</p>
+      <div class="img-pair">
+        <div class="img-placeholder lb-trigger" style="aspect-ratio: 980/644; margin: 0;" data-lb-src="images/Qflow/my-role-01.png" data-lb-caption="My Role — research and discovery work">
+          [IMAGE: my-role-01.png — 980×644px, press to zoom]
+        </div>
+        <div class="img-placeholder lb-trigger" style="aspect-ratio: 594/358; margin: 0;" data-lb-src="images/Qflow/my-role-02.jpg" data-lb-caption="My Role — additional context">
+          [IMAGE: my-role-02.jpg — 594×358px, press to zoom]
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.main-col -->
+
+  <!-- SIDEBAR -->
+  <div class="info-panel-col">
+
+    <div class="info-panel-card">
+      <h3>Team</h3>
+      <ul class="info-panel-list">
+        <li>2 Founders (ex-environmental consultant &amp; civil engineer)</li>
+        <li>CTO / backend engineer</li>
+        <li>Product owner</li>
+        <li>2 Engineers (back &amp; front end)</li>
+        <li>1 Tester</li>
+        <li>Lead engineer (joined later)</li>
+        <li><strong>UX/UI Designer — Me 🇬🇧</strong></li>
+      </ul>
+    </div>
+
+    <div class="info-panel-card">
+      <h3>What I did 👩🏾‍💻</h3>
+      <ul class="info-panel-list">
+        <li>Observational research</li>
+        <li>Customer &amp; stakeholder interviews</li>
+        <li>Competitive analysis</li>
+        <li>Sketches, wireframes, sitemaps</li>
+        <li>Visual design &amp; component library</li>
+        <li>Design system (Zero Heights)</li>
+        <li>Illustrations &amp; iconography</li>
+        <li>Mixpanel analytics</li>
+        <li>Marketing consultation</li>
+      </ul>
+    </div>
+
+    <div class="info-panel-card">
+      <h3>Duration</h3>
+      <p style="font-size: 0.9rem; color: var(--ink-mid);">~5 months</p>
+    </div>
+
+    <div class="info-panel-card">
+      <h3>Tools</h3>
+      <div class="tool-grid">
+        <div class="tool-item"><img class="tool-icon" src="images/icons/pen-paper.svg" alt="">Pen &amp; Paper</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/sketch.svg" alt="">Sketch</div>
+        <div class="tool-item"><img class="tool-icon" src="images/logos/photoshop.svg" alt="">Photoshop</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/confluence.svg" alt="">Confluence</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/zoom.svg" alt="">Zoom</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/zeplin.svg" alt="">Zeplin</div>
+        <div class="tool-item">Mixpanel</div>
+        <div class="tool-item">Principle</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/screenflow.svg" alt="">ScreenFlow</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/miro.svg" alt="">Miro</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/quicktime.svg" alt="">QuickTime</div>
+        <div class="tool-item">Teams</div>
+        <div class="tool-item">Zeroheights</div>
+        <div class="tool-item"><img class="tool-icon" src="images/icons/storybook.svg" alt="">Storybook</div>
+      </div>
+    </div>
+
+  </div><!-- /.info-panel-col -->
+  </div><!-- /.two-col -->
+
+</div><!-- /.wrap -->
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- FULL-WIDTH SECTIONS BELOW -->
+<!-- ══════════════════════════════════════════════ -->
+
+<div class="wrap">
+
+  <!-- 10. OUTCOMES -->
+  <div class="cs-section">
+    <h2>The Outcomes That Redirected but Defined the Future</h2>
+    <ul class="cs-list">
+      <li>We launched the MVP just in time for a client pilot — aimed at improving air quality monitoring on a complex project with 30+ sensors and multiple stakeholders. Full disclosure: the client didn't convert — you can read more about that <a href="#candid-reflections" style="color: var(--ink); font-weight: 500;">in Candid Reflections</a>.</li>
+      <li>The app generated data for Qflow's training model, improving clarity on sensor activity and machine learning capabilities.</li>
+      <li>Research with piloting clients showed limited resources to reach product–market fit, prompting a pivot toward new growth areas. With only five months of runway, this helped clarify Qflow's direction.</li>
+      <li>Validated the benefits of rapid prototyping to define a solid MVP.</li>
+      <li>Established Qflow's first design system for a scalable framework and direction for other modules/applications.</li>
+    </ul>
+    <p class="cs-caption">Below: Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
+    <div class="img-placeholder" style="aspect-ratio: 980/551;">
+      [IMAGE: customer-journey-map.jpg — 980×551px, full customer journey map]
+    </div>
+  </div>
+
+  <!-- 11. KEY FINDINGS -->
+  <div class="cs-section">
+    <h2>Turning Sensor Chaos into Clear Actions</h2>
+    <p>Additional key findings included:</p>
+    <ul class="cs-list">
+      <li>Environmental consultants received email alerts containing the sensor manufacturer's time, location, and pollutant exceedance information. Still, they needed to see pollutant behaviour, deduce the cause and reduce hours downloading data from sensors.</li>
+      <li>They valued visualisations for quick insights in stakeholder meetings, but still needed access to the underlying accurate data — for example, meetings often focused on just 2 pages of a 90-page report because they had graphs.</li>
+      <li>Freedom to view multiple pollutant gases, sensors, and other data sources for comparison, speed, and efficiency.</li>
+      <li>Easy to use and trustworthy against its competitors.</li>
+      <li>Cope with increasingly complex infrastructure projects, measuring multiple gases with many sensors and manufacturers.</li>
+      <li>Thresholds could be adjusted according to the users' needs or government standards.</li>
+      <li>Be predictive, anticipate issues, and see trends (machine learning).</li>
+      <li>Monitor the system at any time, not always during an exceedance issue.</li>
+    </ul>
+    <h3>MVP Focus</h3>
+    <p>Building an MVP meant focusing on what mattered most:</p>
+    <ul class="cs-list">
+      <li>Fast, responsive access to sensor APIs</li>
+      <li>Smart caching and quick loading</li>
+      <li>GPS-enabled mapping to pinpoint issues</li>
+    </ul>
+    <p>All while managing tight deadlines, shifting terminology, and limited domain knowledge.</p>
+  </div>
+
+  <!-- 12. THE WORK — WEB INSPIRATION -->
+  <div class="cs-section">
+    <h2>The Work Towards Solutions</h2>
+    <p>Key questions driving early exploration:</p>
+    <ul class="cs-list">
+      <li>What's the best way to handle multiple data topics for comparison on the same graph?</li>
+      <li>What can Qflow realistically do for version 1 release?</li>
+    </ul>
+    <p class="cs-caption">Below: Web-based data visualisation examples from various sites.</p>
+    <div class="gif-grid">
+      <div class="gif-item">
+        <div class="img-placeholder" style="aspect-ratio: 626/418; margin: 0;">[GIF: web-inspo-01.gif — 626×418px, data viz inspiration]</div>
+      </div>
+      <div class="gif-item">
+        <div class="img-placeholder" style="aspect-ratio: 640/450; margin: 0;">[GIF: web-inspo-02.gif — 640×450px, data viz inspiration]</div>
+      </div>
+      <div class="gif-item">
+        <div class="img-placeholder" style="aspect-ratio: 560/394; margin: 0;">[GIF: web-inspo-03.gif — 560×394px, data viz inspiration]</div>
+      </div>
+      <div class="gif-item">
+        <div class="img-placeholder" style="aspect-ratio: 576/324; margin: 0;">[GIF: web-inspo-04.gif — 576×324px, data viz inspiration]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. WORKSHOP & SCOPING -->
+  <div class="cs-section">
+    <h2>Workshop &amp; Scoping</h2>
+    <p class="cs-caption">Below: Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
+    <div class="img-placeholder" style="aspect-ratio: 980/315;">
+      [GIF: moscow-workshop.gif — 980×315px, workshop/service blueprint]
+    </div>
+    <p class="cs-caption">Below: Early sketch ideas detailing different data comparison ideas and how they might be visualized.</p>
+    <div class="img-placeholder" style="aspect-ratio: 977/649;">
+      [IMAGE: early-sketches.jpg — 977×649px, notebook sketches of data comparison ideas]
+    </div>
+    <p class="cs-caption">Below: Low fidelity layout test, working through ideas such as air monitors GPS or grouping configuration controls to filter through the data and compare construction work throughout the area.</p>
+    <div class="img-placeholder" style="aspect-ratio: 980/789;">
+      [IMAGE: lo-fi-wireframes.png — 980×789px, low fidelity layout sketches]
+    </div>
+  </div>
+
+  <!-- 14. EARLY PROTOTYPE — HOVER REVEAL -->
+  <div class="cs-section">
+    <h2>Early Prototype</h2>
+    <p class="cs-caption">👉🏽 Below: Hover the image to see early prototype ideas for pollutant behaviour, sensor mapping, and the time slider. Designed to handle up to 12 pollutants and 3 data feeds per sensor to ensure scalability from small sites to mega projects.</p>
+    <div class="hover-reveal">
+      <div class="hr-base">
+        <div class="img-placeholder" style="aspect-ratio: 960/538; margin: 0; border-radius: 12px;">
+          [IMAGE: early-prototype-hover.jpg — 960×538px]
+        </div>
+      </div>
+      <div class="hr-overlay">
+        <div class="hr-play"><span class="hr-play-icon"></span></div>
+        <span class="hr-label">Early prototype — pollutant behaviour, sensor mapping, time slider</span>
+      </div>
+    </div>
+    <p style="margin-top: 24px;">Design experiments tested extreme cases — 12 pollutants and 3 feeds per sensor — to ensure scalability for both mega projects and smaller companies.</p>
+    <p>The following displays pollutant data across multiple monitors with staggered loading to test API behaviour and timing. The goal was to challenge early-stage ideas, like the exceedance feature, which highlighted monitors exceeding limits using colour-coded IDs linked to the visual guide above. While not ideal for colourblind users, it sparked useful discussion. The client especially liked the exceedance part: <em>"I would keep this feature on at all times"</em> to spot issues at a glance.</p>
+    <div class="img-placeholder" style="aspect-ratio: 16/9;">
+      [GIF: exceedance-experiment.gif — exceedance feature experiment with staggered loading]
+    </div>
+  </div>
+
+  <!-- 15. SCOPE & TIERED IMPLEMENTATION -->
+  <div class="cs-section">
+    <h2>Scope &amp; Tiered Implementation</h2>
+    <p>Scope creep led to tiered implementation — skimmed, semi-skimmed, and full-fat — to ensure delivery, delaying some features until post-launch. By designing complete user flows and edge cases upfront, I aimed to future-proof the product beyond the MVP.</p>
+    <div class="img-placeholder" style="aspect-ratio: 980/72;">
+      [IMAGE: browser-divider.jpg — 980×72px, Firefox Quantum dark browser bar / visual divider]
+    </div>
+    <div class="img-placeholder" style="aspect-ratio: 16/9;">
+      [GIF: past-prototypes.gif — prototype iteration history / montage]
+    </div>
+    <p class="cs-caption">Hover function idea reveals monitor/sensors and their data lines. Suggested by the CTO after a show-and-tell, the hover feature was designed to distinguish multiple data lines without confusing accurate data viewing with Gantt chart filtering.</p>
+  </div>
+
+  <!-- 16. GANTT CHART -->
+  <div class="cs-section">
+    <h2>Programme Gantt Chart Feature</h2>
+    <p>We tested comparing construction data — like work packages and traffic — against pollutant behavior. The Gantt chart concept seemed tricky technically, so I suggested having users upload data manually instead of relying on Qflow automation. Not ideal, but engineering built a quick Excel upload hack. With a "let's try it" mindset, we tracked usage in Mixpanel to see if it was worth pursuing further.</p>
+    <div class="img-placeholder" style="aspect-ratio: 977/549;">
+      [IMAGE: gantt-chart-feature.jpg — 977×549px, Gantt chart / work packages feature]
+    </div>
+  </div>
+
+  <!-- 17. PREDICTIVE FEATURE -->
+  <div class="cs-section">
+    <h2>The Use of AI — Predictive Feature</h2>
+    <p class="cs-caption">Below: Figuring out the predictive feature.</p>
+    <div class="hover-reveal" style="margin-bottom: 24px;">
+      <div class="hr-base">
+        <div class="img-placeholder" style="aspect-ratio: 960/538; margin: 0; border-radius: 12px;">
+          [INTERACTIVE: predictive-feature — hover reveals predictive AI design exploration]
+        </div>
+      </div>
+      <div class="hr-overlay">
+        <div class="hr-play"><span class="hr-play-icon"></span></div>
+        <span class="hr-label">Predictive AI — design exploration</span>
+      </div>
+    </div>
+    <p>The predictive feature lets users forecast pollutant behaviour based on historical information and adjust work packages to visualise potential risks within defined confidence ranges.</p>
+    <div class="img-placeholder" style="aspect-ratio: 16/9; margin-bottom: 16px;">
+      [GIF: air-quality-ui.gif — same as hero, showing predictive UI in context]
+    </div>
+    <h3>Updating the Exceedance Feature</h3>
+    <p>Clients wanted a search for sensors, but since their main goal was finding exceedances above specific monitors, I brainstormed with the lead developer and came up with a feasible alternative — a simple checkbox to highlight them.</p>
+    <p class="cs-caption">Below: Introducing animation as a quick walkthrough technique to grab the user's attention when initially opening up air quality.</p>
+  </div>
+
+  <!-- 18. USABILITY STUDY -->
+  <div class="cs-section">
+    <h2>Usability Study</h2>
+    <p>Final quick usability testing to reevaluate five key assumptions and uncover usability issues early. Rapid prototyping iterations ran throughout the week with nine target users (four recorded), one guerrilla session, and five in-house team members, ensuring diverse perspectives. Each 20-minute session provided valuable insights into current practices and indirect competitors.</p>
+    <div class="img-placeholder" style="aspect-ratio: 979/547;">
+      [IMAGE: usability-testing.jpg — 979×547px, usability testing session photos or notes]
+    </div>
+    <p class="cs-caption">🔉 Below: Hover over the image to hear environmental consultants discuss how they use data in their work (2 mins).</p>
+    <div class="hover-audio-placeholder" title="Hover to play audio — 2 min clip">
+      <span class="audio-icon">🔉</span>
+      <span class="audio-label">[IMAGE + AUDIO: consultants-audio-thumb.jpg — hover plays 2-min audio of environmental consultants discussing data workflows]</span>
+    </div>
+  </div>
+
+  <!-- 19. CANDID REFLECTIONS -->
+  <div class="cs-section" id="candid-reflections">
+    <h2>Candid Reflections, Competitors &amp; What I've Learned</h2>
+    <p class="cs-caption">🔉 Below: Hover over the image to hear a 2-minute snippet on Power BI trends impacting Qflow business direction.</p>
+    <div class="hover-audio-placeholder" title="Hover to play audio — 2 min clip">
+      <span class="audio-icon">🔉</span>
+      <span class="audio-label">[IMAGE + AUDIO: powerbi-trends-thumb.jpg — 896×261px, hover plays 2-min audio on Power BI competition]</span>
+    </div>
+    <p>Throughout the project — and increasingly toward the end — I noticed an emerging trend within the research: specialists were funding their own Power BI training, making it a formidable direct competitor within potential clients' existing Microsoft environments. This pattern accelerated across sectors like waste collection and material delivery, where robust data visualisation proved too valuable to ignore.</p>
+    <p>The pilot revealed tough market truths. The client didn't convert after the trial — they could hire a junior analyst with BI training for less than Qflow's subscription. Without the promised advanced AI forecasting feature integrated with construction work schedules and the exceedance threshold line still undeveloped (scheduled for the next release), the company couldn't justify a resource-heavy push based on a single client's commitment.</p>
+    <p>When COVID-19 hit, Qflow quickly pivoted to focus on AI and ML for more attainable and successful modules already in the field. Integrating Power BI API to work with clients' existing tools, rather than competing against them.</p>
+    <p class="cs-caption">Below: A snippet of the actual in-product graph visualisation used during the client's 3-month pilot.</p>
+    <div class="img-placeholder" style="aspect-ratio: 16/9;">
+      [GIF: pilot-usage-graph.gif — in-product graph visualisation from 3-month client pilot, showing usage peaks]
+    </div>
+    <p>Not everything was lost — the app provided valuable usage insights that became great training material. As a designer, I learned how good research can save a company time and money, showing that without the resources to build something truly different, you risk creating a product no one wants — like offering a skateboard when they're after a car. 🛹 🚲 🛵 🚙</p>
+  </div>
+
+  <!-- 20. NEXT — DESIGN SYSTEM -->
+  <div class="cs-section">
+    <h2>Next — Design System &amp; Other Modules</h2>
+    <p>Air Quality required unique UI components to address user needs, whereas other products — such as Waste and Materials — followed a more CRUD-based (create, read, update, and delete) approach, utilising Material Design principles. Collaborating with the product owner &amp; engineers, we scaled these modules beyond MVP toward an enterprise-level system.</p>
+    <p>I created Qflow's first unified design system with consistent patterns, visual language, and reusable components. Integrated with Storybook, it documented UI behaviour, animation, illustration, branding, and accessibility — helping engineers standardise capabilities, speed up implementation, and support skill expansion for those seeking full-stack experience.</p>
+    <p class="cs-caption">Below: 404 illustration replacing my earlier rough draft for quicker implementation.</p>
+    <div class="img-placeholder" style="aspect-ratio: 16/9;">
+      [SVG/IMAGE: 404-illustration — Qflow 404 page illustration]
+    </div>
+  </div>
+
+  <!-- 21. DESIGN SYSTEM GALLERY -->
+  <div class="cs-section">
+    <h2>Design System Gallery</h2>
+    <p class="cs-caption">Press any image to view at full size.</p>
+    <div class="gif-grid">
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-colours.gif" data-lb-caption="Qflow colours">
+        <div class="img-placeholder" style="aspect-ratio: 980/687; margin: 0; cursor: zoom-in;">
+          [GIF: design-system-colours.gif — 980×687px — Qflow colours]
+        </div>
+      </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-illustrations.gif" data-lb-caption="Guide to illustrations">
+        <div class="img-placeholder" style="aspect-ratio: 980/751; margin: 0; cursor: zoom-in;">
+          [GIF: design-system-illustrations.gif — 980×751px — Guide to illustrations]
+        </div>
+      </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-modals.gif" data-lb-caption="Modals Dos and Don'ts">
+        <div class="img-placeholder" style="aspect-ratio: 980/692; margin: 0; cursor: zoom-in;">
+          [GIF: design-system-modals.gif — 980×692px — Modals Dos and Don'ts]
+        </div>
+      </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-iconography.gif" data-lb-caption="Iconography">
+        <div class="img-placeholder" style="aspect-ratio: 980/760; margin: 0; cursor: zoom-in;">
+          [GIF: design-system-iconography.gif — 980×760px — Iconography]
+        </div>
+      </div>
+    </div>
+    <div class="gif-grid" style="margin-top: 16px;">
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-full.gif" data-lb-caption="Full design system overview">
+        <div class="img-placeholder" style="aspect-ratio: 980/1483; margin: 0; cursor: zoom-in;">
+          [GIF: design-system-full.gif — 980×1483px — Full design system overview]
+        </div>
+      </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/sketch-style-guide.gif" data-lb-caption="Sketch Style guide">
+        <div class="img-placeholder" style="aspect-ratio: 980/758; margin: 0; cursor: zoom-in;">
+          [GIF: sketch-style-guide.gif — 980×758px — Sketch Style guide]
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 22. COMPONENT PARTS / ICONOLOGY -->
+  <div class="cs-section">
+    <h2>Component Parts — Iconology</h2>
+    <div class="carousel" data-carousel="iconology">
+      <div class="carousel-track">
+        <div class="carousel-slide active">
+          <div class="img-placeholder" style="aspect-ratio: 978/612; margin: 0; border-radius: 12px;">
+            [IMAGE: component-parts-iconology.jpg — 978×612px, icon set and component examples]
+          </div>
+        </div>
+        <div class="carousel-slide">
+          <div class="img-placeholder" style="aspect-ratio: 978/612; margin: 0; border-radius: 12px;">
+            [IMAGE: component-parts-iconology-2.jpg — confirm with Lesley]
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev">←</button>
+        <div class="carousel-dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+        </div>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 23. MARKETING MATERIAL -->
+  <div class="cs-section">
+    <h2>Some Marketing Material</h2>
+    <p class="cs-caption">First time doing marketing — but hey, it's a startup, we all wear many hats! Judge the results below.</p>
+    <div class="img-pair">
+      <div class="img-placeholder" style="aspect-ratio: 770/425; margin: 0;">
+        [IMAGE: marketing-01.png — 770×425px, social/marketing asset]
+      </div>
+      <div class="img-placeholder" style="aspect-ratio: 515/646; margin: 0;">
+        [IMAGE: marketing-02.jpg — 515×646px, marketing material portrait]
+      </div>
+    </div>
+  </div>
+
+  <!-- 24. TEAM PHOTOS -->
+  <div class="cs-section">
+    <p class="cs-caption">Below: Some early team photos.</p>
+    <div class="photo-grid">
+      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
+        [IMAGE: team-photo-1.jpg — 313×313px]
+      </div>
+      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
+        [IMAGE: team-photo-2.jpg — 313×313px]
+      </div>
+      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
+        [IMAGE: team-photo-3.jpg — 313×313px]
+      </div>
+    </div>
+  </div>
+
+  <!-- 25. PEEK GRID -->
+  <div class="peek-section">
+    <p class="peek-caption">More case studies</p>
+    <div class="peek-grid">
+      <a href="medidataedcredesign.html" class="peek-cell"><img src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign" loading="lazy"></a>
+      <a href="clinical-risk-based-monitoring.html" class="peek-cell"><img src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" loading="lazy"></a>
+      <a href="qualisflow-02.html" class="peek-cell"><img src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts &amp; IA" loading="lazy"></a>
+      <a href="homerenter.html" class="peek-cell"><img src="images/homerenter-thumb.webp" alt="HomeRenter" loading="lazy"></a>
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <p class="footer-built">Designed by me. Co-built with <svg width="38" height="32" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Claude" role="img" style="display:inline-block;vertical-align:middle;margin:0 4px -4px"><g clip-path="url(#cc-qf)"><path d="M20 0H220V160H240V60H220V160V200H200V160H180V200H160V160H80V200H60V160H40V200H20V160H0V60H20V0Z" fill="#C97B63"/><path d="M60 60H40V80H60V60Z" fill="black"/><path d="M200 60H180V80H200V60Z" fill="black"/></g><defs><clipPath id="cc-qf"><rect width="240" height="200" fill="white"/></clipPath></defs></svg></p>
+      <p class="footer-copy">© 2026 — Lesley Rooney</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:ley.rooney@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/lesley-rooneydesignerartist/" target="_blank">LinkedIn</a>
+      <a href="https://dribbble.com/LesleyRooney" target="_blank">Dribbble</a>
+      <a href="https://vimeo.com/user8259342" target="_blank">Vimeo</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lb-close" aria-label="Close">×</button>
+  <button id="lb-prev" aria-label="Previous">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button id="lb-next" aria-label="Next">›</button>
+  <p id="lb-caption"></p>
+</div>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+  // ── Nav scroll ──
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // ── Custom cursor ──
+  (function() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx - 3}px, ${my - 3}px)`; });
+    const hoverTargets = 'a,button,[role="button"],.peek-cell,.hover-audio-placeholder,.lb-trigger,.hover-reveal';
+    document.addEventListener('mouseover', e => { if (e.target.closest(hoverTargets)) { ring.classList.add('is-hovering'); dot.classList.add('is-hovering'); } });
+    document.addEventListener('mouseout',  e => { if (e.target.closest(hoverTargets)) { ring.classList.remove('is-hovering'); dot.classList.remove('is-hovering'); } });
+    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
+    (function loop() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.transform = `translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
+  })();
+
+  // ── Audio player ──
+  (function() {
+    const audioEl  = document.getElementById('audioEl');
+    const playBtn  = document.getElementById('audioPlayBtn');
+    const progress = document.getElementById('audioProgress');
+    const current  = document.getElementById('audioCurrentTime');
+    const durEl    = document.getElementById('audioDuration');
+    const navCtrl  = document.getElementById('nav-audio-controls');
+    const navToggle= document.getElementById('nav-audio-toggle');
+    const navIcon  = document.getElementById('nav-audio-icon');
+    if (!audioEl || !audioEl.src) return;
+    audioEl.playbackRate = 1.3;
+    let audioStarted = false, inlineVisible = true;
+    function fmt(s) { const m = Math.floor(s / 60); return m + ':' + (Math.floor(s % 60) + '').padStart(2, '0'); }
+    function syncNav() {
+      if (!navCtrl) return;
+      navCtrl.classList.toggle('visible', audioStarted && !inlineVisible);
+      if (navToggle && navIcon) {
+        navIcon.textContent = audioEl.paused ? '▶' : '⏸';
+        navToggle.setAttribute('aria-label', audioEl.paused ? 'Resume narration' : 'Pause narration');
+      }
+    }
+    const inlinePlayer = document.getElementById('audio-player');
+    if (inlinePlayer && 'IntersectionObserver' in window) {
+      new IntersectionObserver(entries => { inlineVisible = entries[0].isIntersecting; syncNav(); }, { threshold: 0.1 }).observe(inlinePlayer);
+    }
+    audioEl.addEventListener('loadedmetadata', () => { if (durEl && audioEl.duration) durEl.textContent = fmt(audioEl.duration); });
+    playBtn.addEventListener('click', () => { audioEl.paused ? audioEl.play() : audioEl.pause(); playBtn.textContent = audioEl.paused ? '▶' : '⏸'; });
+    audioEl.addEventListener('play',  () => { audioStarted = true; playBtn.textContent = '⏸'; syncNav(); });
+    audioEl.addEventListener('pause', () => { playBtn.textContent = '▶'; syncNav(); });
+    audioEl.addEventListener('timeupdate', () => { if (audioEl.duration) { progress.value = (audioEl.currentTime / audioEl.duration) * 100; current.textContent = fmt(audioEl.currentTime); } });
+    progress.addEventListener('input', () => { if (audioEl.duration) audioEl.currentTime = (progress.value / 100) * audioEl.duration; });
+    audioEl.addEventListener('ended', () => { playBtn.textContent = '▶'; progress.value = 0; current.textContent = '0:00'; audioStarted = false; syncNav(); });
+    if (navToggle) navToggle.addEventListener('click', () => { audioEl.paused ? audioEl.play() : audioEl.pause(); });
+  })();
+
+  // ── Carousel ──
+  document.querySelectorAll('.carousel[data-carousel]').forEach(car => {
+    const slides = car.querySelectorAll('.carousel-slide');
+    const dots   = car.querySelectorAll('.dot');
+    const counter= car.querySelector('.carousel-counter');
+    let cur = 0;
+    function go(n) {
+      slides[cur].classList.remove('active');
+      dots[cur] && dots[cur].classList.remove('active');
+      cur = (n + slides.length) % slides.length;
+      slides[cur].classList.add('active');
+      dots[cur] && dots[cur].classList.add('active');
+      if (counter) counter.textContent = `${cur + 1} / ${slides.length}`;
+    }
+    car.querySelector('.carousel-btn.prev') && car.querySelector('.carousel-btn.prev').addEventListener('click', () => go(cur - 1));
+    car.querySelector('.carousel-btn.next') && car.querySelector('.carousel-btn.next').addEventListener('click', () => go(cur + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+  });
+
+  // ── Lightbox ──
+  (function() {
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lb-img');
+    const lbCap   = document.getElementById('lb-caption');
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev  = document.getElementById('lb-prev');
+    const lbNext  = document.getElementById('lb-next');
+    let items = [], idx = 0;
+
+    function open(i) {
+      idx = i;
+      lbImg.src = items[idx].src;
+      lbCap.textContent = items[idx].caption || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() { lb.classList.remove('open'); document.body.style.overflow = ''; lbImg.src = ''; }
+
+    document.querySelectorAll('.lb-trigger').forEach((el, i) => {
+      items.push({ src: el.dataset.lbSrc || '', caption: el.dataset.lbCaption || '' });
+      el.addEventListener('click', () => open(i));
+    });
+
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click', () => open((idx - 1 + items.length) % items.length));
+    lbNext.addEventListener('click', () => open((idx + 1) % items.length));
+    lb.addEventListener('click', e => { if (e.target === lb) close(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft')  lbPrev.click();
+      if (e.key === 'ArrowRight') lbNext.click();
+    });
+  })();
+</script>
+</div><!-- /#page-content -->
+</body>
+</html>

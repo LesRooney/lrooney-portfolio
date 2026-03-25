@@ -315,12 +315,14 @@
     hr.persona-rule { display: none; margin: 24px 0; border: none; border-top: 1px solid var(--rule); }
 
     /* QUICK LINKS */
-    .quick-links { margin: 24px 0; padding: 20px; background: var(--faint); border-radius: 10px; border: 1px solid var(--rule); }
-    .quick-links p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 10px; }
+    .quick-links { margin: 24px 0; }
+    .quick-links p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 12px; }
     .quick-links ul { list-style: none; padding: 0; }
-    .quick-links li { font-size: 0.88rem; padding: 3px 0; }
-    .quick-links a { color: var(--navy); text-decoration: none; font-weight: 500; }
-    .quick-links a:hover { text-decoration: underline; }
+    .quick-links li { font-size: 1rem; padding: 6px 0; }
+    .quick-links a { color: #3b82f6; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .quick-links a .link-text { text-decoration: underline; text-underline-offset: 3px; }
+    .quick-links a .arrow { display: inline-block; text-decoration: none; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+    .quick-links a:hover .arrow { transform: translateX(8px); }
 
     /* IMAGE PLACEHOLDER */
     .img-placeholder {
@@ -871,10 +873,10 @@
         <div class="quick-links">
           <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
           <ul>
-            <li><a href="#dd1">Streamlining patient data workflows for all personas →</a></li>
-            <li><a href="#dd2">Helping Data Manager find, spot check and lock patients easily →</a></li>
-            <li><a href="#dd3">Unsaid legacy attraction of Rave Classic →</a></li>
-            <li><a href="#dd4">Discovering a root problem from various symptoms →</a></li>
+            <li><a href="#dd1"><span class="link-text">Streamlining patient data workflows for all personas</span> <span class="arrow">→</span></a></li>
+            <li><a href="#dd2"><span class="link-text">Helping Data Manager find, spot check and lock patients easily</span> <span class="arrow">→</span></a></li>
+            <li><a href="#dd3"><span class="link-text">Unsaid legacy attraction of Rave Classic</span> <span class="arrow">→</span></a></li>
+            <li><a href="#dd4"><span class="link-text">Discovering a root problem from various symptoms</span> <span class="arrow">→</span></a></li>
           </ul>
         </div>
       </div><!-- /.cs-section HMW -->
@@ -925,7 +927,6 @@
 
 </div><!-- /.wrap -->
 
-<div class="wrap"><hr style="border: none; border-top: 1px solid var(--rule); margin: 24px 0;"></div>
 
 <!-- 19. OUTCOMES BAND (full bleed) — moved above research sections -->
 <div class="outcomes-band">

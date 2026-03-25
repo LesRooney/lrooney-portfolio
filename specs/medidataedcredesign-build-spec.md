@@ -169,7 +169,7 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 ### 10. SIDEBAR — DURATION
 
 **Heading:** Duration
-**Content:** ~2.5 years / *Multi-phased releases.*
+**Content:** ~2.5 years (**Multi-phased releases and dependencies. Last release 2026**)
 **Type:** Text only. No shadow — outline border only.
 
 ---
@@ -192,14 +192,16 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 
 ### 12. RESEARCH LOOM (Interactive)
 
-**Component:** `<HoverReveal>` — static image thumbnail, hover shows navy overlay with play icon
+**Component:** `<HoverReveal>` with `.vid-controls` bar
+**Video:** `images/EDCRedesign/EDC_LoomResearchMovie.mp4` (local mp4, not external Loom URL)
 **Callout above:**
 > Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.
 
-**Image:** `[IMAGE: research-loom-thumbnail.webp — 537×343px]`
-**On hover:** Shows play button overlay
-**On click:** Opens Loom URL in new tab
-**⚠️ Confirm Loom URL with Lesley**
+**Behaviour:**
+- Hover → video plays with sound (unmutes if user hasn't muted)
+- Control bar appears on hover: draggable scrubber + countdown + sound toggle
+- Mouseleave → video pauses, resets to start, controls hide
+- Sound icon: `images/icons/Sound on.svg` / `images/icons/Sound off.svg`
 
 ---
 
@@ -230,7 +232,7 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 **Image:** `[IMAGE: stakeholder-interviews.jpg — 922×518px]`
 **Sub-heading:** The Plan & What We Did
 **Body:**
-> After the mixed reception of the 2017 redesign, I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.
+> I partnered with the Lead Designer and PM to broaden discovery beyond end users. Instead of large group workshops, we ran individual calls with solution experts, sales, marketing, and engineering — the format that surfaces candid, unfiltered insight.
 >
 > What we heard was consistent: clients saw us as stagnant. Legacy dependencies were driving performance issues. And the competitive landscape was shifting fast, with eSource and eCOA companies moving into the EDC market.
 
@@ -279,11 +281,10 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 >
 > I also pushed to get design included in cross-product engineering meetings, bug bashes, and peer reviews. And brought in accessibility specialists early, after noticing users were navigating primarily by keyboard. Something that needed to be designed for, not retrofitted.
 
-**Component:** `<Carousel>` — 4 slides
-- `[IMAGE: engineering-collab-1.webp — 980×590px]`
-- `[IMAGE: engineering-collab-2.webp — 980×657px]`
-- `[IMAGE: engineering-collab-3.png — 980×450px]`
-- `[IMAGE: engineering-collab-4.webp — 980×590px]`
+**Component:** `<Carousel>` — 3 slides
+- `images/EDCRedesign/MD_LoomCommunication.webp` — Loom communication library grid (active)
+- `images/EDCRedesign/MD_NEXTLargeStage02.webp` — Patients grid — Data manager and power user permissions
+- `images/EDCRedesign/MD_FigmaProtoTypeLoops.webp` — Figma prototype flow — patient grid states and transitions
 
 **Caption below carousel:**
 > Figma files with JTBD flow with annotations, Loom walkthroughs, and a component tracker that directors referenced throughout the redesign.
@@ -326,7 +327,7 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 - Enabled a smoother Classic-to-new platform migration (unified product) and strengthened competitive edge in sales demos.
 - The initiative demonstrated the ROI of embedded research — fewer rework cycles, fewer post-release fixes, and clearer guidance on where engineering should focus backend refactoring.
 
-**User outcomes:**
+**User Benefits:**
 - Users can reliably glance left for a visual to-do summary, streamlining workflows and boosting productivity by 40–50% fewer clicks. Confirmed from usability studies and beta pilot releases.
 - Increases in discoverability, improved scanning behaviour and reduced support tickets by making core features easier to find. Pilot report revealed faster time to value, especially for newer features.
 
@@ -353,7 +354,7 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 - `[IMAGE: after-patient-details-2026.jpg — 913×587px]` — label: AFTER New redesign of patient details 2026
 
 **Component:** `<HoverReveal>`
-**Caption above:** Hover to see scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.
+**Caption above:** Hover to listen to scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.
 **Image:** `[IMAGE: concept-experiments-thumbnail.jpg]`
 **⚠️ Confirm hover reveal content with Lesley**
 
@@ -424,8 +425,8 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 **Caption above carousel:** Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.
 
 **Component:** `<Carousel>` — 2 slides
-- `[IMAGE: root-problem-01.webp — 980×733px]`
-- `[IMAGE: root-problem-02.webp — 980×842px]`
+- `images/EDCRedesign/MD_SystemQueryissues01.webp` — System Impact Map: Unresolvable Queries in EDC (active)
+- `images/EDCRedesign/MD_NEXTLargeStage02.webp` — Patients grid — Data manager and power user permissions
 
 ---
 
@@ -521,3 +522,18 @@ Figma · Storybook · Loom · Lovable · Slack · Zoom · Notion · Pendo · Axu
 - [ ] Do you have `edc-onboarding-podcast.mp3` as a downloadable file or does it need re-exporting from NotebookLM?
 - [ ] Hero banner — is this the same image as the Risk Management page hero?
 - [ ] Should all "What I Did" items be anchor links, or only the highlighted ones?
+
+---
+
+## Changelog
+
+### 2026-03-24
+- Video control bar (`.vid-controls`) added to `exp-video` and `loom-video`: draggable scrubber, countdown timer, sound toggle
+- Homepage card-0: static image placeholder added as hover state (pending final video)
+- DD04 carousel: `SystemQueryIssue_B.webp` removed, replaced with `MD_NEXTLargeStage02.webp`
+- Engineering carousel: `MD_DesignSystemSpreadSheetValueBuckets.webp` retired; final 3 slides confirmed
+- "User outcomes" renamed to "User Benefits" in outcomes band
+- DD01 caption updated to "Hover to listen to scrappy design experiments..."
+- Sidebar duration updated: `~2.5 years (Multi-phased releases and dependencies. Last release 2026)`
+- "After the mixed reception of the 2017 redesign," removed from All Brains section body
+- Vertical gap (24px) added between football video card and following body text

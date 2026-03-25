@@ -106,7 +106,7 @@
     .cs-section h2 { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 28px; }
     .cs-section h3 { font-size: 1.05rem; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
     .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: normal; margin: 8px 0 16px; line-height: 1.6; }
     .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
 
     /* ── LISTS ── */
@@ -282,7 +282,15 @@
 
   <!-- 2. INTRO -->
   <div class="cs-section" style="padding-top: 0;">
-    <p style="font-size: 1rem; color: var(--ink-mid); max-width: 820px; line-height: 1.8;">This project taught me to balance bold visions with resource reality. While the goal was to use AI to automate manual work, the lesson was in 'failing fast' to protect the company's runway. I now focus on finding pragmatic paths that deliver value while keeping a close eye on indirect competitors.</p>
+    <p style="font-size: 1rem; color: var(--ink-mid); line-height: 1.8;">This project taught me to balance bold visions with resource reality. While the goal was to use AI to automate manual work, the lesson was in 'failing fast' to protect the company's runway. I now focus on finding pragmatic paths that deliver value while keeping a close eye on indirect competitors.</p>
+  </div>
+
+  <!-- 5. MY ROLE — full width -->
+  <div class="cs-section">
+    <h2>My Role</h2>
+    <p>Sole UX/UI designer in an agile start&#8209;up, delivering a 0→1 product end&#8209;to&#8209;end from discovery to handover.</p>
+    <p>I got up to speed fast through site visits, customer interviews, and observing real environmental workflows. Seeing users' tools, workarounds, and frustrations firsthand clarified the problems we actually needed to solve. I worked closely with the founders — an ex&#8209;environmental manager and a civil engineer — using their expertise to ask sharper questions while keeping a beginner's mindset so I could challenge assumptions rather than inherit them.</p>
+    <p>I pulled key insights into videos, audio clips, and journey maps that helped the whole team step into the customer's world and align on which MVPs to prioritise.</p>
   </div>
 
   <!-- TWO-COLUMN LAYOUT -->
@@ -290,37 +298,28 @@
   <div class="main-col">
 
     <!-- 3. HERO GIF -->
-    <div class="cs-section">
-      <div class="img-card borderless" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-        <div class="img-placeholder" style="aspect-ratio: 16/9; margin: 0;">
-          [GIF: air-quality-ui.gif — Qflow air quality interface animation]
+    <div class="cs-section" style="padding-top: 32px;">
+      <div class="img-card borderless" style="padding: 0; background: none; display: flex; flex-direction: column; gap: 0;">
+        <div style="position: relative; width: 110%; margin-left: -5%;">
+          <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
+          <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
+            <source src="images/Qflow_Airquality/QflowPredictiveGraph_March2.mp4" type="video/mp4">
+          </video>
         </div>
-        <p class="cs-caption" style="margin: 0;">Displaying air quality with empty state work packages (Gantt chart) below.</p>
+        <p class="cs-caption" style="margin-top: 16px;">Displaying air quality with empty state work packages (Gantt chart) below.</p>
       </div>
     </div>
 
     <!-- 4. WHAT IS QFLOW -->
     <div class="cs-section">
       <h2>Air Quality Opportunity — What is Qflow and Its Vision?</h2>
-      <p>Qualis Flow is a SaaS platform that uses AI to tackle environmental risks on construction projects. It pulls data from devices so teams can track, predict, and analyse issues in real time, helping them stay compliant, avoiding fines while protecting the environment. Built for environmental consultants and project managers, it makes handling compliance on mega projects simpler and more efficient.</p>
-      <p>Environmental consultants used to spend days manually pulling data from air quality sensors, a workload that was increasing due to large construction project demands. By the time they imported everything into Power BI for stakeholder meetings, the process had taken so long that teams were stuck reacting to pollution breaches instead of getting ahead of them.</p>
-      <p>Qflow's Air Quality module automatically aggregates sensor data and will use AI trained on historical readings to predict pollutant behaviour based on construction schedules. This lets project managers tweak their plans and immediately see any risks ahead, turning compliance from a hassle into a strategic advantage.</p>
-      <p>The company already had a client lined up to test the product on a major project where pollution breaches were a constant problem. With small competition in this niche sector and the potential for big financial gains, our focus was on building a real-time, scalable solution that could serve multiple clients.</p>
-    </div>
-
-    <!-- 5. MY ROLE -->
-    <div class="cs-section">
-      <h2>My Role</h2>
-      <p>Sole UX/UI designer in an agile start-up, responsible for delivering a 0→1 end-to-end product from discovery through to handover.</p>
-      <p>I quickly got up to speed through site visits, customer interviews, and observing real environmental workflows. Observing users' tools, workarounds, and frustrations firsthand to clarify problems the company needed to solve. I worked closely with the founders — an ex-environmental manager and a civil engineer — using their expertise to ask sharper questions while keeping a beginner's mindset so I could challenge assumptions rather than inherit them.</p>
-      <p>Highlighted insights were pulled into videos, audio clips, and customer journey maps, which helped the whole team step into the customer's world and get aligned on which MVPs to prioritise.</p>
+      <p>Qualis Flow is a SaaS platform using AI to manage environmental risk on construction projects. It pulls live data from sensors so teams can track, predict, and analyse issues in real time—staying compliant, avoiding fines, and protecting the environment. Built for environmental consultants and project managers, it simplifies compliance on large-scale projects.</p>
+      <p>Consultants previously spent days manually collecting air quality data, only to analyse it after the fact. This delay meant teams were reacting to breaches instead of preventing them.</p>
+      <p>Qflow's Air Quality module automates data aggregation and uses AI trained on historical readings to predict pollution based on construction schedules. Project managers can adjust plans and see risks instantly, turning compliance into a proactive, strategic tool.</p>
+      <p>With an early client ready to test on a high-risk project and limited competition in this niche, the focus was building a scalable, real-time solution for multiple clients.</p>
       <div class="img-pair">
-        <div class="img-placeholder lb-trigger" style="aspect-ratio: 980/644; margin: 0;" data-lb-src="images/Qflow/my-role-01.png" data-lb-caption="My Role — research and discovery work">
-          [IMAGE: my-role-01.png — 980×644px, press to zoom]
-        </div>
-        <div class="img-placeholder lb-trigger" style="aspect-ratio: 594/358; margin: 0;" data-lb-src="images/Qflow/my-role-02.jpg" data-lb-caption="My Role — additional context">
-          [IMAGE: my-role-02.jpg — 594×358px, press to zoom]
-        </div>
+        <img src="images/Qflow_Airquality/my-role-research.webp" alt="My Role — research and discovery work" style="width: 100%; height: 280px; object-fit: cover; border-radius: 10px; display: block;">
+        <img src="images/Qflow_Airquality/AirQualityResearch10.webp" alt="My Role — additional context" style="width: 100%; height: 280px; object-fit: cover; border-radius: 10px; display: block;">
       </div>
     </div>
 
@@ -397,16 +396,15 @@
   <div class="cs-section">
     <h2>The Outcomes That Redirected but Defined the Future</h2>
     <ul class="cs-list">
-      <li>We launched the MVP just in time for a client pilot — aimed at improving air quality monitoring on a complex project with 30+ sensors and multiple stakeholders. Full disclosure: the client didn't convert — you can read more about that <a href="#candid-reflections" style="color: var(--ink); font-weight: 500;">in Candid Reflections</a>.</li>
-      <li>The app generated data for Qflow's training model, improving clarity on sensor activity and machine learning capabilities.</li>
-      <li>Research with piloting clients showed limited resources to reach product–market fit, prompting a pivot toward new growth areas. With only five months of runway, this helped clarify Qflow's direction.</li>
-      <li>Validated the benefits of rapid prototyping to define a solid MVP.</li>
-      <li>Established Qflow's first design system for a scalable framework and direction for other modules/applications.</li>
+      <li>Generated data for Qflow's training model, improving visibility on sensor activity and machine learning capabilities.</li>
+      <li>Pilot research revealed limited resources to reach product–market fit, prompting a pivot toward new growth areas — and with only five months of runway, it helped clarify Qflow's direction. You can read more about that <a href="#candid-reflections" style="color: var(--ink); font-weight: 500;">in Candid Reflections</a>.</li>
+      <li>Validated rapid prototyping as the right approach for defining a solid MVP.</li>
+      <li>Established Qflow's first design system, laying a scalable foundation for future modules and applications.</li>
     </ul>
     <p class="cs-caption">Below: Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
-    <div class="img-placeholder" style="aspect-ratio: 980/551;">
-      [IMAGE: customer-journey-map.jpg — 980×551px, full customer journey map]
-    </div>
+    <video autoplay loop muted playsinline style="width: 100%; border-radius: 12px; display: block;">
+      <source src="images/Qflow_Airquality/MarchAirQflow03_SmallA.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- 11. KEY FINDINGS -->
@@ -414,14 +412,11 @@
     <h2>Turning Sensor Chaos into Clear Actions</h2>
     <p>Additional key findings included:</p>
     <ul class="cs-list">
-      <li>Environmental consultants received email alerts containing the sensor manufacturer's time, location, and pollutant exceedance information. Still, they needed to see pollutant behaviour, deduce the cause and reduce hours downloading data from sensors.</li>
-      <li>They valued visualisations for quick insights in stakeholder meetings, but still needed access to the underlying accurate data — for example, meetings often focused on just 2 pages of a 90-page report because they had graphs.</li>
-      <li>Freedom to view multiple pollutant gases, sensors, and other data sources for comparison, speed, and efficiency.</li>
-      <li>Easy to use and trustworthy against its competitors.</li>
-      <li>Cope with increasingly complex infrastructure projects, measuring multiple gases with many sensors and manufacturers.</li>
-      <li>Thresholds could be adjusted according to the users' needs or government standards.</li>
-      <li>Be predictive, anticipate issues, and see trends (machine learning).</li>
-      <li>Monitor the system at any time, not always during an exceedance issue.</li>
+      <li>Consultants received email alerts with time, location, and exceedance data — but still needed to understand pollutant behaviour and identify causes without hours of manual data downloads.</li>
+      <li>Wanted quick visual insights for stakeholder meetings, with accurate underlying data always within reach.</li>
+      <li>Needed to compare multiple gases, sensors, and data sources freely, in a tool that felt easy and trustworthy.</li>
+      <li>Had to scale across complex projects — many sensors, gases, and manufacturers, with flexible thresholds for different regulations and user needs.</li>
+      <li>Needed predictive monitoring to catch trends early, not just react to exceedance events.</li>
     </ul>
     <h3>MVP Focus</h3>
     <p>Building an MVP meant focusing on what mattered most:</p>
@@ -444,16 +439,24 @@
     <p class="cs-caption">Below: Web-based data visualisation examples from various sites.</p>
     <div class="gif-grid">
       <div class="gif-item">
-        <div class="img-placeholder" style="aspect-ratio: 626/418; margin: 0;">[GIF: web-inspo-01.gif — 626×418px, data viz inspiration]</div>
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/examplesGraphDONE.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="gif-item">
-        <div class="img-placeholder" style="aspect-ratio: 640/450; margin: 0;">[GIF: web-inspo-02.gif — 640×450px, data viz inspiration]</div>
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/examplesGraph5ADONE.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="gif-item">
-        <div class="img-placeholder" style="aspect-ratio: 560/394; margin: 0;">[GIF: web-inspo-03.gif — 560×394px, data viz inspiration]</div>
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/examplesGraph2DONE.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="gif-item">
-        <div class="img-placeholder" style="aspect-ratio: 576/324; margin: 0;">[GIF: web-inspo-04.gif — 576×324px, data viz inspiration]</div>
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/air-quality-rolling-average-chart.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
   </div>
@@ -462,16 +465,14 @@
   <div class="cs-section">
     <h2>Workshop &amp; Scoping</h2>
     <p class="cs-caption">Below: Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
-    <div class="img-placeholder" style="aspect-ratio: 980/315;">
-      [GIF: moscow-workshop.gif — 980×315px, workshop/service blueprint]
-    </div>
-    <p class="cs-caption">Below: Early sketch ideas detailing different data comparison ideas and how they might be visualized.</p>
-    <div class="img-placeholder" style="aspect-ratio: 977/649;">
-      [IMAGE: early-sketches.jpg — 977×649px, notebook sketches of data comparison ideas]
+    <div class="img-card">
+      <img src="images/Qflow_Airquality/Miro.webp" alt="Workshop: MoSCoW prioritisation and service blueprint with all stakeholders" style="width: 100%; border-radius: 8px; display: block;">
     </div>
     <p class="cs-caption">Below: Low fidelity layout test, working through ideas such as air monitors GPS or grouping configuration controls to filter through the data and compare construction work throughout the area.</p>
-    <div class="img-placeholder" style="aspect-ratio: 980/789;">
-      [IMAGE: lo-fi-wireframes.png — 980×789px, low fidelity layout sketches]
+    <div class="img-card" style="width: 80%; margin: 0 auto;">
+      <video autoplay loop muted playsinline style="width: 100%; display: block; border-radius: 8px; clip-path: inset(0 9% 0 9% round 8px);">
+        <source src="images/Qflow_Airquality/13 - EARLY_MIDTEST.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 

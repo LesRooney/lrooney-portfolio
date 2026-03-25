@@ -111,6 +111,24 @@ line-height: 1.75;
 margin-bottom: 16px;
 ```
 
+#### Bold within body copy — `<strong>`
+
+**Rule:** Bold = a sentence a skimmer should catch.
+
+Use `<strong>` for:
+- Key findings or research conclusions (e.g. *"a UI patch wouldn't fix a system-level issue"*)
+- Product names and proper nouns on first meaningful reference (e.g. *"Rave Classic"*, *"Design VP and manager"*)
+- Impact statements and outcomes (e.g. *"cutting workflow complexity by up to 40%"*)
+- Direct quotes or attributions worth highlighting (e.g. *"We now have a problem with Medidata."*)
+- Action phrases that define what was done (e.g. *"Instead of large group workshops, we ran individual calls"*)
+
+**Do not bold:**
+- Transitional phrases, conjunctions, or filler words
+- Entire sentences — bold loses meaning if overused
+- Words that are important to the sentence flow but not scan-worthy on their own
+
+**Rendered weight:** `font-weight: 700` (Plus Jakarta Sans 700). Body default is `300`, so bold creates strong contrast without needing a colour change.
+
 #### Caption (`.cs-caption`)
 ```css
 font-size: 0.82rem;
@@ -1266,6 +1284,59 @@ color: rgba(255,255,255,0.5);
 
 ---
 
+### In-Page Quick Links (`.quick-links`)
+
+A plain list of anchor links used to let readers jump to specific sections within a case study. No card background — links sit directly on the page surface.
+
+**Usage:** placed at the end of a section (e.g. after HMW Goals) to signpost deep-dive sections below.
+
+```html
+<div class="quick-links">
+  <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
+  <ul>
+    <li><a href="#section-id"><span class="link-text">Link label</span> <span class="arrow">→</span></a></li>
+  </ul>
+</div>
+```
+
+```css
+.quick-links { margin: 24px 0; }
+.quick-links p { font-size: 0.88rem; color: var(--ink-mid); margin-bottom: 12px; }
+.quick-links ul { list-style: none; padding: 0; }
+.quick-links li { font-size: 1rem; padding: 6px 0; }
+
+/* Link: blue, semibold, no underline on the container */
+.quick-links a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Underline on text only — not the arrow */
+.quick-links a .link-text {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Arrow animates 8px forward on hover, eases back on mouse-out */
+.quick-links a .arrow {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.quick-links a:hover .arrow { transform: translateX(8px); }
+```
+
+**Rules:**
+- Always wrap the label text in `<span class="link-text">` and the arrow in `<span class="arrow">→</span>`
+- Do not add a card background (`--faint`) or border — links sit bare on the page
+- Arrow easing: `cubic-bezier(0.25, 1, 0.5, 1)` — decelerates into position, same curve on return
+
+---
+
 ## Video Player — Hover Video with Control Bar (Scrubber + Countdown + Sound)
 
 Used on case study pages for inline video demos (e.g. loom-reveal, exp-video on EDC).
@@ -1478,6 +1549,34 @@ The control bar is a single row pinned to the bottom of the video. It appears on
 - Do **not** reset video position while the user is dragging (`if (dragging) return` guard on mouseleave)
 - `.vid-controls.is-active` class can be added via JS to keep bar visible programmatically
 - Button size: **32×32px**, rounded, `rgba(0,0,0,0.5)` background
+
+---
+
+### Vertical Gap — Media to Body Copy
+
+When body text follows directly after an `.img-card` or video block inside a `.cs-section` (which uses block layout, not flex), add `margin-top: 24px` to the first `<p>` to create the correct gap.
+
+```html
+<div class="img-card">...</div>
+<p style="margin-top: 24px;">Body copy that follows media...</p>
+```
+
+**Rule:** Do not add this gap if the `.cs-section` already uses `display: flex; gap: 24px` — the gap token handles it automatically.
+
+---
+
+### Homepage Card — Image Hover Placeholder
+
+When a work card has no hover video yet, use a duplicate `<img class="card-video">` pointing to the same thumbnail. The CSS hover pattern fades `card-thumb` out and `card-video` in — so the image stays visible on hover with no layout change. Replace with `<video class="card-video">` once the final preview clip is ready.
+
+```html
+<div class="card">
+  <img class="card-thumb" src="images/[name]-thumb.webp" alt="[Title]">
+  <!-- placeholder until hover video is ready — swap for <video> when available -->
+  <img class="card-video" src="images/[name]-thumb.webp" alt="">
+  <span class="card-new">New</span>
+</div>
+```
 
 ---
 

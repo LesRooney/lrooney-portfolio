@@ -37,6 +37,7 @@ All image and video asset paths used across the portfolio. Use this file to reso
 
 | Slot | Path | Notes |
 |---|---|---|
+| EDC hover placeholder | `images/medidata-edc-thumb.webp` | card-0 — static image placeholder, replace with video when ready |
 | Risk hover video | `videos/medidata-risk-preview.mp4` | card-1 |
 | Qualis air quality hover video | `videos/qualis-airquality-preview.mp4` | card-2 |
 | Qualis alerts hover video | `videos/qualis-alerts-preview.mp4` | card-3 |
@@ -87,7 +88,6 @@ No images — text-only page.
 ### The Plan carousel
 | Slot | Path | Alt text |
 |---|---|---|
-| Value buckets spreadsheet | `images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.webp` | Design system value buckets spreadsheet |
 | Loom communication library | `images/EDCRedesign/MD_LoomCommunication.webp` | Loom communication library grid |
 | Patients grid — permissions | `images/EDCRedesign/MD_NEXTLargeStage02.webp` | Patients grid — Data manager and power user permissions |
 | Figma prototype loops | `images/EDCRedesign/MD_FigmaProtoTypeLoops.webp` | Figma prototype flow — patient grid states and transitions |
@@ -110,15 +110,17 @@ No images — text-only page.
 ### Deep Dive 04 — Unresolvable Queries
 | Slot | Path | Alt text |
 |---|---|---|
-| Story of query object | `images/EDCRedesign/SystemQueryIssue_B.webp` | Story of query object |
 | System Impact Map | `images/EDCRedesign/MD_SystemQueryissues01.webp` | System Impact Map: Unresolvable Queries in EDC |
+| Patients grid — permissions | `images/EDCRedesign/MD_NEXTLargeStage02.webp` | Patients grid — Data manager and power user permissions |
 
 ### Available but not yet placed
 | File | Notes |
 |---|---|
 | `images/EDCRedesign/SystemQueryIssue_A.webp` | Duplicate of MD_SystemQueryissues01 |
+| `images/EDCRedesign/SystemQueryIssue_B.webp` | Removed from DD04 carousel — replaced by MD_NEXTLargeStage02 |
 | `images/EDCRedesign/EDCPatientFilterNew_DesignSystemBigger.mov` | Larger version of design system video |
 | `images/EDCRedesign/AI Feature3Small_BIG.mp4` | Larger version of AI feature video |
+| `images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.webp` | Retired — removed from Engineering carousel |
 
 ---
 

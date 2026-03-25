@@ -86,7 +86,10 @@
       "Bash(find /Users/lesleyrooney/Documents/GitHub -name *root-problem* -o -name *SystemQuery* -o -name *query*impact* -o -name *impact*map*)",
       "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio log --oneline --follow -- games-simulations-films.html lesleyrooney-games-sims-vfxworks.html)",
       "WebSearch",
-      "Bash(identify /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/MD_SystemQueryissues01.webp /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/SystemQueryIssue_B.webp)"
+      "Bash(identify /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/MD_SystemQueryissues01.webp /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/SystemQueryIssue_B.webp)",
+      "Bash(grep -iE \"\\\\.\\(png|jpg|webp\\)$\")",
+      "Bash(find /Users/lesleyrooney -maxdepth 3 \\\\\\(-name *.webp -o -name *.jpg -o -name *.png \\\\\\) -newer /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Qflow_Airquality/AirQualityResearch10.webp)",
+      "Bash(ls /Users/lesleyrooney/Downloads/*.webp /Users/lesleyrooney/Downloads/*.jpg /Users/lesleyrooney/Downloads/*.png)"
     ]
   }
 }

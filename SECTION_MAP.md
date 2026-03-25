@@ -4,35 +4,36 @@ Use `offset` and `limit` in the Read tool to jump directly to a section without 
 
 ---
 
-## `medidataedcredesign.html` (~1,135 lines)
+## `medidataedcredesign.html` (~1,640 lines)
 
 | Section | ID / landmark | Approx. lines |
 |---|---|---|
-| `<nav>` | `#nav` | 642–675 |
-| Page title + tags | `.cs-header` | 659–676 |
-| The Problem (full-width) | `.cs-section--wide` | 677–698 |
-| Two-column layout opens | `.two-col` | 699 |
-| What are EDC products | `.cs-section` (§4) | 704–716 |
-| My Role | `.cs-section` (§5) | 711–726 |
-| Business Constraints | `.cs-section` (§6) | 718–737 |
-| User Problems | `.cs-section` (§11) | 728–757 |
-| Research Loom hover-reveal | `#loom-reveal` | 741–756 |
-| HMW Goals + quick links | `.cs-section` (§13) | 759–776 |
-| Two-column layout closes | `</div>` | ~778 |
-| Outcomes Band (full-bleed) | `.outcomes-band` | 826–869 |
-| All Brains on Deck | `.cs-section` (§14) | 871–882 |
-| System Maps hover-reveal | `#system-maps-reveal` | 883–940 |
-| Personas | `.cs-section` (§16) | 909–941 |
-| Engineering Collaboration | `#engineering` | 942–960 |
-| Research Plan + post-its | `#research` | 962–982 |
-| Deep Dives wrap opens | `<div class="wrap">` | 986 |
-| Deep Dive 01 — BA slider | `#dd1` | 989–1037 |
-| Deep Dive 02 — Patient Filter | `#dd2` | 1038–1069 |
-| Deep Dive 03 — Laptop mockup | `#dd3` | 1070–1082 |
-| Deep Dive 04 — Query carousel | `#dd4` | 1085–1104 |
-| Candid Reflections | `.deep-dive` (final) | 1107–1111 |
-| Footer | `<footer>` | 1116–1128 |
-| Cursor elements | `#cursor-dot` / `#cursor-ring` | 1131–1132 |
+| `<style>` block | — | 10–640 |
+| `<nav>` | `#nav` | 645–675 |
+| Page title + tags | `.cs-header` | 676–700 |
+| The Problem (full-width) | `.cs-section--wide` | 700–720 |
+| Two-column layout opens | `.two-col` | 722 |
+| What are EDC products | `.cs-section` (§4) | 730–745 |
+| My Role | `.cs-section` (§5) | 746–760 |
+| Business Constraints | `.cs-section` (§6) | 761–780 |
+| User Problems | `.cs-section` (§11) | 782–820 |
+| Research Loom hover-reveal | `#loom-reveal` | 835–860 |
+| HMW Goals + quick links | `.cs-section` (§13) | 865–895 |
+| Two-column layout closes | `</div>` | ~900 |
+| Outcomes Band (full-bleed) | `.outcomes-band` | ~910–960 |
+| All Brains on Deck | `.cs-section` (§14) | 975–995 |
+| System Maps hover-reveal | `#system-maps-reveal` | 995–1010 |
+| Personas | `.cs-section` (§16) | 1025–1060 |
+| Engineering Collaboration carousel | `#engineering` | 1050–1075 |
+| Research Plan + post-its | `#research` | 1077–1100 |
+| Deep Dives wrap opens | `<div class="wrap">` | ~1105 |
+| Deep Dive 01 — BA slider + exp-video | `#dd1` | 1108–1150 |
+| Deep Dive 02 — Patient Filter | `#dd2` | 1155–1200 |
+| Deep Dive 03 — Laptop mockup | `#dd3` | 1205–1230 |
+| Deep Dive 04 — Query carousel | `#dd4` | 1235–1265 |
+| Candid Reflections | `.deep-dive` (final) | 1268–1290 |
+| Footer | `<footer>` | 1295–1310 |
+| JavaScript blocks | `<script>` | 1315–1640 |
 
 ---
 
@@ -109,4 +110,4 @@ Use `offset` and `limit` in the Read tool to jump directly to a section without 
 
 ---
 
-_Last updated: 2026-03-23. Lines drift with edits — re-check if a section is not where expected._
+_Last updated: 2026-03-24. Lines drift with edits — re-check if a section is not where expected._

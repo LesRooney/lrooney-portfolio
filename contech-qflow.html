@@ -176,6 +176,27 @@
     .hover-audio-placeholder .audio-icon { font-size: 2rem; }
     .hover-audio-placeholder .audio-label { font-size: 0.8rem; color: var(--ink-mid); font-style: italic; text-align: center; max-width: 300px; line-height: 1.5; }
 
+    /* ── HOVER VIDEO ── */
+    .hover-video-wrap { position: relative; cursor: pointer; }
+    .hover-video-bar { position: absolute; bottom: 8px; left: 8px; right: 8px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; opacity: 0; transition: opacity 0.2s; }
+    .hover-video-wrap:hover .hover-video-bar { opacity: 1; }
+    .hover-video-progress { height: 100%; width: 0%; background: var(--ink); border-radius: 2px; transition: width 0.1s linear; }
+
+    /* ── POST-IT NOTES ── */
+    .postit-row { display: flex; gap: 24px; align-items: flex-start; margin: 8px 0 32px; }
+    .postit { flex: 1; background: #FFFBCC; border-radius: 16px; padding: 24px 22px 28px; box-shadow: 1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03); }
+    .postit-emoji { font-size: 2rem; line-height: 1; display: block; margin-bottom: 14px; }
+    .postit p { margin: 0; font-size: 0.9rem; line-height: 1.6; color: var(--ink); max-width: none; }
+    .postit--1 { transform: rotate(-2deg); }
+    .postit--2 { transform: rotate(1.5deg); }
+    .postit--3 { transform: rotate(-1deg); }
+    .postit--4 { transform: rotate(0.8deg); }
+    .postit--5 { transform: rotate(-1.5deg); }
+    @media (max-width: 680px) {
+      .postit-row { flex-direction: column; }
+      .postit--1, .postit--2, .postit--3, .postit--4, .postit--5 { transform: none; }
+    }
+
     /* ── CAROUSEL ── */
     .carousel { position: relative; margin: 24px 0; }
     .carousel-track { border-radius: 12px; overflow: hidden; position: relative; }
@@ -401,10 +422,12 @@
       <li>Validated rapid prototyping as the right approach for defining a solid MVP.</li>
       <li>Established Qflow's first design system, laying a scalable foundation for future modules and applications.</li>
     </ul>
-    <p class="cs-caption">Below: Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
-    <video autoplay loop muted playsinline style="width: 100%; border-radius: 12px; display: block;">
-      <source src="images/Qflow_Airquality/MarchAirQflow03_SmallA.mp4" type="video/mp4">
-    </video>
+    <div class="img-card">
+      <p class="cs-caption" style="margin: 0 0 16px;">Below: Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
+      <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+        <source src="images/Qflow_Airquality/MarchAirQflow03_SmallA.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
 
   <!-- 11. KEY FINDINGS -->
@@ -436,27 +459,29 @@
       <li>What's the best way to handle multiple data topics for comparison on the same graph?</li>
       <li>What can Qflow realistically do for version 1 release?</li>
     </ul>
-    <p class="cs-caption">Below: Web-based data visualisation examples from various sites.</p>
-    <div class="gif-grid">
-      <div class="gif-item">
-        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
-          <source src="images/Qflow_Airquality/examplesGraphDONE.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="gif-item">
-        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
-          <source src="images/Qflow_Airquality/examplesGraph5ADONE.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="gif-item">
-        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
-          <source src="images/Qflow_Airquality/examplesGraph2DONE.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="gif-item">
-        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
-          <source src="images/Qflow_Airquality/air-quality-rolling-average-chart.mp4" type="video/mp4">
-        </video>
+    <div class="img-card">
+      <p class="cs-caption" style="margin: 0 0 16px;">Web-based data visualisation examples from various sites.</p>
+      <div class="gif-grid">
+        <div class="gif-item">
+          <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+            <source src="images/Qflow_Airquality/examplesGraphDONE.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="gif-item">
+          <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+            <source src="images/Qflow_Airquality/examplesGraph5ADONE.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="gif-item">
+          <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+            <source src="images/Qflow_Airquality/examplesGraph2DONE.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="gif-item">
+          <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+            <source src="images/Qflow_Airquality/air-quality-rolling-average-chart.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </div>
   </div>
@@ -464,15 +489,23 @@
   <!-- 13. WORKSHOP & SCOPING -->
   <div class="cs-section">
     <h2>Workshop &amp; Scoping</h2>
-    <p class="cs-caption">Below: Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
     <div class="img-card">
-      <img src="images/Qflow_Airquality/Miro.webp" alt="Workshop: MoSCoW prioritisation and service blueprint with all stakeholders" style="width: 100%; border-radius: 8px; display: block;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Low fidelity experiments, working through ideas such as air monitors GPS or grouping configuration controls to filter through the data and compare construction work throughout the area.</p>
+      <div style="display: flex; gap: 16px; align-items: flex-start;">
+        <div style="flex: 1; overflow: hidden; border-radius: 8px;">
+          <video autoplay loop muted playsinline style="width: 118%; margin-left: -9%; display: block;">
+            <source src="images/Qflow_Airquality/13 - EARLY_MIDTEST.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div style="flex: 1; border-radius: 8px; overflow: hidden;">
+          <img src="images/Qflow_Airquality/Desktop HD.png" alt="Qflow Air Quality dashboard — Activities view with pollution graph and Gantt work packages" style="width: 100%; display: block;">
+        </div>
+      </div>
+      <img src="images/Qflow_Airquality/notesADS_Drawings.png" alt="Sketchbook — handwritten wireframes and design notes from early exploration" style="width: 80%; border-radius: 8px; display: block; margin-top: 16px; margin-left: auto; margin-right: auto;">
     </div>
-    <p class="cs-caption">Below: Low fidelity layout test, working through ideas such as air monitors GPS or grouping configuration controls to filter through the data and compare construction work throughout the area.</p>
-    <div class="img-card" style="width: 80%; margin: 0 auto;">
-      <video autoplay loop muted playsinline style="width: 100%; display: block; border-radius: 8px; clip-path: inset(0 9% 0 9% round 8px);">
-        <source src="images/Qflow_Airquality/13 - EARLY_MIDTEST.mp4" type="video/mp4">
-      </video>
+    <div class="img-card" style="margin-top: 24px;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Below: Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
+      <img src="images/Qflow_Airquality/Miro.webp" alt="Workshop: MoSCoW prioritisation and service blueprint with all stakeholders" style="width: 100%; border-radius: 8px; display: block;">
     </div>
   </div>
 
@@ -493,20 +526,21 @@
     </div>
     <p style="margin-top: 24px;">Design experiments tested extreme cases — 12 pollutants and 3 feeds per sensor — to ensure scalability for both mega projects and smaller companies.</p>
     <p>The following displays pollutant data across multiple monitors with staggered loading to test API behaviour and timing. The goal was to challenge early-stage ideas, like the exceedance feature, which highlighted monitors exceeding limits using colour-coded IDs linked to the visual guide above. While not ideal for colourblind users, it sparked useful discussion. The client especially liked the exceedance part: <em>"I would keep this feature on at all times"</em> to spot issues at a glance.</p>
-    <div class="img-placeholder" style="aspect-ratio: 16/9;">
-      [GIF: exceedance-experiment.gif — exceedance feature experiment with staggered loading]
-    </div>
+    <video autoplay loop muted playsinline style="width: 24%; border-radius: 12px; display: block; margin: 0 auto;">
+      <source src="images/Qflow_Airquality/ExceednaceExperiment01DONE.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- 15. SCOPE & TIERED IMPLEMENTATION -->
   <div class="cs-section">
     <h2>Scope &amp; Tiered Implementation</h2>
     <p>Scope creep led to tiered implementation — skimmed, semi-skimmed, and full-fat — to ensure delivery, delaying some features until post-launch. By designing complete user flows and edge cases upfront, I aimed to future-proof the product beyond the MVP.</p>
-    <div class="img-placeholder" style="aspect-ratio: 980/72;">
-      [IMAGE: browser-divider.jpg — 980×72px, Firefox Quantum dark browser bar / visual divider]
-    </div>
-    <div class="img-placeholder" style="aspect-ratio: 16/9;">
-      [GIF: past-prototypes.gif — prototype iteration history / montage]
+    <div style="display: flex; justify-content: center;">
+      <div class="img-card" style="width: 70%; padding: 20px; box-sizing: border-box;">
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/Q_pastPrototypes4DONE.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
     <p class="cs-caption">Hover function idea reveals monitor/sensors and their data lines. Suggested by the CTO after a show-and-tell, the hover feature was designed to distinguish multiple data lines without confusing accurate data viewing with Gantt chart filtering.</p>
   </div>
@@ -515,8 +549,11 @@
   <div class="cs-section">
     <h2>Programme Gantt Chart Feature</h2>
     <p>We tested comparing construction data — like work packages and traffic — against pollutant behavior. The Gantt chart concept seemed tricky technically, so I suggested having users upload data manually instead of relying on Qflow automation. Not ideal, but engineering built a quick Excel upload hack. With a "let's try it" mindset, we tracked usage in Mixpanel to see if it was worth pursuing further.</p>
-    <div class="img-placeholder" style="aspect-ratio: 977/549;">
-      [IMAGE: gantt-chart-feature.jpg — 977×549px, Gantt chart / work packages feature]
+    <div style="position: relative; width: 88%; margin-left: 6%;">
+      <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
+      <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
+        <source src="images/Qflow_Airquality/62-AAAADONE.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 
@@ -524,21 +561,18 @@
   <div class="cs-section">
     <h2>The Use of AI — Predictive Feature</h2>
     <p class="cs-caption">Below: Figuring out the predictive feature.</p>
-    <div class="hover-reveal" style="margin-bottom: 24px;">
-      <div class="hr-base">
-        <div class="img-placeholder" style="aspect-ratio: 960/538; margin: 0; border-radius: 12px;">
-          [INTERACTIVE: predictive-feature — hover reveals predictive AI design exploration]
-        </div>
-      </div>
-      <div class="hr-overlay">
-        <div class="hr-play"><span class="hr-play-icon"></span></div>
-        <span class="hr-label">Predictive AI — design exploration</span>
-      </div>
+    <div class="laptop-dim" style="position: relative; width: 88%; margin-left: 6%; margin-bottom: 24px; cursor: default;">
+      <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
+      <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
+        <source src="images/Qflow_Airquality/QflowPredictiveGraph_March2.mp4" type="video/mp4">
+      </video>
+      <div class="laptop-dim-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.4s ease; border-radius: 4px; pointer-events: none;"></div>
     </div>
+    <style>
+      .laptop-dim:hover .laptop-dim-overlay { background: rgba(0,0,0,0.45); }
+    </style>
     <p>The predictive feature lets users forecast pollutant behaviour based on historical information and adjust work packages to visualise potential risks within defined confidence ranges.</p>
-    <div class="img-placeholder" style="aspect-ratio: 16/9; margin-bottom: 16px;">
-      [GIF: air-quality-ui.gif — same as hero, showing predictive UI in context]
-    </div>
+
     <h3>Updating the Exceedance Feature</h3>
     <p>Clients wanted a search for sensors, but since their main goal was finding exceedances above specific monitors, I brainstormed with the lead developer and came up with a feasible alternative — a simple checkbox to highlight them.</p>
     <p class="cs-caption">Below: Introducing animation as a quick walkthrough technique to grab the user's attention when initially opening up air quality.</p>
@@ -548,43 +582,84 @@
   <div class="cs-section">
     <h2>Usability Study</h2>
     <p>Final quick usability testing to reevaluate five key assumptions and uncover usability issues early. Rapid prototyping iterations ran throughout the week with nine target users (four recorded), one guerrilla session, and five in-house team members, ensuring diverse perspectives. Each 20-minute session provided valuable insights into current practices and indirect competitors.</p>
-    <div class="img-placeholder" style="aspect-ratio: 979/547;">
-      [IMAGE: usability-testing.jpg — 979×547px, usability testing session photos or notes]
-    </div>
-    <p class="cs-caption">🔉 Below: Hover over the image to hear environmental consultants discuss how they use data in their work (2 mins).</p>
-    <div class="hover-audio-placeholder" title="Hover to play audio — 2 min clip">
-      <span class="audio-icon">🔉</span>
-      <span class="audio-label">[IMAGE + AUDIO: consultants-audio-thumb.jpg — hover plays 2-min audio of environmental consultants discussing data workflows]</span>
+    <div class="img-card">
+      <p class="cs-caption" style="margin: 0 0 16px;">Hover over the video to hear environmental consultants discuss how they use data in their work (2 mins).</p>
+      <div class="hover-video-wrap" data-hover-video>
+        <video muted playsinline style="width: 80%; border-radius: 8px; display: block; margin: 0 auto;">
+          <source src="images/Qflow_Airquality/24 - QFLOWResearch2B_The Data_SmallCompressedB.mp4" type="video/mp4">
+        </video>
+        <div class="hover-video-bar">
+          <div class="hover-video-progress"></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- 19. CANDID REFLECTIONS -->
   <div class="cs-section" id="candid-reflections">
     <h2>Candid Reflections, Competitors &amp; What I've Learned</h2>
-    <p class="cs-caption">🔉 Below: Hover over the image to hear a 2-minute snippet on Power BI trends impacting Qflow business direction.</p>
-    <div class="hover-audio-placeholder" title="Hover to play audio — 2 min clip">
-      <span class="audio-icon">🔉</span>
-      <span class="audio-label">[IMAGE + AUDIO: powerbi-trends-thumb.jpg — 896×261px, hover plays 2-min audio on Power BI competition]</span>
+    <div class="img-card" style="margin-bottom: 24px;">
+      <p class="cs-caption" style="margin: 0 0 16px;">Hover over the video to watch a 2-minute snippet on Power BI trends impacting Qflow business direction.</p>
+      <div class="hover-video-wrap" data-hover-video>
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/QFLOWResearchPowerBI_50%25_Small.mp4" type="video/mp4">
+        </video>
+        <div class="hover-video-bar">
+          <div class="hover-video-progress" style="width: 0%;"></div>
+        </div>
+      </div>
     </div>
     <p>Throughout the project — and increasingly toward the end — I noticed an emerging trend within the research: specialists were funding their own Power BI training, making it a formidable direct competitor within potential clients' existing Microsoft environments. This pattern accelerated across sectors like waste collection and material delivery, where robust data visualisation proved too valuable to ignore.</p>
     <p>The pilot revealed tough market truths. The client didn't convert after the trial — they could hire a junior analyst with BI training for less than Qflow's subscription. Without the promised advanced AI forecasting feature integrated with construction work schedules and the exceedance threshold line still undeveloped (scheduled for the next release), the company couldn't justify a resource-heavy push based on a single client's commitment.</p>
     <p>When COVID-19 hit, Qflow quickly pivoted to focus on AI and ML for more attainable and successful modules already in the field. Integrating Power BI API to work with clients' existing tools, rather than competing against them.</p>
-    <p class="cs-caption">Below: A snippet of the actual in-product graph visualisation used during the client's 3-month pilot.</p>
-    <div class="img-placeholder" style="aspect-ratio: 16/9;">
-      [GIF: pilot-usage-graph.gif — in-product graph visualisation from 3-month client pilot, showing usage peaks]
+    <div style="display: flex; justify-content: center; margin-top: 24px;">
+      <div class="img-card" style="display: inline-block; padding: 20px; width: 60%; box-sizing: border-box;">
+        <p class="cs-caption" style="margin: 0 0 16px;">A snippet of the actual in-product graph visualisation before more UI styling refinement, used during the client's 3-month pilot.</p>
+        <video autoplay loop muted playsinline style="width: 100%; display: block; border-radius: 8px;">
+          <source src="images/Qflow_Airquality/Slider.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
-    <p>Not everything was lost — the app provided valuable usage insights that became great training material. As a designer, I learned how good research can save a company time and money, showing that without the resources to build something truly different, you risk creating a product no one wants — like offering a skateboard when they're after a car. 🛹 🚲 🛵 🚙</p>
+    <p style="margin-top: 24px;">Not everything was lost — the app provided valuable usage insights that became great training material. As a designer, I learned how good research can save a company time and money, showing that without the resources to build something truly different, you risk creating a product no one wants — like offering a skateboard when they're after a car. 🛹 🚲 🛵 🚙</p>
   </div>
 
   <!-- 20. NEXT — DESIGN SYSTEM -->
   <div class="cs-section">
-    <h2>Next — Design System &amp; Other Modules</h2>
+    <h2>Design System &amp; Other Modules</h2>
     <p>Air Quality required unique UI components to address user needs, whereas other products — such as Waste and Materials — followed a more CRUD-based (create, read, update, and delete) approach, utilising Material Design principles. Collaborating with the product owner &amp; engineers, we scaled these modules beyond MVP toward an enterprise-level system.</p>
     <p>I created Qflow's first unified design system with consistent patterns, visual language, and reusable components. Integrated with Storybook, it documented UI behaviour, animation, illustration, branding, and accessibility — helping engineers standardise capabilities, speed up implementation, and support skill expansion for those seeking full-stack experience.</p>
-    <p class="cs-caption">Below: 404 illustration replacing my earlier rough draft for quicker implementation.</p>
-    <div class="img-placeholder" style="aspect-ratio: 16/9;">
-      [SVG/IMAGE: 404-illustration — Qflow 404 page illustration]
+    <div style="display: flex; gap: 0; align-items: flex-end; margin: 24px 0;">
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/404.svg" alt="Qflow 404 page illustration" style="width: 100%; display: block;">
+      </div>
+      <div style="width: 1px; background: #e2e0d8; align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/RunMaskManWarning.svg" alt="Email illustration inspired by brainstorming session with product owner and founder" style="width: 130%; display: block;">
+      </div>
+      <div style="width: 1px; background: #e2e0d8; align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/SafetyMen.svg" alt="Safety men illustration" style="width: 48%; display: block;">
+      </div>
     </div>
+    <div style="height: 1px; background: #e2e0d8; margin: 24px 0;"></div>
+    <div style="display: flex; gap: 0; align-items: flex-end; margin: 0;">
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/ConVehicle 01.svg" alt="Construction vehicle illustration" style="width: 100%; display: block;">
+      </div>
+      <div style="width: 1px; background: #e2e0d8; align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/ResourcingScene 01.svg" alt="Resourcing scene illustration" style="width: 100%; display: block;">
+      </div>
+      <div style="width: 1px; background: #e2e0d8; align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/CraneHydraulic 01.svg" alt="Crane hydraulic illustration" style="width: 100%; display: block;">
+      </div>
+      <div style="width: 1px; background: #e2e0d8; align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; display: flex; justify-content: center; padding: 0 20px;">
+        <img src="images/Qflow_Airquality/GroupTalkingLrg 02.svg" alt="Group talking illustration" style="width: 100%; display: block;">
+      </div>
+    </div>
+    <p class="cs-caption" style="margin-top: 16px;">Refined illustrations to add visual interest to Qflow, replacing the rough draft ones I created for faster implementation; some concepts came from brainstorming with the product owner and founder.</p>
   </div>
 
   <!-- 21. DESIGN SYSTEM GALLERY -->
@@ -592,37 +667,25 @@
     <h2>Design System Gallery</h2>
     <p class="cs-caption">Press any image to view at full size.</p>
     <div class="gif-grid">
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-colours.gif" data-lb-caption="Qflow colours">
-        <div class="img-placeholder" style="aspect-ratio: 980/687; margin: 0; cursor: zoom-in;">
-          [GIF: design-system-colours.gif — 980×687px — Qflow colours]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-01.gif" data-lb-caption="Qflow colours">
+        <img src="images/Qflow_Airquality/Zeroheights-01.gif" alt="Qflow design system — colours" style="width: 100%; display: block;">
       </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-illustrations.gif" data-lb-caption="Guide to illustrations">
-        <div class="img-placeholder" style="aspect-ratio: 980/751; margin: 0; cursor: zoom-in;">
-          [GIF: design-system-illustrations.gif — 980×751px — Guide to illustrations]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-02.gif" data-lb-caption="Guide to illustrations">
+        <img src="images/Qflow_Airquality/Zeroheights-02.gif" alt="Qflow design system — guide to illustrations" style="width: 100%; display: block;">
       </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-modals.gif" data-lb-caption="Modals Dos and Don'ts">
-        <div class="img-placeholder" style="aspect-ratio: 980/692; margin: 0; cursor: zoom-in;">
-          [GIF: design-system-modals.gif — 980×692px — Modals Dos and Don'ts]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-03.gif" data-lb-caption="Modals Dos and Don'ts">
+        <img src="images/Qflow_Airquality/Zeroheights-03.gif" alt="Qflow design system — modals dos and don'ts" style="width: 100%; display: block;">
       </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-iconography.gif" data-lb-caption="Iconography">
-        <div class="img-placeholder" style="aspect-ratio: 980/760; margin: 0; cursor: zoom-in;">
-          [GIF: design-system-iconography.gif — 980×760px — Iconography]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-04.gif" data-lb-caption="Iconography">
+        <img src="images/Qflow_Airquality/Zeroheights-04.gif" alt="Qflow design system — iconography" style="width: 100%; display: block;">
       </div>
     </div>
     <div class="gif-grid" style="margin-top: 16px;">
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/design-system-full.gif" data-lb-caption="Full design system overview">
-        <div class="img-placeholder" style="aspect-ratio: 980/1483; margin: 0; cursor: zoom-in;">
-          [GIF: design-system-full.gif — 980×1483px — Full design system overview]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-05.gif" data-lb-caption="Full design system overview">
+        <img src="images/Qflow_Airquality/Zeroheights-05.gif" alt="Qflow design system — full overview" style="width: 100%; display: block;">
       </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow/sketch-style-guide.gif" data-lb-caption="Sketch Style guide">
-        <div class="img-placeholder" style="aspect-ratio: 980/758; margin: 0; cursor: zoom-in;">
-          [GIF: sketch-style-guide.gif — 980×758px — Sketch Style guide]
-        </div>
+      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-06.gif" data-lb-caption="Sketch Style guide">
+        <img src="images/Qflow_Airquality/Zeroheights-06.gif" alt="Qflow design system — sketch style guide" style="width: 100%; display: block;">
       </div>
     </div>
   </div>
@@ -673,15 +736,9 @@
   <div class="cs-section">
     <p class="cs-caption">Below: Some early team photos.</p>
     <div class="photo-grid">
-      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
-        [IMAGE: team-photo-1.jpg — 313×313px]
-      </div>
-      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
-        [IMAGE: team-photo-2.jpg — 313×313px]
-      </div>
-      <div class="img-placeholder" style="aspect-ratio: 1/1; margin: 0;">
-        [IMAGE: team-photo-3.jpg — 313×313px]
-      </div>
+      <img src="images/Qflow_Airquality/QFlow_marketing.webp" alt="Lesley at the Qflow exhibition stand" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
+      <img src="images/Qflow_Airquality/QFlow_PhotoGroup02.webp" alt="Qflow conference booth collage" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
+      <img src="images/Qflow_Airquality/QFlow_PhotoGroup.webp" alt="Qflow team photo" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
     </div>
   </div>
 
@@ -835,6 +892,17 @@
       if (e.key === 'ArrowRight') lbNext.click();
     });
   })();
+
+  // ── Hover videos ──
+  document.querySelectorAll('[data-hover-video]').forEach(wrap => {
+    const vid = wrap.querySelector('video');
+    const bar = wrap.querySelector('.hover-video-progress');
+    if (!vid) return;
+    wrap.addEventListener('mouseenter', () => vid.play());
+    wrap.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; if (bar) bar.style.width = '0%'; });
+    vid.addEventListener('timeupdate', () => { if (bar && vid.duration) bar.style.width = (vid.currentTime / vid.duration * 100) + '%'; });
+    vid.addEventListener('ended', () => { if (bar) bar.style.width = '0%'; });
+  });
 </script>
 </div><!-- /#page-content -->
 </body>

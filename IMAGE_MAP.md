@@ -344,6 +344,44 @@ Reuses homepage card thumbnails — see Homepage section above.
 
 ---
 
+## Qflow Air Quality (`contech-qflow.html`)
+
+### Workshop & Scoping
+| Slot | Path | Alt text | Notes |
+|---|---|---|---|
+| Low-fi experiment video | `images/Qflow_Airquality/13 - EARLY_MIDTEST.mp4` | Low fidelity layout experiment | Autoplay loop, left column |
+| Dashboard screenshot | `images/Qflow_Airquality/Desktop HD.png` | Qflow Air Quality — Activities view with pollution graph and Gantt work packages | Right column, paired with video above |
+| Sketchbook | `images/Qflow_Airquality/notesADS_Drawings.png` | Sketchbook — handwritten wireframes and design notes from early exploration | Full-width below the two-column layout |
+
+### Illustrations
+| Slot | Path | Alt text | Notes |
+|---|---|---|---|
+| 404 page illustration | `images/Qflow_Airquality/404.svg` | Qflow 404 page illustration | Design system section |
+| Email / alert illustration | `images/Qflow_Airquality/RunMaskManWarning.svg` | Email illustration inspired by brainstorming session with product owner and founder | Paired with 404 |
+| Construction vehicle | `images/Qflow_Airquality/ConVehicle 01.svg` | Construction vehicle illustration | Row of 4 |
+| Resourcing scene | `images/Qflow_Airquality/ResourcingScene 01.svg` | Resourcing scene illustration | Row of 4 |
+| Crane hydraulic | `images/Qflow_Airquality/CraneHydraulic 01.svg` | Crane hydraulic illustration | Row of 4 |
+| Group talking | `images/Qflow_Airquality/GroupTalkingLrg 02.svg` | Group talking illustration | Row of 4 |
+
+### Design system gallery
+| Slot | Path | Alt text | Notes |
+|---|---|---|---|
+| Colours GIF | `images/Qflow_Airquality/Zeroheights-01.gif` | Qflow design system — colours | Zeroheight export |
+| Illustrations guide GIF | `images/Qflow_Airquality/Zeroheights-02.gif` | Qflow design system — guide to illustrations | Zeroheight export |
+| Modals GIF | `images/Qflow_Airquality/Zeroheights-03.gif` | Qflow design system — modals dos and don'ts | Zeroheight export |
+| Iconography GIF | `images/Qflow_Airquality/Zeroheights-04.gif` | Qflow design system — iconography | Zeroheight export |
+| Full overview GIF | `images/Qflow_Airquality/Zeroheights-05.gif` | Qflow design system — full overview | Zeroheight export |
+| Sketch style guide GIF | `images/Qflow_Airquality/Zeroheights-06.gif` | Qflow design system — sketch style guide | Zeroheight export |
+
+### Team photos
+| Slot | Path | Alt text |
+|---|---|---|
+| Booth solo | `images/Qflow_Airquality/QFlow_marketing.webp` | Lesley at the Qflow exhibition stand |
+| Conference collage | `images/Qflow_Airquality/QFlow_PhotoGroup02.webp` | Qflow conference booth collage |
+| Team group | `images/Qflow_Airquality/QFlow_PhotoGroup.webp` | Qflow team photo |
+
+---
+
 ## Pages with no images yet — see PLACEHOLDER_LOG.md
 
 | Page | File | Status |

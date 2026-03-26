@@ -125,7 +125,8 @@
 
     /* ── IMG CARD ── */
     .img-card { background: var(--faint); border-radius: 16px; padding: 20px; }
-    .img-card.borderless { border: none; }
+    .img-card .cs-caption { margin: 0 0 20px; font-size: 0.82rem; font-style: normal; color: var(--ink-light); max-width: none; }
+    .img-card img { display: block; width: 100%; border-radius: 8px; }
 
     /* ── IMAGE PLACEHOLDER ── */
     .img-placeholder {
@@ -176,11 +177,41 @@
     .hover-audio-placeholder .audio-icon { font-size: 2rem; }
     .hover-audio-placeholder .audio-label { font-size: 0.8rem; color: var(--ink-mid); font-style: italic; text-align: center; max-width: 300px; line-height: 1.5; }
 
-    /* ── HOVER VIDEO ── */
-    .hover-video-wrap { position: relative; cursor: pointer; }
-    .hover-video-bar { position: absolute; bottom: 8px; left: 8px; right: 8px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; opacity: 0; transition: opacity 0.2s; }
-    .hover-video-wrap:hover .hover-video-bar { opacity: 1; }
-    .hover-video-progress { height: 100%; width: 0%; background: var(--ink); border-radius: 2px; transition: width 0.1s linear; }
+    /* ── HOVER VIDEO (video-wrap component) ── */
+    .video-wrap { position: relative; display: block; }
+    .vid-controls {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.45));
+      border-radius: 0 0 8px 8px;
+      opacity: 0; transition: opacity 0.2s;
+      z-index: 10; pointer-events: none;
+    }
+    .video-wrap:hover .vid-controls,
+    .vid-controls.is-active { opacity: 1; pointer-events: auto; }
+    .vid-track {
+      flex: 1; position: relative; height: 4px;
+      background: rgba(255,255,255,0.3); border-radius: 2px;
+      cursor: pointer; transition: height 0.15s;
+    }
+    .vid-track:hover { height: 6px; }
+    .vid-fill { position: absolute; left: 0; top: 0; height: 100%; background: #fff; border-radius: 2px; width: 0%; pointer-events: none; }
+    .vid-thumb {
+      position: absolute; top: 50%; left: 0%;
+      transform: translate(-50%, -50%);
+      width: 12px; height: 12px; background: #fff; border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35); pointer-events: none;
+    }
+    .vid-duration { font-size: 12px; line-height: 1; color: #fff; font-family: var(--sans); font-weight: 500; opacity: 0.9; white-space: nowrap; pointer-events: none; min-width: 32px; text-align: right; }
+    .sound-toggle {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.15); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; padding: 0; transition: background 0.2s;
+    }
+    .sound-toggle:hover { background: rgba(255,255,255,0.3); }
+    .sound-toggle img { width: 24px; height: 24px; display: block; filter: brightness(0) invert(1); }
 
     /* ── POST-IT NOTES ── */
     .postit-row { display: flex; gap: 24px; align-items: flex-start; margin: 8px 0 32px; }
@@ -333,7 +364,7 @@
 
     <!-- 4. WHAT IS QFLOW -->
     <div class="cs-section">
-      <h2>Air Quality Opportunity — What is Qflow and Its Vision?</h2>
+      <h2>The Problem, the Opportunity and Vision</h2>
       <p>Qualis Flow is a SaaS platform using AI to manage environmental risk on construction projects. It pulls live data from sensors so teams can track, predict, and analyse issues in real time—staying compliant, avoiding fines, and protecting the environment. Built for environmental consultants and project managers, it simplifies compliance on large-scale projects.</p>
       <p>Consultants previously spent days manually collecting air quality data, only to analyse it after the fact. This delay meant teams were reacting to breaches instead of preventing them.</p>
       <p>Qflow's Air Quality module automates data aggregation and uses AI trained on historical readings to predict pollution based on construction schedules. Project managers can adjust plans and see risks instantly, turning compliance into a proactive, strategic tool.</p>
@@ -423,7 +454,7 @@
       <li>Established Qflow's first design system, laying a scalable foundation for future modules and applications.</li>
     </ul>
     <div class="img-card">
-      <p class="cs-caption" style="margin: 0 0 16px;">Below: Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
+      <p class="cs-caption" style="margin: 0 0 16px;">Customer journey map illustrating the actions needed to gather data and produce a report; including time, external software (Power BI), and quotes with main goals on each step.</p>
       <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
         <source src="images/Qflow_Airquality/MarchAirQflow03_SmallA.mp4" type="video/mp4">
       </video>
@@ -460,7 +491,7 @@
       <li>What can Qflow realistically do for version 1 release?</li>
     </ul>
     <div class="img-card">
-      <p class="cs-caption" style="margin: 0 0 16px;">Web-based data visualisation examples from various sites.</p>
+      <p class="cs-caption">Web-based data visualisation examples from various sites.</p>
       <div class="gif-grid">
         <div class="gif-item">
           <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
@@ -488,7 +519,7 @@
 
   <!-- 13. WORKSHOP & SCOPING -->
   <div class="cs-section">
-    <h2>Workshop &amp; Scoping</h2>
+    <h2>Scoping, Workshops &amp; Ideas</h2>
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 16px;">Low fidelity experiments, working through ideas such as air monitors GPS or grouping configuration controls to filter through the data and compare construction work throughout the area.</p>
       <div style="display: flex; gap: 16px; align-items: flex-start;">
@@ -504,7 +535,7 @@
       <img src="images/Qflow_Airquality/notesADS_Drawings.png" alt="Sketchbook — handwritten wireframes and design notes from early exploration" style="width: 80%; border-radius: 8px; display: block; margin-top: 16px; margin-left: auto; margin-right: auto;">
     </div>
     <div class="img-card" style="margin-top: 24px;">
-      <p class="cs-caption" style="margin: 0 0 16px;">Below: Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
+      <p class="cs-caption" style="margin: 0 0 16px;">Early workshop discussion with all stakeholders using MoSCoW and service blueprint to highlight Qflow's resources, how the service would be delivered and a realistic scope.</p>
       <img src="images/Qflow_Airquality/Miro.webp" alt="Workshop: MoSCoW prioritisation and service blueprint with all stakeholders" style="width: 100%; border-radius: 8px; display: block;">
     </div>
   </div>
@@ -512,37 +543,41 @@
   <!-- 14. EARLY PROTOTYPE — HOVER REVEAL -->
   <div class="cs-section">
     <h2>Early Prototype</h2>
-    <p class="cs-caption">👉🏽 Below: Hover the image to see early prototype ideas for pollutant behaviour, sensor mapping, and the time slider. Designed to handle up to 12 pollutants and 3 data feeds per sensor to ensure scalability from small sites to mega projects.</p>
-    <div class="hover-reveal">
-      <div class="hr-base">
-        <div class="img-placeholder" style="aspect-ratio: 960/538; margin: 0; border-radius: 12px;">
-          [IMAGE: early-prototype-hover.jpg — 960×538px]
+    <p>Design experiments tested extreme cases — 12 pollutants and 3 feeds per sensor — to ensure scalability for both mega projects and smaller companies.</p>
+    <p>The following displays pollutant data across multiple monitors with staggered loading to test API behaviour and timing. The goal was to challenge early-stage ideas, like the exceedance feature, which highlighted monitors exceeding limits using colour-coded IDs linked to the visual guide above. While not ideal for colourblind users, it sparked useful discussion. The client especially liked the exceedance part: <em>"I would keep this feature on at all times"</em> to spot issues at a glance.</p>
+    <div class="img-card" style="width: 40%; padding: 20px; margin-left: auto; margin-right: auto;">
+      <div class="video-wrap">
+        <video id="exceedance-exp-video" muted loop playsinline style="width: 100%; border-radius: 8px; display: block;">
+          <source src="images/Qflow_Airquality/ExceednaceExperiment01DONE.mp4" type="video/mp4">
+        </video>
+        <div class="vid-controls" id="exceedance-exp-controls">
+          <div class="vid-track" id="exceedance-exp-track">
+            <div class="vid-fill" id="exceedance-exp-fill"></div>
+            <div class="vid-thumb" id="exceedance-exp-thumb"></div>
+          </div>
+          <span class="vid-duration" id="exceedance-exp-duration"></span>
+          <button class="sound-toggle" id="exceedance-exp-sound-btn" aria-label="Toggle sound">
+            <img id="exceedance-exp-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
         </div>
       </div>
-      <div class="hr-overlay">
-        <div class="hr-play"><span class="hr-play-icon"></span></div>
-        <span class="hr-label">Early prototype — pollutant behaviour, sensor mapping, time slider</span>
-      </div>
     </div>
-    <p style="margin-top: 24px;">Design experiments tested extreme cases — 12 pollutants and 3 feeds per sensor — to ensure scalability for both mega projects and smaller companies.</p>
-    <p>The following displays pollutant data across multiple monitors with staggered loading to test API behaviour and timing. The goal was to challenge early-stage ideas, like the exceedance feature, which highlighted monitors exceeding limits using colour-coded IDs linked to the visual guide above. While not ideal for colourblind users, it sparked useful discussion. The client especially liked the exceedance part: <em>"I would keep this feature on at all times"</em> to spot issues at a glance.</p>
-    <video autoplay loop muted playsinline style="width: 24%; border-radius: 12px; display: block; margin: 0 auto;">
-      <source src="images/Qflow_Airquality/ExceednaceExperiment01DONE.mp4" type="video/mp4">
-    </video>
   </div>
 
   <!-- 15. SCOPE & TIERED IMPLEMENTATION -->
   <div class="cs-section">
     <h2>Scope &amp; Tiered Implementation</h2>
     <p>Scope creep led to tiered implementation — skimmed, semi-skimmed, and full-fat — to ensure delivery, delaying some features until post-launch. By designing complete user flows and edge cases upfront, I aimed to future-proof the product beyond the MVP.</p>
-    <div style="display: flex; justify-content: center;">
+    <div style="position: relative; display: flex; justify-content: center; margin-bottom: 60px;">
       <div class="img-card" style="width: 70%; padding: 20px; box-sizing: border-box;">
         <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
           <source src="images/Qflow_Airquality/Q_pastPrototypes4DONE.mp4" type="video/mp4">
         </video>
       </div>
+      <div class="postit postit--2" style="position: absolute; bottom: -48px; right: 10%; width: 260px; z-index: 2;">
+        <p><strong>Hover function idea</strong> reveals monitor/sensors and their data lines. Suggested by the CTO after a show-and-tell, the hover feature was designed to distinguish multiple data lines without confusing accurate data viewing with Gantt chart filtering.</p>
+      </div>
     </div>
-    <p class="cs-caption">Hover function idea reveals monitor/sensors and their data lines. Suggested by the CTO after a show-and-tell, the hover feature was designed to distinguish multiple data lines without confusing accurate data viewing with Gantt chart filtering.</p>
   </div>
 
   <!-- 16. GANTT CHART -->
@@ -560,7 +595,6 @@
   <!-- 17. PREDICTIVE FEATURE -->
   <div class="cs-section">
     <h2>The Use of AI — Predictive Feature</h2>
-    <p class="cs-caption">Below: Figuring out the predictive feature.</p>
     <div class="laptop-dim" style="position: relative; width: 88%; margin-left: 6%; margin-bottom: 24px; cursor: default;">
       <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
       <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
@@ -582,14 +616,21 @@
   <div class="cs-section">
     <h2>Usability Study</h2>
     <p>Final quick usability testing to reevaluate five key assumptions and uncover usability issues early. Rapid prototyping iterations ran throughout the week with nine target users (four recorded), one guerrilla session, and five in-house team members, ensuring diverse perspectives. Each 20-minute session provided valuable insights into current practices and indirect competitors.</p>
-    <div class="img-card">
-      <p class="cs-caption" style="margin: 0 0 16px;">Hover over the video to hear environmental consultants discuss how they use data in their work (2 mins).</p>
-      <div class="hover-video-wrap" data-hover-video>
-        <video muted playsinline style="width: 80%; border-radius: 8px; display: block; margin: 0 auto;">
+    <div class="img-card" style="width: 80%; margin-left: auto; margin-right: auto;">
+      <p class="cs-caption">Hover over the video to hear environmental consultants discuss how they use data in their work (2 mins).</p>
+      <div class="video-wrap">
+        <video id="qf-research-video" muted loop playsinline style="width: 100%; border-radius: 8px; display: block;">
           <source src="images/Qflow_Airquality/24 - QFLOWResearch2B_The Data_SmallCompressedB.mp4" type="video/mp4">
         </video>
-        <div class="hover-video-bar">
-          <div class="hover-video-progress"></div>
+        <div class="vid-controls" id="qf-research-controls">
+          <div class="vid-track" id="qf-research-track">
+            <div class="vid-fill" id="qf-research-fill"></div>
+            <div class="vid-thumb" id="qf-research-thumb"></div>
+          </div>
+          <span class="vid-duration" id="qf-research-duration"></span>
+          <button class="sound-toggle" id="qf-research-sound-btn" aria-label="Toggle sound">
+            <img id="qf-research-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
         </div>
       </div>
     </div>
@@ -600,12 +641,19 @@
     <h2>Candid Reflections, Competitors &amp; What I've Learned</h2>
     <div class="img-card" style="margin-bottom: 24px;">
       <p class="cs-caption" style="margin: 0 0 16px;">Hover over the video to watch a 2-minute snippet on Power BI trends impacting Qflow business direction.</p>
-      <div class="hover-video-wrap" data-hover-video>
-        <video autoplay loop muted playsinline style="width: 100%; border-radius: 8px; display: block;">
+      <div class="video-wrap">
+        <video id="qf-powerbi-video" muted loop playsinline style="width: 100%; border-radius: 8px; display: block;">
           <source src="images/Qflow_Airquality/QFLOWResearchPowerBI_50%25_Small.mp4" type="video/mp4">
         </video>
-        <div class="hover-video-bar">
-          <div class="hover-video-progress" style="width: 0%;"></div>
+        <div class="vid-controls" id="qf-powerbi-controls">
+          <div class="vid-track" id="qf-powerbi-track">
+            <div class="vid-fill" id="qf-powerbi-fill"></div>
+            <div class="vid-thumb" id="qf-powerbi-thumb"></div>
+          </div>
+          <span class="vid-duration" id="qf-powerbi-duration"></span>
+          <button class="sound-toggle" id="qf-powerbi-sound-btn" aria-label="Toggle sound">
+            <img id="qf-powerbi-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
         </div>
       </div>
     </div>
@@ -665,27 +713,27 @@
   <!-- 21. DESIGN SYSTEM GALLERY -->
   <div class="cs-section">
     <h2>Design System Gallery</h2>
-    <p class="cs-caption">Press any image to view at full size.</p>
-    <div class="gif-grid">
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-01.gif" data-lb-caption="Qflow colours">
-        <img src="images/Qflow_Airquality/Zeroheights-01.gif" alt="Qflow design system — colours" style="width: 100%; display: block;">
-      </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-02.gif" data-lb-caption="Guide to illustrations">
-        <img src="images/Qflow_Airquality/Zeroheights-02.gif" alt="Qflow design system — guide to illustrations" style="width: 100%; display: block;">
-      </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-03.gif" data-lb-caption="Modals Dos and Don'ts">
-        <img src="images/Qflow_Airquality/Zeroheights-03.gif" alt="Qflow design system — modals dos and don'ts" style="width: 100%; display: block;">
-      </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-04.gif" data-lb-caption="Iconography">
-        <img src="images/Qflow_Airquality/Zeroheights-04.gif" alt="Qflow design system — iconography" style="width: 100%; display: block;">
-      </div>
-    </div>
-    <div class="gif-grid" style="margin-top: 16px;">
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-05.gif" data-lb-caption="Full design system overview">
-        <img src="images/Qflow_Airquality/Zeroheights-05.gif" alt="Qflow design system — full overview" style="width: 100%; display: block;">
-      </div>
-      <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-06.gif" data-lb-caption="Sketch Style guide">
-        <img src="images/Qflow_Airquality/Zeroheights-06.gif" alt="Qflow design system — sketch style guide" style="width: 100%; display: block;">
+    <div class="img-card">
+      <p class="cs-caption">Press any image to view at full size.</p>
+      <div class="gif-grid" style="gap: 12px;">
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-01.gif" data-lb-caption="Qflow colours">
+          <img src="images/Qflow_Airquality/Zeroheights-01.gif" alt="Qflow design system — colours" style="width: 100%; display: block;">
+        </div>
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-02.gif" data-lb-caption="Guide to illustrations">
+          <img src="images/Qflow_Airquality/Zeroheights-02.gif" alt="Qflow design system — guide to illustrations" style="width: 100%; display: block;">
+        </div>
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-03.gif" data-lb-caption="Modals Dos and Don'ts">
+          <img src="images/Qflow_Airquality/Zeroheights-03.gif" alt="Qflow design system — modals dos and don'ts" style="width: 100%; display: block;">
+        </div>
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-04.gif" data-lb-caption="Iconography">
+          <img src="images/Qflow_Airquality/Zeroheights-04.gif" alt="Qflow design system — iconography" style="width: 100%; display: block;">
+        </div>
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-05.gif" data-lb-caption="Full design system overview">
+          <img src="images/Qflow_Airquality/Zeroheights-05.gif" alt="Qflow design system — full overview" style="width: 100%; display: block;">
+        </div>
+        <div class="gif-item lb-trigger" data-lb-src="images/Qflow_Airquality/Zeroheights-06.gif" data-lb-caption="Sketch Style guide">
+          <img src="images/Qflow_Airquality/Zeroheights-06.gif" alt="Qflow design system — sketch style guide" style="width: 100%; display: block;">
+        </div>
       </div>
     </div>
   </div>
@@ -693,52 +741,35 @@
   <!-- 22. COMPONENT PARTS / ICONOLOGY -->
   <div class="cs-section">
     <h2>Component Parts — Iconology</h2>
-    <div class="carousel" data-carousel="iconology">
-      <div class="carousel-track">
-        <div class="carousel-slide active">
-          <div class="img-placeholder" style="aspect-ratio: 978/612; margin: 0; border-radius: 12px;">
-            [IMAGE: component-parts-iconology.jpg — 978×612px, icon set and component examples]
+    <div class="img-card" style="padding: 20px;">
+      <div class="video-wrap" style="border-radius: 8px; overflow: hidden; aspect-ratio: 978/612;">
+        <video id="qf-design-system-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          <source src="images/Qflow_Airquality/QFLOW_DesignSystem02.mp4" type="video/mp4">
+        </video>
+        <div class="vid-controls" id="qf-design-system-controls">
+          <div class="vid-track" id="qf-design-system-track">
+            <div class="vid-fill" id="qf-design-system-fill"></div>
+            <div class="vid-thumb" id="qf-design-system-thumb"></div>
           </div>
+          <span class="vid-duration" id="qf-design-system-duration"></span>
+          <button class="sound-toggle" id="qf-design-system-sound-btn" aria-label="Toggle sound">
+            <img id="qf-design-system-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
         </div>
-        <div class="carousel-slide">
-          <div class="img-placeholder" style="aspect-ratio: 978/612; margin: 0; border-radius: 12px;">
-            [IMAGE: component-parts-iconology-2.jpg — confirm with Lesley]
-          </div>
-        </div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn prev">←</button>
-        <div class="carousel-dots">
-          <span class="dot active"></span>
-          <span class="dot"></span>
-        </div>
-        <span class="carousel-counter">1 / 2</span>
-        <button class="carousel-btn next">→</button>
       </div>
     </div>
   </div>
 
-  <!-- 23. MARKETING MATERIAL -->
+  <!-- 23. MARKETING MATERIAL + TEAM PHOTOS -->
   <div class="cs-section">
     <h2>Some Marketing Material</h2>
-    <p class="cs-caption">First time doing marketing — but hey, it's a startup, we all wear many hats! Judge the results below.</p>
-    <div class="img-pair">
-      <div class="img-placeholder" style="aspect-ratio: 770/425; margin: 0;">
-        [IMAGE: marketing-01.png — 770×425px, social/marketing asset]
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <p class="cs-caption" style="margin: 0;">First time doing marketing — but hey, it's a startup, we all wear many hats! Judge the results below.</p>
+      <div class="photo-grid" style="margin: 0;">
+        <img src="images/Qflow_Airquality/QFlow_marketing.webp" alt="Lesley at the Qflow exhibition stand" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
+        <img src="images/Qflow_Airquality/QFlow_PhotoGroup02.webp" alt="Qflow conference booth collage" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
+        <img src="images/Qflow_Airquality/QFlow_PhotoGroup.webp" alt="Qflow team photo" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
       </div>
-      <div class="img-placeholder" style="aspect-ratio: 515/646; margin: 0;">
-        [IMAGE: marketing-02.jpg — 515×646px, marketing material portrait]
-      </div>
-    </div>
-  </div>
-
-  <!-- 24. TEAM PHOTOS -->
-  <div class="cs-section">
-    <p class="cs-caption">Below: Some early team photos.</p>
-    <div class="photo-grid">
-      <img src="images/Qflow_Airquality/QFlow_marketing.webp" alt="Lesley at the Qflow exhibition stand" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
-      <img src="images/Qflow_Airquality/QFlow_PhotoGroup02.webp" alt="Qflow conference booth collage" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
-      <img src="images/Qflow_Airquality/QFlow_PhotoGroup.webp" alt="Qflow team photo" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 12px; display: block;">
     </div>
   </div>
 
@@ -746,10 +777,6 @@
   <div class="peek-section">
     <p class="peek-caption">More case studies</p>
     <div class="peek-grid">
-      <a href="medidataedcredesign.html" class="peek-cell"><img src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign" loading="lazy"></a>
-      <a href="clinical-risk-based-monitoring.html" class="peek-cell"><img src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" loading="lazy"></a>
-      <a href="qualisflow-02.html" class="peek-cell"><img src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts &amp; IA" loading="lazy"></a>
-      <a href="homerenter.html" class="peek-cell"><img src="images/homerenter-thumb.webp" alt="HomeRenter" loading="lazy"></a>
     </div>
   </div>
 
@@ -893,16 +920,230 @@
     });
   })();
 
-  // ── Hover videos ──
-  document.querySelectorAll('[data-hover-video]').forEach(wrap => {
-    const vid = wrap.querySelector('video');
-    const bar = wrap.querySelector('.hover-video-progress');
-    if (!vid) return;
-    wrap.addEventListener('mouseenter', () => vid.play());
-    wrap.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; if (bar) bar.style.width = '0%'; });
-    vid.addEventListener('timeupdate', () => { if (bar && vid.duration) bar.style.width = (vid.currentTime / vid.duration * 100) + '%'; });
-    vid.addEventListener('ended', () => { if (bar) bar.style.width = '0%'; });
-  });
+  // ── Video-wrap component (hover to play, scrubber, sound toggle) ──
+  (function initVideoWrap(videoId, trackId, fillId, thumbId, durationId, soundBtnId, soundIconId) {
+    const wrap  = document.getElementById(videoId) && document.getElementById(videoId).closest('.video-wrap');
+    const video = document.getElementById(videoId);
+    const track = document.getElementById(trackId);
+    const fill  = document.getElementById(fillId);
+    const thumb = document.getElementById(thumbId);
+    const dur   = document.getElementById(durationId);
+    const btn   = document.getElementById(soundBtnId);
+    const icon  = document.getElementById(soundIconId);
+    if (!video || !wrap) return;
+
+    let userMuted = false;
+
+    function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
+    function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (dur) dur.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', () => { if (dur) dur.textContent = fmt(video.duration); });
+    if (video.readyState >= 1 && dur) dur.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    let dragging = false;
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration;
+      updateBar();
+    }
+    if (track) {
+      track.addEventListener('mousedown', e => { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', e => { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup', () => { dragging = false; });
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      video.muted = userMuted;
+      video.play().catch(() => { video.muted = true; userMuted = true; setIcon(true); });
+    });
+    wrap.addEventListener('mouseleave', () => {
+      if (dragging) return;
+      video.pause(); video.currentTime = 0; video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (dur) dur.textContent = '';
+      setIcon(userMuted);
+    });
+
+    if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
+  }('qf-research-video', 'qf-research-track', 'qf-research-fill', 'qf-research-thumb', 'qf-research-duration', 'qf-research-sound-btn', 'qf-research-sound-icon'));
+
+  (function initVideoWrap(videoId, trackId, fillId, thumbId, durationId, soundBtnId, soundIconId) {
+    const wrap  = document.getElementById(videoId) && document.getElementById(videoId).closest('.video-wrap');
+    const video = document.getElementById(videoId);
+    const track = document.getElementById(trackId);
+    const fill  = document.getElementById(fillId);
+    const thumb = document.getElementById(thumbId);
+    const dur   = document.getElementById(durationId);
+    const btn   = document.getElementById(soundBtnId);
+    const icon  = document.getElementById(soundIconId);
+    if (!video || !wrap) return;
+
+    let userMuted = false;
+
+    function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
+    function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (dur) dur.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', () => { if (dur) dur.textContent = fmt(video.duration); });
+    if (video.readyState >= 1 && dur) dur.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    let dragging = false;
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration;
+      updateBar();
+    }
+    if (track) {
+      track.addEventListener('mousedown', e => { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', e => { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup', () => { dragging = false; });
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      video.muted = userMuted;
+      video.play().catch(() => { video.muted = true; userMuted = true; setIcon(true); });
+    });
+    wrap.addEventListener('mouseleave', () => {
+      if (dragging) return;
+      video.pause(); video.currentTime = 0; video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (dur) dur.textContent = '';
+      setIcon(userMuted);
+    });
+
+    if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
+  }('qf-powerbi-video', 'qf-powerbi-track', 'qf-powerbi-fill', 'qf-powerbi-thumb', 'qf-powerbi-duration', 'qf-powerbi-sound-btn', 'qf-powerbi-sound-icon'));
+
+  (function initVideoWrap(videoId, trackId, fillId, thumbId, durationId, soundBtnId, soundIconId) {
+    const wrap  = document.getElementById(videoId) && document.getElementById(videoId).closest('.video-wrap');
+    const video = document.getElementById(videoId);
+    const track = document.getElementById(trackId);
+    const fill  = document.getElementById(fillId);
+    const thumb = document.getElementById(thumbId);
+    const dur   = document.getElementById(durationId);
+    const btn   = document.getElementById(soundBtnId);
+    const icon  = document.getElementById(soundIconId);
+    if (!video || !wrap) return;
+
+    let userMuted = false;
+
+    function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
+    function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (dur) dur.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', () => { if (dur) dur.textContent = fmt(video.duration); });
+    if (video.readyState >= 1 && dur) dur.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    let dragging = false;
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration;
+      updateBar();
+    }
+    if (track) {
+      track.addEventListener('mousedown', e => { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', e => { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup', () => { dragging = false; });
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      video.muted = userMuted;
+      video.play().catch(() => { video.muted = true; userMuted = true; setIcon(true); });
+    });
+    wrap.addEventListener('mouseleave', () => {
+      if (dragging) return;
+      video.pause(); video.currentTime = 0; video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (dur) dur.textContent = '';
+      setIcon(userMuted);
+    });
+
+    if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
+  }('qf-design-system-video', 'qf-design-system-track', 'qf-design-system-fill', 'qf-design-system-thumb', 'qf-design-system-duration', 'qf-design-system-sound-btn', 'qf-design-system-sound-icon'));
+
+  (function initVideoWrap(videoId, trackId, fillId, thumbId, durationId, soundBtnId, soundIconId) {
+    const wrap  = document.getElementById(videoId) && document.getElementById(videoId).closest('.video-wrap');
+    const video = document.getElementById(videoId);
+    const track = document.getElementById(trackId);
+    const fill  = document.getElementById(fillId);
+    const thumb = document.getElementById(thumbId);
+    const dur   = document.getElementById(durationId);
+    const btn   = document.getElementById(soundBtnId);
+    const icon  = document.getElementById(soundIconId);
+    if (!video || !wrap) return;
+
+    let userMuted = false;
+
+    function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
+    function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
+    function updateBar() {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+      if (fill) fill.style.width = pct;
+      if (thumb) thumb.style.left = pct;
+      if (dur) dur.textContent = fmt(video.duration - video.currentTime);
+    }
+
+    video.addEventListener('loadedmetadata', () => { if (dur) dur.textContent = fmt(video.duration); });
+    if (video.readyState >= 1 && dur) dur.textContent = fmt(video.duration);
+    video.addEventListener('timeupdate', updateBar);
+
+    let dragging = false;
+    function scrubTo(e) {
+      if (!video.duration) return;
+      const rect = track.getBoundingClientRect();
+      video.currentTime = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * video.duration;
+      updateBar();
+    }
+    if (track) {
+      track.addEventListener('mousedown', e => { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', e => { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup', () => { dragging = false; });
+    }
+
+    wrap.addEventListener('mouseenter', () => {
+      video.muted = userMuted;
+      video.play().catch(() => { video.muted = true; userMuted = true; setIcon(true); });
+    });
+    wrap.addEventListener('mouseleave', () => {
+      if (dragging) return;
+      video.pause(); video.currentTime = 0; video.muted = true;
+      if (fill) fill.style.width = '0%';
+      if (thumb) thumb.style.left = '0%';
+      if (dur) dur.textContent = '';
+      setIcon(userMuted);
+    });
+
+    if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
+  }('exceedance-exp-video', 'exceedance-exp-track', 'exceedance-exp-fill', 'exceedance-exp-thumb', 'exceedance-exp-duration', 'exceedance-exp-sound-btn', 'exceedance-exp-sound-icon'));
 </script>
 </div><!-- /#page-content -->
 </body>

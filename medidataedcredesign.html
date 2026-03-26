@@ -203,26 +203,26 @@
     .img-card {
       position: relative;
       background: var(--faint);
-      border: 1px solid var(--rule);
       border-radius: 16px;
-      padding: 28px 28px 0;
+      padding: 20px;
       margin: 32px 0 0;
       overflow: hidden;
     }
     .img-card .cs-caption {
       margin: 0 0 20px;
+      font-size: 0.82rem;
       font-style: normal;
       color: var(--ink-mid);
       max-width: none;
     }
     .img-card .img-placeholder {
       margin: 0;
-      border-radius: 10px 10px 0 0;
+      border-radius: 8px;
     }
     .img-card img {
       display: block;
       width: 100%;
-      border-radius: 10px 10px 0 0;
+      border-radius: 8px;
     }
     .carousel[data-carousel="engineering"] .carousel-slide {
       line-height: 0;
@@ -516,13 +516,13 @@
 
     /* Sound button in control bar */
     .sound-toggle {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
       background: rgba(255,255,255,0.15); border: none;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; padding: 0; transition: background 0.2s;
     }
     .sound-toggle:hover { background: rgba(255,255,255,0.3); }
-    .sound-toggle img { width: 18px; height: 18px; display: block; filter: brightness(0) invert(1); }
+    .sound-toggle img { width: 24px; height: 24px; display: block; filter: brightness(0) invert(1); }
 
     /* Loom reveal: transparent overlay, play button only */
     #loom-reveal .hr-overlay { background: transparent; }
@@ -834,7 +834,7 @@
 
       <!-- 12. RESEARCH LOOM -->
       <div class="cs-section">
-        <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+        <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
           <p class="cs-caption" style="margin: 0;">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
           <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
             <div class="hr-base">
@@ -933,8 +933,8 @@
   <div class="wrap">
     <h2>The Outcomes, Impact and Personal Growth</h2>
     <!-- Carousel: Outcomes -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
-      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
+      <p class="cs-caption" style="margin: 0 0 20px; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
       <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>
@@ -975,7 +975,7 @@
   <!-- 14. ALL BRAINS ON DECK -->
   <div class="cs-section">
     <h2>🧠 All Brains On Deck Approach</h2>
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:10px;">
         <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
       </video>
@@ -986,7 +986,7 @@
 
   <!-- 15. SYSTEM MAPS -->
   <div class="cs-section">
-    <div class="img-card" style="padding: 20px; gap: 24px; display: flex; flex-direction: column; border: none;">
+    <div class="img-card" style="padding: 20px; gap: 24px; display: flex; flex-direction: column;">
       <p class="cs-caption" style="margin: 0;">Hover to see system maps of interconnected tasks</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base">
@@ -1031,7 +1031,7 @@
       </ul>
     </div>
     <!-- Carousel: Personas — auto-advancing, no controls -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
       <p class="cs-caption" style="margin: 0;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
       <div class="carousel" data-carousel="personas" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
         <div class="carousel-track">
@@ -1078,7 +1078,7 @@
         <p><strong>Reviewed prior research</strong> to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us <strong>prioritise features that served multiple personas over their isolated frustrations</strong> and contributed to a vision of removing that persona from EDC altogether.</p>
       </div>
     </div>
-    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="img-card" style="padding: 20px;">
       <img src="images/EDCRedesign/MD_ResearchCollection.webp" alt="Research collection: user interviews, stakeholder sessions, LinkedIn outreach, and Japan evaluations" style="width: 100%; display: block; border-radius: 8px;">
     </div>
   </div>
@@ -1094,7 +1094,7 @@
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: <strong>find patient → drill in → lose context → navigate back → reapply filters → repeat.</strong> The monochromatic interface made scanning hard, and <strong>task visibility vanished the moment they clicked into a patient record.</strong></p>
     <!-- BEFORE / AFTER SLIDER -->
-    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="img-card" style="padding: 20px;">
     <div class="ba-label-row">
       <span class="ba-pill before">Redesign — 2025</span>
       <span class="ba-pill after">Redesign — 2017</span>
@@ -1129,7 +1129,7 @@
     </div>
     <p style="max-width: 100%; margin-top: 28px;">My idea was simple: <strong>make patient visits folders (left hand side) communicate more at a glance.</strong> I added right-aligned status badges — <strong>red for critical blocking work, yellow for next priority, neutral for low priority tasks</strong> that could wait, coordinating with Michael for the left side study visit. In space-constrained views, <strong>only the highest-priority indicator shows with an overflow indicator</strong>, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p style="max-width: 100%;"><strong>Smart filtering and form search</strong> reduced reliance on the matrix grid that disappeared once a user selected a patient form. <strong>A hover-to-preview the tasks on visit folders</strong> (like an accelerator) meant users could check tasks without drilling in. And <strong>a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page</strong>, updating dynamically without a refresh.</p>
-    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="img-card" style="padding: 20px;">
       <p class="cs-caption" style="margin: 0 0 16px;">Hover to listen to scrappy design experiments, excerpted from a compilation capturing successes and failures during concept testing.</p>
       <div class="video-wrap">
         <video id="exp-video" muted loop playsinline style="width:100%; display:block; border-radius:8px;">
@@ -1155,20 +1155,20 @@
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
-    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="img-card" style="padding: 20px;">
       <p class="cs-caption" style="margin: 0 0 16px;">Design system option</p>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/EDCRedesign/EDCPatientFilterNew_DesignSystem.mp4" type="video/mp4">
       </video>
     </div>
-    <div class="img-card" style="padding: 20px; border: none;">
+    <div class="img-card" style="padding: 20px;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
       </video>
       <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block;">Try the prototype ↗</a>
     </div>
     <!-- Carousel: DD02 -->
-    <div class="img-card" style="padding: 20px; border: none; margin-top: 28px;">
+    <div class="img-card" style="padding: 20px; margin-top: 28px;">
       <p class="cs-caption" style="margin: 0 0 16px;">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
       <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000">
         <div class="carousel-track">
@@ -1190,7 +1190,7 @@
     <p>One such extension surfaced during interviews: <strong>dummy patients.</strong> Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. <strong>Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely.</strong> Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
     <div style="position: relative; display: block; width: 90%; margin: 32px auto;">
       <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width: 100%; display: block;">
-      <video autoplay muted loop playsinline style="position: absolute; left: 7.74%; top: 0.77%; width: 84.73%; height: 91.39%; object-fit: cover; border-radius: 2px;">
+      <video autoplay muted loop playsinline style="position: absolute; left: 8.17%; top: 1.23%; width: 83.88%; height: 90.48%; object-fit: cover; border-radius: 2px;">
         <source src="images/EDCRedesign/AI Feature3Small.mp4" type="video/mp4">
       </video>
     </div>
@@ -1204,8 +1204,8 @@
     <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. <strong>The platform treated 'not yet available' data the same as 'missing' data.</strong> Take drug returns: <strong>when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months.</strong> The system didn't account for that. It immediately flagged those fields as queries, <strong>creating alerts no one could honestly resolve.</strong></p>
     <p>To cope, <strong>users entered junk data to clear these query alerts temporarily from the system.</strong> If they didn't, these queries would clog up task lists across <strong>EDC, Clinical Data Studio, and the Homepage</strong>, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that <strong>a UI patch wouldn't fix a system-level issue.</strong> That work was brought to the attention of <strong>Design VP and manager</strong> to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
     <!-- Carousel: DD04 — autoplay fade -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; border: none;">
-      <p class="cs-caption" style="margin: 0;">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
+      <p class="cs-caption">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
       <div class="carousel" data-carousel="dd04" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_SystemQueryissues01.webp" alt="System Impact Map: Unresolvable Queries in EDC"></div>

@@ -799,7 +799,7 @@
       <!-- 4. WHAT ARE EDC PRODUCTS -->
       <div class="cs-section">
         <h2>What Are Electronic Data Capture Products?</h2>
-        <p>EDC systems are cloud-based applications used in clinical trials for entering, reviewing, and managing patient-level data. Study teams capture medical results in structured forms or import data from other connected systems.</p>
+        <p><strong>EDC systems are cloud-based applications</strong> used in clinical trials for entering, reviewing, and managing patient-level data. Study teams capture medical results in structured forms or import data from other connected systems.</p>
       </div>
 
       <!-- 5. MY ROLE -->
@@ -815,7 +815,8 @@
         <ol class="num-list">
           <li><strong>Started as a visual reskin</strong>, to upgrade to the new evolving design system; past design efforts struggled with domain credibility to convince executives to make changes.</li>
           <li>Technical debt — <strong>Outdated APIs</strong>, <strong>Angular to React migration</strong>, strict backend constraints and a lean engineering team.</li>
-          <li>Cross-product coordination — <strong>Multiple company-wide initiatives (homepage, overall navigation, design system, study build &amp; platform integration)</strong> required close alignment to lessen the "Frankenstein" experience.</li>
+          <li>Also avoid the mindset of <strong>throwing designs over the fence.</strong> This will be a team sport.</li>
+          <li>Cross-product coordination — <strong>overall navigation information architecture, design system, study build &amp; platform integration</strong> required close alignment to lessen the "Frankenstein" experience.</li>
         </ol>
       </div>
 
@@ -866,10 +867,11 @@
         <h2>How Might We Goals</h2>
         <ol class="num-list">
           <li>Build a cleaner interface for future capabilities (think <strong>AI automation, imported patient records</strong>, all that good stuff)</li>
-          <li><strong>Speed up data entry</strong> — Reduce errors, cut unnecessary queries. Daily friction points and slowness.</li>
+          <li><strong>Speed up data entry</strong> — with EHR‑to‑EDC integration still the future (and paid) enhancement, we still needed to deliver immediate value by <strong>reducing errors, removing unnecessary queries,</strong> and tackling everyday friction.</li>
           <li><strong>Restore task awareness</strong> — Bring back what made <strong>Rave Classic</strong> loved by its users while keeping the best working efficiency gains from the 2017 redesign.</li>
           <li><strong>Sales demo impact</strong> — Make the improvement visually obvious so clients can see the immediate <strong>AHA moment</strong>.</li>
         </ol>
+        <h2 style="margin-top: 48px;">Link to Individual Designs</h2>
         <div class="quick-links">
           <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
           <ul>
@@ -954,8 +956,8 @@
         <h3>Business outcomes</h3>
         <ul class="cs-list">
           <li><strong>Removed unused features, reducing years of design/engineering</strong> debt and lowering engineering maintenance, increasing company efficiency.</li>
-          <li>Enabled a smoother Classic-to-new platform migration (unified product) and strengthened competitive edge in sales demos.</li>
           <li>The initiative demonstrated the <strong>ROI of embedded research — fewer rework cycles,</strong> fewer post-release fixes, and clearer guidance on where engineering should focus backend refactoring.</li>
+          <li>Can't confirm if the effort enabled a smoother Classic-to-new platform migration (unified product) or laddered up to increase renewal but i do hope it did.</li>
         </ul>
       </div>
       <div class="outcomes-col">
@@ -1044,8 +1046,8 @@
 
   <!-- 17. ENGINEERING COLLABORATION -->
   <div class="cs-section" id="engineering">
-    <h2>Where the Best Ideas Win (Engineering Collaboration)</h2>
-    <p style="max-width: 100%;">I brought engineering into design early to reduce surprises and handoff friction. <strong>In a group with strong opinions and history, psychological safety mattered.</strong> We kept everyone informed but were selective about which feedback shaped direction. <strong>Sharing research clips rather than just conclusions</strong> meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
+    <h2>Where the Best Ideas Win (Collaboration)</h2>
+    <p style="max-width: 100%;">Alongside product, we brought engineering into design early to reduce surprises and handoff friction. <strong>In a group with strong opinions and history, psychological safety mattered.</strong> We kept everyone informed but were selective about which feedback shaped direction. <strong>Sharing research clips rather than just conclusions</strong> meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
     <p style="max-width: 100%;">In practice this meant <strong>30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups.</strong> Tesler's Law applied deliberately. <strong>If complexity could live in the system, done programmatically, it shouldn't live in the UI.</strong></p>
     <p>I also pushed to get design included in <strong>cross-product engineering meetings, bug bashes, and peer reviews.</strong> And brought in <strong>accessibility specialists early</strong>, after noticing users were navigating primarily by keyboard. <strong>Something that needed to be designed for, not retrofitted.</strong></p>
     <!-- Carousel: Engineering Collab -->
@@ -1310,7 +1312,7 @@
     const navToggle = document.getElementById('nav-audio-toggle');
     const navIcon   = document.getElementById('nav-audio-icon');
     if (!audioEl) return;
-    audioEl.playbackRate = 1.2;
+    audioEl.playbackRate = 1.1;
     let audioStarted = false, inlineVisible = true;
     function fmt(s) { const m=Math.floor(s/60); return m+':'+(Math.floor(s%60)+'').padStart(2,'0'); }
     function syncNavControls() {

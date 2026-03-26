@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon — Lesley Rooney</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:    #f5f5f5;
+      --ink:      #1a1a18;
+      --ink-mid:  #6b6b63;
+      --sans:     'Inter', system-ui, sans-serif;
+      --serif:    'Playfair Display', Georgia, serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--sans);
+      background-color: var(--paper);
+    }
+
+    /* ── DOT PATTERN ── */
+    body {
+      background-image: radial-gradient(circle, #c8c8c4 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: 0 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 56px;
+      background: rgba(245,245,245,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── CENTRE CONTENT ── */
+    .page-center {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 40px;
+    }
+    .page-center h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .page-center p {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      max-width: 420px;
+    }
+    .back-link {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink-mid);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lesley Rooney</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Work</a></li>
+      <li><a href="influence.html">Influence</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-center">
+    <h1>Coming Soon</h1>
+    <p>This case study is being written up. Check back soon.</p>
+    <a href="index.html" class="back-link">← Back to work</a>
+  </div>
+
+</body>
+</html>

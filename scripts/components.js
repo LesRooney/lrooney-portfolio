@@ -3,7 +3,7 @@
   SHARED COMPONENT BEHAVIOUR — lrooney.com
   ══════════════════════════════════════════════════════════
 
-  Usage: <script src="/scripts/components.js" defer></script>
+  Usage: <script src="./scripts/components.js" defer></script>
   ══════════════════════════════════════════════════════════
 */
 

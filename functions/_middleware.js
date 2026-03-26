@@ -220,7 +220,7 @@ function showPasswordForm(path, error) {
       ${error ? '<div class="error-msg">Incorrect password — please try again.</div>' : ''}
       <button type="submit">View Case Study →</button>
     </form>
-    <div class="back"><a href="/">← Back to portfolio</a></div>
+    <div class="back"><a href="./">← Back to portfolio</a></div>
   </div>
   <div class="wordmark">Lesley Rooney — Portfolio</div>
 </body>

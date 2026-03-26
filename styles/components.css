@@ -11,7 +11,7 @@
     --ink, --ink-mid, --ink-light, --paper, --paper-alt,
     --rule, --serif, --sans, --max
 
-  Usage: <link rel="stylesheet" href="/styles/components.css">
+  Usage: <link rel="stylesheet" href="./styles/components.css">
   ══════════════════════════════════════════════════════════
 */
 
@@ -26,7 +26,7 @@
      <h2 class="section-label">Tools</h2>
      <div class="icon-row">
        <div class="icon-row-item">
-         <img src="/images/icons/figma.svg" alt="" class="icon-row-img">
+         <img src="./images/icons/figma.svg" alt="" class="icon-row-img">
          <span class="icon-row-label">Figma</span>
        </div>
        ...
@@ -98,8 +98,8 @@
      <div class="peek-grid">
 
        <!-- Open case study -->
-       <a href="/medidataedcredesign" class="peek-item">
-         <img src="/images/peek-thumb-1.jpg" alt="Medidata EDC Redesign" class="peek-thumb">
+       <a href="./medidataedcredesign" class="peek-item">
+         <img src="./images/peek-thumb-1.jpg" alt="Medidata EDC Redesign" class="peek-thumb">
          <div class="peek-overlay">
            <span class="peek-overlay-title">Medidata EDC Redesign</span>
            <span class="peek-overlay-sub">B2B Enterprise</span>
@@ -108,7 +108,7 @@
 
        <!-- NDA / password-protected case -->
        <a href="#" class="peek-item">
-         <img src="/images/peek-thumb-2.jpg" alt="Medidata Risk Tool" class="peek-thumb">
+         <img src="./images/peek-thumb-2.jpg" alt="Medidata Risk Tool" class="peek-thumb">
          <span class="peek-lock">🔒 NDA</span>
          <div class="peek-overlay">
            <span class="peek-overlay-title">Medidata Risk Tool</span>

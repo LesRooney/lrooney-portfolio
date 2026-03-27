@@ -94,7 +94,14 @@
       "Bash(grep -iE \"\\\\.webp$|\\\\.jpg$|\\\\.png$\")",
       "Bash(xargs ls:*)",
       "Read(//Users/lesleyrooney/Documents/**)",
-      "Read(//Users/lesleyrooney/Desktop/**)"
+      "Read(//Users/lesleyrooney/Desktop/**)",
+      "mcp__github__list_commits",
+      "mcp__github__get_file_contents",
+      "mcp__github__search_repositories",
+      "Bash(gh api:*)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio remote get-url origin)",
+      "Bash(security find-internet-password:*)",
+      "Bash(security find-generic-password:*)"
     ]
   }
 }

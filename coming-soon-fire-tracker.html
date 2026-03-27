@@ -207,7 +207,7 @@
 
     <!-- ── MAIN CARD ── -->
     <div class="main-card">
-      <h1>Fire Tracker</h1>
+      <h1>Coming Soon</h1>
       <p>This case study is being written up. Check back soon.</p>
       <a href="index.html" class="back-link"><span class="arrow">←</span> Back to work</a>
     </div>
@@ -346,6 +346,48 @@
     document.addEventListener('mousedown', () => {
       setTimeout(() => hint.classList.add('hidden'), 1800);
     }, { once: true });
+
+    // ── Individual note dragging ──
+    (function() {
+      let activeNote = null, noteOffX = 0, noteOffY = 0;
+
+      document.querySelectorAll('.float-note').forEach(note => {
+        note.addEventListener('mousedown', e => {
+          e.stopPropagation(); // prevent canvas pan
+          activeNote = note;
+          const nr = note.getBoundingClientRect();
+          const cr = canvas.getBoundingClientRect();
+          // Preserve existing rotation
+          const rotMatch = note.style.transform.match(/rotate\(([^)]+)\)/);
+          const rot = rotMatch ? rotMatch[1] : '0deg';
+          // Freeze calc() position to pixels so we can move freely
+          note.style.left      = (nr.left - cr.left) + 'px';
+          note.style.top       = (nr.top  - cr.top)  + 'px';
+          note.style.transform = `rotate(${rot})`;
+          noteOffX = e.clientX - nr.left;
+          noteOffY = e.clientY - nr.top;
+          note.style.cursor     = 'grabbing';
+          note.style.zIndex     = '200';
+          note.style.boxShadow  = '0 12px 36px rgba(0,0,0,0.18), 0 3px 10px rgba(0,0,0,0.10)';
+          note.style.transition = 'box-shadow 0.15s ease';
+        });
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!activeNote) return;
+        const cr = canvas.getBoundingClientRect();
+        activeNote.style.left = (e.clientX - cr.left - noteOffX) + 'px';
+        activeNote.style.top  = (e.clientY - cr.top  - noteOffY) + 'px';
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!activeNote) return;
+        activeNote.style.cursor    = 'grab';
+        activeNote.style.zIndex    = '';
+        activeNote.style.boxShadow = '';
+        activeNote = null;
+      });
+    })();
   </script>
 
 </body>

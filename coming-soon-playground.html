@@ -102,6 +102,20 @@
       margin-bottom: 20px;
       line-height: 1.1;
     }
+    .video-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+      display: inline-block;
+      width: 35%;
+    }
+    .video-card video {
+      display: block;
+      width: 100%;
+      border-radius: 8px;
+    }
     .main-card p {
       font-size: 1.3rem;
       color: var(--ink-mid);
@@ -152,6 +166,21 @@
       text-transform: uppercase;
       margin-bottom: 6px;
       opacity: 0.55;
+    }
+
+    /* ── SCATTERED OBJECTS ── */
+    .float-obj {
+      position: absolute;
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.15s ease;
+    }
+    .video-card-sm {
+      background: #fff;
+      border-radius: 12px;
+      padding: 8px;
+      width: 160px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
     }
 
     /* ── FLOATING AXIS LABELS ── */
@@ -207,7 +236,12 @@
 
     <!-- ── MAIN CARD ── -->
     <div class="main-card">
-      <h1>Playground</h1>
+      <div class="video-card">
+        <video autoplay muted loop playsinline>
+          <source src="images/Playground/travolta.mp4" type="video/mp4">
+        </video>
+      </div>
+      <h1>Coming Soon</h1>
       <p>This case study is being written up. Check back soon.</p>
       <a href="index.html" class="back-link"><span class="arrow">←</span> Back to work</a>
     </div>
@@ -233,6 +267,37 @@
          style="top: calc(50% + 260px); left: calc(50% - 400px); transform: rotate(1.2deg); background: #f0ede8;">
       <strong>Tools</strong>
       After Effects, Lottie, Rive, Figma Smart Animate, and a bit of GSAP.
+    </div>
+
+    <!-- ── SCATTERED OBJECTS near Tools ── -->
+
+
+    <!-- GameBoy — left of Tools -->
+    <img src="images/Playground/PG_GameBoy.png" alt="GameBoy" class="float-obj"
+         style="top: calc(50% + 310px); left: calc(50% - 700px); transform: rotate(4deg); width: 130px;">
+
+    <!-- Keyboard — below Tools -->
+    <img src="images/Playground/PG_Keyboard.png" alt="Keyboard" class="float-obj"
+         style="top: calc(50% + 480px); left: calc(50% - 520px); transform: rotate(-2deg); width: 220px;">
+
+    <!-- Mouse — right of Tools -->
+    <img src="images/Playground/PG_mouse.png" alt="Mouse" class="float-obj"
+         style="top: 796px; left: -125px; transform: rotate(8deg); width: 90px;">
+
+    <!-- catnap2 video card — lower-right of Tools -->
+    <div class="float-obj video-card-sm"
+         style="top: 717px; left: 233px; transform: rotate(-3deg);">
+      <video autoplay muted loop playsinline style="width:100%; border-radius:8px; display:block;">
+        <source src="images/Playground/catnap2.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- chiScree3 video card — above-right of Tools -->
+    <div class="float-obj video-card-sm"
+         style="top: 657px; left: -29px; transform: rotate(5deg);">
+      <video autoplay muted loop playsinline style="width:100%; border-radius:8px; display:block;">
+        <source src="images/Playground/chiScree3.mp4" type="video/mp4">
+      </video>
     </div>
 
     <!-- Bottom-right -->
@@ -346,6 +411,48 @@
     document.addEventListener('mousedown', () => {
       setTimeout(() => hint.classList.add('hidden'), 1800);
     }, { once: true });
+
+    // ── Individual note dragging ──
+    (function() {
+      let activeNote = null, noteOffX = 0, noteOffY = 0;
+
+      document.querySelectorAll('.float-note, .float-obj').forEach(note => {
+        note.addEventListener('mousedown', e => {
+          e.stopPropagation(); // prevent canvas pan
+          activeNote = note;
+          const nr = note.getBoundingClientRect();
+          const cr = canvas.getBoundingClientRect();
+          // Preserve existing rotation
+          const rotMatch = note.style.transform.match(/rotate\(([^)]+)\)/);
+          const rot = rotMatch ? rotMatch[1] : '0deg';
+          // Freeze calc() position to pixels so we can move freely
+          note.style.left      = (nr.left - cr.left) + 'px';
+          note.style.top       = (nr.top  - cr.top)  + 'px';
+          note.style.transform = `rotate(${rot})`;
+          noteOffX = e.clientX - nr.left;
+          noteOffY = e.clientY - nr.top;
+          note.style.cursor     = 'grabbing';
+          note.style.zIndex     = '200';
+          note.style.boxShadow  = '0 12px 36px rgba(0,0,0,0.18), 0 3px 10px rgba(0,0,0,0.10)';
+          note.style.transition = 'box-shadow 0.15s ease';
+        });
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!activeNote) return;
+        const cr = canvas.getBoundingClientRect();
+        activeNote.style.left = (e.clientX - cr.left - noteOffX) + 'px';
+        activeNote.style.top  = (e.clientY - cr.top  - noteOffY) + 'px';
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!activeNote) return;
+        activeNote.style.cursor    = 'grab';
+        activeNote.style.zIndex    = '';
+        activeNote.style.boxShadow = '';
+        activeNote = null;
+      });
+    })();
   </script>
 
 </body>

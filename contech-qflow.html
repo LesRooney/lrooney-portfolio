@@ -274,11 +274,6 @@
     .footer-right a:hover { color: var(--ink); }
 
     /* ── CURSOR ── */
-    #cursor-dot  { width:6px;height:6px;background:var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:width .15s,height .15s; }
-    #cursor-ring { width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.5;transition:width .2s,height .2s,opacity .2s; }
-    #cursor-dot.is-hovering  { width:10px;height:10px; }
-    #cursor-ring.is-hovering { width:46px;height:46px;opacity:0.3; }
-    #cursor-ring.is-clicking { width:24px;height:24px;opacity:0.8; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 780px) {
@@ -823,28 +818,12 @@
   <p id="lb-caption"></p>
 </div>
 
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
 
 <script>
   // ── Nav scroll ──
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
 
-  // ── Custom cursor ──
-  (function() {
-    if (window.matchMedia('(hover: none)').matches) return;
-    const dot  = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx - 3}px, ${my - 3}px)`; });
-    const hoverTargets = 'a,button,[role="button"],.peek-cell,.hover-audio-placeholder,.lb-trigger,.hover-reveal';
-    document.addEventListener('mouseover', e => { if (e.target.closest(hoverTargets)) { ring.classList.add('is-hovering'); dot.classList.add('is-hovering'); } });
-    document.addEventListener('mouseout',  e => { if (e.target.closest(hoverTargets)) { ring.classList.remove('is-hovering'); dot.classList.remove('is-hovering'); } });
-    document.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
-    document.addEventListener('mouseup',   () => ring.classList.remove('is-clicking'));
-    (function loop() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.transform = `translate(${rx - 15}px, ${ry - 15}px)`; requestAnimationFrame(loop); })();
-  })();
 
   // ── Audio player ──
   (function() {

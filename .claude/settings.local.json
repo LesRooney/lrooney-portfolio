@@ -91,7 +91,10 @@
       "Bash(find /Users/lesleyrooney -maxdepth 3 \\\\\\(-name *.webp -o -name *.jpg -o -name *.png \\\\\\) -newer /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Qflow_Airquality/AirQualityResearch10.webp)",
       "Bash(ls /Users/lesleyrooney/Downloads/*.webp /Users/lesleyrooney/Downloads/*.jpg /Users/lesleyrooney/Downloads/*.png)",
       "Bash(grep -iE \"\\\\.\\(jpg|jpeg|webp|png\\)$\")",
-      "Bash(grep -iE \"\\\\.webp$|\\\\.jpg$|\\\\.png$\")"
+      "Bash(grep -iE \"\\\\.webp$|\\\\.jpg$|\\\\.png$\")",
+      "Bash(xargs ls:*)",
+      "Read(//Users/lesleyrooney/Documents/**)",
+      "Read(//Users/lesleyrooney/Desktop/**)"
     ]
   }
 }

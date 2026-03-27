@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground — Coming Soon · Lesley Rooney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:    #f5f5f5;
+      --ink:      #1a1a18;
+      --ink-mid:  #6b6b63;
+      --sans:     'Inter', system-ui, sans-serif;
+      --serif:    'Playfair Display', Georgia, serif;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: var(--sans);
+      background-color: var(--paper);
+      background-image: radial-gradient(circle, #c8c8c4 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: 0 0;
+    }
+
+    body        { cursor: grab; }
+    body.is-dragging { cursor: grabbing; }
+    body.is-dragging * { cursor: grabbing !important; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 56px;
+      background: rgba(245,245,245,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      cursor: default;
+      user-select: none;
+      pointer-events: all;
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    a { cursor: pointer; }
+
+    /* ── CANVAS WORLD ── */
+    .canvas-world {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      will-change: transform;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 600px;
+      cursor: grab;
+      user-select: text;
+    }
+    .main-card h1 {
+      font-family: var(--serif);
+      font-size: 4.16rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    .main-card p {
+      font-size: 1.3rem;
+      color: var(--ink-mid);
+      line-height: 1.7;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 52px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2563eb;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #2563eb;
+      padding-bottom: 2px;
+      cursor: pointer;
+    }
+    .back-link .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .back-link:hover .arrow {
+      transform: translateX(-10px);
+    }
+
+    /* ── FLOATING STICKY NOTES ── */
+    .float-note {
+      position: absolute;
+      border-radius: 6px;
+      padding: 18px 22px;
+      font-size: 0.875rem;
+      color: var(--ink);
+      line-height: 1.55;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06);
+      max-width: 210px;
+      cursor: grab;
+      user-select: text;
+    }
+    .float-note strong {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: 0.55;
+    }
+
+    /* ── FLOATING AXIS LABELS ── */
+    .float-label {
+      position: absolute;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      opacity: 0.35;
+      cursor: default;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* ── DRAG HINT ── */
+    .drag-hint {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 300;
+      transition: opacity 0.8s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .drag-hint svg { opacity: 0.6; }
+    .drag-hint.hidden { opacity: 0; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Lesley Rooney</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Work</a></li>
+      <li><a href="influence.html">Influence</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="mailto:ley.rooney@gmail.com">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <div class="canvas-world" id="canvas">
+
+    <!-- ── MAIN CARD ── -->
+    <div class="main-card">
+      <h1>Playground</h1>
+      <p>This case study is being written up. Check back soon.</p>
+      <a href="index.html" class="back-link"><span class="arrow">←</span> Back to work</a>
+    </div>
+
+    <!-- ── SCATTERED NOTES ── -->
+
+    <!-- Top-right -->
+    <div class="float-note"
+         style="top: calc(50% - 340px); left: calc(50% + 360px); transform: rotate(2deg); background: #fffbe5;">
+      <strong>Motion craft</strong>
+      Micro-interactions built in After Effects and Lottie — exported for real UI use.
+    </div>
+
+    <!-- Left -->
+    <div class="float-note"
+         style="top: calc(50% - 60px); left: calc(50% - 520px); transform: rotate(-1.5deg); background: #e8f3fd;">
+      <strong>Why it matters</strong>
+      Animation is a design decision — not decoration. These experiments test that theory.
+    </div>
+
+    <!-- Bottom-left -->
+    <div class="float-note"
+         style="top: calc(50% + 260px); left: calc(50% - 400px); transform: rotate(1.2deg); background: #f0ede8;">
+      <strong>Tools</strong>
+      After Effects, Lottie, Rive, Figma Smart Animate, and a bit of GSAP.
+    </div>
+
+    <!-- Bottom-right -->
+    <div class="float-note"
+         style="top: calc(50% + 220px); left: calc(50% + 380px); transform: rotate(-2.2deg); background: #edf5ed;">
+      <strong>Experiments</strong>
+      Loading states, hover feedback, empty states, onboarding transitions.
+    </div>
+
+    <!-- Top-left -->
+    <div class="float-note"
+         style="top: calc(50% - 460px); left: calc(50% - 380px); transform: rotate(-0.8deg); background: #f9ece8;">
+      <strong>Inspiration</strong>
+      Figma, Linear, Vercel, Stripe — products that move with intention.
+    </div>
+
+    <!-- Far right -->
+    <div class="float-note"
+         style="top: calc(50% + 60px); left: calc(50% + 580px); transform: rotate(1.6deg); background: #f0eeff;">
+      <strong>Outcome</strong>
+      Each experiment informs real production decisions in client work.
+    </div>
+
+    <!-- ── AXIS LABELS ── -->
+    <div class="float-label" style="top: calc(50% - 620px); left: calc(50% - 80px);">
+      ↑ Concept & exploration
+    </div>
+    <div class="float-label" style="top: calc(50% + 520px); left: calc(50% - 80px);">
+      ↓ Applied to production
+    </div>
+    <div class="float-label" style="top: calc(50% - 10px); left: calc(50% - 820px);">
+      ← Simpler interactions
+    </div>
+    <div class="float-label" style="top: calc(50% - 10px); left: calc(50% + 700px);">
+      Complex sequences →
+    </div>
+
+  </div>
+
+  <!-- Drag hint -->
+  <div class="drag-hint" id="dragHint">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M5 4L8 1l3 3M5 12l3 3 3-3M4 5L1 8l3 3M12 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Drag to explore
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const hint   = document.getElementById('dragHint');
+
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let tx = 0, ty = 0;
+
+    function applyTransform() {
+      canvas.style.transform = `translate(${tx}px, ${ty}px)`;
+      const bx = (((tx % 24) + 24) % 24);
+      const by = (((ty % 24) + 24) % 24);
+      document.body.style.backgroundPosition = `${bx}px ${by}px`;
+    }
+
+    function isInteractive(el) {
+      return el.closest('nav') || el.closest('a') || el.tagName === 'A';
+    }
+
+    document.addEventListener('mousedown', e => {
+      if (isInteractive(e.target)) return;
+      isDragging = true;
+      startX = e.clientX - tx;
+      startY = e.clientY - ty;
+      document.body.classList.add('is-dragging');
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      tx = e.clientX - startX;
+      ty = e.clientY - startY;
+      applyTransform();
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      document.body.classList.remove('is-dragging');
+    });
+
+    document.addEventListener('mouseleave', () => {
+      isDragging = false;
+      document.body.classList.remove('is-dragging');
+    });
+
+    document.addEventListener('touchstart', e => {
+      if (isInteractive(e.target)) return;
+      const t = e.touches[0];
+      isDragging = true;
+      startX = t.clientX - tx;
+      startY = t.clientY - ty;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      const t = e.touches[0];
+      tx = t.clientX - startX;
+      ty = t.clientY - startY;
+      applyTransform();
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => { isDragging = false; });
+
+    document.addEventListener('mousedown', () => {
+      setTimeout(() => hint.classList.add('hidden'), 1800);
+    }, { once: true });
+  </script>
+
+</body>
+</html>

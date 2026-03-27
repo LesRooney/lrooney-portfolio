@@ -4,6 +4,7 @@
   ══════════════════════════════════════════════════════════
 
   Components defined here:
+    · BackToWork   — "← Back to work" footer link, blue, arrow animates on hover
     · IconRow      — horizontal strip of tool logos + labels
     · PeekGrid     — 3×3 footer thumbnail grid with hover reveal
 
@@ -14,6 +15,66 @@
   Usage: <link rel="stylesheet" href="./styles/components.css">
   ══════════════════════════════════════════════════════════
 */
+
+
+/* ══════════════════════════════════════════════════════════
+   BACK TO WORK
+   ══════════════════════════════════════════════════════════
+
+   Footer nav link used at the bottom of every case study.
+   Arrow slides left 30px on hover to reinforce interactivity.
+
+   HTML structure:
+
+   <div class="back-to-work-wrap">
+     <a href="index.html" class="back-to-work-link">
+       <span class="back-to-work-arrow">←</span> Back to work
+     </a>
+   </div>
+   ══════════════════════════════════════════════════════════ */
+
+.back-to-work-wrap {
+  border-top: 1px solid var(--rule);
+  /* Match the .wrap side padding so the link aligns with page content */
+  padding: 56px var(--pad, 40px) 80px;
+  max-width: var(--max, 1080px);
+  margin: 0 auto;
+}
+
+.back-to-work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 30px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid #2563eb;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.back-to-work-link:hover {
+  color: #1d4ed8;
+}
+
+.back-to-work-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.back-to-work-link:hover .back-to-work-arrow {
+  transform: translateX(-10px);
+}
+
+@media (max-width: 600px) {
+  .back-to-work-wrap {
+    padding: 40px var(--pad, 24px) 60px;
+  }
+}
 
 
 /* ══════════════════════════════════════════════════════════

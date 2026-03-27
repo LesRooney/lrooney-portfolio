@@ -16,23 +16,26 @@
     }
 
     html, body {
-      height: 100%;
+      width: 100%; height: 100%;
+      overflow: hidden;
       font-family: var(--sans);
       background-color: var(--paper);
-    }
-
-    /* ── DOT PATTERN ── */
-    body {
       background-image: radial-gradient(circle, #c8c8c4 1px, transparent 1px);
       background-size: 24px 24px;
       background-position: 0 0;
     }
 
+    /* Grab cursor everywhere except links/nav */
+    body        { cursor: grab; }
+    body.is-dragging { cursor: grabbing; }
+    /* Force grabbing to win over everything during drag */
+    body.is-dragging * { cursor: grabbing !important; }
+
     /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -42,6 +45,9 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0,0,0,0.07);
+      cursor: default;
+      user-select: none;
+      pointer-events: all;
     }
     .nav-logo {
       font-family: var(--sans);
@@ -65,43 +71,132 @@
       text-decoration: none;
     }
     .nav-links a:hover { color: var(--ink); }
+    /* Links always show pointer */
+    a { cursor: pointer; }
 
-    /* ── CENTRE CONTENT ── */
-    .page-center {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 24px 40px;
+    /* ── CANVAS WORLD ── */
+    .canvas-world {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      will-change: transform;
     }
-    .page-center h1 {
+
+    /* ── MAIN CONTENT — scaled up 30%, no card ── */
+    .main-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 600px;
+      cursor: grab;
+      user-select: text;
+    }
+    .main-card h1 {
       font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: 4.16rem; /* 3.2rem × 1.3 */
       font-weight: 700;
       color: var(--ink);
       letter-spacing: -0.02em;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      line-height: 1.1;
     }
-    .page-center p {
-      font-size: 1rem;
+    .main-card p {
+      font-size: 1.3rem; /* 1rem × 1.3 */
       color: var(--ink-mid);
       line-height: 1.7;
-      max-width: 420px;
+      max-width: 360px;
+      margin: 0 auto;
     }
     .back-link {
-      margin-top: 40px;
-      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 52px;
+      font-size: 1.1rem;
       font-weight: 500;
-      color: var(--ink-mid);
+      color: #2563eb;
       text-decoration: none;
       letter-spacing: 0.04em;
-      border-bottom: 1px solid currentColor;
+      border-bottom: 1px solid #2563eb;
       padding-bottom: 2px;
-      transition: color 0.15s;
+      cursor: pointer;
     }
-    .back-link:hover { color: var(--ink); }
+    .back-link .arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .back-link:hover .arrow {
+      transform: translateX(-30px);
+    }
+
+    /* ── FLOATING STICKY NOTES ── */
+    .float-note {
+      position: absolute;
+      border-radius: 6px;
+      padding: 18px 22px;
+      font-size: 0.875rem;
+      color: var(--ink);
+      line-height: 1.55;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06);
+      max-width: 210px;
+      cursor: grab;
+      user-select: text;
+    }
+    .float-note strong {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: 0.55;
+    }
+
+    /* ── FLOATING AXIS LABELS ── */
+    .float-label {
+      position: absolute;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      opacity: 0.35;
+      cursor: default;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* ── DASHED CONNECTOR LINES ── */
+    .connector {
+      position: absolute;
+      border-top: 1.5px dashed rgba(0,0,0,0.12);
+      transform-origin: 0 50%;
+      pointer-events: none;
+    }
+
+    /* ── DRAG HINT ── */
+    .drag-hint {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 300;
+      transition: opacity 0.8s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .drag-hint svg { opacity: 0.6; }
+    .drag-hint.hidden { opacity: 0; }
   </style>
 </head>
 <body>
@@ -116,11 +211,155 @@
     </ul>
   </nav>
 
-  <div class="page-center">
-    <h1>Coming Soon</h1>
-    <p>This case study is being written up. Check back soon.</p>
-    <a href="index.html" class="back-link">← Back to work</a>
+  <div class="canvas-world" id="canvas">
+
+    <!-- ── MAIN CARD ── -->
+    <div class="main-card">
+      <h1>Coming Soon</h1>
+      <p>This case study is being written up. Check back soon.</p>
+      <a href="index.html" class="back-link"><span class="arrow">←</span> Back to work</a>
+    </div>
+
+    <!-- ── SCATTERED NOTES — explore by dragging ── -->
+
+    <!-- Top-right -->
+    <div class="float-note"
+         style="top: calc(50% - 340px); left: calc(50% + 360px); transform: rotate(2deg); background: #fffbe5;">
+      <strong>Research</strong>
+      Deep-dive interviews + data synthesis in progress.
+    </div>
+
+    <!-- Left -->
+    <div class="float-note"
+         style="top: calc(50% - 60px); left: calc(50% - 520px); transform: rotate(-1.5deg); background: #e8f3fd;">
+      <strong>Writing</strong>
+      Structuring the narrative and outcome story now.
+    </div>
+
+    <!-- Bottom-left -->
+    <div class="float-note"
+         style="top: calc(50% + 260px); left: calc(50% - 400px); transform: rotate(1.2deg); background: #f0ede8;">
+      <strong>Outcomes</strong>
+      Strong metrics to share — worth the wait.
+    </div>
+
+    <!-- Bottom-right -->
+    <div class="float-note"
+         style="top: calc(50% + 220px); left: calc(50% + 380px); transform: rotate(-2.2deg); background: #edf5ed;">
+      <strong>Visuals ready</strong>
+      Screens, flows and prototype recordings prepared.
+    </div>
+
+    <!-- Top-left — further away -->
+    <div class="float-note"
+         style="top: calc(50% - 460px); left: calc(50% - 380px); transform: rotate(-0.8deg); background: #f9ece8;">
+      <strong>Problem space</strong>
+      The brief was wide — required scoping before designing.
+    </div>
+
+    <!-- Far right — further away -->
+    <div class="float-note"
+         style="top: calc(50% + 60px); left: calc(50% + 580px); transform: rotate(1.6deg); background: #f0eeff;">
+      <strong>Collaboration</strong>
+      Cross-functional team across 3 time zones.
+    </div>
+
+    <!-- ── AXIS LABELS ── -->
+    <div class="float-label" style="top: calc(50% - 620px); left: calc(50% - 80px);">
+      ↑ Earlier in the process
+    </div>
+    <div class="float-label" style="top: calc(50% + 520px); left: calc(50% - 80px);">
+      ↓ Delivery & outcomes
+    </div>
+    <div class="float-label" style="top: calc(50% - 10px); left: calc(50% - 820px);">
+      ← Discovery
+    </div>
+    <div class="float-label" style="top: calc(50% - 10px); left: calc(50% + 700px);">
+      Execution →
+    </div>
+
   </div>
+
+  <!-- Drag hint -->
+  <div class="drag-hint" id="dragHint">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M5 4L8 1l3 3M5 12l3 3 3-3M4 5L1 8l3 3M12 5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Drag to explore
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const hint   = document.getElementById('dragHint');
+
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let tx = 0, ty = 0;
+
+    // ── Helpers ──
+    function applyTransform() {
+      canvas.style.transform = `translate(${tx}px, ${ty}px)`;
+      // Shift dot grid so it feels attached to the canvas
+      const bx = (((tx % 24) + 24) % 24);
+      const by = (((ty % 24) + 24) % 24);
+      document.body.style.backgroundPosition = `${bx}px ${by}px`;
+    }
+
+    function isInteractive(el) {
+      return el.closest('nav') || el.closest('a') || el.tagName === 'A';
+    }
+
+    // ── Mouse ──
+    document.addEventListener('mousedown', e => {
+      if (isInteractive(e.target)) return;
+      isDragging = true;
+      startX = e.clientX - tx;
+      startY = e.clientY - ty;
+      document.body.classList.add('is-dragging');
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      tx = e.clientX - startX;
+      ty = e.clientY - startY;
+      applyTransform();
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      document.body.classList.remove('is-dragging');
+    });
+
+    document.addEventListener('mouseleave', () => {
+      isDragging = false;
+      document.body.classList.remove('is-dragging');
+    });
+
+    // ── Touch ──
+    document.addEventListener('touchstart', e => {
+      if (isInteractive(e.target)) return;
+      const t = e.touches[0];
+      isDragging = true;
+      startX = t.clientX - tx;
+      startY = t.clientY - ty;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      const t = e.touches[0];
+      tx = t.clientX - startX;
+      ty = t.clientY - startY;
+      applyTransform();
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => { isDragging = false; });
+
+    // ── Hide hint after first drag interaction ──
+    document.addEventListener('mousedown', () => {
+      setTimeout(() => hint.classList.add('hidden'), 1800);
+    }, { once: true });
+  </script>
 
 </body>
 </html>

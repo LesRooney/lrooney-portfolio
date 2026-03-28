@@ -383,8 +383,8 @@
           <a href="./medidataedcredesign.html" class="card-item" id="card-0">
             <div class="card">
               <img class="card-thumb" src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign">
-              <video class="card-video" muted loop playsinline preload="auto">
-                <source src="images/EDCRedesign/EDC_Redesign_Tile.mp4" type="video/mp4">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="images/EDCRedesign/EDC_Redesign_Tile.mp4" type="video/mp4">
               </video>
               <span class="card-new">New</span>
             </div>
@@ -396,9 +396,9 @@
 
           <a href="contech-qflow.html" class="card-item" id="card-1">
             <div class="card">
-              <img class="card-thumb" src="images/qualis-airquality-thumb.webp" alt="Qualis Flow — Air Quality">
-              <video class="card-video" muted loop playsinline preload="auto">
-                <source src="videos/qualis-airquality-preview.mp4" type="video/mp4">
+              <img class="card-thumb" src="images/qualis-airquality-thumb.webp" alt="Qualis Flow — Air Quality" loading="lazy">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="videos/qualis-airquality-preview.mp4" type="video/mp4">
               </video>
             </div>
             <div class="card-info">
@@ -409,9 +409,9 @@
 
           <a href="./clinical-risk-based-monitoring.html" class="card-item" id="card-2">
             <div class="card">
-              <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool">
-              <video class="card-video" muted loop playsinline preload="auto">
-                <source src="videos/medidata-risk-preview.mp4" type="video/mp4">
+              <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" loading="lazy">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="videos/medidata-risk-preview.mp4" type="video/mp4">
               </video>
             </div>
             <div class="card-info">
@@ -422,9 +422,9 @@
 
           <a href="./qualisflow-02.html" class="card-item" id="card-3">
             <div class="card">
-              <img class="card-thumb" src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts & IA">
-              <video class="card-video" muted loop playsinline preload="auto">
-                <source src="videos/qualis-alerts-preview.mp4" type="video/mp4">
+              <img class="card-thumb" src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts & IA" loading="lazy">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="videos/qualis-alerts-preview.mp4" type="video/mp4">
               </video>
             </div>
             <div class="card-info">
@@ -435,9 +435,9 @@
 
           <a href="homerenter.html" class="card-item" id="card-4">
             <div class="card">
-              <img class="card-thumb" src="images/homerenter-thumb.webp" alt="HomeRenter">
-              <video class="card-video" muted loop playsinline preload="auto">
-                <source src="videos/homerenter-preview.mp4" type="video/mp4">
+              <img class="card-thumb" src="images/homerenter-thumb.webp" alt="HomeRenter" loading="lazy">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="videos/homerenter-preview.mp4" type="video/mp4">
               </video>
             </div>
             <div class="card-info">
@@ -456,9 +456,9 @@
 
       <a href="coming-soon-playground.html" class="card-item" id="card-5">
         <div class="card">
-          <img class="card-thumb" src="images/animation-thumb.webp" alt="Animation">
-          <video class="card-video" muted loop playsinline preload="auto">
-            <source src="videos/animation-preview.mp4" type="video/mp4">
+          <img class="card-thumb" src="images/animation-thumb.webp" alt="Animation" loading="lazy">
+          <video class="card-video" muted loop playsinline preload="none">
+            <source data-src="videos/animation-preview.mp4" type="video/mp4">
           </video>
         </div>
         <div class="card-info">
@@ -469,9 +469,9 @@
 
       <a href="lesleyrooney-games-sims-vfxworks.html" class="card-item" id="card-6">
         <div class="card">
-          <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films">
-          <video class="card-video" muted loop playsinline preload="auto">
-            <source src="videos/games-preview.mp4" type="video/mp4">
+          <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films" loading="lazy">
+          <video class="card-video" muted loop playsinline preload="none">
+            <source data-src="videos/games-preview.mp4" type="video/mp4">
           </video>
         </div>
         <div class="card-info">
@@ -482,9 +482,9 @@
 
       <a href="coming-soon-fire-tracker.html" class="card-item" id="card-7">
         <div class="card" style="background: #CFDBE3;">
-          <img class="card-thumb" src="images/FireTracker/Menu - Portfolio.webp" alt="Fire Tracker">
+          <img class="card-thumb" src="images/FireTracker/Menu - Portfolio.webp" alt="Fire Tracker" loading="lazy">
           <!-- placeholder until hover video is ready — swap for video when available -->
-          <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="">
+          <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="" loading="lazy">
         </div>
         <div class="card-info">
           <div class="card-title">🛠️ Fire Tracker</div>
@@ -519,11 +519,26 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
   <script>
-    // ── Video hover
+    // ── Video hover — loads source on first hover, then plays
     document.querySelectorAll('.card-item').forEach(card => {
-      const video = card.querySelector('.card-video');
+      const video = card.querySelector('video.card-video');
       if (!video) return;
-      card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(() => {}); });
+
+      let loaded = false;
+
+      card.addEventListener('mouseenter', () => {
+        if (!loaded) {
+          const source = video.querySelector('source[data-src]');
+          if (source) {
+            source.src = source.dataset.src;
+            video.load();
+          }
+          loaded = true;
+        }
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      });
+
       card.addEventListener('mouseleave', () => video.pause());
     });
 

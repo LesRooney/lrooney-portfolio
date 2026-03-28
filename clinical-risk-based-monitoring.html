@@ -295,6 +295,27 @@
     .ba-handle.ba-hover .ba-grip { background: #0070BF; border-color: #0070BF; }
     .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
     .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
+
+    /* Post-it notes */
+    .postit-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 8px 0 32px; }
+    .postit {
+      flex: 1;
+      background: #FFFBCC;
+      padding: 16px 18px;
+      border-radius: 2px;
+      box-shadow: 1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .postit-emoji { font-size: 2rem; line-height: 1; display: block; margin-bottom: 10px; }
+    .postit p { margin: 0; font-size: 0.9rem; line-height: 1.55; color: var(--ink); max-width: none; }
+    .postit--1 { transform: rotate(-2deg); }
+    .postit--2 { transform: rotate(1.5deg); }
+    .postit--3 { transform: rotate(-1deg); }
+    .postit--4 { transform: rotate(0.8deg); }
+    .postit--5 { transform: rotate(-1.5deg); }
+    @media (max-width: 680px) {
+      .postit-row { flex-direction: column; }
+      .postit--1, .postit--2, .postit--3, .postit--4, .postit--5 { transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -507,61 +528,44 @@
 
   </div>
 
-  <!-- THE IDEAS -->
-  <div class="cs-section">
-    <h2>The Ideas — Interviews, Design Ideas</h2>
-
-    <div class="img-placeholder" style="aspect-ratio: 979/717;">
-      [IMAGE: interviews-design-ideas.jpg — 979×717px, interview notes or design exploration]
-    </div>
-
-    <p class="cs-caption">🔉 Below: Hover over the image for activity snippets. This informed design spikes that de-risked features via mini workshops, design reviews, prototypes, and SME feedback, evaluating new UI patterns.</p>
-
-    <div class="hover-audio-placeholder" title="Hover to play audio snippets">
-      <span class="audio-icon">🔉</span>
-      <span class="audio-label">[IMAGE + AUDIO: activity-snippets-thumb — hover plays audio snippets of design activity/research sessions]</span>
-    </div>
-
-    <div class="nda-placeholder">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm assets with Lesley (×2)</span>
-    </div>
-  </div>
-
   <!-- THE SOLUTIONS -->
   <div class="cs-section">
     <h2>The Solutions — The Rationale Behind Some Selected Designs</h2>
 
     <p>The first release prioritised a data table over visualisations due to limited front-end resources. The design intention was to offer a clear view of all risks — across categories — allowing users to compare status (from open, closed to deferred), trace origin (e.g., medical dispensation or tumour assessment), so users could work toward closing them out from an easily understood view. All without leaving the risk listing page. Each risk included contextual details such as descriptions, links to any attached Quality Tolerance Limits (QTLs) and Key Risk Indicators (KRIs) for that risk. Due to technical limitations, support for column rearrangement and resizing was not possible. The hover states revealed extra content, so I had several calls with the product director — formerly a risk manager — to figure out how to rearrange the grid so that the most important information appeared first, moving left to right.</p>
-    <p>Original pattern had two hover points — risk details and truncated content. I recommended merging them to improve scannability and reduce friction, then added an info icon so users wouldn't miss hidden content.</p>
-
-    <div class="img-placeholder" style="aspect-ratio: 632/450;">
-      [IMAGE: risk-list-hover-pattern.jpg — 632×450px, risk list hover state design]
+    <div style="position: relative; display: flex; justify-content: center; margin-bottom: 220px;">
+      <div class="img-card" style="padding: 20px; width: 60%; box-sizing: border-box;">
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/MedidataRiskManagement/sectionrec.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="postit postit--3" style="position: absolute; bottom: -208px; left: 10%; width: 280px; z-index: 2;">
+        <p>Original pattern had two hover points — risk details and truncated content. <strong>I recommended merging them to improve scannability and reduce friction,</strong> then added an info icon so users wouldn't miss hidden content.</p>
+      </div>
     </div>
 
-    <div class="nda-placeholder">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm assets with Lesley (×3)</span>
+    <div class="img-card" style="padding: 20px; width: 80%; margin: 0 auto;">
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <source src="images/MedidataRiskManagement/MD_Risk_List_HoverAfter.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <p class="cs-caption">Below: I replaced the slide-up UI with a full-page modal after testing showed it appeared abruptly, obscured grid content, and couldn't auto-focus the correct row. Despite initial pushback to reuse the existing pattern, the change gained support. Interviews revealed users didn't reference other risks while entering questions, ensuring the modal didn't disrupt flow. Since risks were referenced by name for easier recall, not number, I de-emphasised numbers and highlighted names as deep links to detailed views. Easily accessed by one click.</p>
+    <div style="position: relative;">
+      <div class="img-card" style="padding: 20px; margin-bottom: 275px;">
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/MedidataRiskManagement/CanSeethequestion2A.mp4" type="video/mp4">
+        </video>
+      </div>
 
-    <div class="img-placeholder" style="aspect-ratio: 978/542;">
-      [IMAGE: modal-design.jpg — 978×542px, full-page modal replacing slide-up UI]
-    </div>
+      <div class="postit postit--3" style="position: absolute; left: 48px; top: 50%; transform: translateY(-50%) rotate(4deg); width: 300px; z-index: 2;">
+        <p><strong>I replaced the slide-up UI with a full-page modal</strong> after testing showed it appeared abruptly, obscured grid content, and couldn't auto-focus the correct row. Despite initial pushback, interviews confirmed users didn't reference other risks while entering questions — risks referenced by name, not number. Names highlighted as deep links.</p>
+      </div>
 
-    <div class="nda-placeholder">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm assets with Lesley (×3)</span>
-    </div>
-
-    <div class="img-placeholder" style="aspect-ratio: 980/551;">
-      [IMAGE: qtl-kri-modal.jpg — 980×551px, Quality Tolerance Limits and KRIs in modal context]
-    </div>
-
-    <div class="nda-placeholder" style="aspect-ratio: 16/5;">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm asset with Lesley</span>
+      <div class="img-card" style="padding: 20px; margin-top: 275px;">
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/MedidataRiskManagement/FullModalSlideUp_small.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
 
     <p class="cs-caption">Below: Giving users the ability to see multiple Quality Tolerance Limits — very data-dense information — attached to a single risk. These read-only statistical metrics, sourced from Detect, helped users to review while entering or editing risk mitigation strategy in context without overwhelming the interface.</p>

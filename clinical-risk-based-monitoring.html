@@ -18,11 +18,24 @@
       --paper-alt: #efede7;
       --rule:      #e2e0d8;
       --navy:      #1e3a5f;
+      --faint:     #f5f3ef;
       --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
       --sans:  'Plus Jakarta Sans', system-ui, sans-serif;
       --max: 1080px;
       --sb: 280px;
     }
+
+    /* IMAGE CARD */
+    .img-card {
+      position: relative;
+      background: var(--faint);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 32px 0 0;
+      overflow: hidden;
+    }
+    .img-card .cs-caption { margin: 0 0 20px; font-size: 0.82rem; }
+    .img-card img { border-radius: 8px; }
 
     html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
     @keyframes fadeUp {
@@ -244,6 +257,44 @@
     @media (max-width: 480px) {
       .meta-grid { grid-template-columns: 1fr; }
     }
+    /* BEFORE / AFTER SLIDER */
+    .ba-slider {
+      position: relative; overflow: hidden; border-radius: 12px;
+      cursor: ew-resize; user-select: none; touch-action: none;
+      margin: 20px 0;
+    }
+    .ba-slider .ba-before { display: block; width: 100%; }
+    .ba-slider .ba-after {
+      position: absolute; inset: 0; overflow: hidden;
+      clip-path: inset(0 50% 0 0);
+    }
+    .ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 2px; background: #fff;
+      transform: translateX(-50%);
+      pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-grip {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #fff; border: 1.5px solid rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      gap: 3px; flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+    .ba-arrow { width: 0; height: 0; border-style: solid; }
+    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
+    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+    .ba-label-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .ba-pill {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
+      background: #000; color: #fff; pointer-events: none;
+    }
+    .ba-handle.ba-hover { background: #0070BF; }
+    .ba-handle.ba-hover .ba-grip { background: #0070BF; border-color: #0070BF; }
+    .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
+    .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
   </style>
 </head>
 <body>
@@ -292,10 +343,12 @@
 
   <!-- LAPTOP FRAME + PRODUCT SCREENSHOT -->
   <div class="cs-section">
-    <div class="laptop-frame">
-      <div class="laptop-screen" style="aspect-ratio: 863/485;">
-        [IMAGE: librem-laptop-frame.png — 1266×708px + risk-mgmt-product-screen.jpg — 863×485px]<br>Risk Management UI
-      </div>
+    <div style="position: relative; display: block; line-height: 0;">
+      <img src="images/Mockups/Microsoft Surface Book.svg" alt="Microsoft Surface Book laptop frame" style="width: 100%; display: block;">
+      <video autoplay loop muted playsinline style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%; object-fit: contain; border-radius: 4px;">
+        <source src="images/MedidataRiskManagement/22 - ScreenFlowBig2Smaller.mp4" type="video/mp4">
+      </video>
+      <img src="images/Mockups/Toolbar.svg" alt="" style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: auto; display: block; pointer-events: none;">
     </div>
     <p class="cs-caption">Below: A short-term vision concept with an updated design system and branding, 2021</p>
   </div>
@@ -316,6 +369,44 @@
     <p>Renamed Risk Management and reimagined as a cloud-based project-management tool, it gives Clinical Operations Teams (Study Leads, CRAs, and Data Managers) 👩🏽‍⚕️🧑🏻‍⚕️👨🏻‍⚕️👩🏾‍⚕️ a faster way to collaborate, log mitigation steps (backup plans), and make critical go/no-go calls. Reducing work that used to take hours looking at multiple documents or spreadsheets, to minutes.</p>
     <p>It brings together key risk indicators (KRIs) and Quality Tolerance Limits (QTLs). Think Brad Pitt's Moneyball about statistical data 🎬🧢⚾️, but applied to a clinical trial. The system uses historical patient, site, and timeline data as statistical inputs to generate clear probabilities of potential issues before they become serious. For example, based on past trials, Site 🏥 [X] may have a 75% likelihood of dropping out early because patient data-entry pace is predicted to slow week over week. If this happens, what can we do?</p>
   </div>
+
+  </div><!-- /.main-col -->
+
+  <!-- SIDEBAR -->
+  <div class="info-panel-col">
+
+    <div class="info-panel-card">
+      <h3>Team &amp; Location</h3>
+      <ul class="info-panel-list">
+        <li>Product Director 🇺🇸</li>
+        <li>Business Analyst 🇮🇳</li>
+        <li>Product Owner 🇬🇧</li>
+        <li>Project Manager 🇮🇳</li>
+        <li>7 Engineers 🇮🇳</li>
+        <li>Engineering Director 🇬🇧</li>
+        <li><strong>Product Designer — Me 🇬🇧</strong></li>
+      </ul>
+    </div>
+
+    <div class="info-panel-card">
+      <h3>What I did 👩🏾‍💻</h3>
+      <ul class="info-panel-list">
+        <li>Design + research</li>
+        <li>Learning domain knowledge</li>
+        <li>Stakeholder management</li>
+        <li>Alignment with engineering</li>
+        <li>Introducing new interactive patterns to emerging design systems</li>
+      </ul>
+    </div>
+
+    <div class="info-panel-card">
+      <h3>Duration</h3>
+      <p style="font-size: 0.9rem; color: var(--ink-mid);">~7 months</p>
+    </div>
+
+  </div><!-- /.info-panel-col -->
+
+  </div><!-- /.two-col -->
 
   <!-- THE OUTCOME -->
   <div class="cs-section">
@@ -349,9 +440,35 @@
       <li>Expand Medidata's design system with reusable components tailored to new product needs, ensuring alignment with other applications and strengthening integration opportunities.</li>
     </ul>
     <p class="cs-caption">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
-    <div class="nda-placeholder">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">Before/after design system comparison — confirm asset with Lesley</span>
+    <div class="img-card" style="padding: 20px;">
+      <div class="ba-label-row">
+        <span class="ba-pill before">Original Design</span>
+        <span class="ba-pill after">New Design System</span>
+      </div>
+      <div class="ba-slider" data-ba-slider style="margin: 0;">
+        <!-- BEFORE — bottom layer, sets height; looping video -->
+        <div class="ba-before">
+          <div style="position:relative; aspect-ratio:16/9; overflow:hidden;">
+            <video autoplay muted loop playsinline
+                   style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+              <source src="images/MedidataRiskManagement/24 - RiskAccordion_1B.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <!-- AFTER — top layer, clipped by handle; static image -->
+        <div class="ba-after">
+          <img src="images/MedidataRiskManagement/MD_Risk_List_Before.webp"
+               alt="Before: Original Risk Management design"
+               style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <!-- HANDLE -->
+        <div class="ba-handle">
+          <div class="ba-grip">
+            <span class="ba-arrow left"></span>
+            <span class="ba-arrow right"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -382,14 +499,12 @@
 
     <p>Triangulated insights from subject matter experts, desk research, job postings, YouTube content, and the Product Director — focusing on trade-offs, user personas, and strategies to achieve key goals.</p>
 
-    <div class="img-placeholder" style="aspect-ratio: 977/720;">
-      [IMAGE: research-triangulation.jpg — 977×720px, research notes, whiteboard, or insight synthesis]
+    <div class="img-card" style="padding: 20px;">
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <source src="images/MedidataRiskManagement/MD_Risk_ResearchCollectionD_HH.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="nda-placeholder" style="aspect-ratio: 16/9;">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm asset with Lesley</span>
-    </div>
   </div>
 
   <!-- THE IDEAS -->
@@ -492,44 +607,6 @@
     </div>
   </div>
 
-  </div><!-- /.main-col -->
-
-  <!-- SIDEBAR -->
-  <div class="info-panel-col">
-
-    <div class="info-panel-card">
-      <h3>Team &amp; Location</h3>
-      <ul class="info-panel-list">
-        <li>Product Director 🇺🇸</li>
-        <li>Business Analyst 🇮🇳</li>
-        <li>Product Owner 🇬🇧</li>
-        <li>Project Manager 🇮🇳</li>
-        <li>7 Engineers 🇮🇳</li>
-        <li>Engineering Director 🇬🇧</li>
-        <li><strong>Product Designer — Me 🇬🇧</strong></li>
-      </ul>
-    </div>
-
-    <div class="info-panel-card">
-      <h3>What I did 👩🏾‍💻</h3>
-      <ul class="info-panel-list">
-        <li>Design + research</li>
-        <li>Learning domain knowledge</li>
-        <li>Stakeholder management</li>
-        <li>Alignment with engineering</li>
-        <li>Introducing new interactive patterns to emerging design systems</li>
-      </ul>
-    </div>
-
-    <div class="info-panel-card">
-      <h3>Duration</h3>
-      <p style="font-size: 0.9rem; color: var(--ink-mid);">~7 months</p>
-    </div>
-
-  </div><!-- /.info-panel-col -->
-
-  </div><!-- /.two-col -->
-
 </div><!-- /.wrap -->
 
 <footer>
@@ -613,6 +690,66 @@
       else { audioEl.pause(); playBtn.textContent = '▶'; }
     });
   })();
+
+  // ── Before / After sliders
+  document.querySelectorAll('[data-ba-slider]').forEach(slider => {
+    const after  = slider.querySelector('.ba-after');
+    const handle = slider.querySelector('.ba-handle');
+    let dragging = false;
+
+    function setPos(clientX) {
+      const rect = slider.getBoundingClientRect();
+      const pct  = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      handle.style.left    = pct + '%';
+    }
+
+    let userTouched = false, resumeTimer = null, rafId = null, sweepStart = null, direction = 1;
+    const SWEEP_DURATION = 4000, PAUSE_AT_END = 1200, RESUME_DELAY = 500;
+
+    function cancelAutoSweep() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } }
+    function scheduleResume() {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => { userTouched = false; sweepStart = null; rafId = requestAnimationFrame(autoSweep); }, RESUME_DELAY);
+    }
+    function autoSweep(ts) {
+      if (userTouched) return;
+      if (!sweepStart) sweepStart = ts;
+      const elapsed = ts - sweepStart;
+      if (elapsed < SWEEP_DURATION) {
+        const t = elapsed / SWEEP_DURATION;
+        const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+        const pct = direction === 1 ? 10 + ease*80 : 90 - ease*80;
+        after.style.clipPath = `inset(0 ${100-pct}% 0 0)`;
+        handle.style.left = pct + '%';
+        rafId = requestAnimationFrame(autoSweep);
+      } else {
+        setTimeout(() => { if (userTouched) return; direction *= -1; sweepStart = null; rafId = requestAnimationFrame(autoSweep); }, PAUSE_AT_END);
+      }
+    }
+
+    slider.addEventListener('mousemove', e => {
+      const rect = slider.getBoundingClientRect();
+      const handleX = rect.left + (parseFloat(handle.style.left || '50') / 100) * rect.width;
+      if (Math.abs(e.clientX - handleX) < 20 || dragging) handle.classList.add('ba-hover');
+      else handle.classList.remove('ba-hover');
+    });
+    slider.addEventListener('mouseleave', () => { if (!dragging) handle.classList.remove('ba-hover'); });
+    slider.addEventListener('mousedown', e => { dragging = true; userTouched = true; clearTimeout(resumeTimer); cancelAutoSweep(); handle.classList.add('ba-hover'); setPos(e.clientX); });
+    slider.addEventListener('touchstart', e => { dragging = true; userTouched = true; clearTimeout(resumeTimer); cancelAutoSweep(); setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('mouseup', () => { if (dragging) { dragging = false; scheduleResume(); } });
+    window.addEventListener('touchend', () => { if (dragging) { dragging = false; scheduleResume(); } });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !userTouched) { sweepStart = null; rafId = requestAnimationFrame(autoSweep); }
+        else cancelAutoSweep();
+      });
+    }, { threshold: 0.4 });
+    observer.observe(slider);
+  });
 </script>
 </div><!-- /#page-content -->
 </body>

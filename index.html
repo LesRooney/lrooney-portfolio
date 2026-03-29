@@ -738,15 +738,15 @@
     // Only run on desktop — keep mobile clean
     if (window.matchMedia('(min-width: 900px)').matches) {
 
-      // Hero content drifts down 40px as scroll begins (103px → 380px)
+      // Hero content drifts down 60px as scroll begins (48px → 380px)
       gsap.fromTo(['.hero h1', '.hero .hero-intro'],
         { y: 0 },
         {
-          y: 40,
+          y: 50,
           ease: 'none',
           scrollTrigger: {
             trigger: 'body',
-            start: '103px top',
+            start: '16px top',
             end:   '380px top',
             scrub: true,
           }
@@ -809,18 +809,16 @@
       const workTopAtLoad = document.getElementById('work').getBoundingClientRect().top;
       const nav = document.getElementById('home-nav');
 
-      gsap.set(nav, { y: -12 });   // start slightly above
-
       ScrollTrigger.create({
         trigger: '#work',
         start: `top ${workTopAtLoad - 260}px`,   // fires at scrollY = 260
         onEnter: () => {
           nav.style.pointerEvents = 'auto';
-          gsap.to(nav, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+          gsap.to(nav, { opacity: 1, duration: 0.45, ease: 'power2.out' });
         },
         onLeaveBack: () => {
           nav.style.pointerEvents = 'none';
-          gsap.to(nav, { opacity: 0, y: -12, duration: 0.3, ease: 'power2.in' });
+          gsap.to(nav, { opacity: 0, duration: 0.3, ease: 'power2.in' });
         }
       });
     }

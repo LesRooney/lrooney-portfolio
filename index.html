@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -56,16 +57,18 @@
       max-width: var(--max); margin: 0 auto;
       padding: 72px 48px 72px;
       opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+      position: sticky; top: 0; z-index: 0;
+      background: #FDFDFC;
     }
     .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
     .hero-intro { display: flex; flex-direction: column; gap: 10px; }
-    .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: transform 0.5s ease; }
     .intro-block.in-view { opacity: 1; transform: translateY(0); }
     .intro-label { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: capitalize; color: var(--ink); }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
 
     /* ── WORK SECTION ── */
-    .work-section { max-width: var(--max); margin: 0 auto; padding: 48px 48px 0; }
+    .work-section { max-width: var(--max); margin: 0 auto; padding: 48px 48px 0; position: relative; z-index: 2; background: #FDFDFC; }
     .work-header { max-width: var(--max); margin: 0 auto 32px; padding: 0; font-size: 0.95rem; color: var(--ink-mid); opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
     .work-header strong { color: var(--ink); }
 
@@ -361,9 +364,68 @@
     }
     @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } .past-work-grid { grid-template-columns: 1fr; } }
     @media (max-width: 900px) { .past-work-divider, .past-work-grid { width: calc(100% - 48px); } }
+
+    /* ── HOME NAV ── */
+    #home-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      background: rgba(253, 253, 252, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .home-nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 48px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .home-nav-logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .home-nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .home-nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .home-nav-links a:hover { opacity: 0.5; }
+    @media (max-width: 900px) {
+      #home-nav { display: none; }
+    }
   </style>
 </head>
 <body>
+
+<nav id="home-nav">
+  <div class="home-nav-inner">
+    <a href="/" class="home-nav-logo">Lesley Rooney</a>
+    <div class="home-nav-links">
+      <a href="./influence.html">Influence</a>
+      <a href="#about">About</a>
+      <a href="mailto:ley.rooney@gmail.com">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
 <section class="hero">
     <h1>Hi, I'm Lesley</h1>
     <div class="hero-intro">
@@ -665,6 +727,47 @@
 
       window.addEventListener('resize', () => r.resizeDrawingSurfaceToCanvas());
     })();
+  </script>
+
+  <!-- ── GSAP HERO SCROLL SINK ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Only run on desktop — keep mobile clean
+    if (window.matchMedia('(min-width: 900px)').matches) {
+      // Hero scales down subtly as work section rises over it
+      gsap.to('.hero', {
+        scale: 0.97,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#work',
+          start: 'top 85%',
+          end:   'top 20%',
+          scrub: 1,
+        }
+      });
+
+      // Nav fades in at scrollY = 260, fades out if you scroll back up
+      const workTopAtLoad = document.getElementById('work').getBoundingClientRect().top;
+      const nav = document.getElementById('home-nav');
+
+      gsap.set(nav, { y: -12 });   // start slightly above
+
+      ScrollTrigger.create({
+        trigger: '#work',
+        start: `top ${workTopAtLoad - 260}px`,   // fires at scrollY = 260
+        onEnter: () => {
+          nav.style.pointerEvents = 'auto';
+          gsap.to(nav, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+        },
+        onLeaveBack: () => {
+          nav.style.pointerEvents = 'none';
+          gsap.to(nav, { opacity: 0, y: -12, duration: 0.3, ease: 'power2.in' });
+        }
+      });
+    }
   </script>
 </body>
 </html>

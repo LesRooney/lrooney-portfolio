@@ -105,7 +105,10 @@
       "Bash(ls -lt ~/Downloads/*.png ~/Downloads/*.webp ~/Downloads/*.jpg)",
       "Bash(find /var/folders -name *.png -newer /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Playground/PG_FloppyDisk.png)",
       "Bash(find /tmp -name *.png)",
-      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Mockups/iPhone HandssmallPhone_A.png\")"
+      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Mockups/iPhone HandssmallPhone_A.png\")",
+      "WebFetch(domain:walkie.b150.ai)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

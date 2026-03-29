@@ -737,8 +737,64 @@
 
     // Only run on desktop — keep mobile clean
     if (window.matchMedia('(min-width: 900px)').matches) {
-      // Hero scales down subtly as work section rises over it
+
+      // Hero content drifts down 40px as scroll begins (103px → 380px)
+      gsap.fromTo(['.hero h1', '.hero .hero-intro'],
+        { y: 0 },
+        {
+          y: 40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'body',
+            start: '103px top',
+            end:   '380px top',
+            scrub: true,
+          }
+        }
+      );
+
+      // h1 fades: scrollY 234 → 288px
+      gsap.fromTo('.hero h1',
+        { opacity: 1 },
+        {
+          opacity: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'body',
+            start: '234px top',
+            end:   '288px top',
+            scrub: true,
+          }
+        }
+      );
+
+      // Each intro line fades out as the work section overlay physically reaches it
+      const workPagePos = document.getElementById('work').offsetTop;
+      document.querySelectorAll('.intro-block').forEach((block) => {
+        // Hero is sticky so block's viewport position is fixed
+        const blockTop    = block.getBoundingClientRect().top;
+        const blockBottom = blockTop + block.offsetHeight;
+        // Overlay reaches block bottom at this scrollY, fully covers block top at this scrollY
+        const fadeStart = workPagePos - blockBottom;
+        const fadeEnd   = workPagePos - blockTop;
+        gsap.fromTo(block,
+          { opacity: 1 },
+          {
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: 'body',
+              start: `${fadeStart}px top`,
+              end:   `${fadeEnd}px top`,
+              scrub: true,
+            }
+          }
+        );
+      });
+
+      // Hero fades and scales down as work section rises over it
       gsap.to('.hero', {
+        opacity: 0,
         scale: 0.97,
         ease: 'none',
         scrollTrigger: {
@@ -768,6 +824,42 @@
         }
       });
     }
+
+    // ── DEBUG SCROLL COUNTER (remove when done) ──
+    const dbg = document.createElement('div');
+    dbg.id = 'scroll-dbg';
+    dbg.style.cssText = `
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      background: rgba(0,0,0,0.75); color: #fff;
+      font: 600 13px/1.6 monospace; padding: 10px 14px; border-radius: 8px;
+      pointer-events: none; min-width: 220px;
+    `;
+    document.body.appendChild(dbg);
+
+    function updateDbg() {
+      const scrollY = Math.round(window.scrollY);
+      const vph     = window.innerHeight;
+      const work    = document.getElementById('work');
+      const h1      = document.querySelector('.hero h1');
+      const workTop = work ? Math.round(work.getBoundingClientRect().top) : '–';
+      const h1Bot   = h1   ? Math.round(h1.getBoundingClientRect().bottom) : '–';
+
+      // Key thresholds (px from page top)
+      const fadeStart = work ? Math.round(work.offsetTop - vph * 0.85) : '–';
+      const fadeEnd   = work ? Math.round(work.offsetTop - vph * 0.20) : '–';
+      const navFires  = 260;
+
+      dbg.innerHTML =
+        `scrollY: <b>${scrollY}px</b><br>` +
+        `#work top (viewport): ${workTop}px<br>` +
+        `h1 bottom (viewport): ${h1Bot}px<br>` +
+        `──────────────────<br>` +
+        `fade starts:  ~${fadeStart}px<br>` +
+        `fade ends:    ~${fadeEnd}px<br>` +
+        `nav appears:  ${navFires}px`;
+    }
+    updateDbg();
+    window.addEventListener('scroll', updateDbg, { passive: true });
   </script>
 </body>
 </html>

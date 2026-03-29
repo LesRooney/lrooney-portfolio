@@ -738,8 +738,8 @@
     // Only run on desktop — keep mobile clean
     if (window.matchMedia('(min-width: 900px)').matches) {
 
-      // Hero content drifts down 60px as scroll begins (48px → 380px)
-      gsap.fromTo(['.hero h1', '.hero .hero-intro'],
+      // Intro lines drift down 50px (16px → 380px)
+      gsap.fromTo('.hero .hero-intro',
         { y: 0 },
         {
           y: 50,
@@ -753,7 +753,22 @@
         }
       );
 
-      // h1 fades: scrollY 234 → 288px
+      // h1 drifts slower — 25px over same range (16px → 380px)
+      gsap.fromTo('.hero h1',
+        { y: 0 },
+        {
+          y: 25,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'body',
+            start: '16px top',
+            end:   '380px top',
+            scrub: true,
+          }
+        }
+      );
+
+      // h1 fades: scrollY 193 → 288px
       gsap.fromTo('.hero h1',
         { opacity: 1 },
         {
@@ -761,7 +776,7 @@
           ease: 'none',
           scrollTrigger: {
             trigger: 'body',
-            start: '234px top',
+            start: '193px top',
             end:   '288px top',
             scrub: true,
           }

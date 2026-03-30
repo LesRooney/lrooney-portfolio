@@ -1,22 +1,26 @@
 # Lesley Rooney — Portfolio Site
 
-Static portfolio site deployed on Netlify via GitHub.
+Static portfolio site deployed on Cloudflare Pages via GitHub.
 Built with plain HTML, CSS, and vanilla JS. No framework. No build step.
 
 ## Repo
 GitHub: lrooney-portfolio
-Staging: https://heartfelt-kataifi-c94998.netlify.app
-Production: https://lrooney.com (not yet live on custom domain)
+Production: https://lrooney.com
 
 ## How deployment works
-Push to GitHub main branch → Netlify auto-deploys. No manual steps needed.
+Push to GitHub main branch → Cloudflare Pages auto-deploys. No manual steps needed.
 
 ## Folder structure
 ```
 /                        — root
 ├── index.html           — homepage (work card grid + hero)
 ├── influence.html       — influence page
+├── password.html        — Cloudflare Pages password gate
+├── coming-soon.html     — coming soon placeholder
 ├── CLAUDE.md            — this file (not deployed)
+├── /functions           — Cloudflare Pages serverless functions
+│   ├── _middleware.js   — password protection middleware
+│   └── check-password.js — password validation endpoint
 ├── /specs               — case study build briefs (not deployed)
 │   ├── EDC-case-study-spec.md
 │   ├── Qflow-case-study-spec.md
@@ -34,12 +38,14 @@ Read the relevant spec file in /specs before building or editing any of these.
 
 | Page URL | Spec file | Status |
 |---|---|---|
-| /medidataedcredesign | EDC-case-study-spec.md | ✅ Built |
+| /medidataedcredesign | EDC-case-study-spec.md | ✅ Built · password protected |
 | /contech-qflow | Qflow-case-study-spec.md | ✅ Built |
-| /qualisflow-02 | Qflow-notifications-spec.md | Not yet built |
-| /clinical-risk-based-monitoring | Risk-management-spec.md | Not yet built |
-| /homerenter | HomeRenter-spec.md | Not yet built |
-| /lesleyrooney-games-sims-vfxworks | Games-VFX-spec.md | Not yet built |
+| /qualisflow-02 | Qflow-notifications-spec.md | ✅ Built · password protected |
+| /clinical-risk-based-monitoring | Risk-management-spec.md | ✅ Built · password protected |
+| /homerenter | HomeRenter-spec.md | ✅ Built |
+| /lesleyrooney-games-sims-vfxworks | Games-VFX-spec.md | ✅ Built |
+
+Note: `games-simulations-films.html` also exists as an alternate URL for the Games/VFX page.
 
 ## Shared components (build once, import across all case study pages)
 Build these first before any case study pages.
@@ -64,6 +70,9 @@ Build these first before any case study pages.
 - NDA cases: show a blurred placeholder image + lock icon. Do not display actual screens.
 - Password-protected cases use the site password: RooneyFlow
 - The lock icon and "NDA" label are already used on the homepage cards — match that pattern
+- Password protection is enforced server-side via Cloudflare Pages middleware (`/functions/_middleware.js`)
+- Protected pages: `/medidataedcredesign`, `/clinical-risk-based-monitoring`, `/qualisflow-02`
+- Auth is cookie-based (`cfp_auth=1`); unauthenticated visitors are redirected to `/password.html`
 
 ## Animation (being added — check current state of index.html before adding)
 - Lenis for smooth scroll
@@ -128,6 +137,22 @@ When a caption needs to sit over/below an image as a sticky note:
 - To override a class rotation, add `transform: rotate(Ndeg)` inline (e.g. to flip direction)
 - To align two side-by-side postits at the same height, use matching `bottom: -Npx` values (not `top:`)
 - For postits that should overlap the bottom edge of the image, use a negative `bottom` value smaller than the image height
+
+### info card (persona / list card)
+Used for "Meet the Users" persona sections and grouped list cards (e.g. Sites, Client Side).
+- `background: #E7F2FE` — matches the business outcomes card colour from EDC redesign
+- `border-radius: 16px; padding: 16px 20px`
+- Label: `<p class="persona-section-label">` — small uppercase label above the list
+- List: `<ul class="persona-list">` — no bullet, emoji + bold name + dash + description
+
+```html
+<div style="background: #E7F2FE; border-radius: 16px; padding: 16px 20px;">
+  <p class="persona-section-label">Section Label</p>
+  <ul class="persona-list">
+    <li>🧑🏻‍⚕️ <strong>Role Name</strong> — Description of what they do.</li>
+  </ul>
+</div>
+```
 
 ### postit (standard row layout)
 ```html

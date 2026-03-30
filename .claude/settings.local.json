@@ -113,7 +113,8 @@
       "Bash(sed -i '' 's/Case Study · SaaS · 0→1/SaaS · 0→1/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/qualisflow-02.html)",
       "Bash(sed -i '' 's/Case Study · B2B Enterprise · Medidata/B2B Enterprise · Medidata/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/clinical-risk-based-monitoring.html)",
       "Bash(sed -i '' 's/Case Study · PropTech · HomeRenter/PropTech · HomeRenter/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
-      "Bash(grep -r \"Mixture of Existing\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
+      "Bash(grep -r \"Mixture of Existing\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(ls /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
     ]
   }
 }

@@ -108,7 +108,12 @@
       "Bash(sips -g pixelWidth -g pixelHeight \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/Mockups/iPhone HandssmallPhone_A.png\")",
       "WebFetch(domain:walkie.b150.ai)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(sed -i '' 's/Case Study · B2B Enterprise · Mixture of Existing and New Features/B2B Enterprise · Mixture of Existing and New Features/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/medidataedcredesign.html)",
+      "Bash(sed -i '' 's/Case Study · SaaS · 0→1/SaaS · 0→1/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/qualisflow-02.html)",
+      "Bash(sed -i '' 's/Case Study · B2B Enterprise · Medidata/B2B Enterprise · Medidata/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/clinical-risk-based-monitoring.html)",
+      "Bash(sed -i '' 's/Case Study · PropTech · HomeRenter/PropTech · HomeRenter/' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
+      "Bash(grep -r \"Mixture of Existing\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
     ]
   }
 }

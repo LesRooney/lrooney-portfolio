@@ -74,6 +74,33 @@ Build these first before any case study pages.
 
 ## Design system — named patterns
 
+### top nav
+
+Two behaviours, one shared style system.
+
+**Shared font styles (both variants):**
+- Logo: `font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none;`
+- Links: `font-size: 0.8rem; font-weight: 500; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: opacity 0.2s;`
+- Links hover: `opacity: 0.5`
+- Nav background: `rgba(253, 253, 252, 0.88)` with `backdrop-filter: blur(12px)`
+- Border bottom: `1px solid var(--rule)`
+
+**Variant 1 — Homepage scroll nav (`#home-nav`)**
+- `position: fixed; top: 0; left: 0; right: 0; z-index: 100`
+- Hidden on load (`opacity: 0; pointer-events: none`)
+- Fades in (no slide) via GSAP when scrollY reaches 260px — triggered when "Hi, I'm Lesley" h1 is no longer visible
+- Fades out when scrolling back up past that point
+- Links: Influence · About · Get in Touch (no Work link on homepage)
+- Hidden on mobile (`display: none` below 900px)
+- Inner layout: `max-width: var(--max); height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px`
+
+**Variant 2 — Case study persistent nav (`#nav`)**
+- `position: fixed; top: 0; left: 0; right: 0; z-index: 100`
+- Always visible (no scroll trigger)
+- Links: Work · Influence · About · Get in Touch
+- May include optional audio controls (`#nav-audio-controls`) — narration play/pause pill, shown only on EDC page
+- CSS classes: `.nav-logo`, `.nav-links`, `.nav-right`
+
 ### image card (aka img-card rules, apply to ALL case study pages)
 - `padding: 20px` on all sides
 - No border (`border: none` — borders were removed from the design system)

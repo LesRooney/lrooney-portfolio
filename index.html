@@ -124,7 +124,7 @@
     .card-item:hover .card-video { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px); }
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
-    .card-item.is-dimmed .card { filter: blur(0.5px); opacity: 0.88; }
+    .card-item.is-dimmed .card { }
 
     /* Immediately cover the thumbnail on click before JS overlay fires */
     .card-item:active .card::after {
@@ -136,7 +136,7 @@
       pointer-events: none;
     }
     .card-item.is-dimmed .card-title,
-    .card-item.is-dimmed .card-sub { opacity: 0.75; transition: opacity 0.35s ease; }
+    .card-item.is-dimmed .card-sub { }
     .card-item .card-title,
     .card-item .card-sub { transition: opacity 0.35s ease; }
 
@@ -473,7 +473,7 @@
             </div>
             <div class="card-info">
               <div class="card-title">🔒 Medidata EDC Redesign</div>
-              <div class="card-sub">B2B Enterprise · Unifying fragmented legacy tools, cutting workflow complexity by up to 40%</div>
+              <div class="card-sub">B2B · Unifying fragmented legacy tools, cutting workflow complexity by up to 40%</div>
             </div>
           </a>
 
@@ -490,16 +490,15 @@
             </div>
           </a>
 
-          <a href="./clinical-risk-based-monitoring.html" class="card-item" id="card-2">
-            <div class="card">
-              <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" loading="lazy">
-              <video class="card-video" muted loop playsinline preload="none">
-                <source data-src="videos/medidata-risk-preview.mp4" type="video/mp4">
-              </video>
+          <a href="coming-soon-fire-tracker.html" class="card-item" id="card-2">
+            <div class="card" style="background: #CFDBE3;">
+              <img class="card-thumb" src="images/FireTracker/Menu - Portfolio.webp" alt="Fire Tracker" loading="lazy">
+              <!-- placeholder until hover video is ready — swap for video when available -->
+              <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="" loading="lazy">
             </div>
             <div class="card-info">
-              <div class="card-title">🔒 Medidata Risk Management Tool</div>
-              <div class="card-sub">B2B Enterprise · Turning an underused risk tool into a workflow teams actively wanted</div>
+              <div class="card-title">🛠️ Fire Tracker</div>
+              <div class="card-sub">B2C · Personal AI project · Building a financial GPS app for the FIRE (Financial Independence, Retire Early) community</div>
             </div>
           </a>
 
@@ -529,15 +528,16 @@
             </div>
           </a>
 
-          <a href="coming-soon-fire-tracker.html" class="card-item" id="card-5">
-            <div class="card" style="background: #CFDBE3;">
-              <img class="card-thumb" src="images/FireTracker/Menu - Portfolio.webp" alt="Fire Tracker" loading="lazy">
-              <!-- placeholder until hover video is ready — swap for video when available -->
-              <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="" loading="lazy">
+          <a href="./clinical-risk-based-monitoring.html" class="card-item" id="card-5">
+            <div class="card">
+              <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" loading="lazy">
+              <video class="card-video" muted loop playsinline preload="none">
+                <source data-src="videos/medidata-risk-preview.mp4" type="video/mp4">
+              </video>
             </div>
             <div class="card-info">
-              <div class="card-title">🛠️ Fire Tracker</div>
-              <div class="card-sub">Building a kind of financial GPS app for the FIRE (Financial Independence, Retire Early) community</div>
+              <div class="card-title">🔒 Medidata Risk Management Tool</div>
+              <div class="card-sub">B2B · Turning an underused risk tool into a workflow teams actively wanted</div>
             </div>
           </a>
 
@@ -557,7 +557,7 @@
           </video>
         </div>
         <div class="card-info">
-          <div class="card-title">Playground</div>
+          <div class="card-title">Playground & Side Projects</div>
           <div class="card-sub">Fun · Micro interaction experiments with Lottie and After Effects</div>
         </div>
       </a>
@@ -675,11 +675,27 @@
     })();
 
     // ── Staggered slide-up for intro blocks
-    window.addEventListener('load', () => {
+    function showIntroBlocks() {
       const delays = [0, 150, 300, 450];
       document.querySelectorAll('.intro-block').forEach((el, idx) => {
         setTimeout(() => el.classList.add('in-view'), delays[idx]);
       });
+    }
+    window.addEventListener('load', showIntroBlocks);
+
+    // ── Fix for bfcache: when navigating back, 'load' doesn't re-fire
+    // Reset GSAP inline styles and re-trigger intro animations
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) {
+        // Scroll to top first so ScrollTrigger recalculates from the right position
+        window.scrollTo(0, 0);
+        // Clear GSAP inline styles left from scroll animations
+        if (window.gsap) gsap.set(['.hero', '.hero h1', '.hero-intro', '.intro-block'], { clearProps: 'all' });
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+        // Re-trigger intro block animations
+        document.querySelectorAll('.intro-block').forEach(el => el.classList.remove('in-view'));
+        showIntroBlocks();
+      }
     });
 
     // ── Scroll-in animation

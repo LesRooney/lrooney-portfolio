@@ -787,9 +787,14 @@
         <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width:100%; display:block;">
         <!-- Screen overlay — positioned over the display area of the SVG -->
         <div style="position:absolute; left:7.74%; top:0.77%; width:84.73%; height:93.11%; overflow:hidden; border-radius:6px; background:#000; padding:5px; box-sizing:border-box;">
-          <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:contain; object-position:center top; display:block; position:relative; top:8px;">
+          <!-- Video — plays once loaded -->
+          <video id="mockup-video" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:contain; object-position:center top; display:block; position:relative; top:8px; opacity:0; transition:opacity 0.4s ease;">
             <source src="images/EDCRedesign/EDC_leftSide_NewMovie.mp4" type="video/mp4">
           </video>
+          <!-- Rive loading animation — shown until video is ready -->
+          <div id="rive-loading-wrap" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:#000; transition:opacity 0.4s ease;">
+            <canvas id="rive-loading" style="width:25%; height:25%; display:block;"></canvas>
+          </div>
           <!-- Browser chrome toolbar sits above the video -->
           <img src="images/Mockups/Toolbar.svg" alt="" aria-hidden="true" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; display:block;">
         </div>
@@ -846,8 +851,10 @@
         <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
           <p class="cs-caption" style="margin: 0;">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
           <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
-            <div class="hr-base">
-              <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px;">
+            <div class="hr-base" style="position:relative;">
+              <!-- Rive loading animation — shown until video is ready -->
+              <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
+              <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px; position:relative; z-index:2;">
                 <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
               </video>
             </div>
@@ -1726,5 +1733,47 @@
 </script>
 
 </div><!-- /#page-content -->
+
+<!-- Rive runtime -->
+<script src="https://unpkg.com/@rive-app/canvas@2.21.6/rive.js"></script>
+<script>
+  (function () {
+    // 1. Laptop mockup — Rive loading placeholder + video reveal
+    const canvas      = document.getElementById('rive-loading');
+    const loaderWrap  = document.getElementById('rive-loading-wrap');
+    const mockupVideo = document.getElementById('mockup-video');
+    if (canvas) {
+      new rive.Rive({
+        src: 'images/movie/13202-24949-loading.riv',
+        canvas: canvas,
+        autoplay: true,
+        layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.Center }),
+      });
+    }
+    if (mockupVideo && loaderWrap) {
+      mockupVideo.addEventListener('loadeddata', function () {
+        mockupVideo.style.opacity = '1';
+        loaderWrap.style.opacity  = '0';
+        setTimeout(function () { loaderWrap.style.display = 'none'; }, 450);
+      }, { once: true });
+    }
+
+    // 2. Loom reveal loading placeholder
+    const loomCanvas = document.getElementById('loom-rive-loader');
+    const loomVideo  = document.getElementById('loom-video');
+    if (loomCanvas && loomVideo) {
+      new rive.Rive({
+        src: 'images/movie/13202-24949-loading.riv',
+        canvas: loomCanvas,
+        autoplay: true,
+        layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.Center }),
+      });
+      // Hide loader once video has enough data to display a frame
+      loomVideo.addEventListener('loadeddata', function () {
+        loomCanvas.style.display = 'none';
+      }, { once: true });
+    }
+  })();
+</script>
 </body>
 </html>

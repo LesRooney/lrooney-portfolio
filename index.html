@@ -687,9 +687,12 @@
     // Reset GSAP inline styles and re-trigger intro animations
     window.addEventListener('pageshow', (e) => {
       if (e.persisted) {
-        // Scroll to top first so ScrollTrigger recalculates from the right position
+        // Remove the page-transition overlay — it's still covering the screen from bfcache
+        const ov = document.getElementById('pt-overlay');
+        if (ov) ov.remove();
+        // Scroll to top so ScrollTrigger recalculates from the right position
         window.scrollTo(0, 0);
-        // Clear GSAP inline styles left from scroll animations
+        // Clear any GSAP inline styles left from scroll animations
         if (window.gsap) gsap.set(['.hero', '.hero h1', '.h1-word', '.h1-char', '.hero-intro', '.intro-block'], { clearProps: 'all' });
         if (window.ScrollTrigger) ScrollTrigger.refresh();
         // Re-trigger intro block animations

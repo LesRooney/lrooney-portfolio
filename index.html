@@ -704,7 +704,8 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const idx = Array.from(cardItems).indexOf(entry.target);
-          entry.target.style.transitionDelay = `${(idx % 3) * 150}ms`;
+          const delays = [0, 180, 350, 0, 170, 350, 0, 180, 350];
+          entry.target.style.transitionDelay = `${delays[idx] ?? (idx % 3) * 170}ms`;
           entry.target.classList.add('in-view');
           observer.unobserve(entry.target);
         }
@@ -778,8 +779,8 @@
       y: 20,
       duration: 0.35,
       ease: 'power3.out',
-      delay: 0.68,
-      stagger: 0.055,
+      delay: 0.71,
+      stagger: 0.08,
     });
 
     // Only run on desktop — keep mobile clean

@@ -61,6 +61,8 @@
       background: #FDFDFC;
     }
     .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
+    .h1-word { display: inline-block; }
+    .h1-char { display: inline-block; }
     .hero-intro { display: flex; flex-direction: column; gap: 10px; }
     .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: transform 0.5s ease; }
     .intro-block.in-view { opacity: 1; transform: translateY(0); }
@@ -437,7 +439,7 @@
 </nav>
 
 <section class="hero">
-    <h1>Hi, I'm Lesley</h1>
+    <h1><span class="h1-word">Hi,</span> <span class="h1-word">I'm</span> <span class="h1-word"><span class="h1-char">L</span><span class="h1-char">e</span><span class="h1-char">s</span><span class="h1-char">l</span><span class="h1-char">e</span><span class="h1-char">y</span></span></h1>
     <div class="hero-intro">
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a designer,</strong> I balance making complex products feel obvious. 7+ years in design, 6+ in B2B SaaS.</p>
@@ -688,7 +690,7 @@
         // Scroll to top first so ScrollTrigger recalculates from the right position
         window.scrollTo(0, 0);
         // Clear GSAP inline styles left from scroll animations
-        if (window.gsap) gsap.set(['.hero', '.hero h1', '.hero-intro', '.intro-block'], { clearProps: 'all' });
+        if (window.gsap) gsap.set(['.hero', '.hero h1', '.h1-word', '.h1-char', '.hero-intro', '.intro-block'], { clearProps: 'all' });
         if (window.ScrollTrigger) ScrollTrigger.refresh();
         // Re-trigger intro block animations
         document.querySelectorAll('.intro-block').forEach(el => el.classList.remove('in-view'));
@@ -702,7 +704,7 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const idx = Array.from(cardItems).indexOf(entry.target);
-          entry.target.style.transitionDelay = `${(idx % 3) * 80}ms`;
+          entry.target.style.transitionDelay = `${(idx % 3) * 150}ms`;
           entry.target.classList.add('in-view');
           observer.unobserve(entry.target);
         }
@@ -761,6 +763,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
+
+    // ── h1 entrance — "Hi," → "I'm " → L·e·s·l·e·y letter by letter
+    gsap.from('.h1-word', {
+      opacity: 0,
+      y: 24,
+      duration: 0.6,
+      ease: 'power3.out',
+      delay: 0.18,
+      stagger: 0.25,
+    });
+    gsap.from('.h1-char', {
+      opacity: 0,
+      y: 20,
+      duration: 0.35,
+      ease: 'power3.out',
+      delay: 0.68,
+      stagger: 0.055,
+    });
 
     // Only run on desktop — keep mobile clean
     if (window.matchMedia('(min-width: 900px)').matches) {

@@ -399,6 +399,7 @@
       display: flex;
       gap: 32px;
       align-items: center;
+      position: relative;
     }
     .home-nav-links a {
       font-size: 0.8rem;
@@ -410,6 +411,66 @@
       transition: opacity 0.2s;
     }
     .home-nav-links a:hover { opacity: 0.5; }
+
+    /* ── About Me dropdown ── */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-trigger {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: opacity 0.2s;
+    }
+    .nav-dropdown-trigger::after {
+      content: '▾';
+      font-size: 0.65rem;
+      opacity: 0.5;
+      transition: transform 0.2s;
+    }
+    .nav-dropdown:hover .nav-dropdown-trigger { opacity: 0.5; }
+    .nav-dropdown:hover .nav-dropdown-trigger::after { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 16px);
+      right: 0;
+      background: rgba(253, 253, 252, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 8px 0;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .nav-dropdown-menu a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 10px 20px;
+      transition: opacity 0.15s;
+      display: block;
+    }
+    .nav-dropdown-menu a:hover { opacity: 0.5; }
+
     @media (max-width: 900px) {
       #home-nav { display: none; }
     }
@@ -431,9 +492,14 @@
   <div class="home-nav-inner">
     <a href="/" class="home-nav-logo">Lesley Rooney</a>
     <div class="home-nav-links">
-      <a href="./influence.html">Influence</a>
-      <a href="#about">About</a>
-      <a href="mailto:ley.rooney@gmail.com">Get in Touch</a>
+      <div class="nav-dropdown">
+        <span class="nav-dropdown-trigger">About Me</span>
+        <div class="nav-dropdown-menu">
+          <a href="./influence.html">Influence</a>
+          <a href="#about">About</a>
+          <a href="mailto:ley.rooney@gmail.com">Get in Touch</a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

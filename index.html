@@ -819,30 +819,30 @@
         }
       );
 
-      // h1 fades: scrollY 223 → 255px
+      // h1 fades as it exits the top of the viewport
       gsap.fromTo('.hero h1',
         { opacity: 1 },
         {
           opacity: 0,
           ease: 'none',
           scrollTrigger: {
-            trigger: 'body',
-            start: '195px top',
-            end:   '252px top',
+            trigger: '.hero h1',
+            start: 'top 20%',
+            end:   'top top',
             scrub: true,
           }
         }
       );
 
-      // Each intro line fades out as the work section overlay physically reaches it
+      // Each intro line fades out as the work section overlay physically reaches it.
+      // Use absolute page offsets (getBoundingClientRect + scrollY) so the calculation
+      // is correct regardless of what scroll position the page loaded at.
       const workPagePos = document.getElementById('work').offsetTop;
       document.querySelectorAll('.intro-block').forEach((block) => {
-        // Hero is sticky so block's viewport position is fixed
-        const blockTop    = block.getBoundingClientRect().top;
-        const blockBottom = blockTop + block.offsetHeight;
-        // Overlay reaches block bottom at this scrollY, fully covers block top at this scrollY
-        const fadeStart = workPagePos - blockBottom;
-        const fadeEnd   = workPagePos - blockTop;
+        const blockAbsTop    = block.getBoundingClientRect().top + window.scrollY;
+        const blockAbsBottom = blockAbsTop + block.offsetHeight;
+        const fadeStart = workPagePos - blockAbsBottom;
+        const fadeEnd   = workPagePos - blockAbsTop;
         gsap.fromTo(block,
           { opacity: 1 },
           {
@@ -858,15 +858,17 @@
         );
       });
 
-      // Hero fades and scales down as work section rises over it
+      // Hero fades and scales down as it exits the viewport upward.
+      // Using .hero as trigger (not #work) means the animation reverses naturally
+      // whenever the hero is scrolled back into view, regardless of start position.
       gsap.to('.hero', {
         opacity: 0,
         scale: 0.97,
         ease: 'none',
         scrollTrigger: {
-          trigger: '#work',
-          start: 'top 85%',
-          end:   'top 20%',
+          trigger: '.hero',
+          start: 'bottom 68%',
+          end:   'bottom 8%',
           scrub: 1,
         }
       });

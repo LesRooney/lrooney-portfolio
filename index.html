@@ -424,18 +424,18 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      transition: opacity 0.2s;
+      transition: color 0.2s;
       position: relative;
     }
-    /* Animated black square — slides in from left on hover */
+    /* Animated square — slides in from left on hover */
     .nav-dropdown-trigger::before {
       content: '';
       position: absolute;
       right: calc(100% + 36px);
       top: 50%;
       transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       background: var(--ink);
       border-radius: 4px;
       opacity: 0;
@@ -451,12 +451,26 @@
       opacity: 0.5;
       transition: transform 0.2s;
     }
-    .nav-dropdown:hover .nav-dropdown-trigger { opacity: 0.5; }
+    .nav-dropdown:hover .nav-dropdown-trigger { color: rgba(10,10,10,0.5); }
     .nav-dropdown:hover .nav-dropdown-trigger::after { transform: rotate(180deg); }
     .nav-dropdown-menu {
       position: absolute;
-      top: calc(100% + 16px);
+      top: 100%;
       right: 0;
+      /* padding-top bridges the gap so hover doesn't break when moving to menu */
+      padding-top: 16px;
+      background: transparent;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* The visible card sits inside the menu container */
+    .nav-dropdown-menu-inner {
       background: rgba(253, 253, 252, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -466,15 +480,10 @@
       min-width: 160px;
       display: flex;
       flex-direction: column;
-      opacity: 0;
-      pointer-events: none;
       transform: translateY(-6px);
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      z-index: 200;
+      transition: transform 0.18s ease;
     }
-    .nav-dropdown:hover .nav-dropdown-menu {
-      opacity: 1;
-      pointer-events: auto;
+    .nav-dropdown:hover .nav-dropdown-menu-inner {
       transform: translateY(0);
     }
     .nav-dropdown-menu a {
@@ -514,9 +523,11 @@
       <div class="nav-dropdown">
         <span class="nav-dropdown-trigger">About Me</span>
         <div class="nav-dropdown-menu">
-          <a href="./influence.html">Influence</a>
-          <a href="#about">About</a>
-          <a href="mailto:ley.rooney@gmail.com">Get in Touch</a>
+          <div class="nav-dropdown-menu-inner">
+            <a href="./influence.html">Influence</a>
+            <a href="#about">About</a>
+            <a href="mailto:ley.rooney@gmail.com">Get in Touch</a>
+          </div>
         </div>
       </div>
     </div>

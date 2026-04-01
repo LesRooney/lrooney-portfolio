@@ -232,8 +232,26 @@
       color: var(--ink-mid);
       text-decoration: none;
       transition: color 0.2s;
+      position: relative;
+    }
+    .footer-right a::before {
+      content: '';
+      position: absolute;
+      right: calc(100% + 16px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--ink);
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.25s ease, right 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .footer-right a:hover { color: var(--ink); }
+    .footer-right a:hover::before {
+      right: calc(100% + 4px);
+      opacity: 1;
+    }
 
     /* ── INFLUENCE ── */
     .influence {
@@ -431,7 +449,7 @@
     .nav-dropdown-trigger::before {
       content: '';
       position: absolute;
-      right: calc(100% + 36px);
+      right: calc(100% + 16px);
       top: 50%;
       transform: translateY(-50%);
       width: 12px;

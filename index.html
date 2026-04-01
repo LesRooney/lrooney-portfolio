@@ -819,20 +819,6 @@
         }
       );
 
-      // h1 fades as it exits the top of the viewport
-      gsap.fromTo('.hero h1',
-        { opacity: 1 },
-        {
-          opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero h1',
-            start: 'top 20%',
-            end:   'top top',
-            scrub: true,
-          }
-        }
-      );
 
       // Each intro line fades out as the work section overlay physically reaches it.
       // Use absolute page offsets (getBoundingClientRect + scrollY) so the calculation

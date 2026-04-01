@@ -425,6 +425,25 @@
       align-items: center;
       gap: 5px;
       transition: opacity 0.2s;
+      position: relative;
+    }
+    /* Animated black square — slides in from left on hover */
+    .nav-dropdown-trigger::before {
+      content: '';
+      position: absolute;
+      right: calc(100% + 36px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      background: var(--ink);
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.25s ease, right 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nav-dropdown:hover .nav-dropdown-trigger::before {
+      right: calc(100% + 4px);
+      opacity: 1;
     }
     .nav-dropdown-trigger::after {
       content: '▾';

@@ -820,29 +820,10 @@
       );
 
 
-      // Each intro line fades out as the work section overlay physically reaches it.
-      // Use absolute page offsets (getBoundingClientRect + scrollY) so the calculation
-      // is correct regardless of what scroll position the page loaded at.
-      const workPagePos = document.getElementById('work').offsetTop;
-      document.querySelectorAll('.intro-block').forEach((block) => {
-        const blockAbsTop    = block.getBoundingClientRect().top + window.scrollY;
-        const blockAbsBottom = blockAbsTop + block.offsetHeight;
-        const fadeStart = workPagePos - blockAbsBottom;
-        const fadeEnd   = workPagePos - blockAbsTop;
-        gsap.fromTo(block,
-          { opacity: 1 },
-          {
-            opacity: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: 'body',
-              start: `${fadeStart}px top`,
-              end:   `${fadeEnd}px top`,
-              scrub: true,
-            }
-          }
-        );
-      });
+      // Note: per-block intro fade removed — it stamped GSAP inline opacity:0 on load
+      // when navigating via /#work (mid-scroll), which persisted and hid the taglines
+      // even after scrolling back to the top. The .hero ScrollTrigger below handles
+      // fading the whole hero section as you scroll past it, which is sufficient.
 
       // Hero fades and scales down as it exits the viewport upward.
       // Using .hero as trigger (not #work) means the animation reverses naturally

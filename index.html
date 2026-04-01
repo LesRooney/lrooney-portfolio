@@ -234,22 +234,40 @@
       transition: color 0.2s;
       position: relative;
     }
+    /* ── SAVED: slide-in behaviour (revert by swapping comments) ──
     .footer-right a::before {
       content: '';
       position: absolute;
       right: calc(100% + 16px);
       top: 50%;
       transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
+      width: 12px; height: 12px;
       background: var(--ink);
       border-radius: 4px;
       opacity: 0;
       transition: opacity 0.25s ease, right 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
+    .footer-right a:hover::before { right: calc(100% + 4px); opacity: 1; }
+    ── END SAVED ── */
+
+    /* Square scales up from zero in place */
+    .footer-right a::before {
+      content: '';
+      position: absolute;
+      right: calc(100% + 4px);
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      transform-origin: center center;
+      width: 12px;
+      height: 12px;
+      background: var(--ink);
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
     .footer-right a:hover { color: var(--ink); }
     .footer-right a:hover::before {
-      right: calc(100% + 4px);
+      transform: translateY(-50%) scale(1);
       opacity: 1;
     }
 
@@ -445,15 +463,14 @@
       transition: color 0.2s;
       position: relative;
     }
-    /* Animated square — slides in from left on hover */
+    /* ── SAVED: slide-in behaviour (revert by swapping comments) ──
     .nav-dropdown-trigger::before {
       content: '';
       position: absolute;
       right: calc(100% + 16px);
       top: 50%;
       transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
+      width: 12px; height: 12px;
       background: var(--ink);
       border-radius: 4px;
       opacity: 0;
@@ -461,6 +478,27 @@
     }
     .nav-dropdown:hover .nav-dropdown-trigger::before {
       right: calc(100% + 4px);
+      opacity: 1;
+    }
+    ── END SAVED ── */
+
+    /* Animated square — scales up from zero in place */
+    .nav-dropdown-trigger::before {
+      content: '';
+      position: absolute;
+      right: calc(100% + 4px);
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      transform-origin: center center;
+      width: 12px;
+      height: 12px;
+      background: var(--ink);
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nav-dropdown:hover .nav-dropdown-trigger::before {
+      transform: translateY(-50%) scale(1);
       opacity: 1;
     }
     .nav-dropdown-trigger::after {

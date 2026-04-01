@@ -74,12 +74,27 @@ Build these first before any case study pages.
 - Protected pages: `/medidataedcredesign`, `/clinical-risk-based-monitoring`, `/qualisflow-02`
 - Auth is cookie-based (`cfp_auth=1`); unauthenticated visitors are redirected to `/password.html`
 
-## Animation (being added — check current state of index.html before adding)
+## Animation (check current state of index.html before adding or changing)
 - Lenis for smooth scroll
 - GSAP + ScrollTrigger for scroll-driven animations
 - Animations should be subtle — professional portfolio, not a showreel
-- On page load: hero text fades in with a stagger
-- On scroll: work cards fade and slide up as they enter the viewport (`gsap.from`, `opacity: 0, y: 40`)
+
+### h1 hero text
+- Markup is manually split into `<span class="h1-word">` and `<span class="h1-char">` — no SplitText plugin (paid)
+- "Hi," fades in at 180ms, "I'm" at 430ms, "Lesley" letter-by-letter: delay 710ms, duration 350ms, stagger 80ms per letter
+- CSS: `.h1-word { display: inline-block; }` and `.h1-char { display: inline-block; }`
+- **Do NOT add a ScrollTrigger fade-out on `.hero h1`** — this was tried and removed. The h1 sits too close to the top of the viewport; the trigger fires before scrollY=0 and leaves the h1 at ~0.5 opacity at the top of the page.
+
+### work cards (IntersectionObserver, not GSAP)
+- Cards start: `opacity: 0; transform: translateY(32px); transition: opacity 0.55s ease, transform 0.55s ease`
+- IntersectionObserver adds `in-view` class: `opacity: 1; transform: translateY(0)`
+- Custom per-card stagger delays (not a uniform formula):
+  - Row 1: card 0 → 0ms, card 1 → 180ms, card 2 → 350ms
+  - Row 2: card 3 → 0ms, card 4 → 170ms, card 5 → 350ms
+
+### bfcache / hash-navigation fixes
+- `pageshow` event handler handles bfcache restore (`e.persisted`): removes `#pt-overlay`, scrolls to top, clears GSAP props on `.hero`, `.hero h1`, `.h1-word`, `.h1-char`, `.hero-intro`, `.intro-block`, then calls `ScrollTrigger.refresh()`
+- Hash navigation fix (e.g. clicking "Work" from a case study → `/#work`): on DOMContentLoaded, any `.intro-block` elements that are already above the viewport (start position above current scroll) get `in-view` class added immediately, bypassing IntersectionObserver
 
 ## Design system — named patterns
 
@@ -179,6 +194,52 @@ Two modes, used consistently across all case study pages:
 - Never bold an entire paragraph — always leave some normal-weight text for contrast
 - Bold the most important clause, fact, or outcome — not decoration
 - Both modes can appear in the same section
+
+### square-hover (nav / footer link hover indicator)
+A 12×12px black square that morphs from invisible dot → horizontal line → full square on hover. Used on the homepage `#home-nav` "About Me" trigger and all four footer links.
+
+**Animation sequence (0.28s, ease-out):**
+1. Invisible 1×1px dot appears (opacity 0 → 1)
+2. Expands to 12×1px horizontal line
+3. Grows to full 12×12px square, decelerating into final size
+
+**Keyframes (defined once in index.html `<style>`):**
+```css
+@keyframes squareMorph {
+  0%   { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 0; }
+  18%  { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 1; }
+  58%  { transform: translateY(-50%) scaleX(1)     scaleY(0.083); opacity: 1; }
+  100% { transform: translateY(-50%) scaleX(1)     scaleY(1);     opacity: 1; }
+}
+```
+
+**Apply to any link or trigger with `::before`:**
+```css
+.your-element {
+  position: relative; /* required */
+}
+.your-element::before {
+  content: '';
+  position: absolute;
+  right: calc(100% + 4px); /* 4px gap to the left of the element */
+  top: 50%;
+  transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+  transform-origin: center center;
+  width: 12px;
+  height: 12px;
+  background: var(--ink);
+  border-radius: 4px;
+  opacity: 0;
+}
+.your-element:hover::before {
+  animation: squareMorph 0.28s ease-out forwards;
+}
+```
+
+**Notes:**
+- `scaleX(0.083)` = 1px of the 12px element (1/12 ≈ 0.083)
+- The saved slide-in variant (square travels from left) is stored as commented-out CSS in index.html — search `SAVED: slide-in behaviour` to restore
+- For hover text dimming: use `color` transition (not `opacity`) so the square colour is unaffected by parent opacity
 
 ### video-wrap (hover-to-play with controls)
 Hover plays video, shows scrubber + duration + sound toggle. Sound icon = 24px.

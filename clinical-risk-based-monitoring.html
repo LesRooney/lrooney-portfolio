@@ -316,7 +316,12 @@
       .postit-row { flex-direction: column; }
       .postit--1, .postit--2, .postit--3, .postit--4, .postit--5 { transform: none; }
     }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 
   

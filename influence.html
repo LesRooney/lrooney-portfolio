@@ -431,7 +431,12 @@
       .influence-categories { grid-template-columns: 1fr; }
       .nav-links { gap: 20px; }
     }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 
   

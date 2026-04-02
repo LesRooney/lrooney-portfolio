@@ -724,7 +724,12 @@
       .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
       .footer-right { justify-content: center; flex-wrap: wrap; gap: 20px; }
     }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 
   <!-- Hotjar Tracking Code for https://www.lrooney.com -->

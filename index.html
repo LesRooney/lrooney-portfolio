@@ -562,7 +562,12 @@
       58%  { transform: translateY(-50%) scaleX(1)     scaleY(0.083); opacity: 1; }
       100% { transform: translateY(-50%) scaleX(1)     scaleY(1);     opacity: 1; }
     }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 
   

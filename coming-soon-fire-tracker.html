@@ -190,7 +190,12 @@
     }
     .drag-hint svg { opacity: 0.6; }
     .drag-hint.hidden { opacity: 0; }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 </head>
 <body>

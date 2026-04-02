@@ -242,7 +242,12 @@
     @media (max-width: 480px) {
       .meta-grid { grid-template-columns: 1fr; }
     }
-    #wts_aff { display: none !important; }
+    #wts_aff,
+  [id^="wts"],
+  [id*="webstat"],
+  [id*="web-stat"],
+  [class*="wts"],
+  [src*="ardalio"] { display: none !important; }
   </style>
 
   

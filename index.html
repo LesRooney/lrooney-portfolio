@@ -1003,7 +1003,11 @@
       });
 
       // Nav fades in at scrollY = 260, fades out if you scroll back up
-      const workTopAtLoad = document.getElementById('work').getBoundingClientRect().top;
+      // getBoundingClientRect().top is viewport-relative, so we add scrollY to get the
+      // absolute document position. Without this, landing at /#work (already scrolled)
+      // gives a near-zero value and the onLeaveBack threshold is set too deep —
+      // meaning the nav never hides when scrolling back up to the hero.
+      const workTopAtLoad = document.getElementById('work').getBoundingClientRect().top + window.scrollY;
       const nav = document.getElementById('home-nav');
 
       ScrollTrigger.create({

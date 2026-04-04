@@ -58,20 +58,45 @@
       text-decoration: none;
       letter-spacing: -0.01em;
     }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.2s; position: relative; }
+    .nav-links a:hover { color: rgba(10,10,10,0.5); }
+    .nav-links > li > a::before {
+      content: ''; position: absolute;
+      right: calc(100% + 4px); top: 50%;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      width: 12px; height: 12px;
+      background: var(--ink); border-radius: 4px; opacity: 0;
     }
-    .nav-links a {
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ink-mid);
-      text-decoration: none;
+    .nav-links > li > a:hover::before { animation: squareMorph 0.28s ease-out forwards; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-trigger { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); cursor: pointer; transition: color 0.2s; position: relative; }
+    .nav-dropdown-trigger::before {
+      content: ''; position: absolute;
+      right: calc(100% + 4px); top: 50%;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      width: 12px; height: 12px;
+      background: var(--ink); border-radius: 4px; opacity: 0;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-dropdown:hover .nav-dropdown-trigger::before { animation: squareMorph 0.28s ease-out forwards; }
+    .nav-dropdown-trigger::after { content: '▾'; font-size: 0.65rem; margin-left: 4px; display: inline-block; transition: transform 0.2s; }
+    .nav-dropdown:hover .nav-dropdown-trigger { color: rgba(10,10,10,0.5); }
+    .nav-dropdown:hover .nav-dropdown-trigger::after { transform: rotate(180deg); }
+    .nav-dropdown-menu { position: absolute; top: 100%; right: 0; padding-top: 12px; min-width: 160px; opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
+    .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; pointer-events: auto; }
+    .nav-dropdown-menu-inner { background: rgba(253, 253, 252, 0.96); backdrop-filter: blur(12px); border: 1px solid var(--rule); border-radius: 12px; padding: 8px 0; display: flex; flex-direction: column; transform: translateY(-6px); transition: transform 0.18s ease; }
+    .nav-dropdown:hover .nav-dropdown-menu-inner { transform: translateY(0); }
+    .nav-dropdown-menu a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 10px 18px; transition: opacity 0.15s; display: block; }
+    .nav-dropdown-menu a:hover { opacity: 0.5; }
+    @keyframes squareMorph {
+      0%   { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 0; }
+      18%  { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 1; }
+      58%  { transform: translateY(-50%) scaleX(1)     scaleY(0.083); opacity: 1; }
+      100% { transform: translateY(-50%) scaleX(1)     scaleY(1);     opacity: 1; }
+    }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
     a { cursor: pointer; }
 
     /* ── CANVAS WORLD ── */
@@ -228,9 +253,10 @@
 </head>
 <body>
 
-  <nav>
+  <nav id="nav">
     <a href="index.html" class="nav-logo">Lesley Rooney</a>
-        <ul class="nav-links">
+    <div class="nav-right">
+      <ul class="nav-links">
       <li><a href="index.html#work">Work</a></li>
       <li>
         <div class="nav-dropdown">
@@ -245,6 +271,7 @@
         </div>
       </li>
     </ul>
+  </div>
   </nav>
 
   <div class="canvas-world" id="canvas">

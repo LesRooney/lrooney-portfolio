@@ -14,8 +14,8 @@
       --paper:    #f5f5f5;
       --ink:      #1a1a18;
       --ink-mid:  #6b6b63;
-      --sans:     'Inter', system-ui, sans-serif;
-      --serif:    'Playfair Display', Georgia, serif;
+      --sans:     'Plus Jakarta Sans', system-ui, sans-serif;
+      --serif:    'Plus Jakarta Sans', system-ui, sans-serif;
     }
 
     html, body {
@@ -42,21 +42,20 @@
       justify-content: space-between;
       padding: 0 48px;
       height: 56px;
-      background: rgba(245,245,245,0.88);
+      background: rgba(253, 253, 252, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.07);
+      border-bottom: 1px solid var(--rule);
       cursor: default;
       user-select: none;
       pointer-events: all;
     }
     .nav-logo {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      font-size: 1.1rem;
+      font-family: var(--serif);
+      font-size: 1rem;
       font-weight: 600;
       color: var(--ink);
       text-decoration: none;
-      letter-spacing: -0.01em;
     }
     .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.2s; position: relative; }

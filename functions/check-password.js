@@ -3,7 +3,7 @@ export async function onRequestPost({ request, env }) {
   const code = formData.get('code');
   const dest = formData.get('dest') || '/';
 
-  if (code === env.CFP_PASSWORD) {
+  if (code.toLowerCase() === env.CFP_PASSWORD.toLowerCase()) {
     const headers = new Headers();
     headers.set('Location', dest);
     // Session cookie — expires when browser closes, no banner needed (strictly necessary)

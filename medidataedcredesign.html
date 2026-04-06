@@ -371,8 +371,9 @@
 
     /* PERSONA LIST */
     .persona-list { list-style: none; padding: 0; margin: 0 0 16px; }
-    .persona-list li { font-size: 0.92rem; color: var(--ink-mid); line-height: 1.7; padding: 4px 0; }
-    .persona-section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin: 16px 0 6px; }
+    .persona-list li { font-size: 0.92rem; color: var(--ink); line-height: 1.5; padding: 6px 0; }
+    .persona-desc { display: block; font-size: 0.85rem; color: var(--ink-mid); line-height: 1.6; margin-top: 2px; }
+    p.persona-section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin: 16px 0 6px; }
     hr.persona-rule { display: none; margin: 24px 0; border: none; border-top: 1px solid var(--rule); }
 
     /* QUICK LINKS */
@@ -736,9 +737,9 @@
       border-bottom: 1px solid var(--rule);
     }
     .deep-dive:last-of-type { border-bottom: none; }
-    .dd-label {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--navy); margin-bottom: 10px;
+    p.dd-label, .deep-dive p.dd-label {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-mid); margin-bottom: 10px;
     }
     .deep-dive h2 {
       font-family: var(--serif);
@@ -1107,23 +1108,25 @@
   <!-- 16. PERSONAS -->
   <div class="cs-section">
     <h2>Meet the Users</h2>
-    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px;">
-      <p class="persona-section-label">Sites</p>
-      <ul class="persona-list">
-        <li>🧑🏻‍⚕️ <strong>Clinical Research Coordinator (CRC)</strong> — Conducts visits, enters patient data from multiple sources, resolves queries. Constantly interrupted.</li>
-        <li>👩🏾‍⚕️ <strong>Study Nurse</strong> — Interacts with patients, enters data &amp; queries. Constantly interrupted.</li>
-        <li>👩🏽‍⚕️ <strong>Data Coordinator</strong> — Enters data from site personnel, resolves queries.</li>
-        <li>👨🏻‍⚕️ <strong>Primary Investigator (PI)</strong> — Leads study, oversees procedures, ensures compliance.</li>
-        <li>👩🏽‍⚕️ <strong>Sub-Investigator (Sub I)</strong> — Assists PI, performs trial procedures.</li>
-      </ul>
-    </div>
-    <hr class="persona-rule">
-    <div style="background: #fdf8ec; border-radius: 16px; padding: 16px 20px; margin-top: 24px;">
-      <p class="persona-section-label">Client side</p>
-      <ul class="persona-list">
-        <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong> — Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</li>
-        <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong> — Cleans, validates, and packages clinical data for statisticians.</li>
-      </ul>
+    <div style="display: flex; gap: 0; align-items: flex-start;">
+      <div style="flex: 1; padding-right: 24px;">
+        <p class="persona-section-label">Sites</p>
+        <ul class="persona-list">
+          <li>🧑🏻‍⚕️ <strong>Clinical Research Coordinator (CRC)</strong><br><span class="persona-desc">Conducts visits, enters patient data from multiple sources, resolves queries. Constantly interrupted.</span></li>
+          <li>👩🏾‍⚕️ <strong>Study Nurse</strong><br><span class="persona-desc">Interacts with patients, enters data &amp; queries. Constantly interrupted.</span></li>
+          <li>👩🏽‍⚕️ <strong>Data Coordinator (also known as a CRC, or confusingly, as a Data Manager)</strong><br><span class="persona-desc">Enters data from site personnel, resolves queries.</span></li>
+          <li>👨🏻‍⚕️ <strong>Primary Investigator (PI)</strong><br><span class="persona-desc">Leads study, oversees procedures, ensures compliance.</span></li>
+          <li>👩🏽‍⚕️ <strong>Sub-Investigator (Sub I)</strong><br><span class="persona-desc">Assists PI, performs trial procedures.</span></li>
+        </ul>
+      </div>
+      <div style="width: 1px; background: var(--rule); align-self: stretch; flex-shrink: 0;"></div>
+      <div style="flex: 1; padding-left: 24px;">
+        <p class="persona-section-label">Client side</p>
+        <ul class="persona-list">
+          <li>🧑🏻‍⚕️ <strong>Clinical Research Associate (CRA)</strong><br><span class="persona-desc">Monitors sites, ensures protocol compliance. Like an inspector or referee for the trial.</span></li>
+          <li>🧑🏽‍💻 <strong>Data Manager (DM)</strong><br><span class="persona-desc">Cleans, validates, and packages clinical data for statisticians.</span></li>
+        </ul>
+      </div>
     </div>
     <!-- Carousel: Personas — auto-advancing, no controls -->
     <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
@@ -1162,7 +1165,7 @@
     <div class="postit-row">
       <div class="postit postit--1">
         <span class="postit-emoji">📁</span>
-        <p>I <strong>split data page design ownership</strong> to give my design partner and me <strong>autonomy to explore ideas</strong> while allowing me to focus on cross-product challenges. Though initially unpopular, this <strong>moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</strong></p>
+        <p><strong>I split data page design ownership</strong> to give my design partner and me <strong>autonomy to explore ideas</strong> while allowing me to focus on cross-product challenges. Though initially unpopular, this <strong>moved us from UI reskinning to outcome-driven work with deeper research and bolder UX bets.</strong></p>
       </div>
       <div class="postit postit--2">
         <span class="postit-emoji">🧍</span>
@@ -1273,7 +1276,7 @@
         </div>
       </div>
     </div>
-    <p style="margin-top: 28px;">Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external systems and static mocks falling flat, I put together a quick prototype for the team to try.</p>
+    <p style="margin-top: 28px;">Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external design systems and static step by step mocks falling flat, I put together a quick prototype for the team to try.</p>
     <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link fill">Time picker prototype ↗</a>
   </div>
 

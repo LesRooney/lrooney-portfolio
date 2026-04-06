@@ -179,6 +179,25 @@ Used for "Meet the Users" persona sections and grouped list cards (e.g. Sites, C
 ```
 Rotation: --1 = -2deg, --2 = 1.5deg, --3 = -1deg, --4 = 0.8deg, --5 = -1.5deg
 
+### section eyebrow (optional section title)
+Used above H2s or content blocks to label a section — e.g. "Deep Dive 01", "Sites", "Client Side".
+
+```css
+font-size: 0.75rem;
+font-weight: 500;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(--ink-mid);
+margin-bottom: 10px;
+```
+
+CSS class: `.cs-eyebrow` (also `.dd-label`, `.persona-section-label` on the EDC page — all share identical styles)
+
+```html
+<p class="cs-eyebrow">Section Label</p>
+<h2>Section Title</h2>
+```
+
 ### body copy font weight (typography pattern)
 Two modes, used consistently across all case study pages:
 

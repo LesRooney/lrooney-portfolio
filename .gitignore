@@ -1,0 +1,21 @@
+# Environment variables — never commit secrets
+.env
+.env.local
+.env*.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (if ever used)
+node_modules/
+
+# Cloudflare
+.wrangler/

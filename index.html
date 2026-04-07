@@ -127,8 +127,6 @@
     .card-video { opacity: 0; transition: opacity 0.2s ease; }
     .card-item:hover .card-thumb { opacity: 0; }
     .card-item:hover .card-video { opacity: 1; }
-    .card-item.is-auto-playing .card-thumb { opacity: 0; }
-    .card-item.is-auto-playing .card-video { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
     .card-item:hover { z-index: 2; }
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
@@ -816,7 +814,7 @@
       card.addEventListener('mouseenter', () => {
         if (!loaded) {
           const source = video.querySelector('source[data-src]');
-          if (source && !source.getAttribute('src')) {
+          if (source) {
             source.src = source.dataset.src;
             video.load();
           }
@@ -918,49 +916,6 @@
       });
     }, { threshold: 0.12 });
     cardItems.forEach(card => observer.observe(card));
-
-    // ── Auto-play preview: plays 500ms after card settles into view, stops on hover of any card
-    (function() {
-      const autoTimers = new Map();
-
-      function stopAutoPlay() {
-        autoTimers.forEach(timer => clearTimeout(timer));
-        autoTimers.clear();
-        document.querySelectorAll('.card-item.is-auto-playing').forEach(function(card) {
-          card.classList.remove('is-auto-playing');
-          const v = card.querySelector('video.card-video');
-          if (v) v.pause();
-        });
-      }
-
-      cardItems.forEach(function(card) {
-        // Cancel auto-play the moment any card is hovered
-        card.addEventListener('mouseenter', stopAutoPlay);
-
-        // Watch for in-view class being added by IntersectionObserver
-        new MutationObserver(function(mutations, obs) {
-          if (!card.classList.contains('in-view')) return;
-          obs.disconnect();
-          const video = card.querySelector('video.card-video');
-          if (!video) return;
-          const transDelay = parseInt(card.style.transitionDelay) || 0;
-          // Wait for card to fully animate in, then 500ms extra
-          const timer = setTimeout(function() {
-            const source = video.querySelector('source[data-src]');
-            if (source && !source.getAttribute('src')) {
-              source.src = source.dataset.src;
-              video.load();
-            }
-            card.classList.add('is-auto-playing');
-            video.currentTime = 0;
-            video.play().catch(function() {});
-            autoTimers.delete(card);
-          }, transDelay + 550 + 500);
-
-          autoTimers.set(card, timer);
-        }).observe(card, { attributes: true, attributeFilter: ['class'] });
-      });
-    })();
 
     // ── Custom cursor
     (function() {

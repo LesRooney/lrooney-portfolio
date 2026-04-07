@@ -260,6 +260,126 @@ A 12×12px black square that morphs from invisible dot → horizontal line → f
 - The saved slide-in variant (square travels from left) is stored as commented-out CSS in index.html — search `SAVED: slide-in behaviour` to restore
 - For hover text dimming: use `color` transition (not `opacity`) so the square colour is unaffected by parent opacity
 
+### work card hover (homepage grid)
+On hover, cards scale up ~10px and lift slightly:
+```css
+.card-item { position: relative; }
+.card-item:hover { z-index: 2; } /* ensure scaled card renders above neighbours */
+.card-item:hover .card {
+  box-shadow: 0 16px 48px rgba(20,20,18,0.14);
+  transform: translateY(-3px) scale(1.034); /* ~10px on a 296px card */
+}
+.card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
+```
+
+### work section top fade (homepage)
+The `.work-section` uses `mask-image` to fade in from transparent at the top edge — content becomes fully visible 4px above the `.work-header`. Reversible: remove the two labelled lines to undo.
+```css
+/* ── WORK SECTION TOP FADE — reversible, remove the two lines below to undo ── */
+.work-section {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 44px);
+  mask-image: linear-gradient(to bottom, transparent 0px, black 44px);
+}
+```
+- `.work-header` sits at `padding-top: 48px`, so 44px = fully visible 4px before the header
+- Adjust the `44px` stop to change where full opacity is reached
+
+### password page — individual character boxes
+Each character of the password gets its own input. Real characters are stored in `realValues[]`; display shows `*` after a 1000ms delay. Case-insensitive check is done server-side in `functions/check-password.js`.
+
+**HTML structure — wrap each input in `.char-wrap` (required for caret positioning):**
+```html
+<div class="char-inputs" id="charInputs">
+  <div class="char-wrap"><input type="text" class="char-box" maxlength="1" autocomplete="off" inputmode="text" spellcheck="false" aria-label="Character 1"></div>
+  <!-- repeat × 10 -->
+</div>
+```
+
+**CSS:**
+```css
+.char-inputs { display: flex; gap: 6px; margin-bottom: 10px; justify-content: flex-start; }
+.char-wrap { position: relative; flex-shrink: 0; }
+.char-box {
+  width: 42px; height: 52px;
+  border: 1.5px solid var(--rule); border-radius: 12px;
+  background: var(--paper); font-size: 1.3rem; font-weight: 500;
+  text-align: center; color: var(--ink); outline: none;
+  caret-color: transparent; /* custom GSAP caret replaces native */
+  transition: border-color 0.15s, background 0.15s;
+}
+.char-box:focus { border-color: var(--blue); border-width: 2px; background: #fff; }
+.char-box.error-state { border-color: var(--red); border-width: 2px; }
+```
+
+### password page — GSAP blinking caret
+A custom `2px × 22px` blue vertical line blinks inside whichever char-box is active. GSAP is loaded via CDN on `password.html` (not bundled with the rest of the site).
+
+**CSS:**
+```css
+.pw-caret {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px; height: 22px; background: #2563eb;
+  border-radius: 2px; pointer-events: none;
+}
+```
+
+**JS pattern:**
+```js
+const caret = document.createElement('div');
+caret.className = 'pw-caret';
+let caretTween = null;
+let blurTimer = null;
+
+function showCaret(box) {
+  clearTimeout(blurTimer); // cancel any pending hide (focus moved between boxes)
+  if (caret.parentElement) caret.parentElement.removeChild(caret);
+  if (caretTween) caretTween.kill();
+  box.parentElement.appendChild(caret); // appends to .char-wrap
+  caretTween = gsap.to(caret, { opacity: 0, duration: 0.5, repeat: -1, yoyo: true, ease: 'none' });
+}
+
+function hideCaret() {
+  blurTimer = setTimeout(function() { // defer so focus-to-next-box cancels this
+    if (caretTween) { caretTween.kill(); caretTween = null; }
+    if (caret.parentElement) caret.parentElement.removeChild(caret);
+  }, 0);
+}
+```
+- Wire up: `box.addEventListener('focus', () => { box.select(); showCaret(box); })`
+- Wire up: `box.addEventListener('blur', hideCaret)`
+- **Critical:** attach all event listeners first, then call `boxes[0].focus()` — if focus fires before listeners are attached, `showCaret` will not trigger
+
+### password page — entrance animation
+Intro text, character boxes, and submit button stagger in from slightly above their resting position on page load:
+```css
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.intro-text       { opacity: 0; animation: slideDown 0.45s ease-out 0.1s forwards; }
+.char-inputs      { opacity: 0; animation: slideDown 0.45s ease-out 0.3s forwards; }
+button[type="submit"] { opacity: 0; animation: slideDown 0.45s ease-out 0.5s forwards; }
+```
+Stagger order: intro text (0.1s) → char boxes (0.3s) → button (0.5s). All slide from behind the "Password required" h1.
+
+### vertical divider (two-column layout)
+Used to separate two side-by-side content blocks (e.g. persona columns) with a 24px gap on each side:
+```html
+<div style="display: flex; gap: 0; align-items: flex-start;">
+  <div style="flex: 1; padding-right: 24px;"><!-- left content --></div>
+  <div style="width: 1px; background: var(--rule); align-self: stretch; flex-shrink: 0;"></div>
+  <div style="flex: 1; padding-left: 24px;"><!-- right content --></div>
+</div>
+```
+
+### CSS specificity — eyebrow labels inside deep-dive sections
+`.dd-label`, `.persona-section-label`, and `.cs-eyebrow` all share the same styles (0.75rem, uppercase, `var(--ink-mid)`). But inside `.deep-dive` or `.cs-section`, a broad `p` rule (specificity 0,1,1) can override a class-only rule (0,1,0). Fix by doubling up the selector:
+```css
+p.dd-label, .deep-dive p.dd-label { font-size: 0.75rem; ... }
+p.persona-section-label { font-size: 0.75rem; ... }
+```
+
 ### video-wrap (hover-to-play with controls)
 Hover plays video, shows scrubber + duration + sound toggle. Sound icon = 24px.
 ```html

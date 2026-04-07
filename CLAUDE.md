@@ -68,7 +68,6 @@ Build these first before any case study pages.
 
 ## NDA / password cases
 - NDA cases: show a blurred placeholder image + lock icon. Do not display actual screens.
-- Password-protected cases use the site password: RooneyFlow
 - The lock icon and "NDA" label are already used on the homepage cards — match that pattern
 - Password protection is enforced server-side via Cloudflare Pages middleware (`/functions/_middleware.js`)
 - Protected pages: `/medidataedcredesign`, `/clinical-risk-based-monitoring`, `/qualisflow-02`

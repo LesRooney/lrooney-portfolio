@@ -141,7 +141,15 @@
       "Bash(head -30 echo \"---\" grep -n \"nav\\\\|dropdown\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/coming-soon-playground.html)",
       "Bash(head -30 echo \"---\" grep -n \"nav\\\\|dropdown\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/coming-soon.html)",
       "Bash(head -5 grep -n \"</ul>\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/coming-soon-playground.html)",
-      "Bash(head -5 grep -n \"</ul>\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/coming-soon.html)"
+      "Bash(head -5 grep -n \"</ul>\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/coming-soon.html)",
+      "Bash(find /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio -type f -name .env* -o -name *.key -o -name *.pem)",
+      "Bash(grep -E \"\\\\.\\(env|key|pem|config|json\\)$\")",
+      "Bash(find . -type f \\\\\\(-name *.js -o -name *.html -o -name *.json -o -name *.env* \\\\\\))",
+      "Bash(grep -i \"cloudflare\\\\|firebase\\\\|segment\\\\|amplitude\\\\|intercom\\\\|stripe\\\\|github\\\\|oauth\\\\|jwt\\\\|bearer\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash(git log:*)",
+      "Bash(grep -n \"env\\\\.\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/functions/*.js)",
+      "Bash(find /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))",
+      "Bash(xargs cat:*)"
     ]
   }
 }

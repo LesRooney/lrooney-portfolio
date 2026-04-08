@@ -149,8 +149,8 @@
     .card-sub {
       font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5;
       opacity: 0;
-      transform: translateY(-22px);
-      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(-10px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
     .card-item.in-view .card-sub {
       opacity: 1;
@@ -918,12 +918,10 @@
         if (entry.isIntersecting) {
           const idx = Array.from(cardItems).indexOf(entry.target);
           const delays    = [0, 180, 350, 0, 170, 350, 0, 180, 350];
-          const subDelays = [150, 280, 410, 150, 280, 410, 150, 280, 410];
           const cardDelay = delays[idx] ?? (idx % 3) * 170;
-          const subDelay  = subDelays[idx] ?? 180;
           entry.target.style.transitionDelay = `${cardDelay}ms`;
           const sub = entry.target.querySelector('.card-sub');
-          if (sub) sub.style.transitionDelay = `${subDelay}ms`;
+          if (sub) sub.style.transitionDelay = `${cardDelay + 350}ms`;
           entry.target.classList.add('in-view');
           observer.unobserve(entry.target);
         }

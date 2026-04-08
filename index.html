@@ -668,7 +668,7 @@
 
   <section class="work-section" id="work">
     <div class="work-header">
-      <strong>Selected work</strong> — you can hover to take a sneak peek 👀 or use my password on restricted cases.
+      You can hover to take a sneak peek of selected work 👀 or use my password on restricted cases
     </div>
 
     <div class="grid" id="grid">
@@ -775,7 +775,7 @@
       <a href="lesleyrooney-games-sims-vfxworks.html" class="card-item" id="card-7">
         <div class="card">
           <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films" width="840" height="840" loading="lazy">
-          <video class="card-video" muted loop playsinline preload="none">
+          <video class="card-video" muted loop playsinline preload="none" data-playback-rate="1.2">
             <source data-src="videos/games-preview.mp4" type="video/mp4">
           </video>
         </div>
@@ -829,6 +829,7 @@
           }
           loaded = true;
         }
+        if (video.dataset.playbackRate) video.playbackRate = parseFloat(video.dataset.playbackRate);
         video.currentTime = 0;
         video.play().catch(() => {});
       });

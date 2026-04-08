@@ -152,7 +152,7 @@
     .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--ink); color: var(--paper); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--ink); }
 
     /* ── AUDIO PLAYER (inline pill) ── */
-    .audio-player { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); border: 1px solid var(--ink); border-radius: 20px; padding: 4px 10px 4px 5px; }
+    .audio-player { display: inline-flex; align-items: center; gap: 8px; background: var(--ink); border: 1px solid var(--ink); border-radius: 20px; padding: 4px 10px 4px 5px; opacity: 0.2; }
     .audio-play-btn { width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.55rem; transition: opacity 0.15s; line-height: 1; }
     .audio-play-btn:hover { opacity: 0.75; }
     .audio-player-label { font-size: 0.75rem; font-weight: 500; color: var(--paper); white-space: nowrap; }
@@ -668,10 +668,10 @@
           <source src="images/Qflow_Airquality/Q_pastPrototypes4DONE.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="postit postit--3" style="position: absolute; top: calc(100% - 10px); left: 10%; width: 260px; z-index: 2;">
+      <div class="postit postit--3" style="position: absolute; top: calc(100% - 10px); left: 10%; width: 260px; z-index: 2; transform: rotate(1deg);">
         <p><strong>Introducing animation</strong> as a quick walkthrough technique to grab the user's attention when initially opening up air quality.</p>
       </div>
-      <div class="postit postit--2" style="position: absolute; top: calc(100% - 10px); right: 10%; width: 260px; z-index: 2;">
+      <div class="postit postit--2" style="position: absolute; top: calc(100% - 10px); right: 10%; width: 260px; z-index: 2; transform: rotate(-1.5deg);">
         <p><strong>Hover function idea</strong> reveals monitor/sensors and their data lines. Suggested by the CTO after a show-and-tell, the hover feature was designed to distinguish multiple data lines without confusing accurate data viewing with Gantt chart filtering.</p>
       </div>
     </div>
@@ -765,7 +765,7 @@
     <p>When COVID-19 hit, Qflow quickly pivoted to focus on AI and ML <strong>for more attainable and successful modules already in the field. Integrating Power BI API to work with clients' existing tools,</strong> rather than competing against them.</p>
     <div style="display: flex; justify-content: center; margin-top: 24px;">
       <div class="img-card" style="display: inline-block; padding: 20px; width: 60%; box-sizing: border-box;">
-        <p class="cs-caption" style="margin: 0 0 16px;">A snippet of the actual in-product graph visualisation before more UI styling refinement, used during the client's 3-month pilot.</p>
+        <p class="cs-caption" style="margin: 0 0 16px; color: var(--ink-light);">A snippet of the actual in-product graph visualisation before more UI styling refinement, used during the client's 3-month pilot.</p>
         <video autoplay loop muted playsinline style="width: 100%; display: block; border-radius: 8px;">
           <source src="images/Qflow_Airquality/Slider.mp4" type="video/mp4">
         </video>

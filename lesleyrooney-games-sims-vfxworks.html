@@ -247,6 +247,21 @@
     }
     .video-play-icon svg { width: 20px; height: 20px; fill: var(--ink-light); margin-left: 3px; }
 
+    /* ── GALLERY SCROLL-REVEAL ── */
+    .gallery-item,
+    .section-banner,
+    .section-video {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .gallery-item.in-view,
+    .section-banner.in-view,
+    .section-video.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ── GALLERY ── */
     .gallery-grid {
       display: grid;
@@ -1217,6 +1232,42 @@ footer { padding: 32px 24px; }
     if (navToggle) navToggle.addEventListener('click', () => {
       if (audioEl.paused) { audioEl.play(); playBtn.textContent = '⏸'; }
       else { audioEl.pause(); playBtn.textContent = '▶'; }
+    });
+  })();
+
+  // ── Gallery scroll-reveal with column stagger
+  (function() {
+    var cols = 3;
+    var stagger = 100; // ms between columns
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var item = entry.target;
+        var siblings = Array.from(item.closest('.gallery-grid').querySelectorAll('.gallery-item'));
+        var idx = siblings.indexOf(item);
+        var col = idx % cols;
+        setTimeout(function() {
+          item.classList.add('in-view');
+        }, col * stagger);
+        obs.unobserve(item);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.gallery-item').forEach(function(el) {
+      obs.observe(el);
+    });
+  })();
+
+  // ── Section banner / video scroll-reveal
+  (function() {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in-view');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.section-banner, .section-video').forEach(function(el) {
+      obs.observe(el);
     });
   })();
 </script>

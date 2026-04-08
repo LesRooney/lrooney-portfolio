@@ -382,6 +382,17 @@
   [id*="web-stat"],
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
+
+  /* scroll-reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
   </style>
 
   
@@ -426,7 +437,7 @@
 
   <!-- CASE HEADER -->
   <div class="cs-header">
-    <p class="cs-eyebrow">B2B Enterprise · Medidata</p>
+    <p class="cs-eyebrow">B2B · Medidata</p>
     <h1>Risk Management: From Near Cancellation to Strategic Vision</h1>
     <div class="cs-tags">
       <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
@@ -442,13 +453,13 @@
   </div>
 
   <!-- COMPANY CONTEXT -->
-  <div class="cs-section">
+  <div class="cs-section" style="padding-bottom: 0;">
     <p class="section-eyebrow">About the company</p>
     <p>Medidata, founded in 1999 and now part of Dassault Systèmes, is a global technology company providing end-to-end B2B SaaS solutions for clinical trials within the life sciences industry. Their platform helps pharmaceutical, biotech, and contracts research organisations (CROs) modernise the discovery process by improving workflows, reducing errors, and accelerating the development of new therapies.</p>
   </div>
 
   <!-- LAPTOP FRAME + PRODUCT SCREENSHOT -->
-  <div class="cs-section">
+  <div class="cs-section reveal" style="padding-top: 0;">
     <div style="position: relative; display: block; line-height: 0;">
       <img src="images/Mockups/Microsoft Surface Book.svg" alt="Microsoft Surface Book laptop frame" style="width: 100%; display: block;">
       <video autoplay loop muted playsinline style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%; object-fit: contain; border-radius: 4px;">
@@ -546,7 +557,7 @@
       <li>Expand Medidata's design system with reusable components tailored to new product needs, ensuring alignment with other applications and strengthening integration opportunities.</li>
     </ul>
     <p class="cs-caption">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
-    <div class="img-card" style="padding: 20px;">
+    <div class="img-card reveal" style="padding: 20px;">
       <div class="ba-label-row">
         <span class="ba-pill before">Original Design</span>
         <span class="ba-pill after">New Design System</span>
@@ -839,6 +850,21 @@
     }, { threshold: 0.4 });
     observer.observe(slider);
   });
+
+  // scroll-reveal
+  (function() {
+    const revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObs.observe(el);
+    });
+  })();
 </script>
 </div><!-- /#page-content -->
   <!-- begin Web-Stat code v 7.0 -->

@@ -354,6 +354,17 @@
   [id*="web-stat"],
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
+
+  /* scroll-reveal */
+  .img-card {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .img-card.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
   </style>
 
   
@@ -1225,6 +1236,22 @@
 
     if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
   }('exceedance-exp-video', 'exceedance-exp-track', 'exceedance-exp-fill', 'exceedance-exp-thumb', 'exceedance-exp-duration', 'exceedance-exp-sound-btn', 'exceedance-exp-sound-icon'));
+</script>
+<script>
+// scroll-reveal
+(function() {
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.img-card').forEach(function(el) {
+    revealObs.observe(el);
+  });
+})();
 </script>
 
 </div><!-- /#page-content -->

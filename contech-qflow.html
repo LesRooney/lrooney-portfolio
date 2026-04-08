@@ -358,8 +358,8 @@
   /* scroll-reveal */
   .img-card {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(56px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .img-card.in-view {
     opacity: 1;
@@ -461,9 +461,11 @@
       <p><strong>Consultants previously spent days manually collecting air quality data, only to analyse it after the fact.</strong> This delay meant teams were reacting to breaches instead of preventing them.</p>
       <p><strong>Qflow's Air Quality module automates data aggregation and uses AI trained on historical readings to predict pollution based on construction schedules.</strong> Project managers can adjust plans and see risks instantly, turning compliance into a proactive, strategic tool.</p>
       <p><strong>With an early client ready to test on a high-risk project and limited competition in this niche, the focus was building a scalable, real-time solution for multiple clients.</strong></p>
-      <div class="img-pair">
-        <img src="images/Qflow_Airquality/my-role-research.webp" alt="My Role — research and discovery work" style="width: 100%; height: 280px; object-fit: cover; border-radius: 10px; display: block;">
-        <img src="images/Qflow_Airquality/AirQualityResearch10.webp" alt="My Role — additional context" style="width: 100%; height: 280px; object-fit: cover; border-radius: 10px; display: block;">
+      <div class="img-card">
+        <div class="img-pair" style="gap: 0; margin: 0;">
+          <img src="images/Qflow_Airquality/my-role-research.webp" alt="My Role — research and discovery work" style="width: 100%; height: 260px; object-fit: cover; border-radius: 8px 0 0 8px; display: block;">
+          <img src="images/Qflow_Airquality/AirQualityResearch10.webp" alt="My Role — additional context" style="width: 100%; height: 260px; object-fit: cover; border-radius: 0 8px 8px 0; display: block;">
+        </div>
       </div>
     </div>
 
@@ -683,7 +685,7 @@
       <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
         <source src="images/Qflow_Airquality/62-AAAADONE.mp4" type="video/mp4">
       </video>
-      <div class="postit postit--1" style="position: absolute; bottom: -230px; left: 0; width: 340px; z-index: 2; transform: rotate(2deg);">
+      <div class="postit postit--1" style="position: absolute; bottom: -246px; left: 0; width: 340px; z-index: 2; transform: rotate(2deg);">
         <p>We tested how construction data, like work packages and traffic, affects pollutant behavior. The Gantt chart idea was technically complex, so I suggested a simpler workaround: manual uploads instead of relying on Qflow automation. Not ideal, but engineering built a quick Excel upload hack. We took a "let's try it" approach and tracked usage in Mixpanel to decide if it was worth pursuing further.</p>
       </div>
       <div class="postit postit--4" style="position: absolute; bottom: -230px; right: 0; width: 280px; z-index: 2; transform: rotate(-0.8deg);">
@@ -707,7 +709,7 @@
         .laptop-dim:hover .laptop-dim-overlay { background: rgba(0,0,0,0.45); }
       </style>
       <!-- Postit: predictive — bottom right -->
-      <div class="postit postit--2" style="position: absolute; bottom: -198px; right: 0; width: 280px; z-index: 2;">
+      <div class="postit postit--2" style="position: absolute; bottom: -182px; right: 0; width: 280px; z-index: 2;">
         <p><strong>Predictive feature</strong> lets users forecast pollutant behaviour based on historical information and adjust work packages to visualise potential risks within defined confidence ranges.</p>
       </div>
     </div>

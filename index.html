@@ -143,8 +143,19 @@
     }
     .card-item.is-dimmed .card-title,
     .card-item.is-dimmed .card-sub { }
-    .card-item .card-title,
-    .card-item .card-sub { transition: opacity 0.35s ease; }
+    .card-item .card-title { transition: opacity 0.35s ease; }
+
+    /* card-sub slides down into position after card enters */
+    .card-sub {
+      font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5;
+      opacity: 0;
+      transform: translateY(-22px);
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-item.in-view .card-sub {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* Badges stay on the thumb */
     .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
@@ -153,8 +164,6 @@
     /* Info lives BELOW the thumb */
     .card-info  { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
-
-    .card-sub   { font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5; }
     .card-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--paper-alt), var(--rule)); font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light); text-align: center; padding: 24px; position: absolute; inset: 0; }
 
     /* ── PAST WORK — Animation + Games below a horizontal rule ── */
@@ -908,8 +917,13 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const idx = Array.from(cardItems).indexOf(entry.target);
-          const delays = [0, 180, 350, 0, 170, 350, 0, 180, 350];
-          entry.target.style.transitionDelay = `${delays[idx] ?? (idx % 3) * 170}ms`;
+          const delays    = [0, 180, 350, 0, 170, 350, 0, 180, 350];
+          const subDelays = [150, 280, 410, 150, 280, 410, 150, 280, 410];
+          const cardDelay = delays[idx] ?? (idx % 3) * 170;
+          const subDelay  = subDelays[idx] ?? 180;
+          entry.target.style.transitionDelay = `${cardDelay}ms`;
+          const sub = entry.target.querySelector('.card-sub');
+          if (sub) sub.style.transitionDelay = `${subDelay}ms`;
           entry.target.classList.add('in-view');
           observer.unobserve(entry.target);
         }

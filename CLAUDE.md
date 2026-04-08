@@ -131,6 +131,41 @@ Two behaviours, one shared style system.
 - `.img-card .cs-caption` → `margin: 0 0 20px; font-size: 0.82rem`
 - `.img-card img` → `border-radius: 8px`
 
+**Scroll-reveal animation (required on all case study pages)**
+Every `.img-card` fades in and slides up when it enters the viewport. Add to each page's `<style>` block:
+```css
+/* scroll-reveal */
+.img-card {
+  opacity: 0;
+  transform: translateY(56px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+```
+Add to each page's JS (before `</script>` or as a new `<script>` before `</body>`):
+```js
+// scroll-reveal
+(function() {
+  var revealObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.img-card').forEach(function(el) {
+    revealObs.observe(el);
+  });
+})();
+```
+- Threshold `0.08` — triggers when 8% of the card is visible
+- Animates once only (`unobserve` after trigger)
+- Currently live on: `medidataedcredesign.html`, `contech-qflow.html`, `homerenter.html`, `clinical-risk-based-monitoring.html`
+
 ### postit note (aka postit-over-image)
 When a caption needs to sit over/below an image as a sticky note:
 1. Wrap the image/video card in a `position: relative` container with enough `margin-bottom` to clear the postit (typically `margin-bottom: [postit-bottom-offset + postit-height]px`)

@@ -386,8 +386,8 @@
   /* scroll-reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(56px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .reveal.in-view {
     opacity: 1;
@@ -635,12 +635,12 @@
           <source src="images/MedidataRiskManagement/sectionrec.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="postit postit--3" style="position: absolute; bottom: -208px; left: 10%; width: 280px; z-index: 2;">
+      <div class="postit postit--3" style="position: absolute; bottom: -184px; left: 10%; width: 280px; z-index: 2;">
         <p>Original pattern had two hover points — risk details and truncated content. <strong>I recommended merging them to improve scannability and reduce friction,</strong> then added an info icon so users wouldn't miss hidden content.</p>
       </div>
     </div>
 
-    <div class="img-card" style="padding: 20px; width: 80%; margin: 0 auto;">
+    <div class="img-card" style="padding: 20px; width: 80%; margin: -40px auto 0;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/MedidataRiskManagement/MD_Risk_List_HoverAfter.mp4" type="video/mp4">
       </video>
@@ -653,11 +653,11 @@
         </video>
       </div>
 
-      <div class="postit postit--3" style="position: absolute; left: 48px; top: 50%; transform: translateY(-50%) rotate(4deg); width: 300px; z-index: 2;">
+      <div class="postit postit--3" style="position: absolute; left: 48px; top: calc(50% - 8px); transform: translateY(-50%) rotate(4deg); width: 300px; z-index: 2;">
         <p><strong>I replaced the slide-up UI with a full-page modal</strong> after testing showed it appeared abruptly, obscured grid content, and couldn't auto-focus the correct row. Despite initial pushback, interviews confirmed users didn't reference other risks while entering questions — risks referenced by name, not number. Names highlighted as deep links.</p>
       </div>
 
-      <div class="img-card" style="padding: 20px; margin-top: 275px;">
+      <div class="img-card" style="padding: 20px; margin-top: 267px;">
         <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
           <source src="images/MedidataRiskManagement/FullModalSlideUp_small.mp4" type="video/mp4">
         </video>

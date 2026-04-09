@@ -265,7 +265,8 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      column-gap: 8px;
+      row-gap: 16px;
     }
     .gallery-item {
       position: relative;
@@ -541,11 +542,14 @@ footer { padding: 32px 24px; }
       <p>Textures improvement on road bits.</p>
     </div>
     <div class="gallery-grid" data-gallery="walter-mitty">
-      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/WalterMitty_01.jpg" data-lb-caption="Walter Mitty — Road texture work">
-        <img src="images/gfx/WalterMitty_01.jpg" alt="Walter Mitty road texture" loading="lazy">
+      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/658ba4_693de38adb794e1eb06cb4b22fd83db0~mv2.avif" data-lb-caption="Walter Mitty — Road texture work">
+        <img src="images/gfx/658ba4_693de38adb794e1eb06cb4b22fd83db0~mv2.avif" alt="Walter Mitty road texture" loading="lazy">
       </figure>
-      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/WalterMitty_012.jpg" data-lb-caption="Walter Mitty — Texture work">
-        <img src="images/gfx/WalterMitty_012.jpg" alt="Walter Mitty texture work" loading="lazy">
+      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/658ba4_ba9c3231da90403f8cf8418d9b565993~mv2.avif" data-lb-caption="Walter Mitty — Texture work">
+        <img src="images/gfx/658ba4_ba9c3231da90403f8cf8418d9b565993~mv2.avif" alt="Walter Mitty texture work" loading="lazy">
+      </figure>
+      <figure class="gallery-item" data-lb-group="walter-mitty" data-lb-src="images/gfx/658ba4_c45c3e9ec48e49be9091fe6560be4593~mv2.avif" data-lb-caption="Walter Mitty — Road detail">
+        <img src="images/gfx/658ba4_c45c3e9ec48e49be9091fe6560be4593~mv2.avif" alt="Walter Mitty road detail" loading="lazy">
       </figure>
     </div>
   </section>
@@ -623,10 +627,6 @@ footer { padding: 32px 24px; }
         <img src="images/gfx/BettleCar_ImageSplit%2001_4.jpg" alt="Beetle Car split view" loading="lazy">
         <figcaption>Split view</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Textures.jpg" data-lb-caption="Beetle Car — Textures">
-        <img src="images/gfx/BettleCar_Textures.jpg" alt="Beetle Car textures" loading="lazy">
-        <figcaption>Textures</figcaption>
-      </figure>
       <figure class="gallery-item gallery-item--carousel" data-lb-group="beetle-car" data-lb-src="images/gfx/BettleCar_Image07.jpg" data-lb-caption="Beetle Car — Extra views">
         <img src="images/gfx/BettleCar_Image07.jpg" alt="Beetle Car" class="carousel-slide active" loading="lazy">
         <img src="images/gfx/BettleCar_Image08.jpg" alt="Beetle Car" class="carousel-slide" loading="lazy">
@@ -640,9 +640,11 @@ footer { padding: 32px 24px; }
         <img src="images/gfx/BettleCar_TexturesLarge%2002.jpg" alt="Beetle Car textures large" class="carousel-slide" loading="lazy">
         <img src="images/gfx/BettleCar_TexturesLarge%2003.jpg" alt="Beetle Car textures large" class="carousel-slide" loading="lazy">
         <img src="images/gfx/beetle-muddy-renders.jpg" alt="Beetle Car muddy renders" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/658ba4_33911500eac042e7a18c69bc8c3eebf1~mv2.avif" alt="Beetle Car" class="carousel-slide" loading="lazy">
         <figcaption>Extra views</figcaption>
       </figure>
     </div>
+    <img src="images/gfx/BettleCar_Textures.jpg" alt="Beetle Car textures" class="section-banner" loading="lazy" style="border-radius: 16px;">
   </section>
 
   <!-- ── MARI CHALLENGE ── -->
@@ -652,9 +654,7 @@ footer { padding: 32px 24px; }
     <div class="section-body">
       <p>Screenshots of textures created for <a href="https://www.foundry.com/products/mari" target="_blank" rel="noopener">Mari competition</a>. Model provided by Jakob Kousholts</p>
     </div>
-    <img src="images/gfx/MariChallenge_HeroLargeImage.jpg" alt="Mari Challenge — Hero render" class="section-banner" loading="lazy">
-    <img src="images/gfx/MariChallenge_SplitScreenLarge.png" alt="Mari Challenge split screen" class="section-banner" loading="lazy">
-    <div class="gallery-grid" data-gallery="mari-challenge">
+    <img src="images/gfx/MariChallenge_HeroLargeImage.jpg" alt="Mari Challenge — Hero render" class="section-banner" loading="lazy">    <div class="gallery-grid" data-gallery="mari-challenge">
       <figure class="gallery-item gallery-item--gif" data-lb-group="mari-challenge" data-lb-src="images/gfx/MariCompetition_Slot01.gif" data-lb-caption="Mari Competition — Animation">
         <video autoplay loop muted playsinline title="Mari Competition animation">
         <source src="images/gfx/MariCompetition_Slot01.mp4" type="video/mp4">
@@ -719,18 +719,18 @@ footer { padding: 32px 24px; }
         </video>
         <figcaption>Suitcase animation</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_Suitcase.jpg" data-lb-caption="GI Joe 2 — Suitcase texture">
-        <img src="images/gfx/GiJoe2_Suitcase.jpg" alt="GI Joe 2 suitcase texture" loading="lazy">
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_40fb5d427a114e7f88d6af9b92170e2f~mv2.avif" data-lb-caption="GI Joe 2 — Suitcase texture">
+        <img src="images/gfx/658ba4_40fb5d427a114e7f88d6af9b92170e2f~mv2.avif" alt="GI Joe 2 suitcase texture" loading="lazy">
         <figcaption>Suitcase texture</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm.jpg" data-lb-caption="GI Joe 2 — Helicopter film shot">
-        <img src="images/gfx/GiJoe2_HelicopterFilm.jpg" alt="GI Joe 2 helicopter film shot" loading="lazy">
+      <figure class="gallery-item" data-lb-group="gi-joe" data-lb-src="images/gfx/658ba4_97d849a254d348acaa2628c14863cccd~mv2.avif" data-lb-caption="GI Joe 2 — Helicopter film shot">
+        <img src="images/gfx/658ba4_97d849a254d348acaa2628c14863cccd~mv2.avif" alt="GI Joe 2 helicopter film shot" loading="lazy">
         <figcaption>Helicopter film shot</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--carousel" data-lb-group="gi-joe" data-lb-src="images/gfx/GiJoe2_HelicopterFilm02.jpg" data-lb-caption="GI Joe 2 — Extra views">
         <img src="images/gfx/GiJoe2_HelicopterFilm02.jpg" alt="GI Joe 2 helicopter" class="carousel-slide active" loading="lazy">
         <img src="images/gfx/GiJoe2_HelicopterFil04.jpg" alt="GI Joe 2 helicopter" class="carousel-slide" loading="lazy">
-        <img src="images/gfx/GiJoe2_HelicopterFilm%2003.jpg" alt="GI Joe 2 helicopter" class="carousel-slide" loading="lazy">
+        <img src="images/gfx/658ba4_6549f85a0b2541b49157edbc069fcc6c~mv2.avif" alt="GI Joe 2 helicopter" class="carousel-slide" loading="lazy">
         <figcaption>Extra views</figcaption>
       </figure>
     </div>
@@ -841,12 +841,12 @@ footer { padding: 32px 24px; }
         <img src="images/gfx/act-uk-screenshot-1_Slot02.jpg" alt="ACT-UK in-engine screenshot" loading="lazy">
         <figcaption>In-engine screenshot</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-sim-centre-4%20Split_Slot07.jpg" data-lb-caption="ACT-UK — Environment split view">
-        <img src="images/gfx/act-uk-sim-centre-4%20Split_Slot07.jpg" alt="ACT-UK environment split view" loading="lazy">
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/658ba4_31d91a63285e4df0be89dab1c7cf4e29~mv2_d_2048_2048_s_2.avif" data-lb-caption="ACT-UK — Environment split view">
+        <img src="images/gfx/658ba4_31d91a63285e4df0be89dab1c7cf4e29~mv2_d_2048_2048_s_2.avif" alt="ACT-UK environment split view" loading="lazy">
         <figcaption>Environment split view</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-textures-a.jpg" data-lb-caption="Texture maps — Colour maps from Bodypaint, Timeslice activity 4">
-        <img src="images/gfx/act-uk-textures-a.jpg" alt="ACT-UK texture maps" loading="lazy">
+      <figure class="gallery-item" data-lb-group="act-uk" data-lb-src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.avif" data-lb-caption="Texture maps — Colour maps from Bodypaint, Timeslice activity 4">
+        <img src="images/gfx/658ba4_5bcf9a36071b4877bf8f2037a51bfc13~mv2.avif" alt="ACT-UK texture maps" loading="lazy">
         <figcaption>Texture maps</figcaption>
       </figure>
       <figure class="gallery-item gallery-item--carousel" data-lb-group="act-uk" data-lb-src="images/gfx/act-uk-screenshot-2_Slot03.jpg" data-lb-caption="ACT-UK — More work">
@@ -940,6 +940,12 @@ footer { padding: 32px 24px; }
         <img src="images/gfx/slum-house-brushwork.jpeg" alt="Slum House brush work" loading="lazy">
         <figcaption>Brush work</figcaption>
       </figure>
+      <figure class="gallery-item gallery-item--gif" data-lb-group="hard-surface" data-lb-src="images/gfx/Mine_HouseMappingClip.mp4" data-lb-caption="Slum House — House mapping clip">
+        <video autoplay loop muted playsinline title="Slum House house mapping clip">
+          <source src="images/gfx/Mine_HouseMappingClip.mp4" type="video/mp4">
+        </video>
+        <figcaption>House mapping clip</figcaption>
+      </figure>
     </div>
     <div class="gallery-actions">
     </div>
@@ -987,13 +993,25 @@ footer { padding: 32px 24px; }
         <img src="images/gfx/games-cartoon-boxcar.jpg" alt="Cartoon stylised boxcar" loading="lazy">
         <figcaption>Cartoon boxcar texture</figcaption>
       </figure>
-      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/GameWork_Slot02.jpg" data-lb-caption="Game work — Environment">
-        <img src="images/gfx/GameWork_Slot02.jpg" alt="Game work environment" loading="lazy">
-        <figcaption>Game work — Environment</figcaption>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_ea7f25cbe76048d788629f8fc46b6336~mv2.avif" data-lb-caption="Game environment — Alive Inside building">
+        <img src="images/gfx/658ba4_ea7f25cbe76048d788629f8fc46b6336~mv2.avif" alt="Game environment — Alive Inside building" loading="lazy">
+        <figcaption>Alive Inside — environment render</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_9ec731750c714867b0c66e099a183830~mv2.jpg" data-lb-caption="Abandoned nursery — game environment render">
         <img src="images/gfx/658ba4_9ec731750c714867b0c66e099a183830~mv2.jpg" alt="Abandoned nursery game environment render" loading="lazy">
         <figcaption>Abandoned nursery — environment render</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.avif" data-lb-caption="Game environment — abandoned playground">
+        <img src="images/gfx/658ba4_822ad44bc5ff4e7582f97592c66331b6~mv2.avif" alt="Game environment — abandoned playground" loading="lazy">
+        <figcaption>Abandoned playground environment</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.avif" data-lb-caption="Game environment — nursery front view">
+        <img src="images/gfx/658ba4_023dc16377bb459b829633b2c489923d~mv2.avif" alt="Game environment — nursery front view" loading="lazy">
+        <figcaption>Nursery — environment render</figcaption>
+      </figure>
+      <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/GameWork_Slot02.jpg" data-lb-caption="Game work — Environment">
+        <img src="images/gfx/GameWork_Slot02.jpg" alt="Game work environment" loading="lazy">
+        <figcaption>Game work — Environment</figcaption>
       </figure>
       <figure class="gallery-item" data-lb-group="pro-games" data-lb-src="images/gfx/act-uk-sim-centre-GroundTexture08.jpg" data-lb-caption="Brick wall texture reference sheet">
         <img src="images/gfx/act-uk-sim-centre-GroundTexture08.jpg" alt="Brick wall texture reference sheet" loading="lazy">

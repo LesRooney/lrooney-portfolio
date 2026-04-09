@@ -6,7 +6,7 @@
   <title>Fire Tracker — Coming Soon · Lesley Rooney</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -252,6 +252,21 @@
       <h1>Coming Soon</h1>
       <p>This case study is being written up. Check back soon.</p>
       <a href="index.html" class="back-link"><span class="arrow">←</span> Back to work</a>
+      <div style="display: flex; flex-direction: column; align-items: center; margin-top: 40px; gap: 0;">
+        <div style="display: flex; gap: 16px; justify-content: center;">
+          <video autoplay loop muted playsinline
+                 style="width: 200px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); transform: rotate(-10deg);"
+                 onloadedmetadata="this.currentTime=2">
+            <source src="images/FireTracker/VisualisationFIRE01.mp4" type="video/mp4">
+          </video>
+          <video autoplay loop muted playsinline
+                 style="width: 200px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); transform: rotate(10deg);"
+                 onloadedmetadata="this.currentTime=2">
+            <source src="images/FireTracker/VisualisationFire02.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p style="font-family: 'Caveat', cursive; font-size: 1.3rem; font-weight: 500; color: #1a1a1a; text-align: center; margin: 28px 0 0; letter-spacing: 0.02em;">↑ Visualisation examples ↑</p>
+      </div>
     </div>
 
     <!-- ── SCATTERED NOTES ── -->
@@ -261,6 +276,20 @@
          style="top: calc(50% - 340px); left: calc(50% + 360px); transform: rotate(2deg); background: #fffbe5;">
       <strong>User research</strong>
       Interviewed FIRE community members on Reddit and Discord to understand tracking needs.
+    </div>
+
+    <!-- Competitors note + fanned images -->
+    <div style="position: absolute; top: calc(50% - 100px); left: calc(50% + 540px);">
+      <div style="position: relative; background: #fce8ee; border-radius: 6px; padding: 18px 22px; font-size: 0.875rem; color: var(--ink); line-height: 1.55; box-shadow: 0 3px 12px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06); max-width: 210px; transform: rotate(-1.8deg); z-index: 2; cursor: grab;">
+        <strong style="display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.55;">Competitors &amp; ideas</strong>
+      </div>
+      <!-- Fanned images pinned below the note -->
+      <div style="position: absolute; top: 72px; left: 105px; width: 0; height: 0;">
+        <img src="images/FireTracker/Compet01.avif"           alt="Competitor research" loading="lazy" style="position: absolute; width: 302px; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.28); transform-origin: top center; transform: translateX(-50%) rotate(-58deg);">
+        <img src="images/FireTracker/ProjectionLabs_01.avif"  alt="Projection Labs"     loading="lazy" style="position: absolute; width: 302px; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.28); transform-origin: top center; transform: translateX(-50%) translateY(70px) rotate(-19deg);">
+        <img src="images/FireTracker/projectionlab02.avif"    alt="Projection Labs 2"   loading="lazy" style="position: absolute; width: 302px; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.28); transform-origin: top center; transform: translateX(-50%) rotate(19deg);">
+        <img src="images/FireTracker/PersonalCompetitor.avif" alt="Personal competitor" loading="lazy" style="position: absolute; width: 302px; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.28); transform-origin: top center; transform: translateX(-50%) rotate(58deg);">
+      </div>
     </div>
 
     <!-- Left -->
@@ -279,7 +308,7 @@
 
     <!-- Bottom-right -->
     <div class="float-note"
-         style="top: calc(50% + 220px); left: calc(50% + 380px); transform: rotate(-2.2deg); background: #edf5ed;">
+         style="top: calc(50% + 340px); left: calc(50% + 420px); transform: rotate(-2.2deg); background: #edf5ed;">
       <strong>Design system</strong>
       Mobile-first. Charts, progress bars, and calm UI to reduce money anxiety.
     </div>
@@ -293,7 +322,7 @@
 
     <!-- Far right -->
     <div class="float-note"
-         style="top: calc(50% + 60px); left: calc(50% + 580px); transform: rotate(1.6deg); background: #f0eeff;">
+         style="top: calc(50% + 10px); left: calc(50% + 800px); transform: rotate(1.6deg); background: #f0eeff;">
       <strong>Side project</strong>
       Built as a personal tool first — designed to solve my own FIRE planning problem.
     </div>

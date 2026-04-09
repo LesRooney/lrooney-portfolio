@@ -149,7 +149,8 @@
       "Bash(git log:*)",
       "Bash(grep -n \"env\\\\.\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/functions/*.js)",
       "Bash(find /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(grep -rl \"GiJoe2_Suitcase\\\\|GiJoe2_HelicopterFilm\\\\|GI Joe\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
     ]
   }
 }

@@ -1085,15 +1085,16 @@
         }
       );
 
-      // h1 drifts slower — 25px over same range (16px → 380px)
+      // h1 drifts down + fades out — fully transparent by 200px scroll
       gsap.fromTo('.hero h1',
-        { y: 0 },
+        { y: 0, opacity: 1 },
         {
-          y: 25,
+          y: 80,
+          opacity: 0,
           ease: 'none',
           scrollTrigger: {
             trigger: 'body',
-            start: '16px top',
+            start: '180px top',
             end:   '380px top',
             scrub: true,
           }

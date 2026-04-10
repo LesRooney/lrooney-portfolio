@@ -150,7 +150,14 @@
       "Bash(grep -n \"env\\\\.\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/functions/*.js)",
       "Bash(find /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio -type f \\\\\\(-name *.md -o -name *.txt \\\\\\))",
       "Bash(xargs cat:*)",
-      "Bash(grep -rl \"GiJoe2_Suitcase\\\\|GiJoe2_HelicopterFilm\\\\|GI Joe\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)"
+      "Bash(grep -rl \"GiJoe2_Suitcase\\\\|GiJoe2_HelicopterFilm\\\\|GI Joe\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "mcp__figma-remote-mcp__generate_figma_design",
+      "Bash(open \"http://localhost:8081/index.html#figmacapture=52240d6a-ab9d-4c95-84d3-3e0f22eeef92&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F52240d6a-ab9d-4c95-84d3-3e0f22eeef92%2Fsubmit&figmadelay=1000\")",
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=2-2\")",
+      "Bash(open \"http://localhost:8081/index.html#figmacapture=3b0f7271-a4a4-4d6d-a96e-533e86730bfe&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F3b0f7271-a4a4-4d6d-a96e-533e86730bfe%2Fsubmit&figmadelay=4000\")",
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=5-2\")",
+      "Bash(open \"http://localhost:8081/index.html#figmacapture=7c22e858-b07f-4159-90c7-ef91c34ac70a&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F7c22e858-b07f-4159-90c7-ef91c34ac70a%2Fsubmit&figmadelay=5000\")",
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=9-2\")"
     ]
   }
 }

@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lesley Rooney — Senior Product Designer</title>
 
-  <!-- Preload critical above-the-fold assets -->
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<!-- Preload critical above-the-fold assets -->
   <link rel="preload" href="images/medidata-edc-thumb.webp" as="image" fetchpriority="high">
   <link rel="preload" href="https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KU7NSg.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -60,19 +61,40 @@
       position: sticky; top: 0; z-index: 0;
       background: #FDFDFC;
     }
-    .hero h1 { font-family: var(--serif); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
+    .hero h1 { font-family: var(--serif); font-size: clamp(3.36rem, 6vw, 5.04rem); font-weight: 800; line-height: 42.28px; letter-spacing: -0.04em; margin-bottom: 40px; }
     .h1-word { display: inline-block; }
     .h1-char { display: inline-block; }
-    .hero-intro { display: flex; flex-direction: column; gap: 10px; }
+    .hero-intro { display: flex; flex-direction: column; gap: 10px; margin-top: 80px; }
     .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: transform 0.5s ease; }
     .intro-block.in-view { opacity: 1; transform: translateY(0); }
     .intro-label { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: capitalize; color: var(--ink); }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
 
+    /* ── AS A PERSON animation ── */
+    .intro-text--person { display: inline; }
+    .person-em-clip {
+      display: inline-block;
+      vertical-align: baseline;
+      /* margin-right initialised to -clipWidth by JS on load; keeps natural width but collapses space */
+    }
+    .person-em {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.35s ease;
+    }
+    .person-rest {
+      display: inline-block;
+    }
+    .person-em.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ── WORK SECTION ── */
-    .work-section { max-width: var(--max); margin: 0 auto; padding: 48px 48px 0; position: relative; z-index: 2; background: #FDFDFC; }
+    .work-section { max-width: var(--max); margin: 0 auto; padding: 8px 48px 0; position: relative; z-index: 2; background: #FDFDFC; }
     /* ── WORK SECTION TOP FADE — reversible, remove the two lines below to undo ── */
-    .work-section { -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 44px); mask-image: linear-gradient(to bottom, transparent 0px, black 44px); }
     .work-header { max-width: var(--max); margin: 0 auto 32px; padding: 0; font-size: 0.95rem; color: var(--ink-mid); opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
     .work-header strong { color: var(--ink); }
 
@@ -83,7 +105,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 32px 24px;
+      gap: 16px 24px;
       width: calc(100% - 96px);
       max-width: calc(var(--max) - 96px);
       padding: 0;
@@ -655,7 +677,9 @@
         <p class="intro-text"><strong class="intro-label">As a designer,</strong> I aim to make products obvious and add moments of delight, with 7+ years across B2B, SaaS, and B2C.</p>
       </div>
       <div class="intro-block">
-        <p class="intro-text"><strong class="intro-label">As a person,</strong> <em>I'm an introvert</em> who listens deeply to understand people, data, and business goals.</p>
+        <p class="intro-text intro-text--person">
+          <strong class="intro-label">As a person,</strong><span class="person-em-clip"><em class="person-em"> I'm an introvert</em></span><span class="person-rest"> who listens deeply to understand people, data, and business goals.</span>
+        </p>
       </div>
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a problem solver,</strong> I experiment and collaborate to de-risk ideas before committing resources.</p>
@@ -682,7 +706,7 @@
               <span class="card-new">New</span>
             </div>
             <div class="card-info">
-              <div class="card-title">🔒 Medidata • EDC Redesign</div>
+              <div class="card-title"><img src="images/icons/locked_extrabold.svg" alt="Password protected" style="height:16px;width:auto;vertical-align:middle;margin-right:4px;position:relative;top:-1px;">Medidata • EDC Redesign</div>
               <div class="card-sub">B2B · Unifying fragmented legacy tools, cutting workflow complexity by up to 40%</div>
             </div>
           </a>
@@ -720,7 +744,7 @@
               </video>
             </div>
             <div class="card-info">
-              <div class="card-title">🔒 Qualis Flow • Alerts & IA</div>
+              <div class="card-title"><img src="images/icons/locked_extrabold.svg" alt="Password protected" style="height:16px;width:auto;vertical-align:middle;margin-right:4px;position:relative;top:-1px;">Qualis Flow • Alerts & IA</div>
               <div class="card-sub">SaaS · 0→1: Real-time alert &amp; monitoring for AI-detected compliance issues</div>
             </div>
           </a>
@@ -746,7 +770,7 @@
               </video>
             </div>
             <div class="card-info">
-              <div class="card-title">🔒 Medidata • Risk Management</div>
+              <div class="card-title"><img src="images/icons/locked_extrabold.svg" alt="Password protected" style="height:16px;width:auto;vertical-align:middle;margin-right:4px;position:relative;top:-1px;">Medidata • Risk Management</div>
               <div class="card-sub">B2B · Turning an underused risk tool into a workflow teams actively wanted</div>
             </div>
           </a>
@@ -892,7 +916,10 @@
         setTimeout(() => el.classList.add('in-view'), delays[idx]);
       });
     }
-    window.addEventListener('load', showIntroBlocks);
+    window.addEventListener('load', function() {
+      collapsePersonClip(); // collapse clip space after fonts load (accurate measurement)
+      showIntroBlocks();
+    });
 
     // ── Fix for bfcache: when navigating back, 'load' doesn't re-fire
     // Reset GSAP inline styles and re-trigger intro animations
@@ -908,6 +935,8 @@
         if (window.ScrollTrigger) ScrollTrigger.refresh();
         // Re-trigger intro block animations
         document.querySelectorAll('.intro-block').forEach(el => el.classList.remove('in-view'));
+        // Reset and replay person animation in sync with h1
+        resetPersonAnimation();
         showIntroBlocks();
       }
     });
@@ -991,6 +1020,43 @@
       delay: 0.18,
       stagger: 0.25,
     });
+    // Helper — expands the clip to push person-rest right, then slots person-em up
+    // Collapse the clip's space by setting margin-right = -offsetWidth (no transition yet)
+    function collapsePersonClip() {
+      var clip = document.querySelector('.person-em-clip');
+      if (clip) clip.style.marginRight = '-' + clip.offsetWidth + 'px';
+    }
+
+    function triggerPersonAnimation() {
+      var em   = document.querySelector('.person-em');
+      var clip = document.querySelector('.person-em-clip');
+      if (clip) {
+        // GSAP elastic spring: overshoots then settles at 4px margin
+        clip.style.transition = 'none'; // let GSAP own this property
+        gsap.to(clip, {
+          marginRight: '4px',
+          duration: 0.65,
+          ease: 'back.out(1.4)',
+        });
+      }
+      setTimeout(function() {
+        if (em) em.classList.add('animate');
+      }, 30);
+    }
+
+    // Reset helper for bfcache — snaps clip back to collapsed state then replays
+    function resetPersonAnimation() {
+      var em   = document.querySelector('.person-em');
+      var clip = document.querySelector('.person-em-clip');
+      if (clip) { gsap.killTweensOf(clip); clip.style.transition = 'none'; collapsePersonClip(); }
+      if (em)   { em.classList.remove('animate'); }
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(triggerPersonAnimation, 1460);
+        });
+      });
+    }
+
     gsap.from('.h1-char', {
       opacity: 0,
       y: 20,
@@ -998,6 +1064,7 @@
       ease: 'power3.out',
       delay: 0.71,
       stagger: 0.08,
+      onComplete: triggerPersonAnimation,
     });
 
     // Only run on desktop — keep mobile clean

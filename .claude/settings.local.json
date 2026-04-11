@@ -157,7 +157,9 @@
       "Bash(open \"http://localhost:8081/index.html#figmacapture=3b0f7271-a4a4-4d6d-a96e-533e86730bfe&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F3b0f7271-a4a4-4d6d-a96e-533e86730bfe%2Fsubmit&figmadelay=4000\")",
       "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=5-2\")",
       "Bash(open \"http://localhost:8081/index.html#figmacapture=7c22e858-b07f-4159-90c7-ef91c34ac70a&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F7c22e858-b07f-4159-90c7-ef91c34ac70a%2Fsubmit&figmadelay=5000\")",
-      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=9-2\")"
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=9-2\")",
+      "Bash(open \"http://localhost:8081/index.html#figmacapture=cc783f16-a474-48cd-a304-a0fd839cec42&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fcc783f16-a474-48cd-a304-a0fd839cec42%2Fsubmit&figmadelay=5000\")",
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=13-2\")"
     ]
   }
 }

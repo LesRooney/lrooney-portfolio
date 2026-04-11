@@ -923,41 +923,23 @@
       showIntroBlocks();
     });
 
-    // ── Fix for bfcache: when navigating back, 'load' doesn't re-fire
+    // ── bfcache restore: kill stale GSAP tweens, reset hero text to visible
     window.addEventListener('pageshow', (e) => {
       if (e.persisted) {
-        // 1. Remove page-transition overlay left over from bfcache snapshot
+        // Remove page-transition overlay left from bfcache snapshot
         const ov = document.getElementById('pt-overlay');
         if (ov) ov.remove();
 
-        // 2. Scroll to top so ScrollTrigger recalculates from position 0
+        // Kill any stale tweens on hero name elements and clear inline styles
+        // CSS base state is opacity:1 so elements are immediately visible
+        gsap.killTweensOf('.h1-word, .h1-char');
+        gsap.set('.h1-word, .h1-char, .hero h1', { clearProps: 'all' });
+
+        // Scroll to top and refresh ScrollTrigger
         window.scrollTo(0, 0);
-
-        // 3. Kill any running tweens on hero elements so they don't interfere
-        if (window.gsap) {
-          gsap.killTweensOf(['.hero h1', '.h1-word', '.h1-char']);
-          gsap.set(['.hero', '.hero h1', '.h1-word', '.h1-char', '.hero-intro', '.intro-block'], { clearProps: 'all' });
-        }
-
-        // 4. Replay the .hero CSS fadeUp animation (doesn't auto-replay on bfcache)
-        const heroEl = document.querySelector('.hero');
-        if (heroEl) {
-          heroEl.style.animation = 'none';
-          void heroEl.offsetHeight; // force reflow
-          heroEl.style.animation = '';
-        }
-
-        // 5. Explicitly ensure h1 is visible before ScrollTrigger refresh
-        //    (guards against the scroll-fade tween leaving opacity:0)
-        if (window.gsap) gsap.set('.hero h1', { opacity: 1, y: 0 });
-
-        // 6. Refresh ScrollTrigger at scroll=0
         if (window.ScrollTrigger) ScrollTrigger.refresh();
 
-        // 7. Re-run the h1 letter-by-letter entrance
-        runHeroEntrance();
-
-        // 8. Re-trigger intro block and person animations
+        // Re-trigger intro blocks
         document.querySelectorAll('.intro-block').forEach(el => el.classList.remove('in-view'));
         resetPersonAnimation();
         showIntroBlocks();

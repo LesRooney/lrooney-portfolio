@@ -208,8 +208,24 @@
       justify-content: space-between;
       gap: 6px;
     }
+    .lock-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0;
+      margin-right: 8px;
+      background: transparent;
+      transition: background 0.2s ease;
+    }
     .card-title .card-lock-icon {
-      height: 16px; width: auto; flex-shrink: 0; opacity: 0.7; margin-right: 8px;
+      width: 10px; height: 14px; flex-shrink: 0;
+      transition: filter 0.2s ease, opacity 0.2s ease;
+      opacity: 0.7;
+    }
+    .card-item:hover .lock-badge {
+      background: var(--ink);
+    }
+    .card-item:hover .card-lock-icon {
+      filter: brightness(0) invert(1);
+      opacity: 1;
     }
     .card-title::before {
       content: '';
@@ -759,7 +775,7 @@
               <span class="card-new">New</span>
             </div>
             <div class="card-info">
-              <div class="card-title">Medidata • EDC Redesign<img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></div>
+              <div class="card-title">Medidata • EDC Redesign<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
               <div class="card-sub">B2B · Unifying fragmented legacy tools, cutting workflow complexity by up to 40%</div>
             </div>
           </a>
@@ -797,7 +813,7 @@
               </video>
             </div>
             <div class="card-info">
-              <div class="card-title">Qualis Flow • Alerts &amp; IA<img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></div>
+              <div class="card-title">Qualis Flow • Alerts &amp; IA<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
               <div class="card-sub">SaaS · 0→1: Real-time alert &amp; monitoring for AI-detected compliance issues</div>
             </div>
           </a>
@@ -823,7 +839,7 @@
               </video>
             </div>
             <div class="card-info">
-              <div class="card-title">Medidata • Risk Management<img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></div>
+              <div class="card-title">Medidata • Risk Management<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
               <div class="card-sub">B2B · Turning an underused risk tool into a workflow teams actively wanted</div>
             </div>
           </a>

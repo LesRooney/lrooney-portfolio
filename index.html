@@ -1313,10 +1313,9 @@
         <!-- Slot area + Go button in a row -->
         <div id="pw-input-row">
           <div id="pw-slot-area">
-            <div id="pw-slots"><!-- built by JS --></div>
-            <input type="text" id="pw-hidden-input" autocomplete="off" inputmode="text"
-                   spellcheck="false" aria-label="Enter password" maxlength="10"
-                   style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;">
+            <input type="text" id="pw-visible-input" autocomplete="new-password"
+                   inputmode="text" spellcheck="false" aria-label="Enter password">
+            <div id="pw-caret"></div>
           </div>
           <!-- Hidden until user starts typing — slides in from right -->
           <div id="pw-submit-wrap">
@@ -1324,7 +1323,6 @@
           </div>
         </div>
         <p id="pw-modal-error">Incorrect password — try again</p>
-        <div id="pw-modal-divider"></div>
         <div id="pw-card-info">
           <h2 id="pw-card-title"></h2>
           <div id="pw-card-tags"></div>
@@ -1352,10 +1350,10 @@
     /* ── Panel ── */
     #pw-modal-panel {
       position: relative; z-index: 1;
-      background: #fff;
+      background: #FDFDFC;
       border-radius: 20px;
       overflow: hidden;
-      width: min(680px, calc(100vw - 32px));
+      width: min(600px, calc(100vw - 32px));
       max-height: calc(100vh - 48px);
       display: flex; flex-direction: column;
       box-shadow: 0 24px 72px rgba(10,10,10,0.2);
@@ -1394,22 +1392,22 @@
     /* ── Banner — light blue gradient, inset with 32px side margins ── */
     #pw-modal-banner {
       background: linear-gradient(135deg, #5ba4d4 0%, #82bee6 20%, #aed5f0 45%, #d6ecf9 70%, #f0f8fd 100%);
-      padding: 47px 52px;
+      padding: 30px 34px;
       display: flex; align-items: center; justify-content: center;
-      min-height: 208px;
+      min-height: 133px;
       flex-shrink: 0;
-      margin: 24px 32px 0;
+      margin: 8px 8px 0;
       border-radius: 16px;
     }
     #pw-modal-logo {
-      max-height: 120px; max-width: 500px;
+      max-height: 125px; max-width: 520px;
       display: block;
     }
     #pw-modal-logo[src=""] { display: none; }
 
     /* ── Body ── */
     #pw-modal-body {
-      padding: 28px 40px 36px;
+      padding: 16px 16px 8px;
       overflow-y: auto;
       flex: 1 1 auto;
     }
@@ -1417,72 +1415,55 @@
     #pw-modal-eyebrow {
       font-size: 0.7rem; font-weight: 500; letter-spacing: 0.13em;
       text-transform: uppercase; color: var(--ink-mid);
-      margin-bottom: 20px;
+      margin-bottom: 4px;
     }
 
     /* ── Input row: slots + Go button side by side ── */
     #pw-input-row {
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: 8px;
       margin-bottom: 0;
     }
 
-    /* ── Slot area ── */
+    /* ── Single password input ── */
     #pw-slot-area {
-      position: relative; cursor: text;
-      flex-shrink: 0;
-    }
-    /* Horizontal row of slots */
-    #pw-slots {
-      display: flex;
-      flex-direction: row;
-      gap: 6px;
-      width: 100%;
-    }
-
-    .pw-slot {
-      width: 36px;
-      flex-shrink: 0;
-      height: 44px;
-      display: flex; align-items: center; justify-content: center;
-      background: #F5F5F6;
-      border: 1.5px solid #E0DED9;
-      border-radius: 10px;
+      flex: 1;
       position: relative;
-      transition: opacity 0.18s ease,
-                  transform 0.22s cubic-bezier(0.16,1,0.3,1),
-                  border-color 0.15s ease,
-                  background 0.15s ease;
     }
-    /* slots 2–10: hidden — fade in from right */
-    .pw-slot.pw-slot-hidden {
-      opacity: 0;
-      transform: translateX(8px);
-      pointer-events: none;
-    }
-    /* revealed: slide in left to right */
-    .pw-slot.pw-slot-revealed {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-    }
-    .pw-slot.pw-slot-active {
-      border-color: #2563eb;
-      border-width: 2px;
+    #pw-visible-input {
+      width: 100%; height: 44px;
+      padding: 0 14px;
+      box-sizing: border-box;
+      border: 2px solid #2563eb; border-radius: 10px;
       background: #fff;
+      font-family: var(--sans); font-size: 1.1rem; letter-spacing: 0.18em;
+      color: var(--ink); outline: none;
+      caret-color: transparent;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
-    .pw-slot.pw-slot-error { border-color: #ef4444; }
-
-    .pw-slot-char {
-      font-size: 1.2rem; color: var(--ink);
-      user-select: none; line-height: 1;
+    #pw-caret {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 20px;
+      background: #2563eb;
+      border-radius: 2px;
+      pointer-events: none;
+      opacity: 0;
     }
-
-    /* GSAP blinking caret — centred in active box */
-    .pw-caret-modal {
-      position: absolute; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      width: 2px; height: 20px; background: #2563eb;
-      border-radius: 2px; pointer-events: none;
+    #pw-caret.is-visible {
+      animation: pwCaretBlink 1s step-start infinite;
+    }
+    @keyframes pwCaretBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+    #pw-visible-input:focus {
+      border-color: #2563eb; border-width: 2px; background: #fff;
+    }
+    #pw-visible-input.pw-input-error {
+      border-color: #ef4444; border-width: 2px;
     }
 
     #pw-modal-error {
@@ -1490,17 +1471,13 @@
       margin-top: 8px; display: none;
     }
 
-    #pw-modal-divider {
-      width: 100%; height: 1px; background: var(--rule);
-      margin: 24px 0 20px;
-    }
 
     /* ── Card info ── */
-    #pw-card-info { margin-bottom: 20px; }
+    #pw-card-info { margin-top: 24px; margin-bottom: 20px; }
     #pw-card-title {
-      font-family: var(--serif); font-size: 1.75rem; font-weight: 700;
+      font-family: var(--serif); font-size: 2rem; font-weight: 600;
       letter-spacing: -0.02em; color: var(--ink);
-      margin-bottom: 14px; line-height: 1.2;
+      margin-bottom: 8px; line-height: 1.2;
     }
     #pw-card-tags {
       display: flex; flex-wrap: wrap; gap: 8px;
@@ -1546,7 +1523,7 @@
       }
       #pw-modal.is-open #pw-modal-panel { transform: translateY(0); }
       #pw-modal-banner { min-height: 120px; padding: 28px 24px; }
-      #pw-modal-body { padding: 24px 24px 32px; }
+      #pw-modal-body { padding: 12px 12px 8px; }
       #pw-card-title { font-size: 1.4rem; }
     }
   </style>
@@ -1577,135 +1554,75 @@
     var modal      = document.getElementById('pw-modal');
     var panel      = document.getElementById('pw-modal-panel');
     var backdrop   = document.getElementById('pw-modal-backdrop');
-    var slotsWrap  = document.getElementById('pw-slots');
-    var hiddenInp  = document.getElementById('pw-hidden-input');
+    var visibleInp = document.getElementById('pw-visible-input');
+    var caretEl    = document.getElementById('pw-caret');
     var errorMsg   = document.getElementById('pw-modal-error');
     var submitBtn  = document.getElementById('pw-modal-submit');
     var closeBtn   = document.getElementById('pw-modal-close');
     var cardTitle  = document.getElementById('pw-card-title');
     var cardTags   = document.getElementById('pw-card-tags');
     var modalLogo  = document.getElementById('pw-modal-logo');
-    var slotArea   = document.getElementById('pw-slot-area');
-    var destUrl      = '';
-    var ptColor      = '#FDFDFC';
-    var caretEl      = null;
-    var caretTween   = null;
-    var blurTimer    = null;
-    var NUM_CHARS    = 10;
-    var slots        = [];
-    var revealed     = false;
-    var displayVals  = new Array(10).fill(''); // what each slot shows (char or '•')
-    var maskTimers   = new Array(10).fill(null);
+    var destUrl    = '';
+    var ptColor    = '#FDFDFC';
+    var NUM_CHARS  = 10;
+    var realValue  = '';
+    var displayVals = new Array(NUM_CHARS).fill('');
+    var maskTimers  = new Array(NUM_CHARS).fill(null);
 
-    // ── Build slots ──
-    for (var i = 0; i < NUM_CHARS; i++) {
-      var slot = document.createElement('div');
-      slot.className = 'pw-slot' + (i > 0 ? ' pw-slot-hidden' : ' pw-slot-active');
-      var charSpan = document.createElement('span');
-      charSpan.className = 'pw-slot-char';
-      slot.appendChild(charSpan);
-      slotsWrap.appendChild(slot);
-      slots.push(slot);
-    }
-
-    // ── GSAP caret ──
-    caretEl = document.createElement('div');
-    caretEl.className = 'pw-caret-modal';
-
-    function placeCaret() {
-      var idx = Math.min(hiddenInp.value.length, NUM_CHARS - 1);
-      if (caretEl.parentElement) caretEl.parentElement.removeChild(caretEl);
-      if (caretTween) caretTween.kill();
-      slots[idx].appendChild(caretEl);
-      caretTween = gsap.to(caretEl, { opacity: 0, duration: 0.5, repeat: -1, yoyo: true, ease: 'none' });
-    }
-    function hideCaret() {
-      blurTimer = setTimeout(function () {
-        if (caretTween) { caretTween.kill(); caretTween = null; }
-        if (caretEl.parentElement) caretEl.parentElement.removeChild(caretEl);
-      }, 0);
-    }
-
-    function renderSlots() {
-      var val = hiddenInp.value;
-      for (var i = 0; i < NUM_CHARS; i++) {
-        slots[i].querySelector('.pw-slot-char').textContent = displayVals[i];
-        slots[i].classList.remove('pw-slot-active', 'pw-slot-error');
+    function updateCaret() {
+      var focused = document.activeElement === visibleInp;
+      if (focused && realValue.length === 0) {
+        caretEl.classList.add('is-visible');
+      } else {
+        caretEl.classList.remove('is-visible');
       }
-      var activeIdx = Math.min(val.length, NUM_CHARS - 1);
-      slots[activeIdx].classList.add('pw-slot-active');
-      placeCaret();
-      panel.classList.toggle('has-input', val.length > 0);
     }
 
-    function updateSlots(prevLen) {
-      var val = hiddenInp.value;
-      var newLen = val.length;
+    visibleInp.addEventListener('focus', updateCaret);
+    visibleInp.addEventListener('blur',  updateCaret);
 
-      // Clear any slots that were deleted
-      for (var i = newLen; i < NUM_CHARS; i++) {
-        if (maskTimers[i]) { clearTimeout(maskTimers[i]); maskTimers[i] = null; }
-        displayVals[i] = '';
-      }
+    function updateDisplay() {
+      var display = displayVals.slice(0, realValue.length).join('');
+      visibleInp.value = display;
+      try { visibleInp.setSelectionRange(realValue.length, realValue.length); } catch(e) {}
+      panel.classList.toggle('has-input', realValue.length > 0);
+      updateCaret();
+    }
 
-      // Handle newly typed character(s)
-      if (newLen > prevLen) {
-        for (var j = prevLen; j < newLen; j++) {
-          (function(idx) {
-            var ch = val[idx];
-            displayVals[idx] = ch; // show real char
-            if (maskTimers[idx]) clearTimeout(maskTimers[idx]);
-            maskTimers[idx] = setTimeout(function() {
-              // only mask if this slot still has that character
-              if (hiddenInp.value[idx] === ch && displayVals[idx] === ch) {
-                displayVals[idx] = '•';
-                renderSlots();
-              }
-            }, 1000);
-          })(j);
+    visibleInp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); submitForm(); return; }
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        if (realValue.length > 0) {
+          var i = realValue.length - 1;
+          if (maskTimers[i]) { clearTimeout(maskTimers[i]); maskTimers[i] = null; }
+          displayVals[i] = '';
+          realValue = realValue.slice(0, -1);
+          errorMsg.style.display = 'none';
+          visibleInp.classList.remove('pw-input-error');
+          updateDisplay();
         }
+        return;
       }
-
-      renderSlots();
-    }
-
-    // ── Reveal all slots with stagger ──
-    function revealSlots() {
-      if (revealed) return;
-      revealed = true;
-      for (var i = 1; i < NUM_CHARS; i++) {
-        (function(idx) {
-          setTimeout(function() {
-            slots[idx].classList.remove('pw-slot-hidden');
-            slots[idx].classList.add('pw-slot-revealed');
-          }, idx * 25);
-        })(i);
+      if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && realValue.length < NUM_CHARS) {
+        e.preventDefault();
+        var idx = realValue.length;
+        var ch = e.key;
+        realValue += ch;
+        displayVals[idx] = ch;
+        errorMsg.style.display = 'none';
+        visibleInp.classList.remove('pw-input-error');
+        (function(i, c) {
+          if (maskTimers[i]) clearTimeout(maskTimers[i]);
+          maskTimers[i] = setTimeout(function() {
+            if (realValue[i] === c && displayVals[i] === c) {
+              displayVals[i] = '•';
+              updateDisplay();
+            }
+          }, 1000);
+        })(idx, ch);
+        updateDisplay();
       }
-    }
-
-    slotArea.addEventListener('mouseenter', revealSlots);
-    slotArea.addEventListener('click', function() {
-      revealSlots();
-      hiddenInp.focus();
-    });
-
-    hiddenInp.addEventListener('focus', function() {
-      revealSlots();
-      clearTimeout(blurTimer);
-      placeCaret();
-    });
-    hiddenInp.addEventListener('blur', hideCaret);
-    hiddenInp.addEventListener('input', function() {
-      var prevLen = hiddenInp.value.replace(/\s/g, '').slice(0, NUM_CHARS).length;
-      // capture prev length before stripping (it's already the new value here, so track via displayVals)
-      var oldLen = displayVals.filter(function(v) { return v !== ''; }).length;
-      hiddenInp.value = hiddenInp.value.replace(/\s/g, '').slice(0, NUM_CHARS);
-      updateSlots(oldLen);
-      errorMsg.style.display = 'none';
-      slots.forEach(function(s) { s.classList.remove('pw-slot-error'); });
-    });
-    hiddenInp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); submitForm(); }
     });
 
     // ── Open / close ──
@@ -1732,36 +1649,28 @@
       }
 
       // Reset
-      hiddenInp.value = '';
-      revealed = false;
+      realValue = '';
       displayVals = new Array(NUM_CHARS).fill('');
       maskTimers.forEach(function(t) { if (t) clearTimeout(t); });
       maskTimers = new Array(NUM_CHARS).fill(null);
-      slots.forEach(function(s, i) {
-        s.querySelector('.pw-slot-char').textContent = '';
-        s.className = 'pw-slot' + (i > 0 ? ' pw-slot-hidden' : ' pw-slot-active');
-      });
-      hideCaret();
+      visibleInp.value = '';
+      visibleInp.classList.remove('pw-input-error');
       errorMsg.style.display = 'none';
       submitBtn.disabled = false;
       panel.classList.remove('has-input');
+      caretEl.classList.remove('is-visible');
 
       modal.style.display = 'flex';
       modal.offsetHeight;
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
 
-      setTimeout(function() {
-        hiddenInp.focus();
-        revealSlots();
-        placeCaret();
-      }, 360);
+      setTimeout(function() { visibleInp.focus(); }, 360);
     }
 
     function closeModal() {
       modal.classList.remove('is-open');
       document.body.style.overflow = '';
-      hideCaret();
       setTimeout(function() { modal.style.display = 'none'; }, 350);
     }
 
@@ -1773,7 +1682,7 @@
 
     // ── Submit ──
     function submitForm() {
-      var code = hiddenInp.value;
+      var code = realValue;
       if (code.length < 1) return;
       submitBtn.disabled = true;
       errorMsg.style.display = 'none';
@@ -1810,18 +1719,15 @@
           setTimeout(function() { window.location.href = destUrl; }, 580);
         } else {
           errorMsg.style.display = 'block';
-          slots.forEach(function(s) {
-            s.classList.remove('pw-slot-active');
-            s.classList.add('pw-slot-error');
-          });
+          visibleInp.classList.add('pw-input-error');
           submitBtn.disabled = false;
-          hiddenInp.value = '';
-          panel.classList.remove('has-input');
+          realValue = '';
           displayVals = new Array(NUM_CHARS).fill('');
           maskTimers.forEach(function(t) { if (t) clearTimeout(t); });
           maskTimers = new Array(NUM_CHARS).fill(null);
-          updateSlots(0);
-          hiddenInp.focus();
+          visibleInp.value = '';
+          panel.classList.remove('has-input');
+          visibleInp.focus();
         }
       })
       .catch(function() {

@@ -1301,177 +1301,282 @@
     <div id="pw-modal-backdrop"></div>
     <div id="pw-modal-panel">
       <button id="pw-modal-close" aria-label="Close">&times;</button>
-      <p id="pw-modal-eyebrow">PASSWORD REQUIRED</p>
-      <h2 id="pw-modal-heading">Password required</h2>
-      <p id="pw-modal-desc">Hey, this case study is restricted — reach out and I'll share the magic word. Not case sensitive.</p>
-      <form id="pw-modal-form" autocomplete="off">
-        <div class="pw-char-inputs" id="pw-modal-chars"></div>
+      <!-- Light blue gradient banner with logo -->
+      <div id="pw-modal-banner">
+        <img id="pw-modal-logo" src="" alt="">
+      </div>
+      <!-- Body -->
+      <div id="pw-modal-body">
+        <p id="pw-modal-eyebrow">Password required to view</p>
+        <!-- Slot area -->
+        <div id="pw-slot-area">
+          <div id="pw-slots"><!-- built by JS --></div>
+          <input type="text" id="pw-hidden-input" autocomplete="off" inputmode="text"
+                 spellcheck="false" aria-label="Enter password" maxlength="10"
+                 style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;">
+        </div>
         <p id="pw-modal-error">Incorrect password — try again</p>
-        <button type="submit" id="pw-modal-submit">View case study &rarr;</button>
-      </form>
+        <div id="pw-modal-divider"></div>
+        <div id="pw-card-info">
+          <h2 id="pw-card-title"></h2>
+          <div id="pw-card-tags"></div>
+        </div>
+        <!-- Hidden until user starts typing -->
+        <div id="pw-submit-wrap">
+          <button type="button" id="pw-modal-submit">View case study &rarr;</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <style>
-    /* ── Modal backdrop + panel ── */
+    /* ── Modal overlay ── */
     #pw-modal {
       position: fixed; inset: 0; z-index: 500;
       display: flex; align-items: center; justify-content: center;
     }
     #pw-modal-backdrop {
       position: absolute; inset: 0;
-      background: transparent; /* no darkening */
-      /* ── Blur options — uncomment one ──────────────────────────
-         A · subtle   : blur(4px)   page stays very readable
-         B · moderate : blur(10px)  balanced, recommended ← active
-         C · strong   : blur(20px)  page is heavily obscured
-         ───────────────────────────────────────────────────────── */
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    #pw-modal-panel {
-      position: relative; z-index: 1;
-      background: #FDFDFC;
-      border-radius: 20px;
-      padding: 48px;
-      width: min(480px, calc(100vw - 48px));
-      box-shadow: 0 32px 80px rgba(10,10,10,0.22);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      background: rgba(10,10,10,0.35);
+      opacity: 0; transition: opacity 0.4s ease;
     }
     #pw-modal.is-open #pw-modal-backdrop { opacity: 1; }
     #pw-modal.is-open #pw-modal-panel    { opacity: 1; transform: translateY(0); }
 
+    /* ── Panel ── */
+    #pw-modal-panel {
+      position: relative; z-index: 1;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      width: min(680px, calc(100vw - 32px));
+      max-height: calc(100vh - 48px);
+      display: flex; flex-direction: column;
+      box-shadow: 0 24px 72px rgba(10,10,10,0.2);
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── Close button — top-right corner of panel ── */
     #pw-modal-close {
-      position: absolute; top: 20px; right: 20px;
-      width: 32px; height: 32px; border-radius: 50%;
-      border: none; background: var(--rule);
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      width: 36px; height: 36px; border-radius: 50%;
+      border: none; background: rgba(255,255,255,0.85);
       font-size: 1.1rem; line-height: 1; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      color: var(--ink); transition: background 0.15s;
+      color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      transition: background 0.15s;
     }
-    #pw-modal-close:hover { background: #d8d5cc; }
+    #pw-modal-close:hover { background: #fff; }
+
+    /* ── Banner — light blue gradient ── */
+    #pw-modal-banner {
+      background: linear-gradient(135deg, #5ba4d4 0%, #82bee6 20%, #aed5f0 45%, #d6ecf9 70%, #f0f8fd 100%);
+      padding: 36px 40px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 160px;
+      flex-shrink: 0;
+    }
+    #pw-modal-logo {
+      max-height: 72px; max-width: 320px;
+      display: block;
+    }
+    #pw-modal-logo[src=""] { display: none; }
+
+    /* ── Body ── */
+    #pw-modal-body {
+      padding: 28px 40px 36px;
+      overflow-y: auto;
+      flex: 1 1 auto;
+    }
 
     #pw-modal-eyebrow {
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.13em;
       text-transform: uppercase; color: var(--ink-mid);
-      margin-bottom: 10px;
-    }
-    #pw-modal-heading {
-      font-family: var(--serif); font-size: 1.9rem; font-weight: 700;
-      letter-spacing: -0.03em; color: var(--ink);
-      margin-bottom: 12px; line-height: 1.2;
-    }
-    #pw-modal-desc {
-      font-size: 0.88rem; color: var(--ink-mid);
-      line-height: 1.6; margin-bottom: 28px;
+      margin-bottom: 20px;
     }
 
-    /* char boxes — match password.html pattern */
-    .pw-char-inputs {
-      display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: nowrap;
+    /* ── Slot area ── */
+    #pw-slot-area {
+      position: relative; cursor: text;
+      margin-bottom: 0;
     }
-    .pw-char-wrap { position: relative; flex-shrink: 0; }
-    .pw-char-box {
-      width: 36px; height: 44px;
-      border: 1.5px solid var(--rule); border-radius: 10px;
-      background: var(--paper); font-size: 1.1rem; font-weight: 500;
-      text-align: center; color: var(--ink); outline: none;
-      caret-color: transparent;
-      transition: border-color 0.15s, background 0.15s;
-      font-family: var(--sans);
+    /* Horizontal row of slots */
+    #pw-slots {
+      display: flex;
+      flex-direction: row;
+      gap: 6px;
+      width: 100%;
     }
-    .pw-char-box:focus  { border-color: #2563eb; border-width: 2px; background: #fff; }
-    .pw-char-box.error  { border-color: #ef4444; border-width: 2px; }
+
+    .pw-slot {
+      width: 36px;
+      flex-shrink: 0;
+      height: 44px;
+      display: flex; align-items: flex-end; justify-content: center;
+      border-bottom: 1.5px solid #d8d5cc;
+      position: relative;
+      transition: opacity 0.18s ease,
+                  transform 0.22s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.15s ease;
+    }
+    /* slots 2–10: hidden — fade in from right */
+    .pw-slot.pw-slot-hidden {
+      opacity: 0;
+      transform: translateX(8px);
+      border-bottom-color: transparent;
+      pointer-events: none;
+    }
+    /* revealed: slide in, left to right stagger */
+    .pw-slot.pw-slot-revealed {
+      opacity: 1;
+      transform: translateX(0);
+      border-bottom-color: #d8d5cc;
+      pointer-events: auto;
+    }
+    .pw-slot.pw-slot-active { border-bottom-color: #2563eb; border-bottom-width: 2px; }
+    .pw-slot.pw-slot-error  { border-bottom-color: #ef4444; }
+
+    .pw-slot-char {
+      font-size: 0.85rem; color: var(--ink);
+      padding-bottom: 8px;
+      user-select: none; line-height: 1;
+    }
+
+    /* GSAP blinking caret — centred in active slot */
     .pw-caret-modal {
-      position: absolute; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
+      position: absolute; left: 50%; bottom: 9px;
+      transform: translateX(-50%);
       width: 2px; height: 18px; background: #2563eb;
       border-radius: 2px; pointer-events: none;
     }
+
     #pw-modal-error {
-      font-size: 0.78rem; color: #ef4444;
-      margin-bottom: 16px; display: none;
+      font-size: 0.75rem; color: #ef4444;
+      margin-top: 8px; display: none;
+    }
+
+    #pw-modal-divider {
+      width: 100%; height: 1px; background: var(--rule);
+      margin: 24px 0 20px;
+    }
+
+    /* ── Card info ── */
+    #pw-card-info { margin-bottom: 20px; }
+    #pw-card-title {
+      font-family: var(--serif); font-size: 1.75rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--ink);
+      margin-bottom: 14px; line-height: 1.2;
+    }
+    #pw-card-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .pw-tag {
+      font-size: 0.75rem; font-weight: 400;
+      color: var(--ink); background: transparent;
+      border: 1px solid #ccc; border-radius: 20px;
+      padding: 5px 13px;
+    }
+
+    /* ── Submit — hidden until user types ── */
+    #pw-submit-wrap {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+    }
+    #pw-modal-panel.has-input #pw-submit-wrap {
+      max-height: 80px;
+      opacity: 1;
     }
     #pw-modal-submit {
-      width: 100%; padding: 14px 24px;
+      width: 100%; padding: 14px 24px; margin-top: 0;
       background: var(--ink); color: #fff;
       border: none; border-radius: 12px;
       font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
       cursor: pointer; letter-spacing: 0.01em;
       transition: opacity 0.2s;
-      margin-top: 8px;
     }
     #pw-modal-submit:hover { opacity: 0.82; }
     #pw-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Mobile — full page style */
+    /* ── Mobile ── */
     @media (max-width: 600px) {
       #pw-modal { align-items: flex-end; }
       #pw-modal-panel {
         width: 100%; border-radius: 20px 20px 0 0;
-        padding: 36px 24px 40px;
         transform: translateY(40px);
       }
       #pw-modal.is-open #pw-modal-panel { transform: translateY(0); }
+      #pw-modal-banner { min-height: 120px; padding: 28px 24px; }
+      #pw-modal-body { padding: 24px 24px 32px; }
+      #pw-card-title { font-size: 1.4rem; }
     }
   </style>
 
   <script>
   (function () {
     var LOCKED_CARDS = {
-      'card-0': '/medidataedcredesign.html',
-      'card-3': '/qualisflow-02.html',
-      'card-5': '/clinical-risk-based-monitoring.html'
+      'card-0': {
+        dest: '/medidataedcredesign.html',
+        title: 'EDC Redesign',
+        tags: ['Workflow Redesign','Enterprise SaaS','End to End','Multivariate Prototypes','Cross Alignment','Design System Contribution','Trust Design','0-1 Features','Interaction Design','Research Led'],
+        logo: 'images/icons/MedidataDarkBlue 1.svg'
+      },
+      'card-3': {
+        dest: '/qualisflow-02.html',
+        title: 'Qualis Flow · Alerts & IA',
+        tags: ['SaaS','0→1','Real-time Alerts','Compliance Monitoring','Information Architecture','Interaction Design','Research Led'],
+        logo: null
+      },
+      'card-5': {
+        dest: '/clinical-risk-based-monitoring.html',
+        title: 'Risk Management',
+        tags: ['Enterprise SaaS','Risk Analysis','Workflow Design','Product Strategy','Cross Alignment','Research Led'],
+        logo: 'images/icons/MedidataDarkBlue 1.svg'
+      }
     };
 
     var modal      = document.getElementById('pw-modal');
-    var backdrop   = document.getElementById('pw-modal-backdrop');
     var panel      = document.getElementById('pw-modal-panel');
-    var form       = document.getElementById('pw-modal-form');
-    var charsWrap  = document.getElementById('pw-modal-chars');
+    var backdrop   = document.getElementById('pw-modal-backdrop');
+    var slotsWrap  = document.getElementById('pw-slots');
+    var hiddenInp  = document.getElementById('pw-hidden-input');
     var errorMsg   = document.getElementById('pw-modal-error');
     var submitBtn  = document.getElementById('pw-modal-submit');
     var closeBtn   = document.getElementById('pw-modal-close');
+    var cardTitle  = document.getElementById('pw-card-title');
+    var cardTags   = document.getElementById('pw-card-tags');
+    var modalLogo  = document.getElementById('pw-modal-logo');
+    var slotArea   = document.getElementById('pw-slot-area');
     var destUrl    = '';
-    var realValues = [];
     var caretEl    = null;
     var caretTween = null;
     var blurTimer  = null;
     var NUM_CHARS  = 10;
+    var slots      = [];
+    var revealed   = false;
 
-    // ── Build char boxes ──
+    // ── Build slots ──
     for (var i = 0; i < NUM_CHARS; i++) {
-      var wrap = document.createElement('div');
-      wrap.className = 'pw-char-wrap';
-      var inp = document.createElement('input');
-      inp.type = 'text';
-      inp.className = 'pw-char-box';
-      inp.maxLength = 1;
-      inp.setAttribute('autocomplete', 'off');
-      inp.setAttribute('inputmode', 'text');
-      inp.setAttribute('spellcheck', 'false');
-      inp.setAttribute('aria-label', 'Character ' + (i + 1));
-      inp.dataset.idx = i;
-      wrap.appendChild(inp);
-      charsWrap.appendChild(wrap);
-      realValues.push('');
+      var slot = document.createElement('div');
+      slot.className = 'pw-slot' + (i > 0 ? ' pw-slot-hidden' : ' pw-slot-active');
+      var charSpan = document.createElement('span');
+      charSpan.className = 'pw-slot-char';
+      slot.appendChild(charSpan);
+      slotsWrap.appendChild(slot);
+      slots.push(slot);
     }
 
-    var boxes = Array.from(charsWrap.querySelectorAll('.pw-char-box'));
-
-    // ── Caret ──
+    // ── GSAP caret ──
     caretEl = document.createElement('div');
     caretEl.className = 'pw-caret-modal';
 
-    function showCaret(box) {
-      clearTimeout(blurTimer);
+    function placeCaret() {
+      var idx = Math.min(hiddenInp.value.length, NUM_CHARS - 1);
       if (caretEl.parentElement) caretEl.parentElement.removeChild(caretEl);
       if (caretTween) caretTween.kill();
-      box.parentElement.appendChild(caretEl);
+      slots[idx].appendChild(caretEl);
       caretTween = gsap.to(caretEl, { opacity: 0, duration: 0.5, repeat: -1, yoyo: true, ease: 'none' });
     }
     function hideCaret() {
@@ -1481,91 +1586,121 @@
       }, 0);
     }
 
-    // ── Box events ──
-    boxes.forEach(function (box, idx) {
-      box.addEventListener('focus', function () { box.select(); showCaret(box); });
-      box.addEventListener('blur', hideCaret);
+    function updateSlots() {
+      var val = hiddenInp.value;
+      for (var i = 0; i < NUM_CHARS; i++) {
+        slots[i].querySelector('.pw-slot-char').textContent = val[i] ? '•' : '';
+        slots[i].classList.remove('pw-slot-active', 'pw-slot-error');
+      }
+      var activeIdx = Math.min(val.length, NUM_CHARS - 1);
+      slots[activeIdx].classList.add('pw-slot-active');
+      placeCaret();
+      // Show submit button once user has typed anything
+      if (val.length > 0) {
+        panel.classList.add('has-input');
+      } else {
+        panel.classList.remove('has-input');
+      }
+    }
 
-      box.addEventListener('keydown', function (e) {
-        if (e.key === 'Backspace') {
-          if (realValues[idx]) {
-            realValues[idx] = '';
-            box.value = '';
-          } else if (idx > 0) {
-            realValues[idx - 1] = '';
-            boxes[idx - 1].value = '';
-            boxes[idx - 1].focus();
-          }
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft' && idx > 0) {
-          boxes[idx - 1].focus(); e.preventDefault();
-        } else if (e.key === 'ArrowRight' && idx < NUM_CHARS - 1) {
-          boxes[idx + 1].focus(); e.preventDefault();
-        } else if (e.key === 'Enter') {
-          submitForm();
-        }
-      });
+    // ── Reveal all slots with stagger ──
+    function revealSlots() {
+      if (revealed) return;
+      revealed = true;
+      for (var i = 1; i < NUM_CHARS; i++) {
+        (function(idx) {
+          setTimeout(function() {
+            slots[idx].classList.remove('pw-slot-hidden');
+            slots[idx].classList.add('pw-slot-revealed');
+          }, idx * 25);
+        })(i);
+      }
+    }
 
-      box.addEventListener('input', function (e) {
-        var val = box.value.replace(/\s/g, '');
-        if (!val) return;
-        // Handle paste
-        if (val.length > 1) {
-          val.split('').forEach(function (ch, offset) {
-            var target = idx + offset;
-            if (target < NUM_CHARS) {
-              realValues[target] = ch;
-              boxes[target].value = '*';
-              setTimeout(function () {
-                if (realValues[target] === ch) boxes[target].value = '*';
-              }, 1000);
-            }
-          });
-          var nextIdx = Math.min(idx + val.length, NUM_CHARS - 1);
-          boxes[nextIdx].focus();
-        } else {
-          realValues[idx] = val;
-          box.value = val;
-          setTimeout(function () {
-            if (realValues[idx] === val) box.value = '*';
-          }, 1000);
-          if (idx < NUM_CHARS - 1) boxes[idx + 1].focus();
-        }
-      });
+    slotArea.addEventListener('mouseenter', revealSlots);
+    slotArea.addEventListener('click', function() {
+      revealSlots();
+      hiddenInp.focus();
+    });
+
+    hiddenInp.addEventListener('focus', function() {
+      revealSlots();
+      clearTimeout(blurTimer);
+      placeCaret();
+    });
+    hiddenInp.addEventListener('blur', hideCaret);
+    hiddenInp.addEventListener('input', function() {
+      hiddenInp.value = hiddenInp.value.replace(/\s/g, '').slice(0, NUM_CHARS);
+      updateSlots();
+      errorMsg.style.display = 'none';
+      slots.forEach(function(s) { s.classList.remove('pw-slot-error'); });
+    });
+    hiddenInp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); submitForm(); }
     });
 
     // ── Open / close ──
-    function openModal(dest) {
-      destUrl = dest;
-      // reset
-      realValues = new Array(NUM_CHARS).fill('');
-      boxes.forEach(function (b) { b.value = ''; b.classList.remove('error'); });
+    function openModal(cardData) {
+      destUrl = cardData.dest;
+
+      // Populate card info
+      cardTitle.textContent = cardData.title;
+      cardTags.innerHTML = '';
+      cardData.tags.forEach(function(tag) {
+        var pill = document.createElement('span');
+        pill.className = 'pw-tag'; pill.textContent = tag;
+        cardTags.appendChild(pill);
+      });
+
+      // Logo
+      if (cardData.logo) {
+        modalLogo.src = cardData.logo;
+        modalLogo.style.display = 'block';
+      } else {
+        modalLogo.src = '';
+        modalLogo.style.display = 'none';
+      }
+
+      // Reset
+      hiddenInp.value = '';
+      revealed = false;
+      slots.forEach(function(s, i) {
+        s.querySelector('.pw-slot-char').textContent = '';
+        s.className = 'pw-slot' + (i > 0 ? ' pw-slot-hidden' : ' pw-slot-active');
+      });
+      hideCaret();
       errorMsg.style.display = 'none';
       submitBtn.disabled = false;
+      panel.classList.remove('has-input');
 
       modal.style.display = 'flex';
-      // force reflow before adding class so transition fires
       modal.offsetHeight;
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
-      setTimeout(function () { boxes[0].focus(); }, 350);
+
+      setTimeout(function() {
+        hiddenInp.focus();
+        revealSlots();
+        placeCaret();
+      }, 360);
     }
 
     function closeModal() {
       modal.classList.remove('is-open');
       document.body.style.overflow = '';
-      setTimeout(function () { modal.style.display = 'none'; }, 350);
+      hideCaret();
+      setTimeout(function() { modal.style.display = 'none'; }, 350);
     }
 
     closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
 
     // ── Submit ──
     function submitForm() {
-      var code = realValues.join('');
+      var code = hiddenInp.value;
       if (code.length < 1) return;
       submitBtn.disabled = true;
       errorMsg.style.display = 'none';
@@ -1579,37 +1714,36 @@
         headers: { 'X-Requested-With': 'fetch' },
         body: fd
       })
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
         if (data.success) {
           window.location.href = destUrl;
         } else {
           errorMsg.style.display = 'block';
-          boxes.forEach(function (b) { b.classList.add('error'); });
+          slots.forEach(function(s) {
+            s.classList.remove('pw-slot-active');
+            s.classList.add('pw-slot-error');
+          });
           submitBtn.disabled = false;
-          // clear and refocus
-          realValues = new Array(NUM_CHARS).fill('');
-          boxes.forEach(function (b) { b.value = ''; });
-          boxes[0].focus();
+          hiddenInp.value = '';
+          panel.classList.remove('has-input');
+          updateSlots();
+          hiddenInp.focus();
         }
       })
-      .catch(function () {
+      .catch(function() {
         submitBtn.disabled = false;
         errorMsg.style.display = 'block';
       });
     }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      submitForm();
-    });
+    submitBtn.addEventListener('click', submitForm);
 
     // ── Intercept locked card clicks ──
-    Object.keys(LOCKED_CARDS).forEach(function (cardId) {
+    Object.keys(LOCKED_CARDS).forEach(function(cardId) {
       var card = document.getElementById(cardId);
       if (!card) return;
-      card.addEventListener('click', function (e) {
-        // On very small screens fall through to normal navigation (middleware handles it)
+      card.addEventListener('click', function(e) {
         if (window.innerWidth < 480) return;
         e.preventDefault();
         openModal(LOCKED_CARDS[cardId]);

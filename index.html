@@ -1625,6 +1625,32 @@
       }
     });
 
+    // ── Paste support ──
+    visibleInp.addEventListener('paste', function(e) {
+      e.preventDefault();
+      var pasted = (e.clipboardData || window.clipboardData).getData('text');
+      if (!pasted) return;
+      var chars = pasted.slice(0, NUM_CHARS - realValue.length).split('');
+      if (chars.length === 0) return;
+      errorMsg.style.display = 'none';
+      visibleInp.classList.remove('pw-input-error');
+      chars.forEach(function(ch) {
+        var idx = realValue.length;
+        realValue += ch;
+        displayVals[idx] = ch;
+        (function(i, c) {
+          if (maskTimers[i]) clearTimeout(maskTimers[i]);
+          maskTimers[i] = setTimeout(function() {
+            if (realValue[i] === c && displayVals[i] === c) {
+              displayVals[i] = '•';
+              updateDisplay();
+            }
+          }, 1000);
+        })(idx, ch);
+      });
+      updateDisplay();
+    });
+
     // ── Open / close ──
     function openModal(cardData, cardEl) {
       destUrl = cardData.dest;
@@ -1680,6 +1706,58 @@
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
 
+    // ── Page transition (expandsfrom modal panel) ──
+    function triggerPageTransition(href, bgColor) {
+      var rect = panel.getBoundingClientRect();
+      var ov = document.createElement('div');
+      ov.id = 'pt-overlay';
+      ov.style.cssText = 'position:fixed;z-index:9999;border-radius:20px;transition:top 0.55s cubic-bezier(0.16,1,0.3,1),left 0.55s cubic-bezier(0.16,1,0.3,1),width 0.55s cubic-bezier(0.16,1,0.3,1),height 0.55s cubic-bezier(0.16,1,0.3,1),border-radius 0.55s ease;';
+      ov.style.background = bgColor || '#FDFDFC';
+      ov.style.top    = rect.top  + 'px';
+      ov.style.left   = rect.left + 'px';
+      ov.style.width  = rect.width  + 'px';
+      ov.style.height = rect.height + 'px';
+      document.body.appendChild(ov);
+      ov.getBoundingClientRect();
+      ov.style.top = '0'; ov.style.left = '0';
+      ov.style.width = '100vw'; ov.style.height = '100vh';
+      ov.style.borderRadius = '0';
+      setTimeout(function() { window.location.href = href; }, 580);
+    }
+
+    // ── Auto-type animation for already-authenticated users ──
+    // Opens the modal, rapidly types dots into the input, then transitions
+    function autoTypeAndSubmit(href, bgColor) {
+      var NUM_AUTO = 10;
+      var typed = 0;
+
+      // Wait for modal slide-in to finish, then begin typing
+      setTimeout(function() {
+        caretEl.classList.remove('is-visible'); // hide caret — auto-type takes over
+
+        function typeNext() {
+          if (typed >= NUM_AUTO) {
+            // All typed — brief pause, flash the submit button, then transition
+            submitBtn.style.transition = 'transform 0.1s ease, background 0.1s ease';
+            submitBtn.style.transform = 'scale(0.92)';
+            setTimeout(function() {
+              submitBtn.style.transform = '';
+              setTimeout(function() {
+                triggerPageTransition(href, bgColor);
+              }, 150);
+            }, 120);
+            return;
+          }
+          typed++;
+          visibleInp.value = '•'.repeat(typed);
+          if (typed === 1) panel.classList.add('has-input'); // slide in arrow button
+          setTimeout(typeNext, 48);
+        }
+
+        typeNext();
+      }, 420); // wait for modal to finish animating in
+    }
+
     // ── Submit ──
     function submitForm() {
       var code = realValue;
@@ -1699,24 +1777,7 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.success) {
-          // Run page transition expanding from the modal panel, then navigate
-          var rect = panel.getBoundingClientRect();
-          var ov = document.createElement('div');
-          ov.id = 'pt-overlay';
-          ov.style.cssText = 'position:fixed;z-index:9999;border-radius:20px;transition:top 0.55s cubic-bezier(0.16,1,0.3,1),left 0.55s cubic-bezier(0.16,1,0.3,1),width 0.55s cubic-bezier(0.16,1,0.3,1),height 0.55s cubic-bezier(0.16,1,0.3,1),border-radius 0.55s ease;';
-          ov.style.background = ptColor;
-          ov.style.top    = rect.top + 'px';
-          ov.style.left   = rect.left + 'px';
-          ov.style.width  = rect.width + 'px';
-          ov.style.height = rect.height + 'px';
-          document.body.appendChild(ov);
-          ov.getBoundingClientRect(); // force reflow
-          ov.style.top = '0';
-          ov.style.left = '0';
-          ov.style.width = '100vw';
-          ov.style.height = '100vh';
-          ov.style.borderRadius = '0';
-          setTimeout(function() { window.location.href = destUrl; }, 580);
+          triggerPageTransition(destUrl, ptColor);
         } else {
           errorMsg.style.display = 'block';
           visibleInp.classList.add('pw-input-error');
@@ -1751,27 +1812,15 @@
       card.addEventListener('click', function(e) {
         if (window.innerWidth < 480) return;
         e.preventDefault();
-        // Already authenticated — skip modal, go straight to page transition
+        var cardData = LOCKED_CARDS[cardId];
+        var bgColor = this.getAttribute('data-pt-color') || '#FDFDFC';
+        // Already authenticated — open modal, auto-type, then transition
         if (isAuthed()) {
-          var cardData = LOCKED_CARDS[cardId];
-          var rect = this.getBoundingClientRect();
-          var ov = document.createElement('div');
-          ov.id = 'pt-overlay';
-          ov.style.cssText = 'position:fixed;z-index:9999;border-radius:16px;transition:top 0.55s cubic-bezier(0.16,1,0.3,1),left 0.55s cubic-bezier(0.16,1,0.3,1),width 0.55s cubic-bezier(0.16,1,0.3,1),height 0.55s cubic-bezier(0.16,1,0.3,1),border-radius 0.55s ease;';
-          ov.style.background = this.getAttribute('data-pt-color') || '#FDFDFC';
-          ov.style.top    = rect.top  + 'px';
-          ov.style.left   = rect.left + 'px';
-          ov.style.width  = rect.width  + 'px';
-          ov.style.height = rect.height + 'px';
-          document.body.appendChild(ov);
-          ov.getBoundingClientRect();
-          ov.style.top = '0'; ov.style.left = '0';
-          ov.style.width = '100vw'; ov.style.height = '100vh';
-          ov.style.borderRadius = '0';
-          setTimeout(function() { window.location.href = cardData.dest; }, 580);
+          openModal(cardData, this);
+          autoTypeAndSubmit(cardData.dest, bgColor);
           return;
         }
-        openModal(LOCKED_CARDS[cardId], this);
+        openModal(cardData, this);
       });
     });
 
@@ -1785,9 +1834,12 @@
       });
       if (!matchId) return;
       history.replaceState(null, '', '/');
-      // Already authed (e.g. cookie present but middleware hasn't fired yet) — go direct
+      // Already authed — open modal, auto-type, then transition
       if (isAuthed()) {
-        window.location.href = destParam;
+        setTimeout(function() {
+          openModal(LOCKED_CARDS[matchId]);
+          autoTypeAndSubmit(destParam, '#FDFDFC');
+        }, 300);
         return;
       }
       setTimeout(function() {

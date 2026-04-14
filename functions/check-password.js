@@ -4,7 +4,7 @@ export async function onRequestPost({ request, env }) {
   const dest = formData.get('dest') || '/';
   const isAjax = request.headers.get('X-Requested-With') === 'fetch';
 
-  if (code.toLowerCase() === env.CFP_PASSWORD.toLowerCase()) {
+  if (env.CFP_PASSWORD && code.toLowerCase() === env.CFP_PASSWORD.toLowerCase()) {
     const cookieHeader = `cfp_auth=1; Path=/; Secure; SameSite=Strict`;
     if (isAjax) {
       return new Response(JSON.stringify({ success: true, dest }), {

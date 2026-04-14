@@ -780,7 +780,7 @@
 
     <div class="grid" id="grid">
 
-          <a href="./medidataedcredesign.html" class="card-item" id="card-0">
+          <a href="./medidataedcredesign.html" class="card-item" id="card-0" data-locked="true">
             <div class="card">
               <img class="card-thumb" src="images/medidata-edc-thumb.webp" alt="Medidata EDC Redesign" width="840" height="840" loading="eager" fetchpriority="high">
               <video class="card-video" muted loop playsinline preload="none">
@@ -819,7 +819,7 @@
             </div>
           </a>
 
-          <a href="./qualisflow-02.html" class="card-item" id="card-3">
+          <a href="./qualisflow-02.html" class="card-item" id="card-3" data-locked="true">
             <div class="card">
               <img class="card-thumb" src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts & IA" width="840" height="840" loading="lazy">
               <video class="card-video" muted loop playsinline preload="none">
@@ -845,7 +845,7 @@
             </div>
           </a>
 
-          <a href="./clinical-risk-based-monitoring.html" class="card-item" id="card-5">
+          <a href="./clinical-risk-based-monitoring.html" class="card-item" id="card-5" data-locked="true">
             <div class="card">
               <img class="card-thumb" src="images/medidata-risk-thumb.jpg" alt="Medidata Risk Tool" width="840" height="840" loading="lazy">
               <video class="card-video" muted loop playsinline preload="none">
@@ -965,6 +965,8 @@
         const href = cardItem.getAttribute('href');
         if (!href || href === '#') return;
         cardItem.addEventListener('click', function(e) {
+          // Locked cards show the password modal — skip page transition
+          if (this.dataset.locked) return;
           e.preventDefault();
           const thumb = this.querySelector('.card');
           const rect  = thumb.getBoundingClientRect();
@@ -1357,8 +1359,8 @@
       max-height: calc(100vh - 48px);
       display: flex; flex-direction: column;
       box-shadow: 0 24px 72px rgba(10,10,10,0.2);
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      opacity: 0; transform: translateY(72px);
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1);
     }
 
     /* ── Close button — top-right corner of panel ── */
@@ -1372,6 +1374,22 @@
       transition: background 0.15s;
     }
     #pw-modal-close:hover { background: #fff; }
+
+    /* ── Panel content stagger on open ── */
+    #pw-modal-banner,
+    #pw-modal-body {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    #pw-modal.is-open #pw-modal-banner {
+      opacity: 1; transform: translateY(0);
+      transition-delay: 0.1s;
+    }
+    #pw-modal.is-open #pw-modal-body {
+      opacity: 1; transform: translateY(0);
+      transition-delay: 0.18s;
+    }
 
     /* ── Banner — light blue gradient, inset with 32px side margins ── */
     #pw-modal-banner {
@@ -1569,6 +1587,7 @@
     var modalLogo  = document.getElementById('pw-modal-logo');
     var slotArea   = document.getElementById('pw-slot-area');
     var destUrl      = '';
+    var ptColor      = '#FDFDFC';
     var caretEl      = null;
     var caretTween   = null;
     var blurTimer    = null;
@@ -1690,8 +1709,9 @@
     });
 
     // ── Open / close ──
-    function openModal(cardData) {
+    function openModal(cardData, cardEl) {
       destUrl = cardData.dest;
+      ptColor = (cardEl && cardEl.getAttribute('data-pt-color')) || '#FDFDFC';
 
       // Populate card info
       cardTitle.textContent = cardData.title;
@@ -1770,7 +1790,24 @@
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.success) {
-          window.location.href = destUrl;
+          // Run page transition expanding from the modal panel, then navigate
+          var rect = panel.getBoundingClientRect();
+          var ov = document.createElement('div');
+          ov.id = 'pt-overlay';
+          ov.style.cssText = 'position:fixed;z-index:9999;border-radius:20px;transition:top 0.55s cubic-bezier(0.16,1,0.3,1),left 0.55s cubic-bezier(0.16,1,0.3,1),width 0.55s cubic-bezier(0.16,1,0.3,1),height 0.55s cubic-bezier(0.16,1,0.3,1),border-radius 0.55s ease;';
+          ov.style.background = ptColor;
+          ov.style.top    = rect.top + 'px';
+          ov.style.left   = rect.left + 'px';
+          ov.style.width  = rect.width + 'px';
+          ov.style.height = rect.height + 'px';
+          document.body.appendChild(ov);
+          ov.getBoundingClientRect(); // force reflow
+          ov.style.top = '0';
+          ov.style.left = '0';
+          ov.style.width = '100vw';
+          ov.style.height = '100vh';
+          ov.style.borderRadius = '0';
+          setTimeout(function() { window.location.href = destUrl; }, 580);
         } else {
           errorMsg.style.display = 'block';
           slots.forEach(function(s) {
@@ -1802,7 +1839,7 @@
       card.addEventListener('click', function(e) {
         if (window.innerWidth < 480) return;
         e.preventDefault();
-        openModal(LOCKED_CARDS[cardId]);
+        openModal(LOCKED_CARDS[cardId], this);
       });
     });
 

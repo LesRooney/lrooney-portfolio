@@ -1318,7 +1318,7 @@
           </div>
           <!-- Hidden until user starts typing — slides in from right -->
           <div id="pw-submit-wrap">
-            <button type="button" id="pw-modal-submit">Go</button>
+            <button type="button" id="pw-modal-submit" aria-label="Submit password">→</button>
           </div>
         </div>
         <p id="pw-modal-error">Incorrect password — try again</p>
@@ -1384,7 +1384,7 @@
       border-radius: 16px;
     }
     #pw-modal-logo {
-      max-height: 112px; max-width: 499px;
+      max-height: 120px; max-width: 500px;
       display: block;
     }
     #pw-modal-logo[src=""] { display: none; }
@@ -1503,19 +1503,20 @@
       transition: max-width 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
     }
     #pw-modal-panel.has-input #pw-submit-wrap {
-      max-width: 80px;
+      max-width: 56px;
       opacity: 1;
     }
     #pw-modal-submit {
-      height: 44px; padding: 0 18px;
+      width: 44px; height: 44px; padding: 0;
       background: var(--ink); color: #fff;
-      border: none; border-radius: 10px;
-      font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
-      cursor: pointer; letter-spacing: 0.01em;
-      white-space: nowrap;
-      transition: opacity 0.2s;
+      border: none; border-radius: 8px;
+      font-size: 1.15rem; line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.15s;
     }
-    #pw-modal-submit:hover { opacity: 0.82; }
+    #pw-modal-submit:hover { opacity: 0.82; transform: scale(1.06); }
     #pw-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* ── Mobile ── */

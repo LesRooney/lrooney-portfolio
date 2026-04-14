@@ -159,7 +159,11 @@
       "Bash(open \"http://localhost:8081/index.html#figmacapture=7c22e858-b07f-4159-90c7-ef91c34ac70a&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F7c22e858-b07f-4159-90c7-ef91c34ac70a%2Fsubmit&figmadelay=5000\")",
       "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=9-2\")",
       "Bash(open \"http://localhost:8081/index.html#figmacapture=cc783f16-a474-48cd-a304-a0fd839cec42&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Fcc783f16-a474-48cd-a304-a0fd839cec42%2Fsubmit&figmadelay=5000\")",
-      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=13-2\")"
+      "Bash(open \"https://www.figma.com/design/TDcqGTIIqNDGoR6xDYcWCk?node-id=13-2\")",
+      "Bash(open \"http://localhost:8081/index.html#figmacapture=f34ad915-a49b-42e0-823e-49aab2b62446&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Ff34ad915-a49b-42e0-823e-49aab2b62446%2Fsubmit&figmadelay=4000\")",
+      "Bash(open \"http://localhost:8081/index.html?modal=1#figmacapture=8d77d5b7-4a8c-48bf-84e3-90e2438eb74c&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F8d77d5b7-4a8c-48bf-84e3-90e2438eb74c%2Fsubmit&figmadelay=3000\")",
+      "mcp__figma-remote-mcp__get_screenshot",
+      "Bash(git revert:*)"
     ]
   }
 }

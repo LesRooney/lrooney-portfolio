@@ -1316,14 +1316,14 @@
                  style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;">
         </div>
         <p id="pw-modal-error">Incorrect password — try again</p>
+        <!-- Hidden until user starts typing — sits directly under input -->
+        <div id="pw-submit-wrap">
+          <button type="button" id="pw-modal-submit">View case study &rarr;</button>
+        </div>
         <div id="pw-modal-divider"></div>
         <div id="pw-card-info">
           <h2 id="pw-card-title"></h2>
           <div id="pw-card-tags"></div>
-        </div>
-        <!-- Hidden until user starts typing -->
-        <div id="pw-submit-wrap">
-          <button type="button" id="pw-modal-submit">View case study &rarr;</button>
         </div>
       </div>
     </div>
@@ -1483,11 +1483,13 @@
       overflow: hidden;
       max-height: 0;
       opacity: 0;
-      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+      margin-top: 0;
+      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease, margin-top 0.4s ease;
     }
     #pw-modal-panel.has-input #pw-submit-wrap {
       max-height: 80px;
       opacity: 1;
+      margin-top: 16px;
     }
     #pw-modal-submit {
       width: 100%; padding: 14px 24px; margin-top: 0;

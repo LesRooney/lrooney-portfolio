@@ -1295,5 +1295,322 @@
   wts.src='https://app.ardalio.com/wts7.js';document.head.appendChild(wts);
   wts.onload = function(){ wtsl7(2208464,1); }; </script><noscript><img src="https://app.ardalio.com/7/1/2208464.png"></noscript>
   <!-- end Web-Stat code v 7.0 -->
+
+  <!-- ── PASSWORD MODAL ── -->
+  <div id="pw-modal" role="dialog" aria-modal="true" aria-label="Password required" style="display:none;">
+    <div id="pw-modal-backdrop"></div>
+    <div id="pw-modal-panel">
+      <button id="pw-modal-close" aria-label="Close">&times;</button>
+      <p id="pw-modal-eyebrow">PASSWORD REQUIRED</p>
+      <h2 id="pw-modal-heading">Password required</h2>
+      <p id="pw-modal-desc">Hey, this case study is restricted — reach out and I'll share the magic word. Not case sensitive.</p>
+      <form id="pw-modal-form" autocomplete="off">
+        <div class="pw-char-inputs" id="pw-modal-chars"></div>
+        <p id="pw-modal-error">Incorrect password — try again</p>
+        <button type="submit" id="pw-modal-submit">View case study &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    /* ── Modal backdrop + panel ── */
+    #pw-modal {
+      position: fixed; inset: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #pw-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    #pw-modal-panel {
+      position: relative; z-index: 1;
+      background: #FDFDFC;
+      border-radius: 20px;
+      padding: 48px;
+      width: min(480px, calc(100vw - 48px));
+      box-shadow: 0 32px 80px rgba(10,10,10,0.22);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    #pw-modal.is-open #pw-modal-backdrop { opacity: 1; }
+    #pw-modal.is-open #pw-modal-panel    { opacity: 1; transform: translateY(0); }
+
+    #pw-modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 32px; height: 32px; border-radius: 50%;
+      border: none; background: var(--rule);
+      font-size: 1.1rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink); transition: background 0.15s;
+    }
+    #pw-modal-close:hover { background: #d8d5cc; }
+
+    #pw-modal-eyebrow {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink-mid);
+      margin-bottom: 10px;
+    }
+    #pw-modal-heading {
+      font-family: var(--serif); font-size: 1.9rem; font-weight: 700;
+      letter-spacing: -0.03em; color: var(--ink);
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    #pw-modal-desc {
+      font-size: 0.88rem; color: var(--ink-mid);
+      line-height: 1.6; margin-bottom: 28px;
+    }
+
+    /* char boxes — match password.html pattern */
+    .pw-char-inputs {
+      display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: nowrap;
+    }
+    .pw-char-wrap { position: relative; flex-shrink: 0; }
+    .pw-char-box {
+      width: 36px; height: 44px;
+      border: 1.5px solid var(--rule); border-radius: 10px;
+      background: var(--paper); font-size: 1.1rem; font-weight: 500;
+      text-align: center; color: var(--ink); outline: none;
+      caret-color: transparent;
+      transition: border-color 0.15s, background 0.15s;
+      font-family: var(--sans);
+    }
+    .pw-char-box:focus  { border-color: #2563eb; border-width: 2px; background: #fff; }
+    .pw-char-box.error  { border-color: #ef4444; border-width: 2px; }
+    .pw-caret-modal {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 2px; height: 18px; background: #2563eb;
+      border-radius: 2px; pointer-events: none;
+    }
+    #pw-modal-error {
+      font-size: 0.78rem; color: #ef4444;
+      margin-bottom: 16px; display: none;
+    }
+    #pw-modal-submit {
+      width: 100%; padding: 14px 24px;
+      background: var(--ink); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
+      cursor: pointer; letter-spacing: 0.01em;
+      transition: opacity 0.2s;
+      margin-top: 8px;
+    }
+    #pw-modal-submit:hover { opacity: 0.82; }
+    #pw-modal-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Mobile — full page style */
+    @media (max-width: 600px) {
+      #pw-modal { align-items: flex-end; }
+      #pw-modal-panel {
+        width: 100%; border-radius: 20px 20px 0 0;
+        padding: 36px 24px 40px;
+        transform: translateY(40px);
+      }
+      #pw-modal.is-open #pw-modal-panel { transform: translateY(0); }
+    }
+  </style>
+
+  <script>
+  (function () {
+    var LOCKED_CARDS = {
+      'card-0': '/medidataedcredesign.html',
+      'card-3': '/qualisflow-02.html',
+      'card-5': '/clinical-risk-based-monitoring.html'
+    };
+
+    var modal      = document.getElementById('pw-modal');
+    var backdrop   = document.getElementById('pw-modal-backdrop');
+    var panel      = document.getElementById('pw-modal-panel');
+    var form       = document.getElementById('pw-modal-form');
+    var charsWrap  = document.getElementById('pw-modal-chars');
+    var errorMsg   = document.getElementById('pw-modal-error');
+    var submitBtn  = document.getElementById('pw-modal-submit');
+    var closeBtn   = document.getElementById('pw-modal-close');
+    var destUrl    = '';
+    var realValues = [];
+    var caretEl    = null;
+    var caretTween = null;
+    var blurTimer  = null;
+    var NUM_CHARS  = 10;
+
+    // ── Build char boxes ──
+    for (var i = 0; i < NUM_CHARS; i++) {
+      var wrap = document.createElement('div');
+      wrap.className = 'pw-char-wrap';
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'pw-char-box';
+      inp.maxLength = 1;
+      inp.setAttribute('autocomplete', 'off');
+      inp.setAttribute('inputmode', 'text');
+      inp.setAttribute('spellcheck', 'false');
+      inp.setAttribute('aria-label', 'Character ' + (i + 1));
+      inp.dataset.idx = i;
+      wrap.appendChild(inp);
+      charsWrap.appendChild(wrap);
+      realValues.push('');
+    }
+
+    var boxes = Array.from(charsWrap.querySelectorAll('.pw-char-box'));
+
+    // ── Caret ──
+    caretEl = document.createElement('div');
+    caretEl.className = 'pw-caret-modal';
+
+    function showCaret(box) {
+      clearTimeout(blurTimer);
+      if (caretEl.parentElement) caretEl.parentElement.removeChild(caretEl);
+      if (caretTween) caretTween.kill();
+      box.parentElement.appendChild(caretEl);
+      caretTween = gsap.to(caretEl, { opacity: 0, duration: 0.5, repeat: -1, yoyo: true, ease: 'none' });
+    }
+    function hideCaret() {
+      blurTimer = setTimeout(function () {
+        if (caretTween) { caretTween.kill(); caretTween = null; }
+        if (caretEl.parentElement) caretEl.parentElement.removeChild(caretEl);
+      }, 0);
+    }
+
+    // ── Box events ──
+    boxes.forEach(function (box, idx) {
+      box.addEventListener('focus', function () { box.select(); showCaret(box); });
+      box.addEventListener('blur', hideCaret);
+
+      box.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace') {
+          if (realValues[idx]) {
+            realValues[idx] = '';
+            box.value = '';
+          } else if (idx > 0) {
+            realValues[idx - 1] = '';
+            boxes[idx - 1].value = '';
+            boxes[idx - 1].focus();
+          }
+          e.preventDefault();
+        } else if (e.key === 'ArrowLeft' && idx > 0) {
+          boxes[idx - 1].focus(); e.preventDefault();
+        } else if (e.key === 'ArrowRight' && idx < NUM_CHARS - 1) {
+          boxes[idx + 1].focus(); e.preventDefault();
+        } else if (e.key === 'Enter') {
+          submitForm();
+        }
+      });
+
+      box.addEventListener('input', function (e) {
+        var val = box.value.replace(/\s/g, '');
+        if (!val) return;
+        // Handle paste
+        if (val.length > 1) {
+          val.split('').forEach(function (ch, offset) {
+            var target = idx + offset;
+            if (target < NUM_CHARS) {
+              realValues[target] = ch;
+              boxes[target].value = '*';
+              setTimeout(function () {
+                if (realValues[target] === ch) boxes[target].value = '*';
+              }, 1000);
+            }
+          });
+          var nextIdx = Math.min(idx + val.length, NUM_CHARS - 1);
+          boxes[nextIdx].focus();
+        } else {
+          realValues[idx] = val;
+          box.value = val;
+          setTimeout(function () {
+            if (realValues[idx] === val) box.value = '*';
+          }, 1000);
+          if (idx < NUM_CHARS - 1) boxes[idx + 1].focus();
+        }
+      });
+    });
+
+    // ── Open / close ──
+    function openModal(dest) {
+      destUrl = dest;
+      // reset
+      realValues = new Array(NUM_CHARS).fill('');
+      boxes.forEach(function (b) { b.value = ''; b.classList.remove('error'); });
+      errorMsg.style.display = 'none';
+      submitBtn.disabled = false;
+
+      modal.style.display = 'flex';
+      // force reflow before adding class so transition fires
+      modal.offsetHeight;
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () { boxes[0].focus(); }, 350);
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(function () { modal.style.display = 'none'; }, 350);
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+
+    // ── Submit ──
+    function submitForm() {
+      var code = realValues.join('');
+      if (code.length < 1) return;
+      submitBtn.disabled = true;
+      errorMsg.style.display = 'none';
+
+      var fd = new FormData();
+      fd.append('code', code);
+      fd.append('dest', destUrl);
+
+      fetch('/check-password', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'fetch' },
+        body: fd
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.success) {
+          window.location.href = destUrl;
+        } else {
+          errorMsg.style.display = 'block';
+          boxes.forEach(function (b) { b.classList.add('error'); });
+          submitBtn.disabled = false;
+          // clear and refocus
+          realValues = new Array(NUM_CHARS).fill('');
+          boxes.forEach(function (b) { b.value = ''; });
+          boxes[0].focus();
+        }
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        errorMsg.style.display = 'block';
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitForm();
+    });
+
+    // ── Intercept locked card clicks ──
+    Object.keys(LOCKED_CARDS).forEach(function (cardId) {
+      var card = document.getElementById(cardId);
+      if (!card) return;
+      card.addEventListener('click', function (e) {
+        // On very small screens fall through to normal navigation (middleware handles it)
+        if (window.innerWidth < 480) return;
+        e.preventDefault();
+        openModal(LOCKED_CARDS[cardId]);
+      });
+    });
+  })();
+  </script>
 </body>
 </html>

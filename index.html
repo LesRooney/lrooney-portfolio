@@ -1320,11 +1320,16 @@
     }
     #pw-modal-backdrop {
       position: absolute; inset: 0;
-      background: rgba(10,10,10,0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: transparent; /* no darkening */
+      /* ── Blur options — uncomment one ──────────────────────────
+         A · subtle   : blur(4px)   page stays very readable
+         B · moderate : blur(10px)  balanced, recommended ← active
+         C · strong   : blur(20px)  page is heavily obscured
+         ───────────────────────────────────────────────────────── */
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       opacity: 0;
-      transition: opacity 0.35s ease;
+      transition: opacity 0.4s ease;
     }
     #pw-modal-panel {
       position: relative; z-index: 1;

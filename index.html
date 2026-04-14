@@ -1415,41 +1415,45 @@
       width: 36px;
       flex-shrink: 0;
       height: 44px;
-      display: flex; align-items: flex-end; justify-content: center;
-      border-bottom: 1.5px solid #d8d5cc;
+      display: flex; align-items: center; justify-content: center;
+      background: #F5F5F6;
+      border: 1.5px solid #E0DED9;
+      border-radius: 10px;
       position: relative;
       transition: opacity 0.18s ease,
                   transform 0.22s cubic-bezier(0.16,1,0.3,1),
-                  border-color 0.15s ease;
+                  border-color 0.15s ease,
+                  background 0.15s ease;
     }
     /* slots 2–10: hidden — fade in from right */
     .pw-slot.pw-slot-hidden {
       opacity: 0;
       transform: translateX(8px);
-      border-bottom-color: transparent;
       pointer-events: none;
     }
-    /* revealed: slide in, left to right stagger */
+    /* revealed: slide in left to right */
     .pw-slot.pw-slot-revealed {
       opacity: 1;
       transform: translateX(0);
-      border-bottom-color: #d8d5cc;
       pointer-events: auto;
     }
-    .pw-slot.pw-slot-active { border-bottom-color: #2563eb; border-bottom-width: 2px; }
-    .pw-slot.pw-slot-error  { border-bottom-color: #ef4444; }
+    .pw-slot.pw-slot-active {
+      border-color: #2563eb;
+      border-width: 2px;
+      background: #fff;
+    }
+    .pw-slot.pw-slot-error { border-color: #ef4444; }
 
     .pw-slot-char {
-      font-size: 0.85rem; color: var(--ink);
-      padding-bottom: 8px;
+      font-size: 1.2rem; color: var(--ink);
       user-select: none; line-height: 1;
     }
 
-    /* GSAP blinking caret — centred in active slot */
+    /* GSAP blinking caret — centred in active box */
     .pw-caret-modal {
-      position: absolute; left: 50%; bottom: 9px;
-      transform: translateX(-50%);
-      width: 2px; height: 18px; background: #2563eb;
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 2px; height: 20px; background: #2563eb;
       border-radius: 2px; pointer-events: none;
     }
 

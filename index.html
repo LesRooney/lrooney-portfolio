@@ -1380,7 +1380,7 @@
       border-radius: 16px;
     }
     #pw-modal-logo {
-      max-height: 86px; max-width: 384px;
+      max-height: 112px; max-width: 499px;
       display: block;
     }
     #pw-modal-logo[src=""] { display: none; }
@@ -1557,13 +1557,15 @@
     var cardTags   = document.getElementById('pw-card-tags');
     var modalLogo  = document.getElementById('pw-modal-logo');
     var slotArea   = document.getElementById('pw-slot-area');
-    var destUrl    = '';
-    var caretEl    = null;
-    var caretTween = null;
-    var blurTimer  = null;
-    var NUM_CHARS  = 10;
-    var slots      = [];
-    var revealed   = false;
+    var destUrl      = '';
+    var caretEl      = null;
+    var caretTween   = null;
+    var blurTimer    = null;
+    var NUM_CHARS    = 10;
+    var slots        = [];
+    var revealed     = false;
+    var displayVals  = new Array(10).fill(''); // what each slot shows (char or '•')
+    var maskTimers   = new Array(10).fill(null);
 
     // ── Build slots ──
     for (var i = 0; i < NUM_CHARS; i++) {
@@ -1594,21 +1596,47 @@
       }, 0);
     }
 
-    function updateSlots() {
+    function renderSlots() {
       var val = hiddenInp.value;
       for (var i = 0; i < NUM_CHARS; i++) {
-        slots[i].querySelector('.pw-slot-char').textContent = val[i] ? '•' : '';
+        slots[i].querySelector('.pw-slot-char').textContent = displayVals[i];
         slots[i].classList.remove('pw-slot-active', 'pw-slot-error');
       }
       var activeIdx = Math.min(val.length, NUM_CHARS - 1);
       slots[activeIdx].classList.add('pw-slot-active');
       placeCaret();
-      // Show submit button once user has typed anything
-      if (val.length > 0) {
-        panel.classList.add('has-input');
-      } else {
-        panel.classList.remove('has-input');
+      panel.classList.toggle('has-input', val.length > 0);
+    }
+
+    function updateSlots(prevLen) {
+      var val = hiddenInp.value;
+      var newLen = val.length;
+
+      // Clear any slots that were deleted
+      for (var i = newLen; i < NUM_CHARS; i++) {
+        if (maskTimers[i]) { clearTimeout(maskTimers[i]); maskTimers[i] = null; }
+        displayVals[i] = '';
       }
+
+      // Handle newly typed character(s)
+      if (newLen > prevLen) {
+        for (var j = prevLen; j < newLen; j++) {
+          (function(idx) {
+            var ch = val[idx];
+            displayVals[idx] = ch; // show real char
+            if (maskTimers[idx]) clearTimeout(maskTimers[idx]);
+            maskTimers[idx] = setTimeout(function() {
+              // only mask if this slot still has that character
+              if (hiddenInp.value[idx] === ch && displayVals[idx] === ch) {
+                displayVals[idx] = '•';
+                renderSlots();
+              }
+            }, 1000);
+          })(j);
+        }
+      }
+
+      renderSlots();
     }
 
     // ── Reveal all slots with stagger ──
@@ -1638,8 +1666,11 @@
     });
     hiddenInp.addEventListener('blur', hideCaret);
     hiddenInp.addEventListener('input', function() {
+      var prevLen = hiddenInp.value.replace(/\s/g, '').slice(0, NUM_CHARS).length;
+      // capture prev length before stripping (it's already the new value here, so track via displayVals)
+      var oldLen = displayVals.filter(function(v) { return v !== ''; }).length;
       hiddenInp.value = hiddenInp.value.replace(/\s/g, '').slice(0, NUM_CHARS);
-      updateSlots();
+      updateSlots(oldLen);
       errorMsg.style.display = 'none';
       slots.forEach(function(s) { s.classList.remove('pw-slot-error'); });
     });
@@ -1672,6 +1703,9 @@
       // Reset
       hiddenInp.value = '';
       revealed = false;
+      displayVals = new Array(NUM_CHARS).fill('');
+      maskTimers.forEach(function(t) { if (t) clearTimeout(t); });
+      maskTimers = new Array(NUM_CHARS).fill(null);
       slots.forEach(function(s, i) {
         s.querySelector('.pw-slot-char').textContent = '';
         s.className = 'pw-slot' + (i > 0 ? ' pw-slot-hidden' : ' pw-slot-active');
@@ -1735,7 +1769,10 @@
           submitBtn.disabled = false;
           hiddenInp.value = '';
           panel.classList.remove('has-input');
-          updateSlots();
+          displayVals = new Array(NUM_CHARS).fill('');
+          maskTimers.forEach(function(t) { if (t) clearTimeout(t); });
+          maskTimers = new Array(NUM_CHARS).fill(null);
+          updateSlots(0);
           hiddenInp.focus();
         }
       })

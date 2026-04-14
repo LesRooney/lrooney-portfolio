@@ -269,7 +269,7 @@
       max-width: calc(var(--max) - 96px);
       margin: 24px auto;
       border: none;
-      border-top: 1px solid var(--rule);
+      border-top: 1px solid var(--ink);
     }
     .past-work-grid {
       display: grid;
@@ -1309,7 +1309,7 @@
       </div>
       <!-- Body -->
       <div id="pw-modal-body">
-        <p id="pw-modal-eyebrow">Password required to view</p>
+        <p id="pw-modal-eyebrow">Password required. It's not case sensitive.</p>
         <!-- Slot area + Go button in a row -->
         <div id="pw-input-row">
           <div id="pw-slot-area">
@@ -1413,8 +1413,8 @@
     }
 
     #pw-modal-eyebrow {
-      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.13em;
-      text-transform: uppercase; color: var(--ink-mid);
+      font-size: 0.75rem; font-weight: 400; letter-spacing: 0;
+      color: var(--ink-mid);
       margin-bottom: 4px;
     }
 
@@ -1739,12 +1739,38 @@
     submitBtn.addEventListener('click', submitForm);
 
     // ── Intercept locked card clicks ──
+    function isAuthed() {
+      return document.cookie.split(';').some(function(c) {
+        return c.trim() === 'cfp_auth=1';
+      });
+    }
+
     Object.keys(LOCKED_CARDS).forEach(function(cardId) {
       var card = document.getElementById(cardId);
       if (!card) return;
       card.addEventListener('click', function(e) {
         if (window.innerWidth < 480) return;
         e.preventDefault();
+        // Already authenticated — skip modal, go straight to page transition
+        if (isAuthed()) {
+          var cardData = LOCKED_CARDS[cardId];
+          var rect = this.getBoundingClientRect();
+          var ov = document.createElement('div');
+          ov.id = 'pt-overlay';
+          ov.style.cssText = 'position:fixed;z-index:9999;border-radius:16px;transition:top 0.55s cubic-bezier(0.16,1,0.3,1),left 0.55s cubic-bezier(0.16,1,0.3,1),width 0.55s cubic-bezier(0.16,1,0.3,1),height 0.55s cubic-bezier(0.16,1,0.3,1),border-radius 0.55s ease;';
+          ov.style.background = this.getAttribute('data-pt-color') || '#FDFDFC';
+          ov.style.top    = rect.top  + 'px';
+          ov.style.left   = rect.left + 'px';
+          ov.style.width  = rect.width  + 'px';
+          ov.style.height = rect.height + 'px';
+          document.body.appendChild(ov);
+          ov.getBoundingClientRect();
+          ov.style.top = '0'; ov.style.left = '0';
+          ov.style.width = '100vw'; ov.style.height = '100vh';
+          ov.style.borderRadius = '0';
+          setTimeout(function() { window.location.href = cardData.dest; }, 580);
+          return;
+        }
         openModal(LOCKED_CARDS[cardId], this);
       });
     });
@@ -1754,14 +1780,16 @@
       var params = new URLSearchParams(window.location.search);
       var destParam = params.get('dest');
       if (!destParam) return;
-      // Find the matching card by dest URL
       var matchId = Object.keys(LOCKED_CARDS).find(function(id) {
         return LOCKED_CARDS[id].dest === destParam;
       });
       if (!matchId) return;
-      // Clean ?dest= from URL without reload
       history.replaceState(null, '', '/');
-      // Open modal after page has settled
+      // Already authed (e.g. cookie present but middleware hasn't fired yet) — go direct
+      if (isAuthed()) {
+        window.location.href = destParam;
+        return;
+      }
       setTimeout(function() {
         openModal(LOCKED_CARDS[matchId]);
       }, 300);

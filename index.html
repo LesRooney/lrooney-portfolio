@@ -1308,18 +1308,20 @@
       <!-- Body -->
       <div id="pw-modal-body">
         <p id="pw-modal-eyebrow">Password required to view</p>
-        <!-- Slot area -->
-        <div id="pw-slot-area">
-          <div id="pw-slots"><!-- built by JS --></div>
-          <input type="text" id="pw-hidden-input" autocomplete="off" inputmode="text"
-                 spellcheck="false" aria-label="Enter password" maxlength="10"
-                 style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;">
+        <!-- Slot area + Go button in a row -->
+        <div id="pw-input-row">
+          <div id="pw-slot-area">
+            <div id="pw-slots"><!-- built by JS --></div>
+            <input type="text" id="pw-hidden-input" autocomplete="off" inputmode="text"
+                   spellcheck="false" aria-label="Enter password" maxlength="10"
+                   style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;top:0;left:0;font-size:16px;">
+          </div>
+          <!-- Hidden until user starts typing — slides in from right -->
+          <div id="pw-submit-wrap">
+            <button type="button" id="pw-modal-submit">Go</button>
+          </div>
         </div>
         <p id="pw-modal-error">Incorrect password — try again</p>
-        <!-- Hidden until user starts typing — sits directly under input -->
-        <div id="pw-submit-wrap">
-          <button type="button" id="pw-modal-submit">View case study &rarr;</button>
-        </div>
         <div id="pw-modal-divider"></div>
         <div id="pw-card-info">
           <h2 id="pw-card-title"></h2>
@@ -1400,10 +1402,16 @@
       margin-bottom: 20px;
     }
 
+    /* ── Input row: slots + Go button side by side ── */
+    #pw-input-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 0;
+    }
+
     /* ── Slot area ── */
     #pw-slot-area {
       position: relative; cursor: text;
-      margin-bottom: 0;
+      flex-shrink: 0;
     }
     /* Horizontal row of slots */
     #pw-slots {
@@ -1486,25 +1494,25 @@
       padding: 5px 13px;
     }
 
-    /* ── Submit — hidden until user types ── */
+    /* ── Submit — hidden until user types, slides in from right ── */
     #pw-submit-wrap {
       overflow: hidden;
-      max-height: 0;
+      max-width: 0;
       opacity: 0;
-      margin-top: 0;
-      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease, margin-top 0.4s ease;
+      flex-shrink: 0;
+      transition: max-width 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
     }
     #pw-modal-panel.has-input #pw-submit-wrap {
-      max-height: 80px;
+      max-width: 80px;
       opacity: 1;
-      margin-top: 16px;
     }
     #pw-modal-submit {
-      width: 100%; padding: 14px 24px; margin-top: 0;
+      height: 44px; padding: 0 18px;
       background: var(--ink); color: #fff;
-      border: none; border-radius: 12px;
+      border: none; border-radius: 10px;
       font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
       cursor: pointer; letter-spacing: 0.01em;
+      white-space: nowrap;
       transition: opacity 0.2s;
     }
     #pw-modal-submit:hover { opacity: 0.82; }

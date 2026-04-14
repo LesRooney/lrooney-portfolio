@@ -14,7 +14,7 @@ export async function onRequest({ request, next, env }) {
   const isAuthed = cookie.includes('cfp_auth=1');
   if (isAuthed) return next();
 
-  // Not authed — redirect to password page, remembering destination
+  // Not authed — redirect to homepage with dest param to trigger modal
   const dest = encodeURIComponent(url.pathname);
-  return Response.redirect(`${url.origin}/password.html?dest=${dest}`, 302);
+  return Response.redirect(`${url.origin}/?dest=${dest}`, 302);
 }

@@ -1805,6 +1805,24 @@
         openModal(LOCKED_CARDS[cardId]);
       });
     });
+
+    // ── Auto-open modal if redirected here from middleware with ?dest= ──
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var destParam = params.get('dest');
+      if (!destParam) return;
+      // Find the matching card by dest URL
+      var matchId = Object.keys(LOCKED_CARDS).find(function(id) {
+        return LOCKED_CARDS[id].dest === destParam;
+      });
+      if (!matchId) return;
+      // Clean ?dest= from URL without reload
+      history.replaceState(null, '', '/');
+      // Open modal after page has settled
+      setTimeout(function() {
+        openModal(LOCKED_CARDS[matchId]);
+      }, 300);
+    })();
   })();
   </script>
 </body>

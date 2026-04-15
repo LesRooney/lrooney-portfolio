@@ -1309,10 +1309,11 @@
       </div>
       <!-- Body -->
       <div id="pw-modal-body">
-        <p id="pw-modal-eyebrow">Password required. It's not case sensitive.</p>
+        <p id="pw-modal-eyebrow">Protected area (not case sensitive)</p>
         <!-- Slot area + Go button in a row -->
         <div id="pw-input-row">
           <div id="pw-slot-area">
+            <img id="pw-lock-icon" src="images/icons/locked_extrabold.svg" alt="" aria-hidden="true">
             <input type="text" id="pw-visible-input" autocomplete="new-password"
                    inputmode="text" spellcheck="false" aria-label="Enter password">
             <div id="pw-caret"></div>
@@ -1345,7 +1346,7 @@
       opacity: 1;
     }
     #pw-modal.is-open #pw-modal-backdrop { opacity: 1; }
-    #pw-modal.is-open #pw-modal-panel    { opacity: 1; transform: translateY(0); }
+    #pw-modal.is-open #pw-modal-panel    { opacity: 1; transform: scale(1); }
 
     /* ── Panel ── */
     #pw-modal-panel {
@@ -1357,8 +1358,9 @@
       max-height: calc(100vh - 48px);
       display: flex; flex-direction: column;
       box-shadow: 0 24px 72px rgba(10,10,10,0.2);
-      opacity: 0; transform: translateY(72px);
-      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1);
+      opacity: 0; transform: scale(0.72);
+      transform-origin: center center;
+      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
 
     /* ── Close button — top-right corner of panel ── */
@@ -1429,9 +1431,19 @@
       flex: 1;
       position: relative;
     }
+    #pw-lock-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 20px;
+      width: auto;
+      opacity: 0.3;
+      pointer-events: none;
+    }
     #pw-visible-input {
       width: 100%; height: 44px;
-      padding: 0 14px;
+      padding: 0 14px 0 38px;
       box-sizing: border-box;
       border: 2px solid #2563eb; border-radius: 10px;
       background: #fff;
@@ -1442,7 +1454,7 @@
     }
     #pw-caret {
       position: absolute;
-      left: 14px;
+      left: 38px;
       top: 50%;
       transform: translateY(-50%);
       width: 4px;
@@ -1534,7 +1546,7 @@
       'card-0': {
         dest: '/medidataedcredesign.html',
         title: 'Foundational Redesign',
-        tags: ['Workflow Redesign','Enterprise SaaS','End to End','Multivariate Prototypes','Cross Alignment','Design System Contribution','Trust Design','0-1 Features','Interaction Design','Research Led'],
+        tags: ['Enterprise SaaS','End to End','Design System Contribution','Research Led','0-1 Features'],
         logo: 'images/icons/MedidataDarkBlue 1.svg'
       },
       'card-3': {
@@ -1686,6 +1698,22 @@
       panel.classList.remove('has-input');
       caretEl.classList.remove('is-visible');
 
+      // Set transform-origin to the card's centre so panel expands from it
+      if (cardEl) {
+        var cRect = cardEl.getBoundingClientRect();
+        var cardCx = cRect.left + cRect.width  / 2;
+        var cardCy = cRect.top  + cRect.height / 2;
+        var vpCx   = window.innerWidth  / 2;
+        var vpCy   = window.innerHeight / 2;
+        // transform-origin is relative to the panel's own centre (50% 50%)
+        // offset = how far the card centre is from the viewport centre
+        var ox = 50 + ((cardCx - vpCx) / (panel.offsetWidth  || 600)) * 100;
+        var oy = 50 + ((cardCy - vpCy) / (panel.offsetHeight || 400)) * 100;
+        panel.style.transformOrigin = ox + '% ' + oy + '%';
+      } else {
+        panel.style.transformOrigin = '50% 50%';
+      }
+
       modal.style.display = 'flex';
       modal.offsetHeight;
       modal.classList.add('is-open');
@@ -1696,8 +1724,14 @@
 
     function closeModal() {
       modal.classList.remove('is-open');
+      panel.style.transform = 'scale(0.72)';
+      panel.style.opacity   = '0';
       document.body.style.overflow = '';
-      setTimeout(function() { modal.style.display = 'none'; }, 350);
+      setTimeout(function() {
+        modal.style.display = 'none';
+        panel.style.transform = '';
+        panel.style.opacity   = '';
+      }, 350);
     }
 
     closeBtn.addEventListener('click', closeModal);

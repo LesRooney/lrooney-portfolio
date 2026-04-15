@@ -163,7 +163,13 @@
       "Bash(open \"http://localhost:8081/index.html#figmacapture=f34ad915-a49b-42e0-823e-49aab2b62446&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2Ff34ad915-a49b-42e0-823e-49aab2b62446%2Fsubmit&figmadelay=4000\")",
       "Bash(open \"http://localhost:8081/index.html?modal=1#figmacapture=8d77d5b7-4a8c-48bf-84e3-90e2438eb74c&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F8d77d5b7-4a8c-48bf-84e3-90e2438eb74c%2Fsubmit&figmadelay=3000\")",
       "mcp__figma-remote-mcp__get_screenshot",
-      "Bash(git revert:*)"
+      "Bash(git revert:*)",
+      "WebFetch(domain:lrooney.com)",
+      "Bash(curl -s -X POST https://lrooney.com/check-password -H 'X-Requested-With: fetch' -F code=rooneyflow -F dest=/medidataedcredesign.html)",
+      "Bash(curl -sI https://lrooney.com)",
+      "Bash(curl -sI https://www.lrooney.com)",
+      "Bash(curl -sI https://lrooney-portfolio.pages.dev)",
+      "Bash(curl -s -X POST https://www.lrooney.com/check-password -H 'X-Requested-With: fetch' -F code=rooneyflow -F dest=/medidataedcredesign.html)"
     ]
   }
 }

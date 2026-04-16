@@ -711,10 +711,11 @@
       left: 40px;
       right: 40px;
       height: 1px;
-      background: var(--rule);
+      background: var(--ink);
     }
     .outcomes-band .wrap::before { top: 16px; }
     .outcomes-band .wrap::after  { bottom: 0; }
+    .outcomes-band .img-card .carousel { margin-top: 0; }
     .outcomes-band h2 {
       font-family: var(--serif);
       font-size: clamp(1.3rem, 2.5vw, 1.8rem);
@@ -732,8 +733,8 @@
     .outcomes-col:first-child { padding-left: 0; border-right: 1px solid var(--rule); }
     .outcomes-col:last-child  { padding-right: 0; }
     .outcomes-col h3 {
-      font-family: var(--serif); font-weight: 700; color: var(--ink);
-      margin-bottom: 12px; font-size: 0.95rem; letter-spacing: 0.01em;
+      font-family: var(--sans); font-weight: 500; color: var(--ink-mid);
+      margin-bottom: 12px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
     }
     .outcomes-col .cs-list li {
       color: var(--ink-mid);
@@ -1056,8 +1057,8 @@
   <div class="wrap">
     <h2>The Outcomes, Impact and Personal Growth</h2>
     <!-- Carousel: Outcomes -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
-      <p class="cs-caption" style="margin: 0 0 20px; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
       <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>

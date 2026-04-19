@@ -169,7 +169,14 @@
       "Bash(curl -sI https://lrooney.com)",
       "Bash(curl -sI https://www.lrooney.com)",
       "Bash(curl -sI https://lrooney-portfolio.pages.dev)",
-      "Bash(curl -s -X POST https://www.lrooney.com/check-password -H 'X-Requested-With: fetch' -F code=rooneyflow -F dest=/medidataedcredesign.html)"
+      "Bash(curl -s -X POST https://www.lrooney.com/check-password -H 'X-Requested-With: fetch' -F code=rooneyflow -F dest=/medidataedcredesign.html)",
+      "Bash(grep -rn \"rgba\\(253, 253, 252, 0.25\\)\" /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/*.html)",
+      "Bash([ -f \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/$f\" ])",
+      "Bash(sed -i '' 's/padding: 20px; //g; s/ padding: 20px;//g; s/padding: 20px;//g; s/padding: 20px//g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/__TRACKED_VAR__)",
+      "Bash(sed -i '' 's/background: var\\(--faint\\);/background: none;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/medidataedcredesign.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/clinical-risk-based-monitoring.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/qualisflow-02.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/lesleyrooney-games-sims-vfxworks.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/games-simulations-films.html)",
+      "Bash(perl -i -0pe 's/\\(\\\\.img-card \\\\{[^}]*?\\)border-radius: 16px;/$1border-radius: 0;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/__TRACKED_VAR__)",
+      "Bash(perl -i -0pe 's/\\(\\\\.img-card \\\\{[^}]*?\\)overflow: hidden;/$1overflow: visible;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/__TRACKED_VAR__)",
+      "Bash(sed -i '' 's/\\\\.img-card { background: none; border-radius: 16px; padding: 0; }/.img-card { background: none; border-radius: 0; padding: 0; }/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)"
     ]
   }
 }

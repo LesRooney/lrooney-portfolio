@@ -105,7 +105,7 @@ Two behaviours, one shared style system.
 - Logo: `font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none;`
 - Links: `font-size: 0.8rem; font-weight: 500; color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: opacity 0.2s;`
 - Links hover: `opacity: 0.5`
-- Nav background: `rgba(253, 253, 252, 0.88)` with `backdrop-filter: blur(12px)`
+- Nav background: `rgba(253, 253, 252, 0.30)` with `backdrop-filter: blur(20px)` and `-webkit-backdrop-filter: blur(20px)`
 - Border bottom: `1px solid var(--rule)`
 
 **Variant 1 — Homepage scroll nav (`#home-nav`)**

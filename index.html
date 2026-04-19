@@ -281,6 +281,110 @@
       padding-bottom: 80px;
     }
 
+    /* ── CLOUD CLUSTER ── */
+    .cloud-cluster {
+      position: relative;
+      width: calc(100% - 96px);
+      max-width: calc(var(--max) - 96px);
+      margin: 30px auto 16px;
+      height: 994px;
+    }
+    .cloud-c {
+      position: absolute;
+      will-change: transform;
+    }
+    /* Cloud group container */
+    .cloud-group { position: absolute; left: 0; top: 30px; width: 272px; height: 120px; }
+    /* Clouds — positioned relative to group */
+    .cloud-c--2 { width: 186px; left: 60px; top: 0;   animation: cloudFloat2 9.4s  ease-in-out infinite; }
+    .cloud-c--1 { width: 144px; left: 0;    top: 70px; animation: cloudFloat1 8.2s  ease-in-out infinite; }
+    .cloud-c--3 { width: 110px; left: 182px; top: 60px; animation: cloudFloat3 10.5s ease-in-out infinite; }
+
+    @keyframes cloudFloat1 {
+      0%   { transform: translateY(0px)  translateX(0px); }
+      30%  { transform: translateY(-8px) translateX(4px); }
+      60%  { transform: translateY(-4px) translateX(-3px); }
+      100% { transform: translateY(0px)  translateX(0px); }
+    }
+    @keyframes cloudFloat2 {
+      0%   { transform: translateY(0px)  translateX(0px); }
+      40%  { transform: translateY(-8px) translateX(-4px); }
+      70%  { transform: translateY(-4px) translateX(3px); }
+      100% { transform: translateY(0px)  translateX(0px); }
+    }
+    @keyframes cloudFloat3 {
+      0%   { transform: translateY(0px)  translateX(0px); }
+      35%  { transform: translateY(-8px) translateX(4px); }
+      65%  { transform: translateY(-4px) translateX(-3px); }
+      100% { transform: translateY(0px)  translateX(0px); }
+    }
+
+    @media (max-width: 900px) {
+      .cloud-cluster { width: calc(100% - 48px); height: 800px; margin: 32px auto 16px; }
+      .cloud-c--2 { width: 150px; left: 30px; top: 80px; }
+      .cloud-c--1 { width: 116px; left: 0;    top: 96px; }
+      .cloud-c--3 { width: 88px;  left: 128px; top: 112px; }
+    }
+
+    /* ── iPad + shelf group ── */
+    .ipad-shelf-group { left: 40px; top: 340px; width: 290px; }
+    .ipad-frame       { position: relative; display: block; width: 250px; margin-left: 5px; transform-origin: bottom left; transition: transform 0.3s ease; cursor: pointer; }
+    .ipad-frame.ipad-hovered { transform: scale(1.2); }
+    .ipad-shelf-video { display: block; width: 250px; position: relative; z-index: 0; }
+    .ipad-screen-video { position: absolute; left: 24.5px; top: 5.5px; width: 210px; height: 160px; object-fit: cover; border-radius: 6px; z-index: 1; display: block; }
+    .ipad-shelf-line  { display: block; width: 290px; margin-top: -8px; position: relative; z-index: 1; }
+    .ipad-corner-square {
+      position: absolute; left: -20px; top: calc(50% - 80px);
+      width: 12px; height: 12px;
+      background: var(--ink); border-radius: 4px;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      opacity: 0; pointer-events: none; z-index: 2;
+    }
+    .ipad-frame.ipad-hovered .ipad-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+
+    /* ── RIGHT-SIDE DECO (blackboard + shelf grouped) ── */
+    .deco-r { position: absolute; }
+    /* Group container — move this to reposition both together */
+    .deco-group { position: absolute; right: -10px; top: 90px; width: 522px; }
+    .deco-group-blackboard { position: absolute; right: 15px; top: -54px;  width: 392px; transform-origin: bottom center; }
+    .deco-group-shelf      { position: absolute; right: 0; top: 149px; width: 418px; }
+    .deco-group-books      { position: absolute; right: 48px; top: 205px; width: 272px; transform: scale(0.8); transform-origin: bottom center; transition: transform 0.3s ease; cursor: pointer; }
+    .deco-group-books.books-hovered { transform: scale(1.0); }
+    .books-corner-square {
+      position: absolute; left: 242px; top: 235px;
+      width: 12px; height: 12px;
+      background: var(--ink); border-radius: 4px;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      opacity: 0; pointer-events: none;
+    }
+    .deco-group-books.books-hovered ~ .books-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+    .deco-tv-group         { position: absolute; right: 0; top: 339px; width: 552px; transform: scale(1.204); transform-origin: top right; transition: transform 0.3s ease; }
+    .deco-tv-group.tv-hovered { transform: scale(1.236); }
+    .tv-corner-square {
+      position: absolute; left: 207px; top: 208px;
+      width: 12px; height: 12px;
+      background: var(--ink); border-radius: 4px;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      opacity: 0; pointer-events: none;
+    }
+    .deco-tv-group.tv-hovered .tv-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+    .deco-group-typewriter { position: absolute; left: -300px; top: 670px; width: 360px; }
+    .deco-group-tv         { position: relative; width: 552px; display: block; }
+    .deco-group-tv-screen  { position: absolute; right: 28px; top: 208px; width: 277px; height: 166px; object-fit: cover; border-radius: 18px; display: block; z-index: 1; cursor: pointer; }
+    @media (max-width: 900px) {
+      .deco-group { transform: scale(0.6); transform-origin: top right; }
+      .deco-handshelf { width: 180px; top: 420px; }
+    }
+    @media (max-width: 480px) {
+      .deco-group { top: 180px; left: 11px; right: auto; transform: scale(0.48); transform-origin: top left; }
+      .ipad-shelf-group { top: 460px; left: 26px; width: 220px; }
+      .ipad-shelf-video { width: 190px; }
+      .ipad-shelf-line  { width: 220px; }
+    }
+
     /* ── RIVE DIVIDER ── */
     .rive-divider {
       width: 100%;
@@ -526,9 +630,9 @@
       z-index: 100;
       opacity: 0;
       pointer-events: none;
-      background: rgba(253, 253, 252, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(253, 253, 252, 0.30);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--rule);
     }
     .home-nav-inner {
@@ -863,37 +967,41 @@
     <!-- Horizontal rule separating past work -->
     <hr class="past-work-divider">
 
-    <!-- Animation + Games — same card size, continuing the 3-col grid -->
-    <div class="past-work-grid">
+    <!-- Cloud cluster + right-side decorative objects -->
+    <div class="cloud-cluster" aria-hidden="true">
+      <!-- Clouds — grouped -->
+      <div class="cloud-group">
+        <img src="images/icons/Cloud02 1.svg" class="cloud-c cloud-c--2" alt="">
+        <img src="images/icons/Cloud01 1.svg" class="cloud-c cloud-c--1" alt="">
+        <img src="images/icons/Cloud03 1.svg" class="cloud-c cloud-c--3" alt="">
+      </div>
 
-      <a href="coming-soon-playground.html" class="card-item" id="card-6">
-        <div class="card">
-          <img class="card-thumb" src="images/animation-thumb.webp" alt="Animation" width="840" height="840" loading="lazy">
-          <video class="card-video" muted loop playsinline preload="none">
-            <source data-src="videos/animation-preview.mp4" type="video/mp4">
+      <!-- Right side — blackboard + shelf (grouped) -->
+      <div class="deco-r deco-group">
+        <img src="images/icons/BlackBoard02 1.svg" class="deco-group-blackboard" alt="">
+        <img src="images/icons/Shelf 1.svg"        class="deco-group-shelf"      alt="">
+        <img src="images/icons/Book_Articles_Influence 1.svg" class="deco-group-books" alt="">
+        <span class="books-corner-square"></span>
+        <div class="deco-tv-group">
+          <img src="images/icons/TVGreen_on 1.svg" class="deco-group-tv" alt="">
+          <video class="deco-group-tv-screen" muted playsinline loop>
+            <source src="images/HomepageImages/GamesVFXTV_InsideAgain.mp4" type="video/mp4">
           </video>
+          <span class="tv-corner-square"></span>
         </div>
-        <div class="card-info">
-          <div class="card-title">Playground & Experiments</div>
-          <div class="card-sub">Fun · Micro interaction experiments with Lottie and After Effects</div>
-        </div>
-      </a>
-
-      <a href="lesleyrooney-games-sims-vfxworks.html" class="card-item" id="card-7">
-        <div class="card">
-          <img class="card-thumb" src="images/games-thumb.webp" alt="Games, Simulations & Films" width="840" height="840" loading="lazy">
-          <video class="card-video" muted loop playsinline preload="none" data-playback-rate="1.2">
-            <source data-src="videos/games-preview.mp4" type="video/mp4">
+      </div>
+      <!-- iPad + hand-drawn shelf — grouped, no gap -->
+      <div class="deco-r ipad-shelf-group">
+        <a href="./coming-soon-playground.html" class="ipad-frame">
+          <img src="images/icons/Landscape_Ipad_A 1.svg" class="ipad-shelf-video" alt="">
+          <video class="ipad-screen-video" muted playsinline loop>
+            <source src="images/HomepageImages/IpadAnimationMovieInside_02.mp4" type="video/mp4">
           </video>
-        </div>
-        <div class="card-info">
-          <div class="card-title">Games, Simulations &amp; Films</div>
-          <div class="card-sub">VFX Texturing · Hugo · GI Joe 2 · Ender's Game · ACT-UK Simulation Centre</div>
-        </div>
-      </a>
-
-
-    </div><!-- /.past-work-grid -->
+          <span class="ipad-corner-square"></span>
+        </a>
+        <img src="images/icons/HandDrawn_Shelf.svg" class="ipad-shelf-line" alt="">
+      </div>
+    </div>
 
   </section>
 
@@ -1288,6 +1396,63 @@
 
   </script>
 
+  <!-- ── iPad hover-to-play ── -->
+  <script>
+    (function () {
+      var vid = document.querySelector('.ipad-screen-video');
+      var frame = document.querySelector('.ipad-frame');
+      if (!vid || !frame) return;
+      // Pause on first frame — intercept any autoplay attempt
+      function freeze() { vid.pause(); vid.currentTime = 0; }
+      vid.addEventListener('loadeddata', freeze, { once: true });
+      vid.addEventListener('canplay',    freeze, { once: true });
+      vid.addEventListener('play', function onPlay() {
+        if (!vid._hovered) { vid.pause(); }
+      });
+      var group = frame.closest('.ipad-shelf-group');
+      group.addEventListener('mouseenter', function () { vid._hovered = true; vid.loop = true; vid.play(); frame.classList.add('ipad-hovered'); });
+      function resetToFirstFrame() {
+        vid._hovered = false;
+        vid.pause();
+        vid.currentTime = 0;
+        frame.classList.remove('ipad-hovered');
+      }
+      group.addEventListener('mouseleave', resetToFirstFrame);
+      // Reset on tab/window focus loss
+      document.addEventListener('visibilitychange', function () { if (document.hidden) resetToFirstFrame(); });
+      window.addEventListener('blur', resetToFirstFrame);
+    })();
+  </script>
+
+  <!-- ── TV screen hover-to-play ── -->
+  <script>
+    (function () {
+      var vid = document.querySelector('.deco-group-tv-screen');
+      if (!vid) return;
+      function freeze() { vid.pause(); vid.currentTime = 0; }
+      vid.addEventListener('loadeddata', freeze, { once: true });
+      vid.addEventListener('canplay',    freeze, { once: true });
+      vid.addEventListener('play', function () { if (!vid._hovered) vid.pause(); });
+      var tvGroup = vid.closest('.deco-tv-group');
+      vid.addEventListener('mouseenter', function () { vid._hovered = true;  vid.loop = true; vid.play(); if (tvGroup) tvGroup.classList.add('tv-hovered'); });
+      function resetTV() { vid._hovered = false; vid.pause(); vid.currentTime = 0; if (tvGroup) tvGroup.classList.remove('tv-hovered'); }
+      vid.addEventListener('mouseleave', resetTV);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) resetTV(); });
+      window.addEventListener('blur', resetTV);
+      vid.addEventListener('click', function () { window.location.href = '/lesleyrooney-games-sims-vfxworks'; });
+    })();
+  </script>
+
+  <!-- ── Books hover-to-scale ── -->
+  <script>
+    (function () {
+      var books = document.querySelector('.deco-group-books');
+      if (!books) return;
+      books.addEventListener('mouseenter', function () { books.classList.add('books-hovered'); });
+      books.addEventListener('mouseleave', function () { books.classList.remove('books-hovered'); });
+    })();
+  </script>
+
   <!-- Cloudflare Web Analytics -->
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "94fbe53318c04a91ad625d2dd91ce8e6"}'></script>
   <!-- End Cloudflare Web Analytics -->
@@ -1358,9 +1523,8 @@
       max-height: calc(100vh - 48px);
       display: flex; flex-direction: column;
       box-shadow: 0 24px 72px rgba(10,10,10,0.2);
-      opacity: 0; transform: scale(0.72);
+      opacity: 0;
       transform-origin: center center;
-      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
 
     /* ── Close button — top-right corner of panel ── */
@@ -1714,24 +1878,67 @@
         panel.style.transformOrigin = '50% 50%';
       }
 
+      // ── Two-phase bar-expand entrance ──
+      // Starts as a 20px bar near the clicked card, flies to center and expands
       modal.style.display = 'flex';
-      modal.offsetHeight;
-      modal.classList.add('is-open');
+      modal.offsetHeight; // force layout
+
+      // Measure full natural height
+      panel.style.height = 'auto';
+      panel.style.opacity = '1';
+      var fullH = panel.scrollHeight;
+      panel.style.height = '20px';
+      panel.style.borderRadius = '10px';
+      panel.style.overflow = 'hidden';
+
       document.body.style.overflow = 'hidden';
 
-      setTimeout(function() { visibleInp.focus(); }, 360);
+      // Offset the bar to start near the card's vertical centre
+      var startY = 0;
+      if (cardEl) {
+        var cRect = cardEl.getBoundingClientRect();
+        var cardCenterY = cRect.top + cRect.height / 2;
+        var vpCenterY   = window.innerHeight / 2;
+        startY = cardCenterY - vpCenterY;
+      }
+      gsap.set(panel, { y: startY });
+
+      // Animate: bar flies to center + expands to full height simultaneously
+      gsap.to(panel, {
+        y: 0,
+        height: fullH,
+        borderRadius: 20,
+        duration: 0.42,
+        ease: 'expo.out',
+        delay: 0.06,
+        onComplete: function() {
+          panel.style.height = '';
+          panel.style.overflow = '';
+          panel.style.borderRadius = '';
+          gsap.set(panel, { y: 0, clearProps: 'y' });
+          modal.classList.add('is-open');
+        }
+      });
+
+      setTimeout(function() { visibleInp.focus(); }, 480);
     }
 
     function closeModal() {
       modal.classList.remove('is-open');
-      panel.style.transform = 'scale(0.72)';
-      panel.style.opacity   = '0';
-      document.body.style.overflow = '';
-      setTimeout(function() {
-        modal.style.display = 'none';
-        panel.style.transform = '';
-        panel.style.opacity   = '';
-      }, 350);
+      gsap.to(panel, {
+        height: 20,
+        borderRadius: 10,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'expo.in',
+        onComplete: function() {
+          modal.style.display = 'none';
+          panel.style.height = '';
+          panel.style.borderRadius = '';
+          panel.style.opacity = '';
+          document.body.style.overflow = '';
+        }
+      });
     }
 
     closeBtn.addEventListener('click', closeModal);

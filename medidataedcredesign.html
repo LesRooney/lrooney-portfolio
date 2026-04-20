@@ -189,7 +189,7 @@
       padding: 0;
     }
     .main-col {}
-    .info-panel-col { display: flex; flex-direction: column; gap: 16px; padding-top: 32px; }
+    .info-panel-col { display: flex; flex-direction: column; gap: 16px; padding-top: 124px; }
 
     /* SIDEBAR CARDS */
     .info-panel-card {
@@ -218,7 +218,7 @@
     .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
 
     /* SECTION */
-    .cs-section { padding: 48px 0 0; }
+    .cs-section { padding: 144px 0 0; }
     .cs-section:last-of-type {}
 
     .cs-section h2 {
@@ -227,13 +227,14 @@
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
-      margin-bottom: 28px;
+      margin-bottom: 36px;
     }
-    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-mid); font-style: normal; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 24px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-mid); font-style: normal; margin: 0; line-height: 1.6; max-width: 100%; }
     .section-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 10px; }
 
     /* FULL-WIDTH PROBLEM SECTION */
+    .cs-section--wide { padding-top: 115px; }
     .cs-section--wide h2 { color: var(--navy); }
     .cs-section--wide p { max-width: 820px; }
 
@@ -260,17 +261,16 @@
     .carousel-pause-btn.is-paused .carousel-pause-icon::before,
     .carousel-pause-btn.is-paused .carousel-pause-icon::after { display: none; }
 
-    /* IMAGE CARD (caption sits inside, above image) */
+    /* IMAGE CARD */
     .img-card {
       position: relative;
-      background: var(--faint);
-      border-radius: 16px;
-      padding: 20px;
-      margin: 32px 0 0;
-      overflow: hidden;
+      margin: 48px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
     .img-card .cs-caption {
-      margin: 0 0 20px;
+      margin: 0;
       font-size: 0.82rem;
       font-style: normal;
       color: var(--ink-mid);
@@ -699,22 +699,20 @@
       margin: 0;
     }
     .outcomes-band .wrap {
-      padding-top: 64px;
-      padding-bottom: 64px;
+      padding-top: 180px;
+      padding-bottom: 180px;
       position: relative;
     }
-    .outcomes-band .wrap::before,
-    .outcomes-band .wrap::after {
+    .outcomes-band .wrap::before {
       content: '';
-      display: block;
+      display: none;
       position: absolute;
       left: 40px;
       right: 40px;
       height: 1px;
       background: var(--ink);
+      top: 16px;
     }
-    .outcomes-band .wrap::before { top: 16px; }
-    .outcomes-band .wrap::after  { bottom: 0; }
     .outcomes-band .img-card .carousel { margin-top: 0; }
     .outcomes-band h2 {
       font-family: var(--serif);
@@ -750,21 +748,19 @@
 
     /* DEEP DIVE SECTION */
     .deep-dive {
-      padding: 64px 0;
-      border-bottom: 1px solid var(--rule);
+      padding: 180px 0;
     }
-    .deep-dive:last-of-type { border-bottom: none; }
     p.dd-label, .deep-dive p.dd-label {
       font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--ink-mid); margin-bottom: 10px;
+      color: var(--ink-mid); margin-bottom: 14px;
     }
     .deep-dive h2 {
       font-family: var(--serif);
       font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-      font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 24px;
+      font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 36px;
     }
-    .deep-dive p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
-    .deep-dive h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 24px 0 8px; }
+    .deep-dive p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 24px; }
+    .deep-dive h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 32px 0 10px; }
 
     /* PEEK GRID */
     .peek-section { padding: 64px 0 80px; }
@@ -881,10 +877,8 @@
     </div>
   </div>
 
-  <!-- 3. THE PROBLEM — full width, above two-col -->
+  <!-- 3. HERO MOCKUP — full width -->
   <div class="cs-section cs-section--wide">
-    <h2>The Problem, Every Successful Company Eventually Has to Evolve</h2>
-    <p style="max-width: 100%;"><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
     <div>
       <!-- Laptop mockup composite: Dell XPS 13 + EDC video + browser toolbar -->
       <div class="mockup-composite" style="position:relative; width:100%; line-height:0;">
@@ -913,6 +907,12 @@
     <!-- MAIN COLUMN -->
     <div class="main-col">
 
+      <!-- 3. THE PROBLEM -->
+      <div class="cs-section">
+        <h2 style="color: var(--navy);">The Problem, Every Successful Company Eventually Has to Evolve</h2>
+        <p><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
+      </div>
+
       <!-- 4. WHAT ARE EDC PRODUCTS -->
       <div class="cs-section">
         <h2>What Are Electronic Data Capture Products?</h2>
@@ -925,85 +925,6 @@
         <p>I led EDC's data pages (the patient record, a large section of the redesign) working alongside my design partner Anastasiya in a <strong>deliberate divide-and-conquer model</strong>. Ownership of different areas, to explore with regular syncs to coordinate findings and designs.</p>
         <p>After our Lead Designer Michael left in 2023, we expanded scope to study listing pages. I independently led AI features, Electronic Health Record integration, and other areas tying into the wider platform ecosystem.</p>
       </div>
-
-      <!-- 6. BUSINESS CONSTRAINTS -->
-      <div class="cs-section">
-        <h2>Business Constraints and Challenges</h2>
-        <ol class="num-list">
-          <li><strong>Started as a visual reskin</strong>, to upgrade to the new evolving design system; past design efforts struggled with domain credibility to convince executives to make changes.</li>
-          <li>Technical debt — <strong>Outdated APIs</strong>, <strong>Angular to React migration</strong>, strict backend constraints and a lean engineering team.</li>
-          <li>Also avoid the mindset of <strong>throwing designs over the fence.</strong> This will be a team sport.</li>
-          <li>Cross-product coordination — <strong>overall navigation information architecture, design system, study build &amp; platform integration</strong> required close alignment to lessen the "Frankenstein" experience.</li>
-        </ol>
-      </div>
-
-      <!-- 11. USER PROBLEMS -->
-      <div class="cs-section">
-        <h2>User Problems &amp; Research Insights</h2>
-        <ol class="num-list">
-          <li><strong>Lost task visibility and accuracy</strong> — Users lost sight of outstanding tasks when drilling into patient records, forcing unnecessary navigation or reliance on exported reports.</li>
-          <li><strong>Performance issues</strong> — Poor system performance pushed users toward unnatural workarounds or competitors.</li>
-          <li><strong>Poor integration &amp; data persistence</strong> — Users re-entered the same patient data in multiple places; related information was buried.</li>
-          <li><strong>Broken accessibility</strong> — Poor readability, keyboard tab order didn't match expectations for fast data entry workflows.</li>
-          <li><strong>Real estate</strong> — Feedback from users and product showed that each redesign reduced visible data density. Users wanted grids to be more compact so they could see more data before scrolling.</li>
-        </ol>
-
-      </div>
-
-      <!-- 12. RESEARCH LOOM -->
-      <div class="cs-section">
-        <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
-          <p class="cs-caption" style="margin: 0;">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
-          <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
-            <div class="hr-base" style="position:relative;">
-              <!-- Rive loading animation — shown until video is ready -->
-              <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
-              <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px; position:relative; z-index:2;">
-                <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
-              </video>
-            </div>
-            <div class="hr-overlay" style="border-radius: 10px;">
-              <div class="hr-play"><span class="hr-play-icon"></span></div>
-              <span class="hr-label">Watch research highlights on Loom ↗</span>
-            </div>
-            <!-- control bar: scrubber + duration + sound -->
-            <div class="vid-controls" id="loom-controls" style="border-radius: 0 0 10px 10px; z-index: 20;">
-              <div class="vid-track" id="loom-track">
-                <div class="vid-fill" id="loom-fill"></div>
-                <div class="vid-thumb" id="loom-thumb"></div>
-              </div>
-              <span class="vid-duration" id="loom-duration"></span>
-              <button class="sound-toggle" id="loom-sound-btn" aria-label="Toggle sound">
-                <img id="loom-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 13. HMW GOALS -->
-      <div class="cs-section">
-        <h2>How Might We Goals</h2>
-        <ol class="num-list">
-          <li>Build a cleaner interface for future capabilities (think <strong>AI automation, imported patient records</strong>, all that good stuff)</li>
-          <li><strong>Speed up data entry</strong> — with EHR‑to‑EDC integration still the future (and paid) enhancement, we still needed to deliver immediate value by <strong>reducing errors, removing unnecessary queries,</strong> and tackling everyday friction.</li>
-          <li>
-            <strong>Restore task awareness</strong> — Bring back what made <strong>Rave Classic</strong> loved by its users while keeping the best working efficiency gains from the 2017 redesign.
-            <img src="images/EDCRedesign/RacevEDC_BucketsofValueCrop.webp" alt="Three value buckets: New Value, Existing Value, Protect Value" style="width:100%; height:132px; object-fit:contain; object-position:left; display:block; margin-top:12px;">
-          </li>
-          <li><strong>Sales demo impact</strong> — Make the improvement visually obvious so clients can see the immediate <strong>AHA moment</strong>.</li>
-        </ol>
-        <h2 style="margin-top: 48px;">Link to Individual Designs</h2>
-        <div class="quick-links">
-          <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
-          <ul>
-            <li><a href="#dd1"><span class="link-text">Streamlining patient data workflows for all personas</span> <span class="arrow">→</span></a></li>
-            <li><a href="#dd2"><span class="link-text">Helping Data Manager find, spot check and lock patients easily</span> <span class="arrow">→</span></a></li>
-            <li><a href="#dd3"><span class="link-text">Unsaid legacy attraction of Rave Classic</span> <span class="arrow">→</span></a></li>
-            <li><a href="#dd4"><span class="link-text">Discovering a root problem from various symptoms</span> <span class="arrow">→</span></a></li>
-          </ul>
-        </div>
-      </div><!-- /.cs-section HMW -->
 
     </div><!-- /.main-col -->
 
@@ -1049,6 +970,82 @@
 
   </div><!-- /.two-col -->
 
+  <!-- 6. BUSINESS CONSTRAINTS — full width -->
+  <div class="cs-section">
+    <h2>Business Constraints and Challenges</h2>
+    <ol class="num-list">
+      <li><strong>Started as a visual reskin</strong>, to upgrade to the new evolving design system; past design efforts struggled with domain credibility to convince executives to make changes.</li>
+      <li>Technical debt — <strong>Outdated APIs</strong>, <strong>Angular to React migration</strong>, strict backend constraints and a lean engineering team.</li>
+      <li>Also avoid the mindset of <strong>throwing designs over the fence.</strong> This will be a team sport.</li>
+      <li>Cross-product coordination — <strong>overall navigation information architecture, design system, study build &amp; platform integration</strong> required close alignment to lessen the "Frankenstein" experience.</li>
+    </ol>
+  </div>
+
+  <!-- 11. USER PROBLEMS — full width -->
+  <div class="cs-section">
+    <h2>User Problems &amp; Research Insights</h2>
+    <ol class="num-list">
+      <li><strong>Lost task visibility and accuracy</strong> — Users lost sight of outstanding tasks when drilling into patient records, forcing unnecessary navigation or reliance on exported reports.</li>
+      <li><strong>Performance issues</strong> — Poor system performance pushed users toward unnatural workarounds or competitors.</li>
+      <li><strong>Poor integration &amp; data persistence</strong> — Users re-entered the same patient data in multiple places; related information was buried.</li>
+      <li><strong>Broken accessibility</strong> — Poor readability, keyboard tab order didn't match expectations for fast data entry workflows.</li>
+      <li><strong>Real estate</strong> — Feedback from users and product showed that each redesign reduced visible data density. Users wanted grids to be more compact so they could see more data before scrolling.</li>
+    </ol>
+  </div>
+
+  <!-- 12. RESEARCH LOOM — full width -->
+  <div class="cs-section" style="padding-top: 48px;">
+    <div class="img-card">
+      <p class="cs-caption">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
+      <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
+        <div class="hr-base" style="position:relative;">
+          <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
+          <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px; position:relative; z-index:2;">
+            <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hr-overlay" style="border-radius: 10px;">
+          <div class="hr-play"><span class="hr-play-icon"></span></div>
+          <span class="hr-label">Watch research highlights on Loom ↗</span>
+        </div>
+        <div class="vid-controls" id="loom-controls" style="border-radius: 0 0 10px 10px; z-index: 20;">
+          <div class="vid-track" id="loom-track">
+            <div class="vid-fill" id="loom-fill"></div>
+            <div class="vid-thumb" id="loom-thumb"></div>
+          </div>
+          <span class="vid-duration" id="loom-duration"></span>
+          <button class="sound-toggle" id="loom-sound-btn" aria-label="Toggle sound">
+            <img id="loom-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. HMW GOALS — full width -->
+  <div class="cs-section">
+    <h2>How Might We Goals</h2>
+    <ol class="num-list">
+      <li>Build a cleaner interface for future capabilities (think <strong>AI automation, imported patient records</strong>, all that good stuff)</li>
+      <li><strong>Speed up data entry</strong> — with EHR‑to‑EDC integration still the future (and paid) enhancement, we still needed to deliver immediate value by <strong>reducing errors, removing unnecessary queries,</strong> and tackling everyday friction.</li>
+      <li>
+        <strong>Restore task awareness</strong> — Bring back what made <strong>Rave Classic</strong> loved by its users while keeping the best working efficiency gains from the 2017 redesign.
+        <img src="images/EDCRedesign/RacevEDC_BucketsofValueCrop.webp" alt="Three value buckets: New Value, Existing Value, Protect Value" style="width:100%; height:132px; object-fit:contain; object-position:left; display:block; margin-top:12px;">
+      </li>
+      <li><strong>Sales demo impact</strong> — Make the improvement visually obvious so clients can see the immediate <strong>AHA moment</strong>.</li>
+    </ol>
+    <h2 style="margin-top: 48px;">Link to Individual Designs</h2>
+    <div class="quick-links">
+      <p>🧑🏾‍💻 Quick links to deep dive into specific snapshot solutions</p>
+      <ul>
+        <li><a href="#dd1"><span class="link-text">Streamlining patient data workflows for all personas</span> <span class="arrow">→</span></a></li>
+        <li><a href="#dd2"><span class="link-text">Helping Data Manager find, spot check and lock patients easily</span> <span class="arrow">→</span></a></li>
+        <li><a href="#dd3"><span class="link-text">Unsaid legacy attraction of Rave Classic</span> <span class="arrow">→</span></a></li>
+        <li><a href="#dd4"><span class="link-text">Discovering a root problem from various symptoms</span> <span class="arrow">→</span></a></li>
+      </ul>
+    </div>
+  </div><!-- /.cs-section HMW -->
+
 </div><!-- /.wrap -->
 
 
@@ -1057,8 +1054,8 @@
   <div class="wrap">
     <h2>The Outcomes, Impact and Personal Growth</h2>
     <!-- Carousel: Outcomes -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-      <p class="cs-caption" style="margin: 0; max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
+    <div class="img-card">
+      <p class="cs-caption" style="max-width: 100%;">After a lukewarm late 2022 pitch, <strong>executive buy-in finally came once we demonstrated interactive prototypes and clear productivity gains in 2023.</strong> The redesign is rolling out in phases across Q3 2025 and Q2 2026, and the images below show a snapshot of post-launch customer feedback, including Reddit, which has been harsh on the structural changes outside the primary EDC environment.</p>
       <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_Praise.png" alt="EDC praise: Workday kudos and peer recognition" style="width:100%; display:block; border-radius:8px;"></div>
@@ -1099,7 +1096,7 @@
   <!-- 14. ALL BRAINS ON DECK -->
   <div class="cs-section">
     <h2>🧠 All Brains On Deck Approach</h2>
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px; width: 80%; margin: 0 auto;">
+    <div class="img-card" style="width: 80%; margin: 0 auto;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:10px;">
         <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
       </video>
@@ -1110,8 +1107,8 @@
 
   <!-- 15. SYSTEM MAPS -->
   <div class="cs-section">
-    <div class="img-card" style="padding: 20px; gap: 24px; display: flex; flex-direction: column;">
-      <p class="cs-caption" style="margin: 0;">Hover to see system maps of interconnected tasks</p>
+    <div class="img-card">
+      <p class="cs-caption">Hover to see system maps of interconnected tasks</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base">
           <video id="system-maps-video" muted loop playsinline preload="auto" style="width:100%; display:block; border-radius:10px;">
@@ -1157,8 +1154,8 @@
       </div>
     </div>
     <!-- Carousel: Personas — auto-advancing, no controls -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
-      <p class="cs-caption" style="margin: 0;">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
+    <div class="img-card">
+      <p class="cs-caption">A visual summary overview of all personas and their day-to-day goals and actions within the system. Click to explore details.</p>
       <div class="carousel" data-carousel="personas" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/EDC_EcoSystem02.webp" alt="EDC ecosystem: all personas and their roles mapped as a bubble diagram"></div>
@@ -1204,7 +1201,7 @@
         <p><strong>Reviewed prior research</strong> to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us <strong>prioritise features that served multiple personas over their isolated frustrations</strong> and contributed to a vision of removing that persona from EDC altogether.</p>
       </div>
     </div>
-    <div class="img-card" style="padding: 20px;">
+    <div class="img-card">
       <img src="images/EDCRedesign/MD_ResearchCollection.webp" alt="Research collection: user interviews, stakeholder sessions, LinkedIn outreach, and Japan evaluations" style="width: 100%; display: block; border-radius: 8px;">
     </div>
   </div>
@@ -1214,7 +1211,6 @@
 <!-- DEEP DIVES -->
 <div class="wrap">
 
-  <hr style="border: none; border-top: 1px solid var(--rule); margin: 32px 0;">
 
   <!-- 20. DEEP DIVE 01 -->
   <div class="deep-dive" id="dd1">
@@ -1222,7 +1218,7 @@
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: <strong>find patient → drill in → lose context → navigate back → reapply filters → repeat.</strong> The monochromatic interface made scanning hard, and <strong>task visibility vanished the moment they clicked into a patient record.</strong></p>
     <!-- BEFORE / AFTER SLIDER -->
-    <div class="img-card" style="padding: 20px;">
+    <div class="img-card">
     <div class="ba-label-row">
       <span class="ba-pill before">Redesign — 2025</span>
       <span class="ba-pill after">Redesign — 2017</span>
@@ -1257,8 +1253,8 @@
     </div>
     <p style="max-width: 100%; margin-top: 28px;">My idea was simple: <strong>make patient visits folders (left hand side) communicate more at a glance.</strong> I added right-aligned status badges — <strong>red for critical blocking work, yellow for next priority, neutral for low priority tasks</strong> that could wait, coordinating with Michael for the left side study visit. In space-constrained views, <strong>only the highest-priority indicator shows with an overflow indicator</strong>, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p style="max-width: 100%;"><strong>Smart filtering and form search</strong> reduced reliance on the matrix grid that disappeared once a user selected a patient form. <strong>A hover-to-preview the tasks on visit folders</strong> (like an accelerator) meant users could check tasks without drilling in. And <strong>a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page</strong>, updating dynamically without a refresh.</p>
-    <div class="img-card" style="padding: 20px;">
-      <p class="cs-caption" style="margin: 0 0 16px;">Hover to view and listen to scrappy design experiments or multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing.</p>
+    <div class="img-card">
+      <p class="cs-caption">Hover to view and listen to scrappy design experiments or multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing.</p>
       <div class="video-wrap">
         <video id="exp-video" muted loop playsinline style="width:100%; display:block; border-radius:8px;">
           <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
@@ -1283,21 +1279,21 @@
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
-    <div class="img-card" style="padding: 20px;">
-      <p class="cs-caption" style="margin: 0 0 16px;">Design system option</p>
+    <div class="img-card">
+      <p class="cs-caption">Design system option</p>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/EDCRedesign/EDCPatientFilterNew_DesignSystem.mp4" type="video/mp4">
       </video>
     </div>
-    <div class="img-card" style="padding: 20px;">
+    <div class="img-card">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
       </video>
       <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block;">Try the prototype ↗</a>
     </div>
     <!-- Carousel: DD02 -->
-    <div class="img-card" style="padding: 20px; margin-top: 28px;">
-      <p class="cs-caption" style="margin: 0 0 16px;">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
+    <div class="img-card" style="margin-top: 28px;">
+      <p class="cs-caption">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
       <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000">
         <div class="carousel-track">
           <div class="carousel-slide active"><img src="images/EDCRedesign/MD_EDC_DesignSystem_PatientFilter_Ideas.webp" alt="Patient filter design ideas" style="width:100%; display:block; border-radius:8px;"></div>
@@ -1332,7 +1328,7 @@
     <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. <strong>The platform treated 'not yet available' data the same as 'missing' data.</strong> Take drug returns: <strong>when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months.</strong> The system didn't account for that. It immediately flagged those fields as queries, <strong>creating alerts no one could honestly resolve.</strong></p>
     <p>To cope, <strong>users entered junk data to clear these query alerts temporarily from the system.</strong> If they didn't, these queries would clog up task lists across <strong>EDC, Clinical Data Studio, and the Homepage</strong>, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that <strong>a UI patch wouldn't fix a system-level issue.</strong> That work was brought to the attention of <strong>Design VP and manager</strong> to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
     <!-- Carousel: DD04 — autoplay fade -->
-    <div class="img-card" style="padding: 20px; display: flex; flex-direction: column; gap: 24px;">
+    <div class="img-card">
       <p class="cs-caption">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
       <div class="carousel" data-carousel="dd04" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
         <div class="carousel-track">

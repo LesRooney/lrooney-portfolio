@@ -435,6 +435,131 @@ Hover plays video, shows scrubber + duration + sound toggle. Sound icon = 24px.
 ```
 IDs must be unique per page. JS auto-initialises all `.video-wrap` elements.
 
+### before/after slider (BA slider)
+Drag-to-reveal comparison between two images or a video (after) vs image(s) (before). Auto-sweeps on load; pauses on interaction, resumes 500ms after release. Used on: `medidataedcredesign.html`, `clinical-risk-based-monitoring.html`.
+
+**CSS:**
+```css
+.ba-slider {
+  position: relative; overflow: hidden; border-radius: 12px;
+  cursor: ew-resize; user-select: none; touch-action: none; margin: 20px 0;
+}
+.ba-slider .ba-before { display: block; width: 100%; }
+.ba-slider .ba-after {
+  position: absolute; inset: 0; overflow: hidden; clip-path: inset(0 50% 0 0);
+}
+.ba-handle {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: #fff; transform: translateX(-50%);
+  pointer-events: none; display: flex; align-items: center; justify-content: center;
+}
+.ba-grip {
+  width: 44px; height: 44px; border-radius: 50%; background: #fff;
+  border: 1.5px solid rgba(0,0,0,0.12); display: flex; align-items: center;
+  justify-content: center; gap: 3px; box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+.ba-arrow { width: 0; height: 0; border-style: solid; }
+.ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
+.ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+.ba-label-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.ba-pill {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px; background: #000; color: #fff; pointer-events: none;
+}
+.ba-handle.ba-hover { background: #0070BF; }
+.ba-handle.ba-hover .ba-grip { background: #0070BF; border-color: #0070BF; }
+.ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
+.ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
+```
+
+**HTML structure:**
+```html
+<div class="ba-label-row">
+  <span class="ba-pill before">Before Label</span>
+  <span class="ba-pill after">After Label</span>
+</div>
+<div class="ba-slider" data-ba-slider style="margin: 0;">
+  <!-- BEFORE — bottom layer, sets height -->
+  <div class="ba-before">
+    <img src="path/to/before.webp" alt="Before" style="width:100%; display:block;">
+  </div>
+  <!-- AFTER — top layer, clipped by handle; can be a video -->
+  <div class="ba-after">
+    <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+      <source src="path/to/after.mp4" type="video/mp4">
+    </video>
+  </div>
+  <!-- HANDLE -->
+  <div class="ba-handle">
+    <div class="ba-grip">
+      <span class="ba-arrow left"></span>
+      <span class="ba-arrow right"></span>
+    </div>
+  </div>
+</div>
+```
+
+**Notes:**
+- `data-ba-slider` attribute is the JS initialisation hook — JS auto-finds all `[data-ba-slider]` elements
+- Before layer can also use a `ba-before-reel` with multiple `ba-reel-img` images that auto-crossfade (used in EDC)
+- Auto-sweep: glides 10%→90%→10% over 4s, pauses 1.2s at each end; any user touch cancels sweep and resumes after 500ms
+
+### device hero mockup (SVG frame + video screen + toolbar overlay)
+Used to show a product screenshot inside a realistic laptop frame. Three layers stacked with `position: absolute`.
+
+**Pattern (clinical-risk-based-monitoring.html):**
+```html
+<div style="position: relative; display: block; line-height: 0;">
+  <!-- 1. Laptop SVG frame — sets container size -->
+  <img src="images/Mockups/Microsoft Surface Book.svg" alt="Microsoft Surface Book laptop frame" style="width: 100%; display: block;">
+  <!-- 2. Video screen — absolutely positioned inside the screen cutout -->
+  <video autoplay loop muted playsinline
+    style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%; object-fit: contain; border-radius: 4px;">
+    <source src="path/to/screen.mp4" type="video/mp4">
+  </video>
+  <!-- 3. Toolbar SVG overlay — sits above the video, pointer-events: none -->
+  <img src="images/Mockups/Toolbar.svg" alt=""
+    style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: auto; display: block; pointer-events: none;">
+</div>
+```
+
+**Notes:**
+- `line-height: 0` on the wrapper removes the descender gap below the inline SVG image
+- Video and Toolbar overlay share the same `left`, `top`, and `width` values — always move them together as a unit
+- `top: calc(2.50% + 28px)` — the pixel offset accounts for the browser chrome bar in the SVG frame
+- `height: 91.18%` on the video fills the screen area; use `object-fit: contain` to avoid cropping
+- When nudging position, use `calc()` to add pixel offsets to the percentage (e.g. `calc(12.01% + 4px)`)
+
+### back to work button (page footer)
+Replaces the PeekGrid footer on pages where a full peek grid isn't appropriate. Used on: `lesleyrooney-games-sims-vfxworks.html`, `medidataedcredesign.html`.
+
+```css
+.back-to-work-wrap {
+  border-top: 1px solid var(--rule);
+  padding: 56px 40px 80px;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.back-to-work-link {
+  display: inline-flex; align-items: center; gap: 10px; margin-left: 30px;
+  font-family: var(--sans); font-size: 1rem; font-weight: 700;
+  color: #2563eb; text-decoration: none; letter-spacing: 0.02em;
+  border-bottom: 1px solid #2563eb; padding-bottom: 2px; transition: color 0.2s ease;
+}
+.back-to-work-link:hover { color: #1d4ed8; }
+.back-to-work-arrow { display: inline-block; transition: transform 0.25s ease; }
+.back-to-work-link:hover .back-to-work-arrow { transform: translateX(-10px); }
+@media (max-width: 600px) { .back-to-work-wrap { padding: 40px 24px 60px; } }
+```
+
+```html
+<div class="back-to-work-wrap">
+  <a href="index.html" class="back-to-work-link">
+    <span class="back-to-work-arrow">←</span> Back to work
+  </a>
+</div>
+```
+
 ## Owner
 Lesley Rooney — Senior Product Designer
 Contact: ley.rooney@gmail.com

@@ -218,7 +218,7 @@
     .tool-icon { width: 16px; height: 16px; flex-shrink: 0; object-fit: contain; }
 
     /* SECTION */
-    .cs-section { padding: 144px 0 0; }
+    .cs-section { padding: 160px 0 0; }
     .cs-section:last-of-type {}
 
     .cs-section h2 {
@@ -699,8 +699,8 @@
       margin: 0;
     }
     .outcomes-band .wrap {
-      padding-top: 180px;
-      padding-bottom: 180px;
+      padding-top: 160px;
+      padding-bottom: 160px;
       position: relative;
     }
     .outcomes-band .wrap::before {
@@ -748,7 +748,7 @@
 
     /* DEEP DIVE SECTION */
     .deep-dive {
-      padding: 180px 0;
+      padding: 160px 0;
     }
     p.dd-label, .deep-dive p.dd-label {
       font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
@@ -1000,7 +1000,7 @@
       <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base" style="position:relative;">
           <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
-          <video id="loom-video" muted loop playsinline preload="metadata" style="width:100%; display:block; border-radius:10px; position:relative; z-index:2;">
+          <video id="loom-video" muted loop playsinline preload="metadata" poster="images/EDCRedesign/EDC_LoomResearch_poster.jpg" style="width:100%; aspect-ratio:16/9; display:block; border-radius:10px; position:relative; z-index:2;">
             <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
           </video>
         </div>
@@ -1256,7 +1256,7 @@
     <div class="img-card">
       <p class="cs-caption">Hover to view and listen to scrappy design experiments or multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing.</p>
       <div class="video-wrap">
-        <video id="exp-video" muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <video id="exp-video" muted loop playsinline poster="images/EDCRedesign/exp_video_poster.jpg" style="width:100%; aspect-ratio:1670/1080; display:block; border-radius:8px;">
           <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
         </video>
         <!-- control bar: scrubber + duration + sound -->
@@ -1740,13 +1740,15 @@
     wrap.addEventListener('mouseleave', function() {
       if (dragging) return;
       video.pause();
-      video.currentTime = 0;
-      video.muted = true;
+      video.load(); // resets to poster image
       if (fill) fill.style.width = '0%';
       if (thumb) thumb.style.left = '0%';
-      if (duration) duration.textContent = fmt(video.duration);
       setIcon(userMuted);
       setPlaying(false);
+      video.addEventListener('loadedmetadata', function onMeta() {
+        if (duration) duration.textContent = fmt(video.duration);
+        video.removeEventListener('loadedmetadata', onMeta);
+      });
     });
 
     if (btn) {
@@ -1816,11 +1818,15 @@
     wrap.addEventListener('mouseleave', function() {
       if (dragging) return;
       video.pause();
-      video.currentTime = 0;
+      video.load(); // resets to poster image
       video.muted = true;
       if (fill) fill.style.width = '0%';
       if (thumb) thumb.style.left = '0%';
       if (duration) duration.textContent = '';
+      video.addEventListener('loadedmetadata', function onMeta() {
+        if (duration) duration.textContent = fmt(video.duration);
+        video.removeEventListener('loadedmetadata', onMeta);
+      });
       setIcon(userMuted);
     });
 

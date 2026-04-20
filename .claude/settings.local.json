@@ -176,7 +176,14 @@
       "Bash(sed -i '' 's/background: var\\(--faint\\);/background: none;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/medidataedcredesign.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/clinical-risk-based-monitoring.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/qualisflow-02.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/lesleyrooney-games-sims-vfxworks.html /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/games-simulations-films.html)",
       "Bash(perl -i -0pe 's/\\(\\\\.img-card \\\\{[^}]*?\\)border-radius: 16px;/$1border-radius: 0;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/__TRACKED_VAR__)",
       "Bash(perl -i -0pe 's/\\(\\\\.img-card \\\\{[^}]*?\\)overflow: hidden;/$1overflow: visible;/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/__TRACKED_VAR__)",
-      "Bash(sed -i '' 's/\\\\.img-card { background: none; border-radius: 16px; padding: 0; }/.img-card { background: none; border-radius: 0; padding: 0; }/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)"
+      "Bash(sed -i '' 's/\\\\.img-card { background: none; border-radius: 16px; padding: 0; }/.img-card { background: none; border-radius: 0; padding: 0; }/g' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)",
+      "Bash(ffmpeg -ss 5 -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearchMovie.mp4 -frames:v 1 -q:v 2 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearch_poster.jpg -y)",
+      "Bash(ffmpeg -ss 5 -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearchMovie.mp4 -frames:v 1 -update 1 -q:v 2 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearch_poster.jpg -y)",
+      "Bash(ffprobe -v error -show_entries format=duration -of csv=p=0 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearchMovie.mp4)",
+      "Bash(ffmpeg -ss 10 -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearchMovie.mp4 -frames:v 1 -update 1 -q:v 2 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearch_poster.jpg -y)",
+      "Bash(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/EDC_LoomResearchMovie.mp4)",
+      "Bash(ffprobe -v error -select_streams v:0 -show_entries stream=width,height,duration -of csv=p=0 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4)",
+      "Bash(ffmpeg -ss 40.67 -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4 -frames:v 1 -update 1 -q:v 2 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/exp_video_poster.jpg -y)"
     ]
   }
 }

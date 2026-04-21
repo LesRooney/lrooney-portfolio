@@ -333,15 +333,18 @@
     .ipad-shelf-video { display: block; width: 250px; position: relative; z-index: 0; }
     .ipad-screen-video { position: absolute; left: 24.5px; top: 5.5px; width: 210px; height: 160px; object-fit: cover; border-radius: 6px; z-index: 1; display: block; }
     .ipad-shelf-line  { display: block; width: 290px; margin-top: -8px; position: relative; z-index: 1; }
-    .ipad-corner-square {
-      position: absolute; left: -20px; top: calc(50% - 80px);
-      width: 12px; height: 12px;
-      background: var(--ink); border-radius: 4px;
-      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
-      transform-origin: center center;
-      opacity: 0; pointer-events: none; z-index: 2;
+    .ipad-shelf-title {
+      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
+      margin-top: 16px; opacity: 0; transition: opacity 0.25s ease;
+      pointer-events: none; display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .ipad-frame.ipad-hovered .ipad-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+    .ipad-shelf-title::before {
+      content: ''; display: block; width: 12px; height: 12px; flex-shrink: 0;
+      background: var(--ink); border-radius: 4px;
+      transform: scaleX(0.083) scaleY(0.083); transform-origin: center center; opacity: 0;
+    }
+    .ipad-shelf-group:hover .ipad-shelf-title { opacity: 1; }
+    .ipad-shelf-group:hover .ipad-shelf-title::before { animation: squareMorphInline 0.28s ease-out forwards; }
 
     /* ── RIGHT-SIDE DECO (blackboard + shelf grouped) ── */
     .deco-r { position: absolute; }
@@ -351,26 +354,36 @@
     .deco-group-shelf      { position: absolute; right: 0; top: 149px; width: 418px; }
     .deco-group-books      { position: absolute; right: 48px; top: 205px; width: 272px; transform: scale(0.8); transform-origin: bottom center; transition: transform 0.3s ease; cursor: pointer; }
     .deco-group-books.books-hovered { transform: scale(1.0); }
-    .books-corner-square {
-      position: absolute; left: 242px; top: 235px;
-      width: 12px; height: 12px;
-      background: var(--ink); border-radius: 4px;
-      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
-      transform-origin: center center;
-      opacity: 0; pointer-events: none;
+    .deco-group-influence-title {
+      position: absolute; top: 360px; left: 70px; width: 100%;
+      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
+      opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .deco-group-books.books-hovered ~ .books-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+    .deco-group-influence-title::before {
+      content: ''; display: block; width: 12px; height: 12px; flex-shrink: 0;
+      background: var(--ink); border-radius: 4px;
+      transform: scaleX(0.083) scaleY(0.083); transform-origin: center center; opacity: 0;
+    }
+    .deco-group-books:hover ~ .deco-group-influence-title,
+    .deco-group-books.books-hovered ~ .deco-group-influence-title { opacity: 1; }
+    .deco-group-books:hover ~ .deco-group-influence-title::before,
+    .deco-group-books.books-hovered ~ .deco-group-influence-title::before { animation: squareMorphInline 0.28s ease-out forwards; }
     .deco-tv-group         { position: absolute; right: 0; top: 339px; width: 552px; transform: scale(1.204); transform-origin: top right; transition: transform 0.3s ease; }
     .deco-tv-group.tv-hovered { transform: scale(1.236); }
-    .tv-corner-square {
-      position: absolute; left: 207px; top: 208px;
-      width: 12px; height: 12px;
-      background: var(--ink); border-radius: 4px;
-      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
-      transform-origin: center center;
-      opacity: 0; pointer-events: none;
+    .deco-tv-title {
+      position: absolute; top: 434px; left: 70px; width: 100%;
+      font-family: var(--serif); font-size: 0.831rem; font-weight: 600; color: var(--ink); line-height: 1.3;
+      opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .deco-tv-group.tv-hovered .tv-corner-square { animation: squareMorph 0.28s ease-out forwards; }
+    .deco-tv-title::before {
+      content: ''; display: block; width: 10px; height: 10px; flex-shrink: 0;
+      background: var(--ink); border-radius: 3px;
+      transform: scaleX(0.083) scaleY(0.083); transform-origin: center center; opacity: 0;
+    }
+    .deco-tv-group.tv-hovered .deco-tv-title { opacity: 1; }
+    .deco-tv-group.tv-hovered .deco-tv-title::before { animation: squareMorphInline 0.28s ease-out forwards; }
     .deco-group-typewriter { position: absolute; left: -300px; top: 670px; width: 360px; }
     .deco-group-tv         { position: relative; width: 552px; display: block; }
     .deco-group-tv-screen  { position: absolute; right: 28px; top: 208px; width: 277px; height: 166px; object-fit: cover; border-radius: 18px; display: block; z-index: 1; cursor: pointer; }
@@ -778,6 +791,12 @@
     }
 
     /* ── Square morph keyframes: invisible → dot → line → square ── */
+    @keyframes squareMorphInline {
+      0%   { transform: scaleX(0.083) scaleY(0.083); opacity: 0; }
+      18%  { transform: scaleX(0.083) scaleY(0.083); opacity: 1; }
+      58%  { transform: scaleX(1)     scaleY(0.083); opacity: 1; }
+      100% { transform: scaleX(1)     scaleY(1);     opacity: 1; }
+    }
     @keyframes squareMorph {
       0%   { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 0; }
       18%  { transform: translateY(-50%) scaleX(0.083) scaleY(0.083); opacity: 1; }
@@ -981,13 +1000,15 @@
         <img src="images/icons/BlackBoard02 1.svg" class="deco-group-blackboard" alt="">
         <img src="images/icons/Shelf 1.svg"        class="deco-group-shelf"      alt="">
         <img src="images/icons/Book_Articles_Influence 1.svg" class="deco-group-books" alt="">
-        <span class="books-corner-square"></span>
+
+        <div class="deco-group-influence-title">Influence</div>
         <div class="deco-tv-group">
           <img src="images/icons/TVGreen_on 1.svg" class="deco-group-tv" alt="">
           <video class="deco-group-tv-screen" muted playsinline loop>
             <source src="images/HomepageImages/GamesVFXTV_InsideAgain.mp4" type="video/mp4">
           </video>
-          <span class="tv-corner-square"></span>
+
+          <div class="deco-tv-title">Other professional work</div>
         </div>
       </div>
       <!-- iPad + hand-drawn shelf — grouped, no gap -->
@@ -997,9 +1018,10 @@
           <video class="ipad-screen-video" muted playsinline loop>
             <source src="images/HomepageImages/IpadAnimationMovieInside_02.mp4" type="video/mp4">
           </video>
-          <span class="ipad-corner-square"></span>
+
         </a>
         <img src="images/icons/HandDrawn_Shelf.svg" class="ipad-shelf-line" alt="">
+        <div class="ipad-shelf-title">Playground</div>
       </div>
     </div>
 
@@ -1437,6 +1459,7 @@
       vid.addEventListener('mouseenter', function () { vid._hovered = true;  vid.loop = true; vid.play(); if (tvGroup) tvGroup.classList.add('tv-hovered'); });
       function resetTV() { vid._hovered = false; vid.pause(); vid.currentTime = 0; if (tvGroup) tvGroup.classList.remove('tv-hovered'); }
       vid.addEventListener('mouseleave', resetTV);
+      if (tvGroup) tvGroup.addEventListener('mouseleave', resetTV);
       document.addEventListener('visibilitychange', function () { if (document.hidden) resetTV(); });
       window.addEventListener('blur', resetTV);
       vid.addEventListener('click', function () { window.location.href = '/lesleyrooney-games-sims-vfxworks'; });

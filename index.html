@@ -282,11 +282,27 @@
     }
 
     /* ── CLOUD CLUSTER ── */
+    .cloud-cluster-bg {
+      position: relative;
+      width: 100%;
+      margin-top: 30px;
+    }
+    .cloud-cluster-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, #D3D8DA 1px, transparent 1px);
+      background-size: 16px 16px;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,0.6) 80px, black 160px, black calc(100% - 120px), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,0.6) 80px, black 160px, black calc(100% - 120px), transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
     .cloud-cluster {
       position: relative;
       width: calc(100% - 96px);
       max-width: calc(var(--max) - 96px);
-      margin: 30px auto 16px;
+      margin: 0 auto;
       height: 994px;
     }
     .cloud-c {
@@ -320,7 +336,8 @@
     }
 
     @media (max-width: 900px) {
-      .cloud-cluster { width: calc(100% - 48px); height: 800px; margin: 32px auto 16px; }
+      .cloud-cluster-bg { margin-top: 32px; }
+      .cloud-cluster { width: calc(100% - 48px); height: 800px; margin: 0 auto; }
       .cloud-c--2 { width: 150px; left: 30px; top: 80px; }
       .cloud-c--1 { width: 116px; left: 0;    top: 96px; }
       .cloud-c--3 { width: 88px;  left: 128px; top: 112px; }
@@ -411,7 +428,7 @@
       overflow: hidden;
       position: relative;
       line-height: 0;
-      background: transparent;
+      background-color: transparent;
     }
     .rive-divider canvas {
       position: absolute;
@@ -984,9 +1001,9 @@
         </div><!-- /.grid -->
 
     <!-- Horizontal rule separating past work -->
-    <hr class="past-work-divider">
 
     <!-- Cloud cluster + right-side decorative objects -->
+    <div class="cloud-cluster-bg">
     <div class="cloud-cluster" aria-hidden="true">
       <!-- Clouds — grouped -->
       <div class="cloud-group">
@@ -1025,6 +1042,7 @@
         <div class="ipad-shelf-title"><span>Playground</span></div>
       </div>
     </div>
+    </div><!-- /.cloud-cluster-bg -->
 
   </section>
 

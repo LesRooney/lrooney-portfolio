@@ -37,10 +37,16 @@
     'left:0',
     'width:100%',
     'height:100%',
-    'z-index:99999',
+    'z-index:2147483647',
     'pointer-events:none',
   ].join(';');
   document.body.appendChild(canvas);
+  // Re-append on any DOM mutation so cursor canvas stays topmost
+  new MutationObserver(function () {
+    if (canvas.parentElement && canvas !== canvas.parentElement.lastElementChild) {
+      canvas.parentElement.appendChild(canvas);
+    }
+  }).observe(document.body, { childList: true });
 
   var ctx = canvas.getContext('2d');
   var dpr = window.devicePixelRatio || 1;

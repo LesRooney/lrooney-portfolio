@@ -39,6 +39,7 @@
     'height:100%',
     'z-index:2147483647',
     'pointer-events:none',
+    'will-change:transform',
   ].join(';');
   document.body.appendChild(canvas);
   // Re-append on any DOM mutation so cursor canvas stays topmost

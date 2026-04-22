@@ -287,14 +287,9 @@
       width: 100%;
       margin-top: 30px;
     }
-    .cloud-cluster-bg::before {
-      content: '';
+    .cloud-cluster-dots {
       position: absolute;
       inset: 0;
-      background-image: radial-gradient(circle, #D3D8DA 1px, transparent 1px);
-      background-size: 16px 16px;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,0.6) 80px, black 160px, black calc(100% - 120px), transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,0.6) 80px, black 160px, black calc(100% - 120px), transparent 100%);
       pointer-events: none;
       z-index: 0;
     }
@@ -2108,5 +2103,117 @@
   </script>
 
   <script src="/js/cursor-effect.js?v=8"></script>
+
+  <script>
+  (function () {
+    var bg = document.querySelector('.cloud-cluster-bg');
+    if (!bg) return;
+
+    var canvas = document.createElement('canvas');
+    canvas.className = 'cloud-cluster-dots';
+    bg.insertBefore(canvas, bg.firstChild);
+
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+
+    var SPACING      = 16;
+    var DOT_RADIUS   = 1;
+    var DOT_COLOR    = '#D3D8DA';
+    var REPEL_RADIUS = 28;
+    var REPEL_FORCE  = 55;
+    var SPRING       = 0.065;
+    var DAMPING      = 0.78;
+
+    var dots = [];
+    var W = 0, H = 0;
+    var mouseX = -9999, mouseY = -9999;
+
+    function buildGrid() {
+      dots = [];
+      var cols = Math.ceil(W / SPACING) + 1;
+      var rows = Math.ceil(H / SPACING) + 1;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var rx = c * SPACING;
+          var ry = r * SPACING;
+          dots.push({ rx: rx, ry: ry, x: rx, y: ry, vx: 0, vy: 0 });
+        }
+      }
+    }
+
+    function resize() {
+      W = bg.offsetWidth;
+      H = bg.offsetHeight;
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildGrid();
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.fillStyle = DOT_COLOR;
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+
+        // Spring toward rest position
+        var fx = (d.rx - d.x) * SPRING;
+        var fy = (d.ry - d.y) * SPRING;
+
+        // Repulsion from mouse
+        var dx = d.x - mouseX;
+        var dy = d.y - mouseY;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < REPEL_RADIUS && dist > 0) {
+          var strength = (1 - dist / REPEL_RADIUS) * REPEL_FORCE;
+          fx += (dx / dist) * strength;
+          fy += (dy / dist) * strength;
+        }
+
+        d.vx = (d.vx + fx) * DAMPING;
+        d.vy = (d.vy + fy) * DAMPING;
+        d.x += d.vx;
+        d.y += d.vy;
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, DOT_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Apply top/bottom fade via destination-in gradient
+      var grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0,                        'rgba(0,0,0,0)');
+      grad.addColorStop(Math.min(80  / H, 1),     'rgba(0,0,0,0.6)');
+      grad.addColorStop(Math.min(160 / H, 1),     'rgba(0,0,0,1)');
+      grad.addColorStop(Math.max((H - 120) / H, 0), 'rgba(0,0,0,1)');
+      grad.addColorStop(1,                        'rgba(0,0,0,0)');
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'source-over';
+
+      requestAnimationFrame(tick);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    document.addEventListener('mousemove', function (e) {
+      var rect = bg.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+
+    document.addEventListener('mouseleave', function () {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
+
+    tick();
+  })();
+  </script>
 </body>
 </html>

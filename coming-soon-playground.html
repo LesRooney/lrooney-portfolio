@@ -23,9 +23,6 @@
       overflow: hidden;
       font-family: var(--sans);
       background-color: var(--paper);
-      background-image: radial-gradient(circle, #D3D8DA 1px, transparent 1px);
-      background-size: 24px 24px;
-      background-position: 0 0;
     }
 
     body        { cursor: grab; }
@@ -502,5 +499,76 @@
   wts.src='https://app.ardalio.com/wts7.js';document.head.appendChild(wts);
   wts.onload = function(){ wtsl7(2208464,1); }; </script><noscript><img src="https://app.ardalio.com/7/1/2208464.png"></noscript>
   <!-- end Web-Stat code v 7.0 -->
+
+  <script src="/js/cursor-effect.js?v=8"></script>
+  <script>
+  (function () {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    var cnv = document.createElement('canvas');
+    cnv.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:1;';
+    document.body.appendChild(cnv);
+    var ctx = cnv.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var W, H, cols, rows, disp;
+
+    var SPACING = 24;
+    var DOT_R   = 1;
+    var COLOR   = '#D3D8DA';
+    var REPEL_R = 28;
+    var REPEL_F = 55;
+    var SPRING  = 0.065;
+    var DAMP    = 0.78;
+    var mX = -9999, mY = -9999;
+
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      cnv.width = W * dpr; cnv.height = H * dpr;
+      cnv.style.width = W + 'px'; cnv.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(W / SPACING) + 2;
+      rows = Math.ceil(H / SPACING) + 2;
+      disp = [];
+      for (var i = 0; i < cols * rows; i++) disp.push({ dx: 0, dy: 0, vx: 0, vy: 0 });
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+      var bp = document.body.style.backgroundPosition;
+      var m = bp && bp.match(/([\d.]+)px\s+([\d.]+)px/);
+      var ox = m ? parseFloat(m[1]) : 0;
+      var oy = m ? parseFloat(m[2]) : 0;
+
+      ctx.fillStyle = COLOR;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var d = disp[r * cols + c];
+          var rx = (c - 1) * SPACING + ox;
+          var ry = (r - 1) * SPACING + oy;
+          var cx = rx + d.dx, cy = ry + d.dy;
+          var fx = -d.dx * SPRING, fy = -d.dy * SPRING;
+          var ddx = cx - mX, ddy = cy - mY;
+          var dist = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (dist < REPEL_R && dist > 0) {
+            var s = (1 - dist / REPEL_R) * REPEL_F;
+            fx += (ddx / dist) * s; fy += (ddy / dist) * s;
+          }
+          d.vx = (d.vx + fx) * DAMP; d.vy = (d.vy + fy) * DAMP;
+          d.dx += d.vx; d.dy += d.vy;
+          if (cx > -2 && cx < W + 2 && cy > -2 && cy < H + 2) {
+            ctx.beginPath(); ctx.arc(cx, cy, DOT_R, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    document.addEventListener('mousemove', function (e) { mX = e.clientX; mY = e.clientY; });
+    document.addEventListener('mouseleave', function () { mX = -9999; mY = -9999; });
+    tick();
+  })();
+  </script>
 </body>
 </html>

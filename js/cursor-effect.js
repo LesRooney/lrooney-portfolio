@@ -16,10 +16,9 @@
     spawnEvery:      2,   // spawn 1 particle every Nth mousemove
   };
 
-  // ── Hide native cursor; restore pointer on interactive elements ─
+  // ── Ensure pointer cursor on interactive elements ───────────────
   var style = document.createElement('style');
   style.textContent = [
-    '*, *::before, *::after { cursor: none !important; }',
     'a, a *, button, button *, [role="button"], [role="button"] *,',
     'input, select, textarea, label, [tabindex],',
     '.card-item, .card-item *, .ipad-frame, .ipad-frame *,',

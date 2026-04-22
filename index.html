@@ -1568,7 +1568,7 @@
 
     /* ── Banner — light blue gradient, inset with 32px side margins ── */
     #pw-modal-banner {
-      background: linear-gradient(135deg, #5ba4d4 0%, #82bee6 20%, #aed5f0 45%, #d6ecf9 70%, #f0f8fd 100%);
+      background: linear-gradient(135deg, #1C88E5 0%, #5aabee 30%, #a0cff5 60%, #d6ecf9 80%, #f0f8fd 100%);
       padding: 30px 34px;
       display: flex; align-items: center; justify-content: center;
       min-height: 133px;
@@ -1722,19 +1722,22 @@
         dest: '/medidataedcredesign.html',
         title: 'Foundational Redesign',
         tags: ['Enterprise SaaS','End to End','Design System Contribution','Research Led','0-1 Features'],
-        logo: 'images/icons/MedidataDarkBlue 1.svg'
+        logo: 'images/icons/MedidataLime.svg',
+        banner: 'linear-gradient(135deg, #181D25 0%, #1e2a38 40%, #2a3f54 70%, #3a5570 100%)'
       },
       'card-4': {
         dest: '/qualisflow-02.html',
         title: 'Qualis Flow · Alerts & IA',
-        tags: ['SaaS','0→1','Real-time Alerts','Compliance Monitoring','Information Architecture','Interaction Design','Research Led'],
-        logo: null
+        tags: ['Founding designer','0→1 Product','AI-Powered Platform','Information Architecture','Enterprise Navigation','Domain Research','Vision work'],
+        logo: 'images/icons/Qflow.svg',
+        banner: 'linear-gradient(to left, #99DDD1 0%, #ffffff 100%)'
       },
       'card-5': {
         dest: '/clinical-risk-based-monitoring.html',
         title: 'Risk Management',
-        tags: ['Enterprise SaaS','Risk Analysis','Workflow Design','Product Strategy','Cross Alignment','Research Led'],
-        logo: 'images/icons/MedidataDarkBlue 1.svg'
+        tags: ['0→1 Redesign','Enterprise SaaS','Design Systems','Regulated Industry','Interaction design','Stakeholder Alignment','Domain Research'],
+        logo: 'images/icons/MedidataLime.svg',
+        banner: 'linear-gradient(to right, #1A1E23 0%, #2e3a47 100%)'
       }
     };
 
@@ -1748,7 +1751,9 @@
     var closeBtn   = document.getElementById('pw-modal-close');
     var cardTitle  = document.getElementById('pw-card-title');
     var cardTags   = document.getElementById('pw-card-tags');
-    var modalLogo  = document.getElementById('pw-modal-logo');
+    var modalLogo   = document.getElementById('pw-modal-logo');
+    var bannerEl    = document.getElementById('pw-modal-banner');
+    var DEFAULT_BANNER = 'linear-gradient(135deg, #1C88E5 0%, #5aabee 30%, #a0cff5 60%, #d6ecf9 80%, #f0f8fd 100%)';
     var destUrl    = '';
     var ptColor    = '#FDFDFC';
     var NUM_CHARS  = 10;
@@ -1851,6 +1856,9 @@
         pill.className = 'pw-tag'; pill.textContent = tag;
         cardTags.appendChild(pill);
       });
+
+      // Banner gradient
+      bannerEl.style.background = cardData.banner || DEFAULT_BANNER;
 
       // Logo
       if (cardData.logo) {
@@ -2101,7 +2109,7 @@
   })();
   </script>
 
-  <script src="/js/cursor-effect.js?v=11"></script>
+  <script src="/js/cursor-effect.js?v=12"></script>
 
   <script>
   (function () {

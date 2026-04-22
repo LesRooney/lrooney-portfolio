@@ -64,22 +64,20 @@
   var curX   = -200, curY   = -200;
   var particles  = [];
   var moveCount  = 0;
-  var isOverInteractive = false;
-
-  var INTERACTIVE = 'a, button, [role="button"], input, select, textarea, label, [tabindex], .card-item, .ipad-frame, .deco-group-books, .deco-group-tv-screen, .nav-dropdown-trigger, .footer-right a';
+  var isOverModal = false;
 
   document.addEventListener('mouseover', function (e) {
-    if (e.target.closest(INTERACTIVE)) isOverInteractive = true;
+    if (e.target.closest('#pw-modal')) isOverModal = true;
   });
   document.addEventListener('mouseout', function (e) {
-    if (e.target.closest(INTERACTIVE)) isOverInteractive = false;
+    if (e.target.closest('#pw-modal')) isOverModal = false;
   });
 
   window.addEventListener('mousemove', function (e) {
     mouseX = e.clientX;
     mouseY = e.clientY;
     moveCount++;
-    if (moveCount % CONFIG.spawnEvery === 0) spawnParticle();
+    if (!isOverModal && moveCount % CONFIG.spawnEvery === 0) spawnParticle();
   });
 
   function rand(min, max) {
@@ -105,6 +103,8 @@
   // ── Render loop ─────────────────────────────────────────────────
   function loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (isOverModal) { requestAnimationFrame(loop); return; }
 
     // Lerp cursor
     curX += (mouseX - curX) * CONFIG.lerpFactor;

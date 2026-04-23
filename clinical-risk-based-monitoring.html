@@ -28,13 +28,13 @@
     /* IMAGE CARD */
     .img-card {
       position: relative;
-      background: var(--faint);
-      border-radius: 16px;
-      padding: 20px;
+      background: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
       margin: 32px 0 0;
-      overflow: hidden;
+      overflow: visible;
     }
-    .img-card .cs-caption { margin: 0 0 20px; font-size: 0.82rem; }
+    .img-card .cs-caption { margin: 16px 0 0; font-size: 0.82rem; }
     .img-card img { border-radius: 8px; }
 
     html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
@@ -160,10 +160,10 @@
 
     /* CASE HEADER */
     .cs-header {
-      padding: 85px 0 40px;
+      padding: 100px 0 40px;
       opacity: 1;
     }
-    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 16px; }
     .cs-header h1 {
       font-family: var(--serif);
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
@@ -171,7 +171,7 @@
       line-height: 1.1;
       letter-spacing: -0.02em;
       color: var(--ink);
-      margin-bottom: 20px;
+      margin-bottom: 40px;
     }
     .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .cs-tag { font-size: 0.75rem; font-weight: 500; background: var(--ink); color: var(--paper); padding: 4px 12px; border-radius: 20px; border: 1px solid var(--ink); }
@@ -187,7 +187,7 @@
     .audio-time { font-size: 0.72rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
 
     /* SECTION */
-    .cs-section { padding: 48px 0 0; border-bottom: none; }
+    .cs-section { padding: 180px 0 0; border-bottom: none; }
     .cs-section:last-of-type { border-bottom: none; }
     .cs-section h2 {
       font-family: var(--serif);
@@ -195,18 +195,19 @@
       font-weight: 700;
       letter-spacing: -0.01em;
       color: var(--ink);
-      margin-bottom: 28px;
+      margin-bottom: 40px;
     }
     .cs-section h3 {
       font-family: var(--serif);
       font-size: 1.05rem;
       font-weight: 600;
       color: var(--ink);
-      margin: 24px 0 8px;
+      margin: 40px 0 16px;
     }
-    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 16px; }
-    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 8px 0 16px; line-height: 1.6; max-width: 100%; }
-    .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 12px; }
+    .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 24px; }
+    .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 16px 0; line-height: 1.6; max-width: 100%; }
+    .cs-callout { font-size: 1.1rem; color: var(--ink); font-style: italic; margin: 64px 0; line-height: 1.6; max-width: 100%; }
+    .section-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 16px; }
 
     /* META GRID */
     .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 48px; padding: 40px 0 0; }
@@ -383,13 +384,17 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
-  /* scroll-reveal */
-  .reveal {
+  /* scroll-reveal — slides up images, post-its and their wrappers on scroll */
+  .img-card,
+  .reveal,
+  .postit {
     opacity: 0;
     transform: translateY(56px);
     transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.in-view {
+  .img-card.in-view,
+  .reveal.in-view,
+  .postit.in-view {
     opacity: 1;
     transform: translateY(0);
   }
@@ -452,11 +457,7 @@
     </div>
   </div>
 
-  <!-- COMPANY CONTEXT -->
-  <div class="cs-section" style="padding-bottom: 0;">
-    <p class="section-eyebrow">About the company</p>
-    <p>Medidata, founded in 1999 and now part of Dassault Systèmes, is a global technology company providing end-to-end B2B SaaS solutions for clinical trials within the life sciences industry. Their platform helps pharmaceutical, biotech, and contracts research organisations (CROs) modernise the discovery process by improving workflows, reducing errors, and accelerating the development of new therapies.</p>
-  </div>
+
 
   <!-- LAPTOP FRAME + PRODUCT SCREENSHOT -->
   <div class="cs-section reveal" style="padding-top: 0;">
@@ -473,6 +474,12 @@
   <!-- TWO-COL LAYOUT -->
   <div class="two-col">
   <div class="main-col">
+
+  <!-- COMPANY CONTEXT -->
+  <div class="cs-section" style="padding-top: 0;">
+    <h2>About the company</h2>
+    <p>Medidata, founded in 1999 and now part of Dassault Systèmes, is a global technology company providing end-to-end B2B SaaS solutions for clinical trials within the life sciences industry. Their platform helps pharmaceutical, biotech, and contracts research organisations (CROs) modernise the discovery process by improving workflows, reducing errors, and accelerating the development of new therapies.</p>
+  </div>
 
   <!-- THE STAKES -->
   <div class="cs-section">
@@ -557,7 +564,7 @@
       <li>Expand Medidata's design system with reusable components tailored to new product needs, ensuring alignment with other applications and strengthening integration opportunities.</li>
     </ul>
     <p class="cs-caption">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
-    <div class="img-card reveal" style="padding: 20px;">
+    <div class="img-card">
       <div class="ba-label-row">
         <span class="ba-pill before">Original Design</span>
         <span class="ba-pill after">New Design System</span>
@@ -676,19 +683,16 @@
     <p>I started by really listening to all stakeholders, including developers. My advanced prototyping skills earned credibility, giving me genuine access to users, sales report calls and proper conversations with engineers. I uncovered key lessons from the 2017 redesign — both its successes and its organisational and technical failures. For example, while the design system modernised the UI, it couldn't scale to the product's complexity, and after launch, engineers were left with an incomplete solution. Understanding that breakdown shaped my approach to the <a href="medidataedcredesign.html" style="color: var(--ink); font-weight: 500;">Rave EDC redesign</a> when I joined the team.</p>
     <p>Surprisingly, the design below became one of the fastest-adopted features. It lets users control email alerts for drug supplies. I found that consultants, often on client calls or multitasking, preferred configuring all alerts at once while referencing others. After testing several concepts, I landed on a dense checkbox map. Technically, it could be considered cluttered and error-prone, but it offered a clear overview of defaults or non-recommended alerts. Later, I highlighted changes and included a simple save button, moving away from autosave so people could easily see what they had done. It taught me a key lesson: knowing when to break best-practice rules matters more than following them.</p>
 
-    <div class="img-placeholder" style="aspect-ratio: 898/526;">
-      [IMAGE: rtsm-email-alerts.jpg — 898×526px, RTSM email alerts checkbox configuration]
+    <div class="img-card" style="padding: 0;">
+      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+        <source src="images/MedidataRiskManagement/RTSMAlerts02 .mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="nda-placeholder" style="aspect-ratio: 16/5;">
-      <span class="nda-lock">🔒</span>
-      <span class="nda-label">NDA — Confirm asset with Lesley</span>
-    </div>
-
-    <p class="cs-caption">Below: Different ways to simplify the product to its core essentials for better understanding.</p>
-
-    <div class="img-placeholder" style="aspect-ratio: 976/641;">
-      [IMAGE: rtsm-simplification.webp — 976×641px, product simplification concepts/sketches]
+    <div class="img-card" style="padding: 0;">
+      <img src="images/MedidataRiskManagement/InvestigationalDrugSupplyAccountability2.webp"
+           alt="Investigational Drug Supply Accountability"
+           style="width:100%; display:block; border-radius:8px;">
     </div>
   </div>
 
@@ -698,12 +702,16 @@
 
     <p>My partnership and influence weakened after RTSM Product Director left; product priorities realigned toward immediate sales wins, which began to erode support for our long-term design system vision. To address this challenge, I synthesised stakeholder concerns and strategic perspectives into a framing canvas that articulated both the new leadership's priorities and the business case for systemic design. It was a way to debrief my Design Director as he advocated for adoption during our weekly stakeholder calls with selected leaders within the team. Eventually, I transitioned to RAVE EDC.</p>
 
-    <div class="img-placeholder" style="aspect-ratio: 981/640;">
-      [IMAGE: rtsm-framing-canvas-1.webp — 981×640px, design system framing canvas (RTSM_DS_FramingCanvas.webp)]
+    <div class="img-card" style="padding: 0;">
+      <img src="images/MedidataRiskManagement/MD_RTSM_DesignSystem_rationaleReason.webp"
+           alt="RTSM Design System rationale"
+           style="width:100%; display:block; border-radius:8px;">
     </div>
 
-    <div class="img-placeholder" style="aspect-ratio: 721/497;">
-      [IMAGE: rtsm-framing-canvas-2.webp — 721×497px, design system framing canvas detail (RTSM_DS_FramingCanvas2.webp)]
+    <div class="img-card" style="padding: 0;">
+      <img src="images/MedidataRiskManagement/RTSM_DS_FramingCanvas2.webp"
+           alt="RTSM Design System Framing Canvas"
+           style="width:100%; display:block; border-radius:8px;">
     </div>
   </div>
 
@@ -861,7 +869,7 @@
         }
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(function(el) {
+    document.querySelectorAll('.img-card, .reveal, .postit').forEach(function(el) {
       revealObs.observe(el);
     });
   })();

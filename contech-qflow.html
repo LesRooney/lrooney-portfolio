@@ -356,12 +356,22 @@
   [src*="ardalio"] { display: none !important; }
 
   /* scroll-reveal */
-  .img-card {
+  .img-card,
+  .postit,
+  .gif-item,
+  .video-wrap,
+  .img-pair,
+  .reveal {
     opacity: 0;
     transform: translateY(56px);
     transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .img-card.in-view {
+  .img-card.in-view,
+  .postit.in-view,
+  .gif-item.in-view,
+  .video-wrap.in-view,
+  .img-pair.in-view,
+  .reveal.in-view {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1238,7 +1248,7 @@
       }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.img-card').forEach(function(el) {
+  document.querySelectorAll('.img-card, .postit, .gif-item, .video-wrap, .img-pair, .reveal').forEach(function(el) {
     revealObs.observe(el);
   });
 })();

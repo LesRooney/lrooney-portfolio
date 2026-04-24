@@ -132,39 +132,34 @@ Two behaviours, one shared style system.
 - `.img-card img` → `border-radius: 8px`
 
 **Scroll-reveal animation (required on all case study pages)**
-Every `.img-card` fades in and slides up when it enters the viewport. Add to each page's `<style>` block:
+Images, videos, post-it notes, and their description text all fade in and slide up when they enter the viewport. The animation is **centralised** — do not add inline CSS or JS to individual pages.
+
+**CSS** lives in `styles/components.css` (already loaded by all case study pages):
 ```css
-/* scroll-reveal */
-.img-card {
+.img-card, .postit, .gif-item, .video-wrap, .img-pair, .cs-caption, .reveal {
   opacity: 0;
   transform: translateY(56px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.img-card.in-view {
+.img-card.in-view, .postit.in-view, .gif-item.in-view, .video-wrap.in-view,
+.img-pair.in-view, .cs-caption.in-view, .reveal.in-view {
   opacity: 1;
   transform: translateY(0);
 }
 ```
-Add to each page's JS (before `</script>` or as a new `<script>` before `</body>`):
-```js
-// scroll-reveal
-(function() {
-  var revealObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        revealObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.img-card').forEach(function(el) {
-    revealObs.observe(el);
-  });
-})();
+
+**JS** lives in `js/scroll-reveal.js`. Add one script tag before `</body>` on any new page:
+```html
+<script src="./js/scroll-reveal.js"></script>
 ```
-- Threshold `0.08` — triggers when 8% of the card is visible
+
+- Threshold `0.08` — triggers when 8% of the element is visible
 - Animates once only (`unobserve` after trigger)
-- Currently live on: `medidataedcredesign.html`, `contech-qflow.html`, `homerenter.html`, `clinical-risk-based-monitoring.html`
+- **Above-the-fold guard** — elements already in the viewport on load get `in-view` immediately, no flash of invisible content
+- Use `.reveal` on any standalone `<img>`, `<video>`, or wrapper that isn't one of the named classes above
+- New pages also need `<link rel="stylesheet" href="./styles/components.css">` in `<head>` if not already present
+- Live on: all case study pages (`medidataedcredesign.html`, `contech-qflow.html`, `homerenter.html`, `clinical-risk-based-monitoring.html`, `qualisflow-02.html`, `lesleyrooney-games-sims-vfxworks.html`)
 
 ### postit note (aka postit-over-image)
 When a caption needs to sit over/below an image as a sticky note:

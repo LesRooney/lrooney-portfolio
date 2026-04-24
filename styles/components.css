@@ -344,3 +344,38 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ══════════════════════════════════════════════════════════
+   SCROLL-REVEAL
+   ══════════════════════════════════════════════════════════
+
+   Elements start hidden and slide up when they enter the
+   viewport. JS in scroll-reveal.js adds .in-view.
+   Use .reveal on any standalone img/video/wrapper that
+   isn't already one of the named classes below.
+   ══════════════════════════════════════════════════════════ */
+
+.img-card,
+.postit,
+.gif-item,
+.video-wrap,
+.img-pair,
+.cs-caption,
+.reveal {
+  opacity: 0;
+  transform: translateY(56px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.img-card.in-view,
+.postit.in-view,
+.gif-item.in-view,
+.video-wrap.in-view,
+.img-pair.in-view,
+.cs-caption.in-view,
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}

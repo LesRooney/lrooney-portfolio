@@ -101,6 +101,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       will-change: transform;
+      z-index: 1;
     }
 
     /* ── MAIN CONTENT ── */
@@ -131,6 +132,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
       display: inline-block;
       width: 35%;
+      position: relative;
     }
     .video-card video {
       display: block;
@@ -195,6 +197,12 @@
       cursor: grab;
       user-select: none;
       transition: box-shadow 0.15s ease;
+    }
+    /* Transparent PNGs show body dots through their pixels — fill with page colour */
+    .float-obj img {
+      background: var(--paper);
+      border-radius: 8px;
+      display: block;
     }
     .video-card-sm {
       background: #fff;
@@ -506,7 +514,7 @@
     if (window.matchMedia('(pointer: coarse)').matches) return;
 
     var cnv = document.createElement('canvas');
-    cnv.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:1;';
+    cnv.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:0;';
     document.body.appendChild(cnv);
     var ctx = cnv.getContext('2d');
     var dpr = window.devicePixelRatio || 1;

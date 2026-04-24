@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/components.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1301,10 +1302,15 @@ footer { padding: 32px 24px; }
       });
     }, { threshold: 0.08 });
     document.querySelectorAll('.section-banner, .section-video').forEach(function(el) {
-      obs.observe(el);
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add('in-view');
+      } else {
+        obs.observe(el);
+      }
     });
   })();
 </script>
+<script src="./js/scroll-reveal.js"></script>
   <!-- begin Web-Stat code v 7.0 -->
   <span id="wts2208464"></span>
   <script>var wts=document.createElement('script');wts.async=true;

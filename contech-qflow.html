@@ -355,26 +355,6 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
-  /* scroll-reveal */
-  .img-card,
-  .postit,
-  .gif-item,
-  .video-wrap,
-  .img-pair,
-  .reveal {
-    opacity: 0;
-    transform: translateY(56px);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .img-card.in-view,
-  .postit.in-view,
-  .gif-item.in-view,
-  .video-wrap.in-view,
-  .img-pair.in-view,
-  .reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
   </style>
 
   
@@ -1237,22 +1217,7 @@
     if (btn) btn.addEventListener('click', e => { e.stopPropagation(); userMuted = !userMuted; video.muted = userMuted; setIcon(userMuted); });
   }('exceedance-exp-video', 'exceedance-exp-track', 'exceedance-exp-fill', 'exceedance-exp-thumb', 'exceedance-exp-duration', 'exceedance-exp-sound-btn', 'exceedance-exp-sound-icon'));
 </script>
-<script>
-// scroll-reveal
-(function() {
-  var revealObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        revealObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.img-card, .postit, .gif-item, .video-wrap, .img-pair, .reveal').forEach(function(el) {
-    revealObs.observe(el);
-  });
-})();
-</script>
+<script src="./js/scroll-reveal.js"></script>
 
 </div><!-- /#page-content -->
   <!-- begin Web-Stat code v 7.0 -->

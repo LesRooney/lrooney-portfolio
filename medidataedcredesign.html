@@ -805,16 +805,6 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
-  /* scroll-reveal */
-  .img-card {
-    opacity: 0;
-    transform: translateY(56px);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .img-card.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
   </style>
 
   <!-- Hotjar Tracking Code for https://www.lrooney.com -->
@@ -1887,22 +1877,7 @@
     }
   })();
 </script>
-<script>
-// scroll-reveal
-(function() {
-  var revealObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        revealObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.img-card').forEach(function(el) {
-    revealObs.observe(el);
-  });
-})();
-</script>
+<script src="./js/scroll-reveal.js"></script>
   <!-- begin Web-Stat code v 7.0 -->
   <span id="wts2208464"></span>
   <script>var wts=document.createElement('script');wts.async=true;

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/components.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     strong { font-weight: 700; }
@@ -401,16 +402,6 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
-  /* scroll-reveal */
-  .img-card {
-    opacity: 0;
-    transform: translateY(56px);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .img-card.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
   </style>
 
   
@@ -917,22 +908,7 @@
     });
   })();
 </script>
-<script>
-// scroll-reveal
-(function() {
-  var revealObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        revealObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.img-card').forEach(function(el) {
-    revealObs.observe(el);
-  });
-})();
-</script>
+<script src="./js/scroll-reveal.js"></script>
 </div><!-- /#page-content -->
   <!-- begin Web-Stat code v 7.0 -->
   <span id="wts2208464"></span>

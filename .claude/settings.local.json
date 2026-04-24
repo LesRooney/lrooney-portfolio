@@ -186,7 +186,8 @@
       "Bash(ffmpeg -ss 40.67 -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4 -frames:v 1 -update 1 -q:v 2 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/EDCRedesign/exp_video_poster.jpg -y)",
       "Bash(ffmpeg -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/homerenter-preview.mp4 -vf \"select=eq\\(n\\\\,0\\)\" -vframes 1 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-thumb-v2.webp -y)",
       "Bash(ffmpeg -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/homerenter-preview.mp4 -vf \"select=eq\\(n\\\\,0\\)\" -vframes 1 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-thumb-v2.jpg -y)",
-      "Bash(ffmpeg -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/homerenter-preview.mp4 -vf \"select=eq\\(n\\\\,0\\)\" -vframes 1 -update 1 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-thumb-v2.jpg -y)"
+      "Bash(ffmpeg -i /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/videos/homerenter-preview.mp4 -vf \"select=eq\\(n\\\\,0\\)\" -vframes 1 -update 1 /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/homerenter-thumb-v2.jpg -y)",
+      "Bash(python3)"
     ]
   }
 }

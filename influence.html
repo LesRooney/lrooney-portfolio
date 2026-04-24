@@ -197,11 +197,11 @@
       transition: background 0.15s;
     }
     .influence-item:last-child { border-bottom: none; }
-    .influence-item:hover .influence-item-title { color: #1d4ed8; font-weight: 600; }
+    .influence-item:hover .influence-item-title { color: var(--ink); }
     .influence-item-title {
       font-size: 0.88rem;
       font-weight: 500;
-      color: #2563eb;
+      color: var(--ink);
       line-height: 1.3;
       transition: color 0.2s;
       position: relative;
@@ -230,9 +230,28 @@
     }
     .influence-item-domain {
       font-size: 0.7rem;
-      color: var(--ink-light);
+      color: #2563eb;
       margin-top: 3px;
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .influence-item-domain::after {
+      content: '→';
+      display: inline-block;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: transform 0.25s ease, opacity 0.2s;
+      font-size: 0.75rem;
+    }
+    .influence-item:hover .influence-item-domain {
+      color: #1d4ed8;
+    }
+    .influence-item:hover .influence-item-domain::after {
+      opacity: 1;
+      transform: translateX(3px);
     }
     @media (max-width: 900px) {
       .influence { padding: 60px 24px; }
@@ -322,11 +341,11 @@
       color: inherit;
     }
     .influence-item:last-child { border-bottom: none; }
-    .influence-item:hover .influence-item-title { color: #1d4ed8; font-weight: 600; }
+    .influence-item:hover .influence-item-title { color: var(--ink); }
     .influence-item-title {
       font-size: 0.88rem;
       font-weight: 500;
-      color: #2563eb;
+      color: var(--ink);
       line-height: 1.3;
       transition: color 0.2s;
       position: relative;
@@ -355,9 +374,28 @@
     }
     .influence-item-domain {
       font-size: 0.7rem;
-      color: var(--ink-light);
+      color: #2563eb;
       margin-top: 4px;
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .influence-item-domain::after {
+      content: '→';
+      display: inline-block;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: transform 0.25s ease, opacity 0.2s;
+      font-size: 0.75rem;
+    }
+    .influence-item:hover .influence-item-domain {
+      color: #1d4ed8;
+    }
+    .influence-item:hover .influence-item-domain::after {
+      opacity: 1;
+      transform: translateX(3px);
     }
 
     /* ── FOOTER ── */
@@ -469,10 +507,10 @@
             <span class="influence-item-desc">Growth Playbook. Pure gold.</span>
             <span class="influence-item-domain">amivora.substack.com</span>
           </a>
-          <a href="https://patrickcollison.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Patrick Collison</span>
-            <span class="influence-item-desc">CEO of Stripe — how to build and think at scale</span>
-            <span class="influence-item-domain">patrickcollison.com</span>
+          <a href="https://www.lennysnewsletter.com" target="_blank" class="influence-item">
+            <span class="influence-item-title">Lenny Rachitsky</span>
+            <span class="influence-item-desc">Product and growth thinking I keep coming back to</span>
+            <span class="influence-item-domain">lennysnewsletter.com</span>
           </a>
         </div>
       </div>

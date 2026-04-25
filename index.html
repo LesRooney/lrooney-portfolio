@@ -409,10 +409,13 @@
       .deco-handshelf { width: 180px; top: 420px; }
     }
     @media (max-width: 480px) {
-      .deco-group { top: 180px; left: 11px; right: auto; transform: scale(0.48); transform-origin: top left; }
-      .ipad-shelf-group { top: 460px; left: 26px; width: 220px; }
-      .ipad-shelf-video { width: 190px; }
-      .ipad-shelf-line  { width: 220px; }
+      /* Stacked layout: Clouds → iPad → Blackboard/Shelf/Books → TV, all 20% smaller */
+      .cloud-cluster { height: 720px; }
+      .cloud-group { top: 20px; left: 0; }
+      .ipad-shelf-group { top: 170px; left: 20px; width: 176px; }
+      .ipad-shelf-video { width: 152px; }
+      .ipad-shelf-line  { width: 176px; }
+      .deco-group { top: 360px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
     }
 
     /* ── RIVE DIVIDER ── */

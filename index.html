@@ -409,13 +409,20 @@
       .deco-handshelf { width: 180px; top: 420px; }
     }
     @media (max-width: 480px) {
-      /* Stacked layout: Clouds → iPad → Blackboard/Shelf/Books → TV, all 20% smaller */
-      .cloud-cluster { height: 720px; }
+      /* Stacked: Clouds → iPad → Blackboard/Shelf/Books → TV, 40px gaps, 20% smaller */
+      .cloud-cluster { height: 780px; }
       .cloud-group { top: 20px; left: 0; }
-      .ipad-shelf-group { top: 170px; left: 20px; width: 176px; }
+      /* iPad — 40px below clouds (~120px tall) */
+      .ipad-shelf-group { top: 180px; left: 20px; width: 176px; }
+      .ipad-frame { width: 152px; }
       .ipad-shelf-video { width: 152px; }
+      .ipad-screen-video { left: 15px; top: 3px; width: 128px; height: 97px; border-radius: 4px; }
       .ipad-shelf-line  { width: 176px; }
-      .deco-group { top: 360px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
+      /* deco-group — 40px below iPad (~130px frame + 30px shelf line) */
+      .deco-group { top: 390px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
+      /* Scale font up so hover titles appear at 1rem (1rem ÷ 0.384 ≈ 2.6rem) */
+      .deco-group-influence-title { font-size: 2.6rem; }
+      .deco-tv-title { font-size: 2.6rem; }
     }
 
     /* ── RIVE DIVIDER ── */

@@ -304,7 +304,7 @@
       will-change: transform;
     }
     /* Cloud group container */
-    .cloud-group { position: absolute; left: 0; top: 30px; width: 272px; height: 120px; }
+    .cloud-group { position: absolute; left: 0; top: 30px; width: 272px; height: 120px; transition: top 0.5s ease, left 0.5s ease; }
     /* Clouds — positioned relative to group */
     .cloud-c--2 { width: 186px; left: 60px; top: 0;   animation: cloudFloat2 9.4s  ease-in-out infinite; }
     .cloud-c--1 { width: 144px; left: 0;    top: 70px; animation: cloudFloat1 8.2s  ease-in-out infinite; }
@@ -338,12 +338,12 @@
     }
 
     /* ── iPad + shelf group ── */
-    .ipad-shelf-group { left: 40px; top: 340px; width: 290px; }
-    .ipad-frame       { position: relative; display: block; width: 250px; margin-left: 5px; transform-origin: bottom left; transition: transform 0.3s ease; cursor: pointer; }
+    .ipad-shelf-group { left: 40px; top: 340px; width: 290px; transition: top 0.5s ease, left 0.5s ease, width 0.5s ease; }
+    .ipad-frame       { position: relative; display: block; width: 250px; margin-left: 5px; transform-origin: bottom left; transition: transform 0.3s ease, width 0.5s ease; cursor: pointer; }
     .ipad-frame.ipad-hovered { transform: scale(1.2); }
-    .ipad-shelf-video { display: block; width: 250px; position: relative; z-index: 0; }
-    .ipad-screen-video { position: absolute; left: 24.5px; top: 5.5px; width: 210px; height: 160px; object-fit: cover; border-radius: 6px; z-index: 1; display: block; }
-    .ipad-shelf-line  { display: block; width: 290px; margin-top: -8px; position: relative; z-index: 1; }
+    .ipad-shelf-video { display: block; width: 250px; position: relative; z-index: 0; transition: width 0.5s ease; }
+    .ipad-screen-video { position: absolute; left: 24.5px; top: 5.5px; width: 210px; height: 160px; object-fit: cover; border-radius: 6px; z-index: 1; display: block; transition: left 0.5s ease, top 0.5s ease, width 0.5s ease, height 0.5s ease; }
+    .ipad-shelf-line  { display: block; width: 290px; margin-top: -8px; position: relative; z-index: 1; transition: width 0.5s ease; }
     .ipad-shelf-title {
       font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
       margin-top: 16px; opacity: 0; transition: opacity 0.25s ease;
@@ -362,7 +362,7 @@
     /* ── RIGHT-SIDE DECO (blackboard + shelf grouped) ── */
     .deco-r { position: absolute; }
     /* Group container — move this to reposition both together */
-    .deco-group { position: absolute; right: -10px; top: 90px; width: 522px; }
+    .deco-group { position: absolute; right: -10px; top: 90px; width: 522px; transition: top 0.5s ease, left 0.5s ease, right 0.5s ease, transform 0.5s ease; }
     .deco-group-blackboard { position: absolute; right: 15px; top: -54px;  width: 392px; transform: scale(0.8); transform-origin: bottom center; }
     .deco-group-shelf      { position: absolute; right: 0; top: 149px; width: 418px; }
     .deco-group-pencil     { position: absolute; right: 260px; top: 150px; width: 120px; z-index: 3; }
@@ -409,18 +409,19 @@
       .deco-handshelf { width: 180px; top: 420px; }
     }
     @media (max-width: 480px) {
-      /* Stacked: Clouds → iPad → Blackboard/Shelf/Books → TV, 40px gaps, 20% smaller */
-      .cloud-cluster { height: 780px; }
+      /* Stacked: Clouds → iPad → deco-group, 40px gaps between each */
+      .cloud-cluster { height: 900px; }
       .cloud-group { top: 20px; left: 0; }
-      /* iPad — 40px below clouds (~120px tall) */
-      .ipad-shelf-group { top: 180px; left: 20px; width: 176px; }
+      /* iPad — clouds extend visually to ~200px (group top 20px + cloud tops ~112px + image height ~70px + float headroom)
+         40px clear gap → iPad at 240px */
+      .ipad-shelf-group { top: 240px; left: 20px; width: 176px; }
       .ipad-frame { width: 152px; }
       .ipad-shelf-video { width: 152px; }
       .ipad-screen-video { left: 15px; top: 3px; width: 128px; height: 97px; border-radius: 4px; }
       .ipad-shelf-line  { width: 176px; }
-      /* deco-group — 40px below iPad (~130px frame + 30px shelf line) */
-      .deco-group { top: 390px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
-      /* Scale font up so hover titles appear at 1rem (1rem ÷ 0.384 ≈ 2.6rem) */
+      /* deco-group — iPad visual bottom ~430px (240px top + ~160px frame + ~30px shelf + 40px gap) */
+      .deco-group { top: 480px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
+      /* Scale font up so hover titles appear at ~1rem visually (1 ÷ 0.384 ≈ 2.6rem) */
       .deco-group-influence-title { font-size: 2.6rem; }
       .deco-tv-title { font-size: 2.6rem; }
     }

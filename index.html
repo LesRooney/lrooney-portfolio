@@ -1020,7 +1020,7 @@
       <!-- Right side — blackboard + shelf (grouped) -->
       <div class="deco-r deco-group">
         <img src="images/icons/BlackBoard02 1.png" class="deco-group-blackboard" alt="">
-        <img src="images/icons/PencilFront 1.svg"  class="deco-group-pencil"     alt="">
+        <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
         <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="">
         <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence"></a>
 
@@ -1037,7 +1037,7 @@
       <!-- iPad + hand-drawn shelf — grouped, no gap -->
       <div class="deco-r ipad-shelf-group">
         <a href="./coming-soon-playground.html" class="ipad-frame">
-          <img src="images/icons/Landscape_Ipad_A 1.svg" class="ipad-shelf-video" alt="">
+          <img src="images/icons/Landscape_Ipad_A.webp" class="ipad-shelf-video" alt="" loading="lazy" decoding="async">
           <video class="ipad-screen-video" muted playsinline loop>
             <source src="images/HomepageImages/IpadAnimationMovieInside_02.mp4" type="video/mp4">
           </video>
@@ -1170,6 +1170,15 @@
         gsap.killTweensOf('.h1-word, .h1-char');
         gsap.set('.h1-word, .h1-char, .hero h1', { clearProps: 'all' });
 
+        // ── INTROVERT PARTICLE MORPH — cleanup leftover canvas on bfcache restore ──
+        var leftoverParticles = document.getElementById('introvert-particle-canvas');
+        if (leftoverParticles && leftoverParticles.parentElement) {
+          leftoverParticles.parentElement.removeChild(leftoverParticles);
+        }
+        var personEm = document.querySelector('.person-em');
+        if (personEm) { personEm.style.cssText = ''; }
+        // ── END INTROVERT PARTICLE MORPH cleanup ──
+
         // Scroll to top and refresh ScrollTrigger
         window.scrollTo(0, 0);
         if (window.ScrollTrigger) ScrollTrigger.refresh();
@@ -1228,6 +1237,9 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
+    // ── INTROVERT PARTICLE MORPH — reversible, set flag to false to restore original slot-up reveal ──
+    var INTROVERT_PARTICLE_MORPH = true;
+
     // ── h1 entrance — extracted so it can replay on bfcache restore
     function runHeroEntrance() {
       gsap.from('.h1-word', {
@@ -1268,10 +1280,165 @@
           ease: 'back.out(1.4)',
         });
       }
-      setTimeout(function() {
-        if (em) em.classList.add('animate');
-      }, 30);
+      // ── INTROVERT PARTICLE MORPH — branches on flag, easy to revert ──
+      if (INTROVERT_PARTICLE_MORPH && em) {
+        runIntrovertParticleMorph(em);
+      } else {
+        setTimeout(function() {
+          if (em) em.classList.add('animate');
+        }, 30);
+      }
+      // ── END INTROVERT PARTICLE MORPH ──
     }
+
+    // ── INTROVERT PARTICLE MORPH — reversible block, delete this function to remove ──
+    function runIntrovertParticleMorph(em) {
+      if (!window.gsap) { em.classList.add('animate'); return; }
+      // Snap em to its final layout position (no transition) so particles converge to the right spot
+      em.style.transition = 'none';
+      em.style.transform  = 'translateY(0)';
+      var rect = em.getBoundingClientRect();
+      if (rect.width < 4 || rect.height < 4) { em.style.opacity = '1'; return; }
+
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.ceil(rect.width);
+      var h = Math.ceil(rect.height);
+
+      // Off-screen sample canvas
+      var sample = document.createElement('canvas');
+      sample.width  = w * dpr;
+      sample.height = h * dpr;
+      var sctx = sample.getContext('2d');
+      sctx.scale(dpr, dpr);
+      var cs = getComputedStyle(em);
+      sctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+      sctx.fillStyle = '#000';
+      sctx.textBaseline = 'middle';
+      sctx.fillText(em.textContent, 0, h / 2);
+      var imgData = sctx.getImageData(0, 0, sample.width, sample.height).data;
+
+      // Sample every 2 CSS px → spawn a particle for each opaque pixel
+      var step = 2;
+      var stepPx = step * dpr;
+      var particles = [];
+      for (var y = 0; y < sample.height; y += stepPx) {
+        for (var x = 0; x < sample.width; x += stepPx) {
+          var idx = (y * sample.width + x) * 4 + 3;
+          if (imgData[idx] > 128) {
+            var tx = x / dpr;
+            var ty = y / dpr;
+            // Mixed motion types — most slide in a straight line, a few orbit. Subtle distances.
+            var types = ['top','bottom','left','right','diag-tl','diag-tr','diag-bl','diag-br','orbit'];
+            // Orbit ~12% of particles, others spread evenly
+            var motion = Math.random() < 0.12 ? 'orbit' : types[Math.floor(Math.random() * 8)];
+            particles.push({
+              tx: tx, ty: ty,
+              x: tx, y: ty, // updated by tick
+              size: 1 + Math.random(), // 1px–2px
+              alpha: 0,
+              motion: motion,
+              startOffset: 14 + Math.random() * 32, // 14–46px slide distance (shorter = quicker)
+              orbitRadius: 6 + Math.random() * 14,  // 6–20px (small, subtle)
+              orbitAngle: Math.random() * Math.PI * 2,
+              orbitSpeed: (0.8 + Math.random() * 1.4) * (Math.random() < 0.5 ? -1 : 1),
+              startDelay: Math.random() * 0.08,
+            });
+          }
+        }
+      }
+      if (!particles.length) { em.style.opacity = '1'; return; }
+
+      // Visible canvas overlay
+      var canvas = document.createElement('canvas');
+      canvas.id = 'introvert-particle-canvas';
+      canvas.style.position = 'fixed';
+      canvas.style.left = rect.left + 'px';
+      canvas.style.top  = rect.top  + 'px';
+      canvas.style.width  = w + 'px';
+      canvas.style.height = h + 'px';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = '5';
+      canvas.width  = w * dpr;
+      canvas.height = h * dpr;
+      document.body.appendChild(canvas);
+      var ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+
+      function reposition() {
+        var r = em.getBoundingClientRect();
+        canvas.style.left = r.left + 'px';
+        canvas.style.top  = r.top  + 'px';
+      }
+      window.addEventListener('scroll', reposition, { passive: true });
+      window.addEventListener('resize', reposition);
+
+      // Single motion phase: each particle follows its own path (linear, diagonal, or orbit) into target
+      var motionDuration = 0.38;
+      var totalDuration = motionDuration + 0.1; // + max startDelay buffer
+      var DIRS = {
+        'top':     [ 0, -1],
+        'bottom':  [ 0,  1],
+        'left':    [-1,  0],
+        'right':   [ 1,  0],
+        'diag-tl': [-0.7, -0.7],
+        'diag-tr': [ 0.7, -0.7],
+        'diag-bl': [-0.7,  0.7],
+        'diag-br': [ 0.7,  0.7],
+      };
+
+      var startTime = performance.now();
+      var running = true;
+      function tick() {
+        if (!running) return;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#000';
+        var elapsed = (performance.now() - startTime) / 1000;
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          var local = elapsed - p.startDelay;
+          if (local <= 0) { p.alpha = 0; continue; }
+          var k = Math.min(1, local / motionDuration);
+          var eased = 1 - Math.pow(1 - k, 2); // ease-out quad — less drag near the end
+          if (p.motion === 'orbit') {
+            // Spiral inward: radius shrinks as k goes 0→1, while angle keeps advancing
+            var radius = p.orbitRadius * (1 - eased);
+            var angle = p.orbitAngle + local * p.orbitSpeed * Math.PI * 2;
+            p.x = p.tx + Math.cos(angle) * radius;
+            p.y = p.ty + Math.sin(angle) * radius;
+          } else {
+            var d = DIRS[p.motion] || DIRS.bottom;
+            var inv = 1 - eased;
+            p.x = p.tx + d[0] * p.startOffset * inv;
+            p.y = p.ty + d[1] * p.startOffset * inv;
+          }
+          p.alpha = Math.min(1, local / 0.12); // fade in over first 120ms
+          ctx.globalAlpha = p.alpha;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      // After particles arrive, swap to real text and fade canvas
+      var arrivalMs = (totalDuration + 0.05) * 1000;
+      setTimeout(function() {
+        em.style.opacity = '1';
+        gsap.to(canvas, {
+          opacity: 0,
+          duration: 0.22,
+          onComplete: function() {
+            running = false;
+            window.removeEventListener('scroll', reposition);
+            window.removeEventListener('resize', reposition);
+            if (canvas.parentElement) canvas.parentElement.removeChild(canvas);
+          },
+        });
+      }, arrivalMs);
+    }
+    // ── END INTROVERT PARTICLE MORPH ──
 
     // Reset helper for bfcache — snaps clip back to collapsed state then replays
     function resetPersonAnimation() {

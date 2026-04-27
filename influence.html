@@ -12,6 +12,8 @@
 
     :root { --max: 1200px; --nav-bg: rgba(253, 253, 252, 0.30); --nav-blur: blur(20px); }
 
+    #influence-dots { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+
 
 
 
@@ -611,7 +613,7 @@
           </a>
           <a href="https://www.cursor.com/" target="_blank" class="influence-item">
             <span class="influence-item-title">Cursor</span>
-            <span class="influence-item-desc">Idea to production UI at speed and when I run out of tokens on Claude</span>
+            <span class="influence-item-desc">Second AI collaborator, especially when I run out of tokens on Claude. Also use Antigravity</span>
             <span class="influence-item-domain">cursor.com</span>
           </a>
           <a href="https://lovable.dev/" target="_blank" class="influence-item">
@@ -714,8 +716,6 @@
     </div>
   </footer>
 
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
 
   <script>
 
@@ -729,5 +729,45 @@
 
 
   <script src="./js/page-common.js"></script>
+
+  <script>
+  (function () {
+    var canvas = document.createElement('canvas');
+    canvas.id = 'influence-dots';
+    document.body.appendChild(canvas);
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var SPACING = 16, DOT_R = 1, DOT_COLOR = '#D3D8DA';
+
+    function draw() {
+      var W = window.innerWidth, H = window.innerHeight;
+      canvas.width  = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = DOT_COLOR;
+      var cols = Math.ceil(W / SPACING) + 1;
+      var rows = Math.ceil(H / SPACING) + 1;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          ctx.beginPath();
+          ctx.arc(c * SPACING, r * SPACING, DOT_R, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      var grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, 'rgba(0,0,0,0)');
+      grad.addColorStop(Math.min(80  / H, 1), 'rgba(0,0,0,0.5)');
+      grad.addColorStop(Math.min(160 / H, 1), 'rgba(0,0,0,1)');
+      grad.addColorStop(1, 'rgba(0,0,0,1)');
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+  })();
+  </script>
 </body>
 </html>

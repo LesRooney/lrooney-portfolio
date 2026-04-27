@@ -91,6 +91,14 @@ Build these first before any case study pages.
   - Row 1: card 0 → 0ms, card 1 → 180ms, card 2 → 350ms
   - Row 2: card 3 → 0ms, card 4 → 170ms, card 5 → 350ms
 
+### "I'm an introvert" particle morph (homepage hero)
+The `<em>` text "I'm an introvert" inside `.hero-intro` morphs from a swarm of small particles into the rendered word. Triggered after the Rive person animation completes (`triggerPersonAnimation`).
+
+- **Reversible feature flag** in `index.html`: `var INTROVERT_PARTICLE_MORPH = true;` — set to `false` to fall back to the plain fade-in. Do not delete the flag or the legacy fade path
+- Implementation: `runIntrovertParticleMorph(em)` builds an off-screen canvas, samples pixel alpha to find target points, then animates each particle from a random start (orbit / top / bottom / left / right / diagonals) into place
+- Tuning: 1–2px particles, ~12% orbit / 88% directional, `motionDuration = 0.38s`, ease-out quadratic. Keep it quick and subtle — slower easing felt unnatural
+- The canvas (`#introvert-particle-canvas`) is cleaned up by the bfcache `pageshow` handler
+
 ### bfcache / hash-navigation fixes
 - `pageshow` event handler handles bfcache restore (`e.persisted`): removes `#pt-overlay`, scrolls to top, clears GSAP props on `.hero`, `.hero h1`, `.h1-word`, `.h1-char`, `.hero-intro`, `.intro-block`, then calls `ScrollTrigger.refresh()`
 - Hash navigation fix (e.g. clicking "Work" from a case study → `/#work`): on DOMContentLoaded, any `.intro-block` elements that are already above the viewport (start position above current scroll) get `in-view` class added immediately, bypassing IntersectionObserver
@@ -160,6 +168,9 @@ Images, videos, post-it notes, and their description text all fade in and slide 
 - Use `.reveal` on any standalone `<img>`, `<video>`, or wrapper that isn't one of the named classes above
 - New pages also need `<link rel="stylesheet" href="./styles/components.css">` in `<head>` if not already present
 - Live on: all case study pages (`medidataedcredesign.html`, `contech-qflow.html`, `homerenter.html`, `clinical-risk-based-monitoring.html`, `qualisflow-02.html`, `lesleyrooney-games-sims-vfxworks.html`)
+
+**Grid stagger heuristic (image-likes only):**
+When 2+ image-like siblings (`.img-card, .video-wrap, .gif-item, .img-pair, .reveal`) share a parent, each gets a `transition-delay` of `index × 110ms` so they cascade in. Single image-likes and any `.cs-caption`/`.postit` reveal with no delay so the slide-up motion is always visible. Logic lives in `gridStaggerMs()` inside `js/scroll-reveal.js` — do not duplicate per-page.
 
 ### postit note (aka postit-over-image)
 When a caption needs to sit over/below an image as a sticky note:
@@ -554,6 +565,48 @@ Replaces the PeekGrid footer on pages where a full peek grid isn't appropriate. 
   </a>
 </div>
 ```
+
+### back to top button (floating, case study pages)
+A small translucent square pinned to the bottom-right of every case study page. Appears after scrolling past 400px and smooth-scrolls back to the top on click. **Centralised** — do not duplicate per-page.
+
+- **JS** — `js/back-to-top.js` injects the `<button class="back-to-top-btn">` and wires the scroll/click handlers. Add `<script src="./js/back-to-top.js" defer></script>` before `</body>` on any new case study page
+- **CSS** — `.back-to-top-btn` rule lives in `styles/components.css` (loaded by all case study pages)
+- **Live on:** all 7 case study pages (`medidataedcredesign`, `contech-qflow`, `qualisflow-02`, `clinical-risk-based-monitoring`, `homerenter`, `lesleyrooney-games-sims-vfxworks`, `games-simulations-films`)
+- **NOT on:** Fire Tracker (`coming-soon-fire-tracker.html`) and Animation/Playground (`coming-soon-playground.html`) — coming-soon pages are excluded
+- **Visibility:** opacity 0 + `pointer-events: none` until JS adds `.is-visible` (after `scrollY > 400`)
+
+**Style — matches the top nav (single source of truth):**
+```css
+.back-to-top-btn {
+  position: fixed; right: 28px; bottom: 28px;
+  width: 36px; height: 36px;
+  background: var(--nav-bg);            /* same fill as #nav */
+  backdrop-filter: var(--nav-blur);     /* same blur as #nav */
+  -webkit-backdrop-filter: var(--nav-blur);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(20,20,18,0.10), 0 1px 3px rgba(20,20,18,0.06);
+  /* opacity/transform/transitions handled by .is-visible toggle */
+}
+.back-to-top-btn svg { width: 22px; height: 22px; color: var(--ink); }
+```
+- The button reuses `--nav-bg` and `--nav-blur` so any future nav restyle propagates automatically — do not hard-code `rgba()` or `blur()` values here
+- On mobile (≤600px), button grows to 46px and `border-radius: 12px`
+
+### custom cursor — scope (default cursor on case studies)
+The custom dot+ring cursor (`#cursor-dot` + `#cursor-ring`) is **only on `influence.html`** and the homepage's hero playground. **All case study pages use the OS default cursor** — do not add the cursor markup to case studies.
+- The cursor JS (`js/page-common.js`) auto-exits when the elements are absent, so simply omitting the markup is enough
+- Touch devices already opt out via `matchMedia('(hover: none)')`
+
+## CSS cache-buster (immutable assets)
+Cloudflare serves `styles/components.css` with `cache-control: public, max-age=31536000, immutable`. Browsers will keep a cached copy for a year regardless of file changes — they only re-fetch when the URL changes.
+
+**When you edit `styles/components.css` in a way that affects production pages, bump the `?v=N` query param on every HTML file that links it:**
+```html
+<link rel="stylesheet" href="./styles/components.css?v=4">
+```
+- All case study pages + `influence.html` link this stylesheet — bump them together
+- Without the bump, returning visitors won't see the new styles even after deploy
 
 ## Owner
 Lesley Rooney — Senior Product Designer

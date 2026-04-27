@@ -369,6 +369,45 @@
     .deco-group-pencil     { position: absolute; right: 260px; top: 150px; width: 120px; z-index: 3; }
     .deco-group-books      { position: absolute; right: 48px; top: 205px; width: 272px; transform: scale(0.8); transform-origin: bottom center; transition: transform 0.3s ease; cursor: pointer; }
     .deco-group-books.books-hovered { transform: scale(1.0); }
+
+    /* ── INSPIRATION FAN ── */
+    .insp-fan { position: absolute; inset: 0; pointer-events: none; z-index: 4; transform: translateX(-20px); }
+    .insp-item {
+      position: absolute; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.10);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.26s ease, transform 0.48s cubic-bezier(0.2, 0.9, 0.25, 1.12);
+      transform-origin: center center;
+      will-change: transform, opacity;
+    }
+    .insp-fan.fan-open .insp-item { opacity: 1; pointer-events: none; }
+    .insp-fan.fan-closing .insp-item {
+      opacity: 0;
+      transform: translate(var(--close-x, 0px), var(--close-y, 0px)) scale(0.2) rotate(var(--close-r, 0deg));
+      transition: opacity 0.18s linear, transform 0.28s ease-out;
+    }
+    /* YouTube logo — above podcast */
+    .ii-yt  { width: 46px; left: 122px; top: 190px; transform: translateX(70px) scale(0.35) rotate(-3deg); }
+    .insp-fan.fan-open .ii-yt  { transform: rotate(-3deg); transition-delay:  20ms; }
+    /* UX Laws book — overlapping above funny icon */
+    .ii-ux  { width: 59px;  left: 196px; top: 253px; transform: translateX(70px) scale(0.35) rotate(8deg); border-radius: 6px; }
+    .insp-fan.fan-open .ii-ux  { transform: rotate(8deg);  transition-delay:  55ms; }
+    /* Podcast mic — overlapping above funny icon */
+    .ii-pod { width: 53px;  left: 132px; top: 218px; transform: translateX(70px) scale(0.35) rotate(-10deg); border-radius: 0; box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+    .insp-fan.fan-open .ii-pod { transform: rotate(-10deg); transition-delay:  80ms; }
+    /* Comedy/TikTok card — overlapping above funny icon */
+    .ii-com { width: 66px;  left: 62px; top: 228px; transform: translateX(70px) scale(-0.35, 0.35) rotate(30deg); border-radius: 8px; }
+    .insp-fan.fan-open .ii-com { transform: scaleX(-1) rotate(30deg); transition-delay:  40ms; }
+    /* Funny icon / campfire — lower left */
+    .ii-fire{ width: 43px;  left: 138px; top: 268px; transform: translateX(70px) scale(0.35) rotate(5deg); border-radius: 0; box-shadow: none; }
+    .insp-fan.fan-open .ii-fire{ transform: rotate(5deg);  transition-delay:  65ms; }
+    /* Lenny podcast — above funny icon */
+    .ii-lenny { width: 46px; left: 104px; top: 220px; transform: translateX(70px) scale(0.35) rotate(-2deg); border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+    .insp-fan.fan-open .ii-lenny { transform: rotate(-2deg); transition-delay: 70ms; }
+    /* Design inspiration card — overlapping above funny icon */
+    .ii-des { width: 74px;  left: 194px; top: 217px; transform: translateX(70px) scale(0.35) rotate(-6deg); border-radius: 8px; }
+    .insp-fan.fan-open .ii-des { transform: rotate(-6deg); transition-delay:  30ms; }
+
     .deco-group-influence-title {
       position: absolute; top: 360px; left: 70px; width: 100%;
       font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
@@ -1025,6 +1064,17 @@
         <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="">
         <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence"></a>
 
+        <!-- Inspiration fan — fanned items originate from books on hover -->
+        <div class="insp-fan" id="insp-fan">
+          <img src="images/icons/Brand=YouTube, Color=ON.svg"                 class="insp-item ii-yt"   alt="YouTube" loading="lazy">
+          <img src="images/HomepageImages/UXlaws.webp"                        class="insp-item ii-ux"   alt="Laws of UX" loading="lazy">
+          <img src="images/HomepageImages/Podcast.webp"                       class="insp-item ii-pod"  alt="Podcast" loading="lazy">
+          <img src="images/HomepageImages/InspirationComedy.webp"             class="insp-item ii-com"  alt="" loading="lazy">
+          <img src="images/HomepageImages/InspirationFunnyIcon.webp"          class="insp-item ii-fire" alt="" loading="lazy">
+          <img src="images/HomepageImages/LennyPodcast.webp"                   class="insp-item ii-lenny" alt="Lenny Podcast" loading="lazy">
+          <img src="images/HomepageImages/designInspiration01.webp"           class="insp-item ii-des"  alt="" loading="lazy">
+        </div>
+
         <div class="deco-group-influence-title"><span>Influence</span></div>
         <div class="deco-tv-group">
           <img src="images/icons/TVGreen_on 1.png" class="deco-group-tv" alt="">
@@ -1176,8 +1226,15 @@
         if (leftoverParticles && leftoverParticles.parentElement) {
           leftoverParticles.parentElement.removeChild(leftoverParticles);
         }
+        var leftoverRepulse = document.getElementById('introvert-repulse-canvas');
+        if (leftoverRepulse && leftoverRepulse.parentElement) {
+          leftoverRepulse.parentElement.removeChild(leftoverRepulse);
+        }
         var personEm = document.querySelector('.person-em');
-        if (personEm) { personEm.style.cssText = ''; }
+        if (personEm) {
+          personEm.style.cssText = '';
+          delete personEm.dataset.repulseReady;
+        }
         // ── END INTROVERT PARTICLE MORPH cleanup ──
 
         // Scroll to top and refresh ScrollTrigger
@@ -1240,6 +1297,8 @@
 
     // ── INTROVERT PARTICLE MORPH — reversible, set flag to false to restore original slot-up reveal ──
     var INTROVERT_PARTICLE_MORPH = true;
+    // ── INTROVERT HOVER REPULSE — reversible, set flag to false to disable ──
+    var INTROVERT_HOVER_REPULSE  = true;
 
     // ── h1 entrance — extracted so it can replay on bfcache restore
     function runHeroEntrance() {
@@ -1290,6 +1349,11 @@
         }, 30);
       }
       // ── END INTROVERT PARTICLE MORPH ──
+      // ── INTROVERT HOVER REPULSE — passive setup; only activates on hover ──
+      if (INTROVERT_HOVER_REPULSE && em) {
+        setupIntrovertHoverRepulse(em);
+      }
+      // ── END INTROVERT HOVER REPULSE setup ──
     }
 
     // ── INTROVERT PARTICLE MORPH — reversible block, delete this function to remove ──
@@ -1440,6 +1504,271 @@
       }, arrivalMs);
     }
     // ── END INTROVERT PARTICLE MORPH ──
+
+    // ── INTROVERT HOVER REPULSE — reversible block, delete this function + flag + call site to remove ──
+    function setupIntrovertHoverRepulse(em) {
+      if (em.dataset.repulseReady === '1') return;
+      if (!window.matchMedia('(hover: hover)').matches) return; // skip touch devices
+      em.dataset.repulseReady = '1';
+
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var canvas = null, ctx = null;
+      var particles = [];
+      var w = 0, h = 0;
+      var mouse = { x: -9999, y: -9999, active: false };
+      var rafId = null;
+
+      var REPULSE_RADIUS = 56;   // px — gentle push field; larger so the falloff is softer
+      var REPULSE_FORCE  = 0.55; // strength of push at radius=0 (much softer than before)
+      var SPRING         = 0.06; // pull back to target — soft return
+      var DAMP           = 0.86; // velocity decay per frame — looser, more drift
+      var RETURN_MS      = 700;  // forced reform duration after mouseleave
+      var returnStart    = 0;    // timestamp when reform began (0 = not returning)
+
+      // Per-particle personalities: most spring back gently, some orbit, some fly off and fade.
+      // Roll once at build time so behaviour is varied but consistent across hovers.
+      function rollPersonality() {
+        var r = Math.random();
+        if (r < 0.18) return 'fly';   // 18% — get flung off in a random direction and fade out
+        if (r < 0.45) return 'orbit'; // 27% — orbit around their target spot
+        return 'drift';               // 55% — soft repulsion + spring-back
+      }
+
+      function buildParticles() {
+        var rect = em.getBoundingClientRect();
+        w = Math.ceil(rect.width);
+        h = Math.ceil(rect.height);
+        if (w < 4 || h < 4) return false;
+
+        var sample = document.createElement('canvas');
+        sample.width  = w * dpr;
+        sample.height = h * dpr;
+        var sctx = sample.getContext('2d');
+        sctx.scale(dpr, dpr);
+        var cs = getComputedStyle(em);
+        sctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+        sctx.fillStyle = '#000';
+        sctx.textBaseline = 'middle';
+        sctx.fillText(em.textContent, 0, h / 2);
+        var data = sctx.getImageData(0, 0, sample.width, sample.height).data;
+
+        var stepPx = 2 * dpr;
+        particles = [];
+        for (var y = 0; y < sample.height; y += stepPx) {
+          for (var x = 0; x < sample.width; x += stepPx) {
+            var idx = (y * sample.width + x) * 4 + 3;
+            if (data[idx] > 128) {
+              var tx = x / dpr, ty = y / dpr;
+              particles.push({
+                tx: tx, ty: ty, x: tx, y: ty, vx: 0, vy: 0,
+                size: 1 + Math.random(),
+                alpha: 1,
+                personality: rollPersonality(),
+                // orbit params
+                orbitAngle:  Math.random() * Math.PI * 2,
+                orbitRadius: 4 + Math.random() * 10,    // 4–14 px
+                orbitSpeed:  (0.6 + Math.random() * 1.2) * (Math.random() < 0.5 ? -1 : 1),
+                // fly-off params (assigned/reset on activate)
+                flyAngle: Math.random() * Math.PI * 2,
+                flySpeed: 0.6 + Math.random() * 1.4,
+                // shared
+                triggered: false, // becomes true once cursor disturbs the particle
+              });
+            }
+          }
+        }
+        return particles.length > 0;
+      }
+
+      function ensureCanvas() {
+        if (canvas) return;
+        canvas = document.createElement('canvas');
+        canvas.id = 'introvert-repulse-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '5';
+        canvas.style.opacity = '0';
+        canvas.style.transition = 'opacity 0.14s ease';
+        canvas.width  = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width  = w + 'px';
+        canvas.style.height = h + 'px';
+        document.body.appendChild(canvas);
+        ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        reposition();
+      }
+
+      function reposition() {
+        if (!canvas) return;
+        var r = em.getBoundingClientRect();
+        canvas.style.left = r.left + 'px';
+        canvas.style.top  = r.top  + 'px';
+      }
+
+      function tick() {
+        rafId = null;
+        if (!ctx || !canvas) return;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#000';
+
+        // Forced-return phase: lerp every particle to target over RETURN_MS, then snap settle.
+        if (returnStart && !mouse.active) {
+          var rt = (performance.now() - returnStart) / RETURN_MS;
+          if (rt >= 1) {
+            // Done — restore real text, hide canvas
+            em.style.opacity = '1';
+            canvas.style.opacity = '0';
+            for (var k = 0; k < particles.length; k++) {
+              var pp = particles[k];
+              pp.x = pp.tx; pp.y = pp.ty; pp.vx = 0; pp.vy = 0;
+              pp.alpha = 1; pp.triggered = false;
+            }
+            returnStart = 0;
+            return; // stop loop until next hover
+          }
+          // ease-out cubic
+          var k1 = 1 - Math.pow(1 - rt, 3);
+          for (var j = 0; j < particles.length; j++) {
+            var p = particles[j];
+            // start of return = current position; lerp toward target
+            if (p._sx === undefined) { p._sx = p.x; p._sy = p.y; p._sa = p.alpha; }
+            p.x = p._sx + (p.tx - p._sx) * k1;
+            p.y = p._sy + (p.ty - p._sy) * k1;
+            p.alpha = p._sa + (1 - p._sa) * k1;
+            if (p.alpha > 0.001) {
+              ctx.globalAlpha = p.alpha;
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+          ctx.globalAlpha = 1;
+          rafId = requestAnimationFrame(tick);
+          return;
+        }
+
+        // Hover phase
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+
+          // Detect cursor influence — soft falloff
+          if (mouse.active) {
+            var dx = p.x - mouse.x, dy = p.y - mouse.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < REPULSE_RADIUS) {
+              if (!p.triggered) p.triggered = true;
+              if (dist > 0.001) {
+                var f = (1 - dist / REPULSE_RADIUS) * REPULSE_FORCE;
+                p.vx += (dx / dist) * f;
+                p.vy += (dy / dist) * f;
+              }
+            }
+          }
+
+          if (mouse.active && p.triggered) {
+            if (p.personality === 'orbit') {
+              p.orbitAngle += p.orbitSpeed * 0.025;
+              var ox = p.tx + Math.cos(p.orbitAngle) * p.orbitRadius;
+              var oy = p.ty + Math.sin(p.orbitAngle) * p.orbitRadius;
+              p.vx += (ox - p.x) * 0.18;
+              p.vy += (oy - p.y) * 0.18;
+              p.vx *= 0.72; p.vy *= 0.72;
+              p.alpha = Math.min(1, p.alpha + 0.08);
+            } else if (p.personality === 'fly') {
+              var ddx = p.x - p.tx, ddy = p.y - p.ty;
+              var ddist = Math.sqrt(ddx*ddx + ddy*ddy);
+              var MAX_FLY = 90;
+              if (ddist < MAX_FLY) {
+                var ax = Math.cos(p.flyAngle) * p.flySpeed * 0.15;
+                var ay = Math.sin(p.flyAngle) * p.flySpeed * 0.15;
+                p.vx = p.vx * 0.96 + ax;
+                p.vy = p.vy * 0.96 + ay;
+              } else {
+                p.vx *= 0.9; p.vy *= 0.9;
+              }
+              p.alpha = Math.max(0, p.alpha - 0.012);
+            } else {
+              p.vx += (p.tx - p.x) * SPRING;
+              p.vy += (p.ty - p.y) * SPRING;
+              p.vx *= DAMP; p.vy *= DAMP;
+              p.alpha = Math.min(1, p.alpha + 0.08);
+            }
+          } else {
+            // mouse active but particle not yet triggered → just hold position
+            p.vx *= DAMP; p.vy *= DAMP;
+          }
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.alpha > 0.001) {
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function activate(e) {
+        if (!particles.length) {
+          if (!buildParticles()) return;
+        }
+        ensureCanvas();
+        reposition();
+        // Reset per-hover state — fresh angles so each hover feels different
+        returnStart = 0;
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.triggered = false;
+          p.alpha = 1;
+          p.x = p.tx; p.y = p.ty; p.vx = 0; p.vy = 0;
+          p._sx = undefined; p._sy = undefined; p._sa = undefined;
+          p.flyAngle = Math.random() * Math.PI * 2;
+          p.flySpeed = 0.6 + Math.random() * 1.4;
+          p.orbitAngle = Math.random() * Math.PI * 2;
+        }
+        var r = em.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+        mouse.active = true;
+        canvas.style.opacity = '1';
+        em.style.opacity = '0';
+        if (rafId == null) rafId = requestAnimationFrame(tick);
+      }
+
+      em.addEventListener('mouseenter', activate);
+      em.addEventListener('mousemove', function(e) {
+        if (!canvas) return;
+        var r = em.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+        mouse.active = true;
+        if (rafId == null) rafId = requestAnimationFrame(tick);
+      });
+      em.addEventListener('mouseleave', function() {
+        mouse.active = false;
+        mouse.x = -9999; mouse.y = -9999;
+        // Snapshot each particle's current pose as the start of the lerp
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p._sx = p.x; p._sy = p.y; p._sa = p.alpha;
+        }
+        returnStart = performance.now();
+        if (rafId == null) rafId = requestAnimationFrame(tick);
+      });
+      window.addEventListener('scroll', reposition, { passive: true });
+      window.addEventListener('resize', function() {
+        // size may have changed (e.g. font load); rebuild on next hover
+        particles = [];
+        if (canvas && canvas.parentElement) canvas.parentElement.removeChild(canvas);
+        canvas = null; ctx = null;
+      });
+    }
+    // ── END INTROVERT HOVER REPULSE ──
 
     // Reset helper for bfcache — snaps clip back to collapsed state then replays
     function resetPersonAnimation() {
@@ -1633,13 +1962,65 @@
     })();
   </script>
 
-  <!-- ── Books hover-to-scale ── -->
+  <!-- ── Books hover-to-scale + inspiration fan ── -->
   <script>
     (function () {
       var books = document.querySelector('.deco-group-books');
       if (!books) return;
       books.addEventListener('mouseenter', function () { books.classList.add('books-hovered'); });
       books.addEventListener('mouseleave', function () { books.classList.remove('books-hovered'); });
+
+      // ── Inspiration fan: fan items fly out from books on hover, retract on leave ──
+      var fan    = document.getElementById('insp-fan');
+      if (!fan) return;
+
+      var closeTimer = null;
+      var items = Array.prototype.slice.call(fan.querySelectorAll('.insp-item'));
+
+      function resetCloseScatter() {
+        fan.classList.remove('fan-closing');
+        items.forEach(function (item) {
+          item.style.removeProperty('--close-x');
+          item.style.removeProperty('--close-y');
+          item.style.removeProperty('--close-r');
+        });
+      }
+
+      function openFan()  {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+        resetCloseScatter();
+        fan.classList.add('fan-open');
+      }
+
+      function closeFan() {
+        if (!fan.classList.contains('fan-open')) return;
+        fan.classList.remove('fan-open');
+        fan.classList.add('fan-closing');
+
+        items.forEach(function (item) {
+          var randomX = Math.round((Math.random() * 320) - 160);
+          var randomY = Math.round((Math.random() * 320) - 160);
+          var randomR = Math.round((Math.random() * 120) - 60);
+          item.style.setProperty('--close-x', randomX + 'px');
+          item.style.setProperty('--close-y', randomY + 'px');
+          item.style.setProperty('--close-r', randomR + 'deg');
+        });
+
+        closeTimer = setTimeout(function () {
+          resetCloseScatter();
+          closeTimer = null;
+        }, 320);
+      }
+
+      // Book is the only interactive trigger
+      books.addEventListener('mouseenter', openFan);
+      books.addEventListener('focus', openFan);
+      books.addEventListener('mouseleave', closeFan);
+      books.addEventListener('blur', closeFan);
+      window.addEventListener('blur', closeFan);
     })();
   </script>
 

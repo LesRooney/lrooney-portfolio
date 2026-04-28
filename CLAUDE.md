@@ -593,6 +593,98 @@ A small translucent square pinned to the bottom-right of every case study page. 
 - The button reuses `--nav-bg` and `--nav-blur` so any future nav restyle propagates automatically — do not hard-code `rgba()` or `blur()` values here
 - On mobile (≤600px), button grows to 46px and `border-radius: 12px`
 
+### deco cluster hover (homepage work section illustration groups)
+
+Three interactive decorative groups sit in the `#work` section illustration area (`.cloud-cluster`). They share a common hover pattern — each group is triggered by `mouseenter`/`mouseleave` on a specific element, which toggles a `-hovered` CSS class.
+
+**The three existing groups:**
+| Group | Trigger element | Hovered class | Effect |
+|---|---|---|---|
+| Books / Influence | `.deco-group-books` | `books-hovered` | Scale up, open insp-fan, reveal title |
+| TV screen | `.deco-group-tv-screen` | `tv-hovered` | Scale TV group, play video, reveal title |
+| iPad | `.ipad-shelf-group` | `ipad-hovered` | Scale frame, play video |
+
+**To add a new interactive deco group — follow this pattern:**
+
+**1. HTML structure:**
+```html
+<div class="deco-[name]-group">
+  <img src="..." class="deco-[name]-main" alt="">
+  <!-- optional: additional overlays, video screens -->
+  <div class="deco-[name]-title"><span>Label Text</span></div>
+</div>
+```
+
+**2. CSS:**
+```css
+/* Group wrapper */
+.deco-[name]-group {
+  position: absolute; /* position within .deco-r or .deco-group */
+  transition: transform 0.3s ease;
+}
+.deco-[name]-group.name-hovered { transform: scale(1.15); } /* tune scale per group */
+
+/* Title reveal — identical pattern across all groups */
+.deco-[name]-title {
+  position: absolute; top: [N]px; left: [N]px; width: 100%;
+  font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink);
+  opacity: 0; transition: opacity 0.25s ease; pointer-events: none; text-align: center;
+}
+.deco-[name]-title span { display: inline-block; position: relative; transition: padding-left 0.28s ease-out; }
+.deco-[name]-title span::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%) scaleX(0.083) scaleY(0.083); transform-origin: center center;
+  width: 12px; height: 12px; background: var(--ink); border-radius: 4px; opacity: 0;
+}
+.deco-[name]-group.name-hovered .deco-[name]-title { opacity: 1; }
+.deco-[name]-group.name-hovered .deco-[name]-title span { padding-left: 20px; }
+.deco-[name]-group.name-hovered .deco-[name]-title span::before { animation: squareMorph 0.28s ease-out forwards; }
+```
+
+**3. JS — hover toggle (with long-press for mobile touch):**
+```js
+(function () {
+  var group = document.querySelector('.deco-[name]-group');
+  if (!group) return;
+
+  function activate()   { group.classList.add('name-hovered'); }
+  function deactivate() { group.classList.remove('name-hovered'); }
+
+  // Desktop
+  group.addEventListener('mouseenter', activate);
+  group.addEventListener('mouseleave', deactivate);
+  window.addEventListener('blur', deactivate);
+
+  // Mobile long-press (500ms hold → activates; auto-closes after 1.5s)
+  var lpTimer = null;
+  group.addEventListener('touchstart', function () {
+    lpTimer = setTimeout(function () {
+      activate();
+      setTimeout(deactivate, 1500);
+    }, 500);
+  }, { passive: true });
+  group.addEventListener('touchend',  function () { clearTimeout(lpTimer); });
+  group.addEventListener('touchmove', function () { clearTimeout(lpTimer); });
+})();
+```
+
+**Mobile long-press:** Yes — `touchstart` starts a 500ms timer; `touchend`/`touchmove` cancel it. If the timer fires, the hover state activates and auto-closes after 1.5s. This is already wired into the JS template above.
+
+**If the group contains a video (hover-to-play):**
+```js
+var vid = group.querySelector('video');
+function freeze() { vid.pause(); vid.currentTime = 0; }
+vid.addEventListener('loadeddata', freeze, { once: true });
+vid.addEventListener('canplay', freeze, { once: true });
+vid.addEventListener('play', function () { if (!vid._hovered) vid.pause(); });
+
+function activate() { vid._hovered = true; vid.loop = true; vid.play(); group.classList.add('name-hovered'); }
+function deactivate() { vid._hovered = false; vid.pause(); vid.currentTime = 0; group.classList.remove('name-hovered'); }
+document.addEventListener('visibilitychange', function () { if (document.hidden) deactivate(); });
+```
+
+**Fan scatter (optional — only used on books group):** Items hidden at collapsed position, `fan-open` class transitions each `.insp-item` to its final `transform` with staggered `transition-delay`. `fan-closing` applies randomised CSS custom props (`--close-x`, `--close-y`, `--close-r`) for a scatter-out exit. See `index.html` lines ~1973–2033 for the full implementation.
+
 ### custom cursor — scope (default cursor on case studies)
 The custom dot+ring cursor (`#cursor-dot` + `#cursor-ring`) is **only on `influence.html`** and the homepage's hero playground. **All case study pages use the OS default cursor** — do not add the cursor markup to case studies.
 - The cursor JS (`js/page-common.js`) auto-exits when the elements are absent, so simply omitting the markup is enough

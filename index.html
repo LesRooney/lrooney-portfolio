@@ -350,8 +350,8 @@
     .ipad-screen-video { position: absolute; left: 24.5px; top: 5.5px; width: 210px; height: 160px; object-fit: cover; border-radius: 6px; z-index: 1; display: block; transition: left 0.5s ease, top 0.5s ease, width 0.5s ease, height 0.5s ease; }
     .ipad-shelf-line  { display: block; width: 290px; margin-top: -8px; position: relative; z-index: 1; transition: width 0.5s ease; }
     .ipad-shelf-title {
-      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
-      margin-top: 16px; opacity: 0; transition: opacity 0.25s ease;
+      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: #D0D0CE; line-height: 1.3;
+      margin-top: 16px; transition: color 0.25s ease;
       pointer-events: none; text-align: center;
     }
     .ipad-shelf-title span { display: inline-block; position: relative; transition: padding-left 0.28s ease-out; }
@@ -360,7 +360,7 @@
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083); transform-origin: center center;
       width: 12px; height: 12px; background: var(--ink); border-radius: 4px; opacity: 0;
     }
-    .ipad-shelf-group:hover .ipad-shelf-title { opacity: 1; }
+    .ipad-shelf-group:hover .ipad-shelf-title { color: var(--ink); }
     .ipad-shelf-group:hover .ipad-shelf-title span { padding-left: 20px; }
     .ipad-shelf-group:hover .ipad-shelf-title span::before { animation: squareMorph 0.28s ease-out forwards; }
 
@@ -417,8 +417,8 @@
 
     .deco-group-influence-title {
       position: absolute; top: 360px; left: 70px; width: 100%;
-      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.3;
-      opacity: 0; transition: opacity 0.25s ease; pointer-events: none; text-align: center;
+      font-family: var(--serif); font-size: 1rem; font-weight: 600; color: #D0D0CE; line-height: 1.3;
+      transition: color 0.25s ease; pointer-events: none; text-align: center;
     }
     .deco-group-influence-title span { display: inline-block; position: relative; transition: padding-left 0.28s ease-out; }
     .deco-group-influence-title span::before {
@@ -427,7 +427,7 @@
       width: 12px; height: 12px; background: var(--ink); border-radius: 4px; opacity: 0;
     }
     .deco-group-books:hover ~ .deco-group-influence-title,
-    .deco-group-books.books-hovered ~ .deco-group-influence-title { opacity: 1; }
+    .deco-group-books.books-hovered ~ .deco-group-influence-title { color: var(--ink); }
     .deco-group-books:hover ~ .deco-group-influence-title span,
     .deco-group-books.books-hovered ~ .deco-group-influence-title span { padding-left: 20px; }
     .deco-group-books:hover ~ .deco-group-influence-title span::before,
@@ -436,8 +436,8 @@
     .deco-tv-group.tv-hovered { transform: scale(1.236); }
     .deco-tv-title {
       position: absolute; top: 434px; left: 110px; width: 100%;
-      font-family: var(--serif); font-size: 0.831rem; font-weight: 600; color: var(--ink); line-height: 1.3;
-      opacity: 0; transition: opacity 0.25s ease; pointer-events: none; text-align: center;
+      font-family: var(--serif); font-size: 0.831rem; font-weight: 600; color: #7B7B7A; line-height: 1.3;
+      transition: color 0.25s ease; pointer-events: none; text-align: center;
     }
     .deco-tv-title span { display: inline-block; position: relative; transition: padding-left 0.28s ease-out; }
     .deco-tv-title span::before {
@@ -445,7 +445,7 @@
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083); transform-origin: center center;
       width: 10px; height: 10px; background: var(--ink); border-radius: 3px; opacity: 0;
     }
-    .deco-tv-group.tv-hovered .deco-tv-title { opacity: 1; }
+    .deco-tv-group.tv-hovered .deco-tv-title { color: var(--ink); }
     .deco-tv-group.tv-hovered .deco-tv-title span { padding-left: 20px; }
     .deco-tv-group.tv-hovered .deco-tv-title span::before { animation: squareMorph 0.28s ease-out forwards; }
     .deco-group-typewriter { position: absolute; left: -300px; top: 670px; width: 360px; }
@@ -2798,48 +2798,44 @@
     var clouds = Array.from(cloudGroup.querySelectorAll('.cloud-c'));
     if (!clouds.length) return;
 
-    var REPEL_R = 150;
-    var REPEL_F = 16;
-    var SPRING  = 0.07;
-    var DAMPING = 0.72;
+    var RADIUS = 200;
+    var MAX_PX = 10;
 
-    var rests = clouds.map(function (el) {
-      return { cx: el.offsetLeft + el.offsetWidth / 2, cy: el.offsetTop + el.offsetHeight / 2 };
+    clouds.forEach(function (el) {
+      el.style.transition = 'transform 0.6s ease-out';
     });
-    var state = clouds.map(function () { return { x: 0, y: 0, vx: 0, vy: 0 }; });
 
-    var mouseX = -9999, mouseY = -9999;
+    var centers = [];
+    function updateCenters() {
+      centers = clouds.map(function (el) {
+        return { cx: el.offsetLeft + el.offsetWidth / 2, cy: el.offsetTop + el.offsetHeight / 2 };
+      });
+    }
+    updateCenters();
+    window.addEventListener('resize', updateCenters);
 
     document.addEventListener('mousemove', function (e) {
       var rect = cloudGroup.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    });
-    document.addEventListener('mouseleave', function () { mouseX = -9999; mouseY = -9999; });
-
-    function tick() {
+      var mx = e.clientX - rect.left;
+      var my = e.clientY - rect.top;
       clouds.forEach(function (el, i) {
-        var s = state[i], r = rests[i];
-        var cx = r.cx + s.x, cy = r.cy + s.y;
-        var dx = cx - mouseX, dy = cy - mouseY;
+        var c = centers[i];
+        var dx = c.cx - mx, dy = c.cy - my;
         var dist = Math.sqrt(dx * dx + dy * dy);
-
-        var fx = -s.x * SPRING, fy = -s.y * SPRING;
-        if (dist < REPEL_R && dist > 0) {
-          var strength = (1 - dist / REPEL_R) * REPEL_F;
-          fx += (dx / dist) * strength;
-          fy += (dy / dist) * strength;
+        if (dist < RADIUS && dist > 0) {
+          var factor = 1 - dist / RADIUS;
+          var tx = (dx / dist) * MAX_PX * factor;
+          var ty = (dy / dist) * MAX_PX * factor;
+          el.style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px)';
+        } else {
+          el.style.transform = '';
         }
-
-        s.vx = (s.vx + fx) * DAMPING;
-        s.vy = (s.vy + fy) * DAMPING;
-        s.x += s.vx;
-        s.y += s.vy;
-        el.style.transform = 'translate(' + s.x.toFixed(2) + 'px,' + s.y.toFixed(2) + 'px)';
       });
-      requestAnimationFrame(tick);
-    }
-    tick();
+    });
+
+    document.addEventListener('mouseleave', function () {
+      clouds.forEach(function (el) { el.style.transform = ''; });
+    });
   })();
   </script>
 </body>

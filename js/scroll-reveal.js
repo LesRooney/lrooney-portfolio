@@ -13,7 +13,7 @@
       return c.matches && c.matches(imageLike);
     });
     if (siblings.length < 2) return 0; // single image / video → no stagger, slide-up plays solo
-    return siblings.indexOf(el) * perItemMs;
+    return Math.min(siblings.indexOf(el) * perItemMs, 330);
   }
 
   var revealObs = new IntersectionObserver(function (entries) {

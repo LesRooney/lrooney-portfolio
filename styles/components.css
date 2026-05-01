@@ -524,6 +524,27 @@ footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 4
   transform: translateY(0);
 }
 
+/* ── Quick variant — shorter lift and faster duration for lower-page sections ── */
+.reveal-quick {
+  transform: translateY(24px);
+  transition-duration: 0.38s;
+}
+.reveal-quick.in-view {
+  transform: translateY(0);
+}
+
+/* ── Group override — children inside a .reveal section move with the group ── */
+.reveal .img-card,
+.reveal .postit,
+.reveal .gif-item,
+.reveal .video-wrap,
+.reveal .img-pair,
+.reveal .cs-caption {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 /* ──────────────────────────────────────────────────────────
    BACK TO TOP — floating button (case study pages)
    Injected by js/back-to-top.js. Appears once user scrolls

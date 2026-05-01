@@ -195,7 +195,11 @@
       "Bash(curl -sL https://www.lrooney.com/contech-qflow.html)",
       "Bash(curl -sL https://www.lrooney.com/styles/components.css)",
       "Bash(curl -sL https://www.lrooney.com/js/back-to-top.js)",
-      "Bash(curl -sI \"https://www.lrooney.com/styles/components.css?v=3\")"
+      "Bash(curl -sI \"https://www.lrooney.com/styles/components.css?v=3\")",
+      "Bash(awk '{print $5, $9}')",
+      "mcp__b6ad4db5-bbe7-4df3-9a07-5d3b5f1b9583__notion-search",
+      "mcp__b6ad4db5-bbe7-4df3-9a07-5d3b5f1b9583__notion-create-pages",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/components.css?v=4">
+  <link rel="stylesheet" href="./styles/components.css?v=8">
   <style>
 
     :root { --navy: #0A0A0A; --navy-light: #efede7; --sb: 240px; }
@@ -844,7 +844,7 @@
   </div><!-- /.two-col -->
 
   <!-- 6. BUSINESS CONSTRAINTS — full width -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <h2>Business Constraints and Challenges</h2>
     <ol class="num-list">
       <li><strong>Started as a visual reskin</strong>, to upgrade to the new evolving design system; past design efforts struggled with domain credibility to convince executives to make changes.</li>
@@ -855,7 +855,7 @@
   </div>
 
   <!-- 11. USER PROBLEMS — full width -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <h2>User Problems &amp; Research Insights</h2>
     <ol class="num-list">
       <li><strong>Lost task visibility and accuracy</strong> — Users lost sight of outstanding tasks when drilling into patient records, forcing unnecessary navigation or reliance on exported reports.</li>
@@ -867,7 +867,7 @@
   </div>
 
   <!-- 12. RESEARCH LOOM — full width -->
-  <div class="cs-section" style="padding-top: 48px;">
+  <div class="cs-section reveal" style="padding-top: 48px;">
     <div class="img-card">
       <p class="cs-caption">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
       <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
@@ -896,7 +896,7 @@
   </div>
 
   <!-- 13. HMW GOALS — full width -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <h2>How Might We Goals</h2>
     <ol class="num-list">
       <li>Build a cleaner interface for future capabilities (think <strong>AI automation, imported patient records</strong>, all that good stuff)</li>
@@ -967,7 +967,7 @@
 <div class="wrap">
 
   <!-- 14. ALL BRAINS ON DECK -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <h2>🧠 All Brains On Deck Approach</h2>
     <div class="img-card" style="width: 80%; margin: 0 auto;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:10px;">
@@ -979,7 +979,7 @@
   </div>
 
   <!-- 15. SYSTEM MAPS -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <div class="img-card">
       <p class="cs-caption">Hover to see system maps of interconnected tasks</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
@@ -1004,7 +1004,7 @@
   </div>
 
   <!-- 16. PERSONAS -->
-  <div class="cs-section">
+  <div class="cs-section reveal">
     <h2>Meet the Users</h2>
     <div style="display: flex; gap: 0; align-items: flex-start;">
       <div style="flex: 1; padding-right: 24px;">
@@ -1039,7 +1039,7 @@
   </div>
 
   <!-- 17. ENGINEERING COLLABORATION -->
-  <div class="cs-section" id="engineering">
+  <div class="cs-section reveal" id="engineering">
     <h2>Where the Best Ideas Win (Collaboration)</h2>
     <p style="max-width: 100%;">Alongside product, we brought engineering into design early to reduce surprises and handoff friction. <strong>In a group with strong opinions and history, psychological safety mattered.</strong> We kept everyone informed but were selective about which feedback shaped direction. <strong>Sharing research clips rather than just conclusions</strong> meant people felt heard and kept bringing their views, which helped us catch blind spots early.</p>
     <p style="max-width: 100%;">In practice this meant <strong>30-minute syncs to surface blockers, debate solutions, and flag API needs before they became constraints. Functional prototypes instead of static mockups.</strong> Tesler's Law applied deliberately. <strong>If complexity could live in the system, done programmatically, it shouldn't live in the UI.</strong></p>
@@ -1058,7 +1058,7 @@
   </div>
 
   <!-- 18. RESEARCH PLAN -->
-  <div class="cs-section" id="research">
+  <div class="cs-section reveal" id="research">
     <h2>Overall Research Plan — Derisking Assumptions and Increasing Design Quality</h2>
     <div class="postit-row">
       <div class="postit postit--1">
@@ -1086,7 +1086,7 @@
 
 
   <!-- 20. DEEP DIVE 01 -->
-  <div class="deep-dive" id="dd1">
+  <div class="deep-dive reveal" id="dd1">
     <p class="dd-label">Deep Dive: Problem and Solution 01</p>
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: <strong>find patient → drill in → lose context → navigate back → reapply filters → repeat.</strong> The monochromatic interface made scanning hard, and <strong>task visibility vanished the moment they clicked into a patient record.</strong></p>
@@ -1148,7 +1148,7 @@
   </div>
 
   <!-- 21. DEEP DIVE 02 -->
-  <div class="deep-dive" id="dd2">
+  <div class="deep-dive reveal" id="dd2">
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
@@ -1182,7 +1182,7 @@
   </div>
 
   <!-- 22. DEEP DIVE 03 -->
-  <div class="deep-dive" id="dd3">
+  <div class="deep-dive reveal" id="dd3">
     <p class="dd-label">Deep Dive 03</p>
     <h2>The Unsaid Legacy Attraction — From Custom Code Workaround to Core Feature</h2>
     <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered <strong>a deeper migration risk. Rave Classic</strong> let study builders custom-code features outside the core product. Like Figma plugins, <strong>these extensions expanded the platform in ways we couldn't track</strong>, leaving us blind to what existed or how widely it was used.</p>
@@ -1197,7 +1197,7 @@
   </div>
 
   <!-- 23. DEEP DIVE 04 -->
-  <div class="deep-dive" id="dd4">
+  <div class="deep-dive reveal" id="dd4">
     <p class="dd-label">Deep Dive 04</p>
     <h2>Discovering a Root Problem from Various Symptoms — How Unresolvable Queries Undermine Trust and Data Integrity Across Clinical Teams</h2>
     <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. <strong>The platform treated 'not yet available' data the same as 'missing' data.</strong> Take drug returns: <strong>when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months.</strong> The system didn't account for that. It immediately flagged those fields as queries, <strong>creating alerts no one could honestly resolve.</strong></p>
@@ -1215,7 +1215,7 @@
   </div>
 
   <!-- 24. CANDID REFLECTIONS -->
-  <div class="deep-dive" style="border-bottom: none;">
+  <div class="deep-dive reveal" style="border-bottom: none;">
     <h2>Candid Reflections</h2>
     <p>My first redesign was tough. Priorities shifted, people moved on, and cross-product dependencies kept growing, so progress often felt slow. <strong>It was also my first time working on a high-risk product with a two-year timeline, where backend mistakes or bugs could cost Medidata a million dollars a day in client penalties.</strong> I was always aware of that pressure, so that's why I made sure engineering had the time and clarity they needed to plan and deliver.</p>
     <p>Coordinating multiple roadmaps meant revisiting earlier work, juggling backup designs, and balancing other projects at the same time. Maintaining enthusiasm and managing tension was challenging, especially since we were used to working on shorter projects. <strong>I learned when to push with evidence and when to let go</strong>, what truly mattered and why. What a foundational release really meant, and how tricky prioritisation can be when trying to keep people focused. <strong>Since launch, early client feedback has been positive, and the effort has been worth it.</strong></p>

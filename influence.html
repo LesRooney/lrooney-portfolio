@@ -232,7 +232,9 @@
     }
     .influence-item-domain {
       font-size: 0.7rem;
+      font-weight: 600;
       color: #2563eb;
+      text-decoration: underline;
       margin-top: 3px;
       letter-spacing: 0.04em;
       display: inline-flex;
@@ -247,6 +249,7 @@
       transform: translateX(-4px);
       transition: transform 0.25s ease, opacity 0.2s;
       font-size: 0.75rem;
+      text-decoration: none;
     }
     .influence-item:hover .influence-item-domain {
       color: #1d4ed8;
@@ -255,6 +258,18 @@
       opacity: 1;
       transform: translateX(3px);
     }
+    .influence-item-note {
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .influence-item-note a {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .influence-item-note a:hover { color: #1d4ed8; }
     @media (max-width: 900px) {
       .influence { padding: 60px 24px; }
       .influence-categories { grid-template-columns: 1fr 1fr; gap: 36px 32px; }
@@ -376,6 +391,7 @@
     }
     .influence-item-domain {
       font-size: 0.7rem;
+      font-weight: 600;
       color: #2563eb;
       margin-top: 4px;
       letter-spacing: 0.04em;
@@ -391,6 +407,7 @@
       transform: translateX(-4px);
       transition: transform 0.25s ease, opacity 0.2s;
       font-size: 0.75rem;
+      text-decoration: none;
     }
     .influence-item:hover .influence-item-domain {
       color: #1d4ed8;
@@ -399,6 +416,17 @@
       opacity: 1;
       transform: translateX(3px);
     }
+    .influence-item-note {
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .influence-item-note a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .influence-item-note a:hover { color: #1d4ed8; }
 
     /* ── FOOTER ── */
     footer { padding: 48px 48px; }
@@ -495,11 +523,12 @@
         <p class="influence-cat-desc">Individuals that inspire me</p>
         <div class="influence-list">
 
-          <a href="https://www.ryanscott.design/" target="_blank" class="influence-item">
+          <div class="influence-item">
             <span class="influence-item-title">Ryan Scott</span>
             <span class="influence-item-desc">Changed how I approach design and creative business</span>
-            <span class="influence-item-domain">ryanscott.design</span>
-          </a>
+            <a href="https://www.acceleratedesign.com/" target="_blank" class="influence-item-domain">acceleratedesign.com</a>
+            <span class="influence-item-note">Discovered on <a href="http://maven.com" target="_blank">Maven.com</a> — One of the best places for product sense courses</span>
+          </div>
           <a href="https://amivora.substack.com/" target="_blank" class="influence-item">
             <span class="influence-item-title">Ami Vora</span>
             <span class="influence-item-desc">Growth stuff</span>

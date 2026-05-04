@@ -783,7 +783,7 @@
       <!-- 3. THE PROBLEM -->
       <div class="cs-section">
         <h2 style="color: var(--navy);">The Problem, Every Successful Company Eventually Has to Evolve</h2>
-        <p><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-code base platforms with more consistent, integrated experiences, threatening revenue and increasing Medidata's exposure to disruption.</p>
+        <p><strong>Medidata faced a pivotal challenge:</strong> despite its dominant global market share, its flagship Rave Classic (2000) ran on ageing Microsoft <strong>technology approaching end of life.</strong> The 2017 redesign (Rave EDC) helped maintain that position, but Classic continued to compete internally, <strong>splitting that share and cannibalising resources and investment.</strong> <strong>Even as more customers migrated, some as late as mid-2025, the change remained unpopular.</strong> Complaints and feedback exposed critical issues that slowed adoption and <strong>forced clinical teams into workarounds.</strong> Meanwhile, competitors were advancing modern single-codebase platforms with seamless, end to end data experiences, enabling users to explore data across integrated product areas without silos, threatening revenue and increasing Medidata's exposure to disruption.</p>
       </div>
 
       <!-- 4. WHAT ARE EDC PRODUCTS -->
@@ -836,7 +836,7 @@
 
       <div class="info-panel-card">
         <h3>Duration</h3>
-        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years (<strong>Multi-phased releases and dependencies. Last release 2026</strong>)</p>
+        <p style="font-size: 0.9rem; color: var(--ink-mid);">~2.5 years (<strong>Multi-phased releases and dependencies. Last release for EDC redesign mid 2026</strong>)</p>
       </div>
 
     </div><!-- /.info-panel-col -->
@@ -1071,7 +1071,7 @@
       </div>
       <div class="postit postit--3">
         <span class="postit-emoji">🕵🏾‍♀️</span>
-        <p><strong>Reviewed prior research</strong> to identify trends, such as Data Managers shifting from patient-level detail to site-wide tasks, which helped us <strong>prioritise features that served multiple personas over their isolated frustrations</strong> and contributed to a vision of removing that persona from EDC altogether.</p>
+        <p><strong>Reviewed prior research</strong> to identify trends, such as <span class="highlight-pen"><strong>Data Managers shifting from patient-level detail to site-wide tasks,</strong></span> which helped us <strong>prioritise features that served multiple personas over their isolated frustrations</strong> and contributed to a vision of removing that persona from EDC altogether.</p>
       </div>
     </div>
     <div class="img-card">
@@ -1093,8 +1093,8 @@
     <!-- BEFORE / AFTER SLIDER -->
     <div class="img-card">
     <div class="ba-label-row">
-      <span class="ba-pill before">Redesign — 2025</span>
-      <span class="ba-pill after">Redesign — 2017</span>
+      <span class="ba-pill before" style="background: none; color: var(--ink); padding: 0; border-radius: 0; letter-spacing: 0; text-transform: none; font-size: 0.85rem; font-weight: 700;">Redesign — 2025</span>
+      <span class="ba-pill after" style="background: none; color: var(--ink); padding: 0; border-radius: 0; letter-spacing: 0; text-transform: none; font-size: 0.85rem; font-weight: 700;">Redesign — 2017</span>
     </div>
     <div class="ba-slider" data-ba-slider style="margin: 0;">
       <!-- BEFORE — bottom layer, sets height; auto-cycles between 2 images -->
@@ -1152,6 +1152,7 @@
     <p class="dd-label">Deep Dive: Problem and Solution 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
+    <p style="margin-top: 28px;">I designed a <strong>bulk-paste solution with a 15-tag maximum</strong> that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a <strong>reusable design system component</strong> that Clinical Data Studio (another product) could adopt.</p>
     <div class="img-card">
       <p class="cs-caption">Design system option</p>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
@@ -1159,10 +1160,11 @@
       </video>
     </div>
     <div class="img-card">
+      <p class="cs-caption" style="margin: 0 0 12px;">New filter designed and refined with my front end lead.</p>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
       </video>
-      <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block;">Try the prototype ↗</a>
+      <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block; width: fit-content;">Try the prototype ↗</a>
     </div>
     <!-- Carousel: DD02 -->
     <div class="img-card" style="margin-top: 28px;">
@@ -1175,8 +1177,6 @@
         </div>
       </div>
     </div>
-    <p style="margin-top: 28px;">I designed a <strong>bulk-paste solution with a 15-tag maximum</strong> that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a <strong>reusable design system component</strong> that Clinical Data Studio (another product) could adopt.</p>
-    <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
     <p style="margin-top: 28px;">Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external design systems and static step by step mocks falling flat, I put together a quick prototype for the team to try.</p>
     <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link fill">Time picker prototype ↗</a>
   </div>

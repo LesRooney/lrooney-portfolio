@@ -18,7 +18,7 @@
       background: none !important;
       border-radius: 0 !important;
       padding: 0 !important;
-      margin: 32px 0 0;
+      margin: 56px 0 56px;
       overflow: visible;
     }
     .img-card .cs-caption { margin: 16px 0 0; font-size: 0.82rem; }
@@ -112,7 +112,7 @@
     .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
 
     /* BULLET LIST */
-    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list { list-style: none; padding: 0; margin: 0 0 8px; }
     .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
     .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
 
@@ -330,6 +330,7 @@
 
   <!-- LAPTOP FRAME + PRODUCT SCREENSHOT -->
   <div class="cs-section reveal" style="padding-top: 0;">
+    <p class="cs-caption" style="margin: 0 0 8px;">Below: A short-term vision concept with an updated design system and branding, 2021</p>
     <div style="position: relative; display: block; line-height: 0;">
       <img src="images/Mockups/Microsoft Surface Book.svg" alt="Microsoft Surface Book laptop frame" style="width: 100%; display: block;">
       <video autoplay loop muted playsinline style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%; object-fit: contain; border-radius: 4px;">
@@ -337,7 +338,6 @@
       </video>
       <img src="images/Mockups/Toolbar.svg" alt="" style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: auto; display: block; pointer-events: none;">
     </div>
-    <p class="cs-caption">Below: A short-term vision concept with an updated design system and branding, 2021</p>
   </div>
 
   <!-- TWO-COL LAYOUT -->
@@ -432,7 +432,7 @@
       <li>Provide a unified view of risk data, eliminating the need to navigate across multiple pages.</li>
       <li>Expand Medidata's design system with reusable components tailored to new product needs, ensuring alignment with other applications and strengthening integration opportunities.</li>
     </ul>
-    <p class="cs-caption">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
+    <p class="cs-caption" style="margin: 0 0 8px;">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
     <div class="img-card">
       <div class="ba-label-row">
         <span class="ba-pill before">Original Design</span>
@@ -505,8 +505,8 @@
     <h2>The Solutions — The Rationale Behind Some Selected Designs</h2>
 
     <p>The first release prioritised a data table over visualisations due to limited front-end resources. The design intention was to offer a clear view of all risks — across categories — allowing users to compare status (from open, closed to deferred), trace origin (e.g., medical dispensation or tumour assessment), so users could work toward closing them out from an easily understood view. All without leaving the risk listing page. Each risk included contextual details such as descriptions, links to any attached Quality Tolerance Limits (QTLs) and Key Risk Indicators (KRIs) for that risk. Due to technical limitations, support for column rearrangement and resizing was not possible. The hover states revealed extra content, so I had several calls with the product director — formerly a risk manager — to figure out how to rearrange the grid so that the most important information appeared first, moving left to right.</p>
-    <div style="position: relative; display: flex; justify-content: center; margin-bottom: 220px;">
-      <div class="img-card" style="padding: 20px; width: 60%; box-sizing: border-box;">
+    <div style="position: relative; display: flex; justify-content: center; margin-top: 56px; margin-bottom: 220px;">
+      <div class="img-card" style="padding: 20px; width: 60%; box-sizing: border-box; margin: 0;">
         <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
           <source src="images/MedidataRiskManagement/sectionrec.mp4" type="video/mp4">
         </video>
@@ -522,8 +522,9 @@
       </video>
     </div>
 
+    <p class="cs-caption" style="margin: 0 0 8px;">Below: Giving users the ability to see multiple Quality Tolerance Limits — very data-dense information — attached to a single risk. These read-only statistical metrics, sourced from Detect, helped users to review while entering or editing risk mitigation strategy in context without overwhelming the interface.</p>
     <div style="position: relative;">
-      <div class="img-card" style="padding: 20px; margin-bottom: 275px;">
+      <div class="img-card" style="padding: 20px; margin-top: 0; margin-bottom: 275px;">
         <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
           <source src="images/MedidataRiskManagement/CanSeethequestion2A.mp4" type="video/mp4">
         </video>
@@ -533,14 +534,13 @@
         <p><strong>I replaced the slide-up UI with a full-page modal</strong> after testing showed it appeared abruptly, obscured grid content, and couldn't auto-focus the correct row. Despite initial pushback, interviews confirmed users didn't reference other risks while entering questions — risks referenced by name, not number. Names highlighted as deep links.</p>
       </div>
 
-      <div class="img-card" style="padding: 20px; margin-top: 267px;">
+      <div class="img-card" style="padding: 20px; margin-top: 267px; margin-bottom: 0;">
         <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
           <source src="images/MedidataRiskManagement/FullModalSlideUp_small.mp4" type="video/mp4">
         </video>
       </div>
     </div>
 
-    <p class="cs-caption">Below: Giving users the ability to see multiple Quality Tolerance Limits — very data-dense information — attached to a single risk. These read-only statistical metrics, sourced from Detect, helped users to review while entering or editing risk mitigation strategy in context without overwhelming the interface.</p>
     <p>Clinical staff checked risks often but rarely edited them — changes typically followed major meetings. I recommended skipping inline grid editing to keep scope tight and hit the release deadline. Instead, a modal handled edits with smooth transitions and consolidated related content (risks and metrics) in one place.</p>
   </div>
 

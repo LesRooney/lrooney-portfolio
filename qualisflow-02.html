@@ -96,7 +96,7 @@
     .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
 
     /* BULLET LIST */
-    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list { list-style: none; padding: 0; margin: 0 0 8px; }
     .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
     .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
 
@@ -120,13 +120,13 @@
       width: 100%; background: var(--paper-alt); border: 1px solid var(--rule); border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--ink-light);
-      text-align: center; padding: 24px; margin: 24px 0;
+      text-align: center; padding: 24px; margin: 56px 0;
     }
 
     /* LAPTOP FRAME (dark bezel) */
     .laptop-frame {
       width: 100%; background: #1a1a18; border-radius: 14px;
-      padding: 16px 16px 10px; margin: 24px 0;
+      padding: 16px 16px 10px; margin: 56px 0;
       box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     }
     .laptop-screen {
@@ -139,13 +139,13 @@
     .gif-placeholder {
       width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--paper-alt), var(--rule));
       border: 1px solid var(--rule); border-radius: 12px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 24px 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 56px 0;
     }
     .gif-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-light); }
     .gif-file { font-size: 0.8rem; color: var(--ink-mid); font-style: italic; }
 
     /* IMAGE PAIR */
-    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 56px 0; }
 
     /* PEEK GRID */
     .peek-section { padding: 64px 0 80px; }
@@ -286,7 +286,7 @@
 
       <!-- HEADER ILLUSTRATION -->
       <div class="cs-section reveal">
-        <p class="cs-caption">Below: Illustration I created in Sketch, to communicate non-compliant products and environmental issues within constructions.</p>
+        <p class="cs-caption" style="margin: 0 0 8px;">Illustration I created in Sketch, to communicate non-compliant products and environmental issues within constructions.</p>
         <div class="img-placeholder" style="aspect-ratio: 980/318; min-height: 100px;">
           [IMAGE: notifications-illustration.png — 980×318px — original artwork by Lesley Rooney]
         </div>
@@ -321,18 +321,19 @@
 
       <!-- LAPTOP FRAME + RECORD PAGE -->
       <div class="cs-section reveal">
+        <p class="cs-caption" style="margin: 0 0 8px;">✓ A right-hand panel which can list multiple alerts for a record including Qflow's own recommendation on what to do next. It will only expand if triggered by missing information and draw the user's attention immediately.</p>
         <div class="laptop-frame">
           <div class="laptop-screen" style="aspect-ratio: 720/401;">
             [IMAGE: librem-laptop-frame.png + record-missing-data.jpg]<br>WM Table Record with missing data state
           </div>
         </div>
-        <p class="cs-caption">✓ Above shows a right-hand panel which can list multiple alerts for a record including Qflow's own recommendation on what to do next. It will only expand if triggered by missing information and draw the user's attention immediately.</p>
       </div>
 
       <!-- HOMEPAGE NOTIFICATION EMBED -->
       <div class="cs-section reveal">
         <p>Embedding notification into Qflow's homepage. By doing this it will allow customers to pursue either two primary goals from seeing all alerts across all projects, or directly navigate into any module/subject matter to monitor progress.</p>
 
+        <p class="cs-caption" style="margin: 0 0 8px;">Final design.</p>
         <div class="laptop-frame">
           <div class="laptop-screen" style="aspect-ratio: 16/9;">
             [IMAGE: librem-laptop-frame.png — 1170×657px]
@@ -343,7 +344,6 @@
           <span class="gif-label">Animated GIF</span>
           <span class="gif-file">[GIF: homepage-final.gif — QF_Homepage-01DONE2.gif]</span>
         </div>
-        <p class="cs-caption">Final design.</p>
 
         <p>✓ Other points of customer value:</p>
         <ul class="check-list">

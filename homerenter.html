@@ -92,6 +92,9 @@
       margin: 32px 0 10px;
     }
     .cs-section p { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75; max-width: 100%; margin-bottom: 24px; }
+    .img-card { background: var(--faint); border-radius: 16px; padding: 20px; margin: 56px 0; }
+    .img-card .cs-caption { margin: 0 0 20px; font-size: 0.82rem; }
+    .img-card img { display: block; width: 100%; border-radius: 8px; }
     .cs-caption { font-size: 0.82rem; color: var(--ink-light); font-style: italic; margin: 14px 0 0; line-height: 1.6; max-width: 100%; }
     .cs-pullquote { font-size: 1.05rem; font-style: italic; color: var(--ink-mid); border-left: 3px solid var(--ink); padding: 4px 0 4px 20px; margin: 56px 0; line-height: 1.7; }
 
@@ -113,12 +116,12 @@
     .meta-value { font-size: 0.9rem; color: var(--ink); line-height: 1.6; }
 
     /* BULLET LIST */
-    .cs-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .cs-list { list-style: none; padding: 0; margin: 0 0 8px; }
     .cs-list li { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
     .cs-list li::before { content: '•'; position: absolute; left: 0; color: var(--ink-mid); font-size: 1.1rem; line-height: 1.5; }
 
     /* ORDERED LIST */
-    .cs-ol { list-style: none; padding: 0; margin: 0 0 16px; counter-reset: cs-counter; }
+    .cs-ol { list-style: none; padding: 0; margin: 0 0 8px; counter-reset: cs-counter; }
     .cs-ol li {
       font-size: 0.95rem; color: var(--ink-mid); line-height: 1.75;
       padding: 8px 0 8px 32px; position: relative;
@@ -178,7 +181,7 @@
     }
 
     /* CAROUSEL */
-    .carousel { position: relative; margin: 24px 0; }
+    .carousel { position: relative; margin: 56px 0; }
     .carousel-track-wrap { overflow: hidden; border-radius: 12px; border: 1px solid var(--rule); }
     .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
     .carousel-slide { flex: 0 0 100%; }
@@ -215,7 +218,7 @@
       font-size: 0.7rem; font-weight: 500; padding: 4px 10px; border-radius: 20px;
       pointer-events: none; letter-spacing: 0.04em;
     }
-    .img-pair-zoom { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .img-pair-zoom { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 56px 0; }
 
     /* LIGHTBOX */
     .lightbox {
@@ -461,12 +464,12 @@
   <div class="cs-section reveal">
     <h2>The Work Behind the Recommendations</h2>
     <div>
-      <p class="cs-caption" style="margin: 0 0 4px;">A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
+      <p class="cs-caption" style="margin: 0 0 8px;">A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
       <img src="images/traffic-sources-map.png" alt="Traffic sources map showing referral sources and drop-off points" style="width:100%; display:block;">
     </div>
 
-    <div style="margin-top:24px;">
-      <p class="cs-caption" style="margin: 0 0 4px;">Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
+    <div style="margin-top:56px;">
+      <p class="cs-caption" style="margin: 0 0 8px;">Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
       <div class="img-pair-zoom" style="gap:8px; margin:0;">
         <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
           <img src="images/competitor-analysis-1.png" alt="Competitor pricing and property range comparison" style="width:100%; height:280px; object-fit:cover; object-position:top; display:block; border-radius:12px;">
@@ -479,8 +482,8 @@
       </div>
     </div>
 
-    <div class="img-card" style="margin-top: 24px;">
-      <p class="cs-caption">One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
+    <div class="img-card">
+      <p class="cs-caption" style="margin: 0 0 8px;">One noticeable pattern was the disproportionate amount of shared accommodation compared to other companies and whether HomeRenter's subscription deal would appeal to those customers.</p>
       <!-- CAROUSEL: Research evidence (auto-advancing) -->
       <div class="carousel" data-carousel data-autoplay="2000" style="margin:0;">
         <div class="carousel-track-wrap">
@@ -507,8 +510,8 @@
       </div>
     </div>
 
-    <div style="margin-top:24px;">
-      <p class="cs-caption" style="margin: 0 0 4px;">Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
+    <div style="margin-top:56px;">
+      <p class="cs-caption" style="margin: 0 0 8px;">Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
       <img src="images/Homerenter/LL_Let_prop_freeBannerHalf.png" alt="Ad variants: Landlords enjoy a free 30 day listing on Rightmove and Zoopla" style="width:70%; display:block; border-radius:8px; margin:0 auto;">
     </div>
   </div>
@@ -517,24 +520,22 @@
   <div class="cs-section reveal">
     <h2>Landlord Creation Flow</h2>
     <!-- CAROUSEL: Creation flow (2 slides) -->
-    <div class="img-card" style="margin-top: 24px;">
-      <p class="cs-caption">A map of the landlord creation flow that was being implemented when I started.</p>
-      <div class="carousel" data-carousel data-autoplay="3000" style="margin:0;">
-        <div class="carousel-track-wrap">
-          <div class="carousel-track">
-            <div class="carousel-slide">
-              <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map — part 1" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
-            </div>
-            <div class="carousel-slide">
-              <img src="images/landlord-creation-flow-2.png" alt="Landlord property creation flow map — part 2" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
-            </div>
+    <p class="cs-caption" style="margin: 0 0 8px;">A map of the landlord creation flow that was being implemented when I started.</p>
+    <div class="carousel" data-carousel data-autoplay="3000">
+      <div class="carousel-track-wrap">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map — part 1" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
+          </div>
+          <div class="carousel-slide">
+            <img src="images/landlord-creation-flow-2.png" alt="Landlord property creation flow map — part 2" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
           </div>
         </div>
-        <div class="carousel-controls">
-          <button class="carousel-btn prev" aria-label="Previous slide">←</button>
-          <span class="carousel-counter">1 / 2</span>
-          <button class="carousel-btn next" aria-label="Next slide">→</button>
-        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" aria-label="Previous slide">←</button>
+        <span class="carousel-counter">1 / 2</span>
+        <button class="carousel-btn next" aria-label="Next slide">→</button>
       </div>
     </div>
   </div>
@@ -543,11 +544,11 @@
   <div class="cs-section reveal">
     <h2>Design Concepts</h2>
     <div>
-      <p class="cs-caption" style="margin: 0 0 4px;">Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
+      <p class="cs-caption" style="margin: 0 0 8px;">Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
       <img src="images/ll-landing-page-full.png" alt="Landing page redesign concept" style="width:30%; display:block; margin:0 auto; border-radius:8px;">
     </div>
 
-    <div style="margin-top:24px; display:flex; flex-direction:column; gap:8px;">
+    <div style="margin-top:56px; display:flex; flex-direction:column; gap:8px;">
       <img src="images/faqs-redesign-annotated.png" alt="FAQs page redesign with annotations" style="width:90%; display:block; margin:0 auto; border-radius:8px;">
       <ul class="cs-list" style="margin:0;">
         <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
@@ -558,8 +559,8 @@
       <img src="images/iphones-small.gif" alt="Mobile UI animation showing the redesigned HomeRenter experience" style="width:100%; display:block; border-radius:8px;">
     </div>
 
-    <div style="margin-top:24px;">
-      <p class="cs-caption" style="margin: 0 0 4px;">Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
+    <div style="margin-top:56px;">
+      <p class="cs-caption" style="margin: 0 0 8px;">Landlord journey map done in Trello so it can be easily adjusted. Done to clearly communicate expectations and what the company actually covered to the team.</p>
       <!-- CAROUSEL: Journey map (2 slides) -->
       <div class="carousel" data-carousel data-autoplay="1400" data-fade style="margin:0;">
         <div class="carousel-track-wrap">

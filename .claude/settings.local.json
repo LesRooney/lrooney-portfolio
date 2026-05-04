@@ -199,7 +199,11 @@
       "Bash(awk '{print $5, $9}')",
       "mcp__b6ad4db5-bbe7-4df3-9a07-5d3b5f1b9583__notion-search",
       "mcp__b6ad4db5-bbe7-4df3-9a07-5d3b5f1b9583__notion-create-pages",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(sed -n '140,155p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
+      "Bash(sed -n '208,255p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
+      "Bash(sed -n '88,135p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)",
+      "Bash(sed -n '125,135p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)"
     ]
   }
 }

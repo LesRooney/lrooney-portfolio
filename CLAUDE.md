@@ -136,8 +136,9 @@ Two behaviours, one shared style system.
 - `padding: 20px` on all sides
 - No border (`border: none` — borders were removed from the design system)
 - `border-radius: 16px`, `background: var(--faint)`
-- `.img-card .cs-caption` → `margin: 0 0 20px; font-size: 0.82rem`
+- `.img-card .cs-caption` → `margin: 0 0 8px; font-size: 0.82rem` (caption sits **above** the image)
 - `.img-card img` → `border-radius: 8px`
+- `.img-card` margin: `56px 0` — the standardised vertical gap between body text and media (set per-page in each `<style>` block)
 
 **Scroll-reveal animation (required on all case study pages)**
 Images, videos, post-it notes, and their description text all fade in and slide up when they enter the viewport. The animation is **centralised** — do not add inline CSS or JS to individual pages.
@@ -171,6 +172,16 @@ Images, videos, post-it notes, and their description text all fade in and slide 
 
 **Grid stagger heuristic (image-likes only):**
 When 2+ image-like siblings (`.img-card, .video-wrap, .gif-item, .img-pair, .reveal`) share a parent, each gets a `transition-delay` of `index × 110ms` so they cascade in. Single image-likes and any `.cs-caption`/`.postit` reveal with no delay so the slide-up motion is always visible. Logic lives in `gridStaggerMs()` inside `js/scroll-reveal.js` — do not duplicate per-page.
+
+**`.reveal-quick`** — faster variant for sections lower in the page where the standard slide feels slow:
+```css
+/* in components.css */
+.reveal-quick { transform: translateY(24px); transition-duration: 0.38s; }
+.reveal-quick.in-view { transform: translateY(0); }
+```
+- Used on contech-qflow sections 21+ (from the Design System Gallery section onwards)
+- Apply by adding `reveal-quick` alongside `reveal` on the section element: `class="cs-section reveal-quick"`
+- Children inside a `.reveal` or `.reveal-quick` section animate as a group (not individually) — override in components.css: `.reveal .img-card { opacity: 1; transform: none; transition: none; }`
 
 ### postit note (aka postit-over-image)
 When a caption needs to sit over/below an image as a sticky note:
@@ -690,13 +701,33 @@ The custom dot+ring cursor (`#cursor-dot` + `#cursor-ring`) is **only on `influe
 - The cursor JS (`js/page-common.js`) auto-exits when the elements are absent, so simply omitting the markup is enough
 - Touch devices already opt out via `matchMedia('(hover: none)')`
 
+## Vertical spacing system (standardised May 2026)
+
+All case study pages except games use these values. Do not change without asking.
+
+| Element | Value |
+|---|---|
+| `.cs-section` padding-top | **160px** (all pages except games: 48px) |
+| Media element margin (top + bottom) | **56px 0** |
+| Caption → media gap | **8px** (`margin: 0 0 8px` on `.cs-caption`) |
+| Body paragraph bottom | **24px** (`margin-bottom: 24px`) |
+
+**"Media elements"** means: `.img-card`, `.carousel`, `.video-wrap`, `.img-pair`, `.gif-grid`, `.postit-row`, `.img-placeholder`, `.zoom-img`, `.gif-placeholder`, `.laptop-frame`, `.laptop-frame-wrap`, `.nda-placeholder`, `.hover-audio-placeholder` — anything that isn't body text.
+
+**Total visual gap between sections** = 56px (last media bottom) + 160px (next section top) = ~216px. This is intentional.
+
+**Games page exception** — `.cs-section { padding: 48px 0 0; }` and no 56px media margin system. Gallery grid uses `gap: 8px` (both row and column).
+
+**Caption position** — always **above** media. Never below. Remove any "Below:" or "Above:" prefix text from captions.
+
 ## CSS cache-buster (immutable assets)
 Cloudflare serves `styles/components.css` with `cache-control: public, max-age=31536000, immutable`. Browsers will keep a cached copy for a year regardless of file changes — they only re-fetch when the URL changes.
 
 **When you edit `styles/components.css` in a way that affects production pages, bump the `?v=N` query param on every HTML file that links it:**
 ```html
-<link rel="stylesheet" href="./styles/components.css?v=4">
+<link rel="stylesheet" href="./styles/components.css?v=8">
 ```
+- **Current version: v=8. Next bump: v=9.**
 - All case study pages + `influence.html` link this stylesheet — bump them together
 - Without the bump, returning visitors won't see the new styles even after deploy
 

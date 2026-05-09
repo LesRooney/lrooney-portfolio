@@ -267,6 +267,23 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(10,10,10,0.92);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-inner { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-inner img { max-width: 90vw; max-height: 90vh; border-radius: 8px; display: block; }
+    .lightbox-close {
+      position: absolute; top: -40px; right: 0;
+      background: none; border: none; color: rgba(255,255,255,0.7);
+      font-size: 1.8rem; cursor: pointer; line-height: 1;
+      transition: color 0.15s;
+    }
+    .lightbox-close:hover { color: #fff; }
+    [data-zoom] { cursor: zoom-in; }
   </style>
 
   
@@ -345,7 +362,7 @@
   <div class="main-col">
 
   <!-- COMPANY CONTEXT -->
-  <div class="cs-section" style="padding-top: 0;">
+  <div class="cs-section" style="padding-top: 32px;">
     <h2>About the company</h2>
     <p>Medidata, founded in 1999 and now part of Dassault Systèmes, is a global technology company providing end-to-end B2B SaaS solutions for clinical trials within the life sciences industry. Their platform helps pharmaceutical, biotech, and contracts research organisations (CROs) modernise the discovery process by improving workflows, reducing errors, and accelerating the development of new therapies.</p>
   </div>
@@ -434,9 +451,9 @@
     </ul>
     <p class="cs-caption" style="margin: 0 0 8px;">Below: Risk list displaying the difference between the old and new design system. RM's predictive tools visually lacked a clear hierarchy and added unnecessary cognitive load.</p>
     <div class="img-card">
-      <div class="ba-label-row">
-        <span class="ba-pill before">Original Design</span>
-        <span class="ba-pill after">New Design System</span>
+      <div class="ba-label-row" style="font-size: 0.8rem; font-weight: 500; color: var(--ink);">
+        <span>Original Design</span>
+        <span>New Design System</span>
       </div>
       <div class="ba-slider" data-ba-slider style="margin: 0;">
         <!-- BEFORE — bottom layer, sets height; looping video -->
@@ -530,7 +547,7 @@
         </video>
       </div>
 
-      <div class="postit postit--3" style="position: absolute; left: 48px; top: calc(50% - 8px); transform: translateY(-50%) rotate(4deg); width: 300px; z-index: 2;">
+      <div class="postit postit--3" style="position: absolute; left: 48px; top: calc(50% - 8px); transform: translateY(-50%) rotate(1.5deg); width: 300px; z-index: 2;">
         <p><strong>I replaced the slide-up UI with a full-page modal</strong> after testing showed it appeared abruptly, obscured grid content, and couldn't auto-focus the correct row. Despite initial pushback, interviews confirmed users didn't reference other risks while entering questions — risks referenced by name, not number. Names highlighted as deep links.</p>
       </div>
 
@@ -548,9 +565,9 @@
   <div class="cs-section reveal">
     <h2>What Came Next and the Move to RTSM — Betting on Randomisation Trial Supply Management (Drug Supply)</h2>
 
-    <p style="font-weight: 700;">During the 2021 restructure, certain products were put on hold, but I stayed thanks to my credibility with the RM Product Director. Instead of playing it safe, I volunteered to lead design on RTSM, Medidata's toughest and second-largest product. It had a reputation for being notoriously difficult for designers due to a lack of design maturity and front-end support, which made achieving good design challenging.</p>
-    <p style="font-weight: 700;">I started by really listening to all stakeholders, including developers. My advanced prototyping skills earned credibility, giving me genuine access to users, sales report calls and proper conversations with engineers. I uncovered key lessons from the 2017 redesign — both its successes and its organisational and technical failures. For example, while the design system modernised the UI, it couldn't scale to the product's complexity, and after launch, engineers were left with an incomplete solution. Understanding that breakdown shaped my approach to the <a href="medidataedcredesign.html" style="color: var(--ink); font-weight: 700;">Rave EDC redesign</a> when I joined the team.</p>
-    <p style="font-weight: 700;">Surprisingly, the design below became one of the fastest-adopted features. It lets users control email alerts for drug supplies. I found that consultants, often on client calls or multitasking, preferred configuring all alerts at once while referencing others. After testing several concepts, I landed on a dense checkbox map. Technically, it could be considered cluttered and error-prone, but it offered a clear overview of defaults or non-recommended alerts. Later, I highlighted changes and included a simple save button, moving away from autosave so people could easily see what they had done. It taught me a key lesson: knowing when to break best-practice rules matters more than following them.</p>
+    <p><strong>During the 2021 restructure,</strong> certain products were put on hold, but I stayed thanks to my credibility with the RM Product Director. <strong>Instead of playing it safe, I volunteered to lead design on RTSM, Medidata's toughest and second-largest product. It had a reputation for being notoriously difficult for designers due to a lack of design maturity and front-end support,</strong> which made achieving good design challenging.</p>
+    <p><strong>I started by listening to all stakeholders, including developers, and my advanced prototyping skills built trust and opened access to users, sales calls, and engineers.</strong> From the 2017 redesign initiatives I learned that although the design system modernised the UI, it couldn't scale to the product's complexity and left engineers with an incomplete solution. That understanding shaped my approach to the <a href="medidataedcredesign.html" style="color: var(--ink);">Rave EDC redesign</a>.</p>
+    <p><strong>Surprisingly, the design below became one of the fastest adopted features.</strong> It lets users control email alerts for drug supplies. Consultants often needed context while multitasking, so they preferred configuring all alerts at once with everything visible. After testing several concepts, I chose a dense checkbox map instead of a list with descriptions. It looked cluttered but gave a clear overview of defaults and non recommended alerts. I later added change highlights and a simple save button so people could see what they had done. It reinforced a key lesson: knowing when to break best practice matters more than following it.</p>
 
     <div class="img-card" style="padding: 0;">
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
@@ -558,7 +575,7 @@
       </video>
     </div>
 
-    <div class="img-card" style="padding: 0;">
+    <div class="img-card" style="padding: 0;" data-zoom>
       <img src="images/MedidataRiskManagement/InvestigationalDrugSupplyAccountability2.webp"
            alt="Investigational Drug Supply Accountability"
            style="width:100%; display:block; border-radius:8px;">
@@ -717,6 +734,31 @@
   });
 
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightboxImg');
+    var lightboxClose = document.getElementById('lightboxClose');
+    function openLightbox(src, alt) {
+      lightboxImg.src = src; lightboxImg.alt = alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('[data-zoom]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var img = el.querySelector('img');
+        if (img) openLightbox(img.src, img.alt);
+      });
+    });
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+  });
+</script>
 <script src="./js/scroll-reveal.js"></script>
 <script src="./js/video-autoplay.js"></script>
 <script src="./js/back-to-top.js" defer></script>
@@ -729,5 +771,11 @@
   <!-- end Web-Stat code v 7.0 -->
 
   <script src="./js/page-common.js"></script>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image zoom">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  </div>
+</div>
 </body>
 </html>

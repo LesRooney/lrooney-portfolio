@@ -8,6 +8,12 @@
       "port": 8081
     },
     {
+      "name": "main-repo",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio", "-p", "8082", "--cors"],
+      "port": 8082
+    },
+    {
       "name": "npx serve",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", ".", "--listen", "3000"],

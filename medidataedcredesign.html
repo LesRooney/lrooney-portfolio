@@ -1389,7 +1389,7 @@
       if (elapsed < SWEEP_DURATION) {
         const t    = elapsed / SWEEP_DURATION;
         const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        const pct  = direction === 1 ? 10 + ease * 80 : 90 - ease * 80;
+        const pct  = direction === 1 ? ease * 100 : 100 - ease * 100;
         after.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
         handle.style.left    = pct + '%';
         rafId = requestAnimationFrame(autoSweep);

@@ -2068,8 +2068,9 @@
         <div id="pw-input-row">
           <div id="pw-slot-area">
             <img id="pw-lock-icon" src="images/icons/locked_extrabold.svg" alt="" aria-hidden="true">
-            <input type="text" id="pw-visible-input" autocomplete="new-password"
-                   inputmode="text" spellcheck="false" aria-label="Enter password">
+            <input type="text" id="pw-visible-input" autocomplete="off"
+                   inputmode="text" spellcheck="false" autocorrect="off" autocapitalize="none"
+                   aria-label="Enter password">
             <div id="pw-caret"></div>
           </div>
           <!-- Hidden until user starts typing — slides in from right -->
@@ -2359,6 +2360,11 @@
       updateCaret();
     }
 
+    // Safari autocomplete/autofill guard — reset visual to realValue if browser mutates the field
+    visibleInp.addEventListener('input', function() {
+      updateDisplay();
+    });
+
     visibleInp.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') { e.preventDefault(); submitForm(); return; }
       if (e.key === 'Backspace') {
@@ -2609,6 +2615,7 @@
 
       fetch('/check-password', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'X-Requested-With': 'fetch' },
         body: fd
       })

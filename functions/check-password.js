@@ -5,7 +5,7 @@ export async function onRequestPost({ request, env }) {
   const isAjax = request.headers.get('X-Requested-With') === 'fetch';
 
   if (env.CFP_PASSWORD && code.toLowerCase() === env.CFP_PASSWORD.toLowerCase()) {
-    const cookieHeader = `cfp_auth=1; Path=/; Secure; SameSite=Strict`;
+    const cookieHeader = `cfp_auth=1; Path=/; Secure; SameSite=Lax`;
     if (isAjax) {
       return new Response(JSON.stringify({ success: true, dest }), {
         status: 200,

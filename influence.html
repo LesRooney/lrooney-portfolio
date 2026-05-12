@@ -859,10 +859,10 @@
   // ── Matrix scramble on AI MD Skills subtitle ──
   (function () {
     var CHARS = 'ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789';
-    var SCRAMBLE_MS  = 500;  // pure chaos before resolving
-    var FRAME_MS     = 50;   // scramble frame rate
-    var RESOLVE_MS   = 28;   // ms between each char resolving left→right
-    var CYCLE_MS     = 9000; // repeat interval
+    var SCRAMBLE_MS  = 100;  // glitch duration
+    var FRAME_MS     = 25;   // scramble frame rate
+    var STAGGER_MS   = 4;    // per-character fade stagger
+    var CYCLE_MS     = 2000; // repeat interval
 
     var target = null;
     document.querySelectorAll('.influence-item').forEach(function (item) {
@@ -879,41 +879,47 @@
       return CHARS[Math.floor(Math.random() * CHARS.length)];
     }
 
-    function buildFrame(resolved) {
+    function buildFrame() {
       var s = '';
       for (var i = 0; i < original.length; i++) {
-        if (original[i] === ' ') { s += ' '; }
-        else if (i < resolved)   { s += original[i]; }
-        else                     { s += rand(); }
+        s += original[i] === ' ' ? ' ' : rand();
       }
       return s;
     }
 
-    var frameTimer = null, resolveTimer = null, running = false;
+    var frameTimer = null, running = false;
 
     function run() {
       if (running) return;
       running = true;
 
-      // Phase 1 — scramble everything for SCRAMBLE_MS
+      // Phase 1 — scramble
       frameTimer = setInterval(function () {
-        target.textContent = buildFrame(0);
+        target.textContent = buildFrame();
       }, FRAME_MS);
 
       setTimeout(function () {
         clearInterval(frameTimer);
 
-        // Phase 2 — resolve one character every RESOLVE_MS
-        var resolved = 0;
-        resolveTimer = setInterval(function () {
-          resolved++;
-          target.textContent = buildFrame(resolved);
-          if (resolved >= original.length) {
-            clearInterval(resolveTimer);
-            target.textContent = original;
-            running = false;
-          }
-        }, RESOLVE_MS);
+        // Phase 2 — fade each character back in left→right
+        var html = original.split('').map(function (c) {
+          if (c === ' ') return ' ';
+          var safe = c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          return '<span style="opacity:0;transition:opacity 0.15s ease">' + safe + '</span>';
+        }).join('');
+        target.innerHTML = html;
+
+        var spans = target.querySelectorAll('span');
+        spans.forEach(function (span, i) {
+          setTimeout(function () { span.style.opacity = '1'; }, i * STAGGER_MS);
+        });
+
+        // Reset to plain text after all fades complete
+        setTimeout(function () {
+          target.textContent = original;
+          running = false;
+        }, spans.length * STAGGER_MS + 200);
+
       }, SCRAMBLE_MS);
     }
 

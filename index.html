@@ -85,6 +85,22 @@
     .intro-rive { display: inline-block; vertical-align: -3px; height: 24px; width: auto; margin-left: 4px; }
     .intro-selfie { display: inline-block; vertical-align: middle; width: 24px; height: 24px; border-radius: 8px; object-fit: cover; object-position: center 30%; margin: 0 4px; position: relative; top: -1px; }
 
+    /* ── Alternating test tube / magnifying glass ── */
+    .tube-glass-wrap {
+      display: inline-block; vertical-align: middle;
+      position: relative; width: 24px; height: 24px;
+      margin: 0 4px; top: -1px;
+    }
+    .tube-glass-wrap img { position: absolute; top: 0; left: 0; width: 24px; height: 24px; }
+    .tube-img { object-fit: cover; object-position: center center; border-radius: 8px; }
+    .glass-img { object-fit: contain; border-radius: 0; transform: scaleX(-1); }
+    @keyframes showTube  { 0% { opacity: 1; } 44% { opacity: 1; } 50% { opacity: 0; } 94% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes showGlass { 0% { opacity: 0; } 44% { opacity: 0; } 50% { opacity: 1; } 94% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes tubeTilt  { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    @keyframes glassTilt { 0%, 100% { transform: scaleX(-1) rotate(-5deg); } 50% { transform: scaleX(-1) rotate(5deg); } }
+    .tube-img  { transform-origin: 50% 50%; animation: showTube 3400ms linear infinite, tubeTilt 2s ease-in-out infinite; }
+    .glass-img { transform-origin: 50% 50%; transform: scaleX(-1); animation: showGlass 3400ms linear infinite, glassTilt 2s ease-in-out infinite; }
+
     /* ── AS A PERSON animation ── */
     .intro-text--person { display: inline; }
     .person-em-clip {
@@ -960,7 +976,7 @@
         </p>
       </div>
       <div class="intro-block">
-        <p class="intro-text"><strong class="intro-label">As a problem solver,</strong> I experiment,<img src="images/HomepageImages/test-tube.png" alt="" aria-hidden="true" class="intro-selfie" style="object-position: center center;"> research and collaborate to de-risk ideas before committing resources.</p>
+        <p class="intro-text"><strong class="intro-label">As a problem solver,</strong> I experiment,<span class="tube-glass-wrap"><img src="images/HomepageImages/test-tube.png" alt="" aria-hidden="true" class="tube-img"><img src="images/HomepageImages/MagnifyingGlass_small.webp" alt="" aria-hidden="true" class="glass-img"></span> research and collaborate to de-risk ideas before committing resources.</p>
       </div>
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a creative,</strong> I've moved across industries and domains, applying and learning from the best ideas <img class="intro-rive" src="images/Animations/LesleyFavicon_r2r2_front_walk_walk.webp" alt="" aria-hidden="true"></p>

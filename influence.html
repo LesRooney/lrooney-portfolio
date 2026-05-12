@@ -269,6 +269,25 @@
       text-decoration: underline;
     }
     .influence-item-note a:hover { color: #1d4ed8; }
+
+    /* ── Scroll-reveal: desc + domain slide down into view ── */
+    .influence-item-desc,
+    .influence-item-domain {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.4s ease, transform 0.4s ease, color 0.2s;
+    }
+    .influence-item.in-view .influence-item-desc {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.07s;
+    }
+    .influence-item.in-view .influence-item-domain {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.16s;
+    }
+
     @media (max-width: 900px) {
       .influence { padding: 60px 24px; }
       .influence-categories { grid-template-columns: 1fr 1fr; gap: 36px 32px; }
@@ -577,7 +596,7 @@
           </a>
           <a href="https://github.com/Owl-Listener/designer-skills" target="_blank" class="influence-item">
             <span class="influence-item-title">AI MD Skills</span>
-            <span class="influence-item-desc">Now we can all play Neo, Morpheus &amp; Trinity from the Matrix. Designer Skills Collection by MCDean to use or adjust.</span>
+            <span class="influence-item-desc">At last, we can all rock those Matrix vibes with this set of skills from MCDean's Designer Skills Collection. Use them, tweak them, and connect with your inner Neo.</span>
             <span class="influence-item-domain">github.com</span>
           </a>
         </div>
@@ -685,8 +704,8 @@
       <!-- BOOKS (swapped down from row 1) -->
       <!-- DESIGNING FOR AI -->
       <div class="influence-cat">
-        <h3>Inspiration with AI focus around products or features</h3>
-        <p class="influence-cat-desc">Useful articles or guidelines around experiences</p>
+        <h3>Inspiration around AI focus products or features</h3>
+        <p class="influence-cat-desc">Useful guidelines around emerging patterns or experiences</p>
         <div class="influence-list">
           <a href="https://www.shapeof.ai/" target="_blank" class="influence-item">
             <span class="influence-item-title">Shape of AI</span>
@@ -837,7 +856,92 @@
 
 
   <script>
+  // ── Matrix scramble on AI MD Skills subtitle ──
+  (function () {
+    var CHARS = 'ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789';
+    var SCRAMBLE_MS  = 500;  // pure chaos before resolving
+    var FRAME_MS     = 50;   // scramble frame rate
+    var RESOLVE_MS   = 28;   // ms between each char resolving left→right
+    var CYCLE_MS     = 9000; // repeat interval
 
+    var target = null;
+    document.querySelectorAll('.influence-item').forEach(function (item) {
+      var t = item.querySelector('.influence-item-title');
+      if (t && t.textContent.trim() === 'AI MD Skills') {
+        target = item.querySelector('.influence-item-desc');
+      }
+    });
+    if (!target) return;
+
+    var original = target.textContent;
+
+    function rand() {
+      return CHARS[Math.floor(Math.random() * CHARS.length)];
+    }
+
+    function buildFrame(resolved) {
+      var s = '';
+      for (var i = 0; i < original.length; i++) {
+        if (original[i] === ' ') { s += ' '; }
+        else if (i < resolved)   { s += original[i]; }
+        else                     { s += rand(); }
+      }
+      return s;
+    }
+
+    var frameTimer = null, resolveTimer = null, running = false;
+
+    function run() {
+      if (running) return;
+      running = true;
+
+      // Phase 1 — scramble everything for SCRAMBLE_MS
+      frameTimer = setInterval(function () {
+        target.textContent = buildFrame(0);
+      }, FRAME_MS);
+
+      setTimeout(function () {
+        clearInterval(frameTimer);
+
+        // Phase 2 — resolve one character every RESOLVE_MS
+        var resolved = 0;
+        resolveTimer = setInterval(function () {
+          resolved++;
+          target.textContent = buildFrame(resolved);
+          if (resolved >= original.length) {
+            clearInterval(resolveTimer);
+            target.textContent = original;
+            running = false;
+          }
+        }, RESOLVE_MS);
+      }, SCRAMBLE_MS);
+    }
+
+    setTimeout(run, 1500);
+    setInterval(run, CYCLE_MS);
+  })();
+
+  // ── Scroll-reveal: add in-view to each .influence-item ──
+  (function () {
+    var items = document.querySelectorAll('.influence-item');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    items.forEach(function (item) {
+      var rect = item.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        item.classList.add('in-view'); // already visible on load
+      } else {
+        io.observe(item);
+      }
+    });
+  })();
   </script>
   <!-- begin Web-Stat code v 7.0 -->
   <span id="wts2208464"></span>

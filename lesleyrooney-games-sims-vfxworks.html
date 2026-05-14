@@ -117,6 +117,28 @@
     }
     .icon-chip img { width: 24px; height: 24px; object-fit: contain; display: block; }
 
+    /* ── TOOLS CARD ── */
+    .tools-strip {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      justify-content: start;
+      gap: 10px 40px;
+    }
+    .tool-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--ink-mid);
+    }
+    .tool-chip img {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+
     /* ── VIDEO EMBED ── */
     .video-wrap {
       position: relative;
@@ -380,36 +402,25 @@ footer { padding: 32px 24px; }
   <!-- ── PAGE TITLE ── -->
   <section class="cs-intro">
     <h1 class="cs-page-title">Previous Professional Work in<br>Games, Commercials, and Films</h1>
-    <div class="cs-tags">
-      <div class="audio-player" id="audio-player" title="https://elevenlabs.io">
-        <button class="audio-play-btn" id="audioPlayBtn" aria-label="Play narration">▶</button>
-        <span class="audio-player-label">Listen instead</span>
-        <div class="audio-progress-wrap">
-          <input type="range" class="audio-progress" id="audioProgress" min="0" max="100" value="0">
-        </div>
-        <div class="audio-time"><span id="audioCurrentTime">0:00</span> / <span id="audioDuration">--:--</span></div>
-        <audio id="audioEl" src="" preload="none"></audio>
-      </div>
-    </div>
   </section>
 
   <!-- ── TOOLS ── -->
-  <section class="cs-section reveal">
-    <hr class="section-rule">
-    <h2 class="section-heading">Tools</h2>
-    <div class="icon-row">
-      <span class="icon-chip"><img src="images/logos/photoshop.svg" alt="Photoshop"></span>
-      <span class="icon-chip"><img src="images/logos/Mari.svg" alt="Mari"></span>
-      <span class="icon-chip"><img src="images/logos/after-effects-2019.svg" alt="After Effects"></span>
-      <span class="icon-chip"><img src="images/logos/3ds-max-2.svg" alt="3DS Max"></span>
-      <span class="icon-chip"><img src="images/logos/Cinema4.svg" alt="Cinema 4D"></span>
-      <span class="icon-chip"><img src="images/logos/Headus_UVlayout.webp" alt="UV Headus"></span>
-      <span class="icon-chip"><img src="images/logos/unity.svg" alt="Unity"></span>
+  <div style="margin-top: 160px;">
+    <div style="display: inline-block; background: none; border: 1px solid var(--rule); border-radius: 16px; padding: 20px;">
+      <div class="tools-strip">
+        <div class="tool-chip"><img src="images/logos/photoshop.svg" alt=""><span>Photoshop</span></div>
+        <div class="tool-chip"><img src="images/logos/Mari.svg" alt=""><span>Mari</span></div>
+        <div class="tool-chip"><img src="images/logos/after-effects-2019.svg" alt=""><span>After Effects</span></div>
+        <div class="tool-chip"><img src="images/logos/3ds-max-2.svg" alt=""><span>3DS Max</span></div>
+        <div class="tool-chip"><img src="images/logos/Cinema4.svg" alt=""><span>Cinema 4D</span></div>
+        <div class="tool-chip"><img src="images/logos/Headus_UVlayout.webp" alt=""><span>Headus UV</span></div>
+        <div class="tool-chip"><img src="images/logos/unity.svg" alt=""><span>Unity</span></div>
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- ── SHOWREEL 2013 ── -->
-  <section class="cs-section reveal">
+  <section class="cs-section reveal" style="padding-top: 56px;">
     <hr class="section-rule">
     <h2 class="section-heading">Showreel 2013</h2>
     <div class="section-body">

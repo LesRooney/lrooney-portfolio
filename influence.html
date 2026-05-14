@@ -320,8 +320,7 @@
     .page-header {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 140px 48px 56px;
-      border-bottom: 1px solid var(--rule);
+      padding: 140px 48px 0;
     }
     .page-header h1 {
       font-family: var(--serif);
@@ -334,20 +333,40 @@
     .page-header p {
       font-size: 0.95rem;
       color: var(--ink-mid);
-      max-width: 540px;
       line-height: 1.7;
     }
+    .platform-strip {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      justify-content: start;
+      gap: 10px 40px;
+      margin-top: 28px;
+    }
+    .platform-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--ink-mid);
+    }
+    .platform-chip img {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .platform-chip .icon-invert { filter: invert(1); }
 
     /* ── INFLUENCE GRID ── */
     .influence-body {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 64px 48px 100px;
+      padding: 56px 48px 100px;
     }
     .influence-categories {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 56px 64px;
+      gap: 140px 64px;
     }
     .influence-cat h3 {
       font-size: 0.72rem;
@@ -529,6 +548,42 @@
   <header class="page-header">
     <h1>Influence</h1>
     <p>A curated collection of the people, tools, and resources that have shaped how I think and work.</p>
+    <div style="display: inline-block; background: none; border: 1px solid var(--rule); border-radius: 16px; padding: 20px; margin-top: 160px;">
+    <div class="platform-strip" style="margin-top: 0;">
+      <div class="platform-chip">
+        <img src="images/icons/Brand=YouTube, Color=ON.svg" alt="">
+        <span>YouTube</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Brand=Spotify, Color=ON.svg" alt="">
+        <span>Spotify</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Headphone.svg" alt="" class="icon-invert">
+        <span>Podcasts</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Book_Articles_Influence 1.svg" alt="">
+        <span>Books &amp; Articles</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Brand=LinkedIn, Color=ON.svg" alt="">
+        <span>LinkedIn</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Brand=Reddit, Color=ON.svg" alt="">
+        <span>Reddit</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Brand=Gumroad, Color=ON.svg" alt="">
+        <span>Gumroad</span>
+      </div>
+      <div class="platform-chip">
+        <img src="images/icons/Brand=Discord, Color=ON.svg" alt="">
+        <span>Discord</span>
+      </div>
+    </div>
+    </div>
   </header>
 
   <main class="influence-body">

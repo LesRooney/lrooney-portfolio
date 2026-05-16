@@ -625,6 +625,11 @@
             <span class="influence-item-desc">Topics in product strategy</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
+          <a href="https://open.spotify.com/show/7wVvNYSGGicmX2Nb0XhLl9?si=ea29ec2ead4b4e41" target="_blank" class="influence-item">
+            <span class="influence-item-title">Experiencing Data with Brian O'Neill podcast</span>
+            <span class="influence-item-desc">Things you need to be aware of when designing for analytics</span>
+            <span class="influence-item-domain">open.spotify.com</span>
+          </a>
           <a href="https://roxanneallard.gumroad.com/l/navigating-complexity?layout=discover&recommended_by=search&_gl=1*1cjevry*_ga*NTcyOTAwNzYuMTY0ODMwMzYzNw..*_ga_6LJN6D94N6*czE3Nzc1MzE3OTQkbzgyJGcxJHQxNzc3NTMxODMwJGoyNCRsMCRoMA.." target="_blank" class="influence-item">
             <span class="influence-item-title">Roxanne Allard | Dr Nick Fine &amp; etc</span>
             <span class="influence-item-desc">I follow several people on LinkedIn who help me cut through the noise and bullshit. I've also had the chance to work with and learn from people I consider mentors, whose time and guidance I deeply appreciate.</span>
@@ -856,6 +861,11 @@
             <span class="influence-item-desc">Tech reporting</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
+          <a href="https://www.youtube.com/@LogicallyAnswered" target="_blank" class="influence-item">
+            <span class="influence-item-title">Logically Answered</span>
+            <span class="influence-item-desc">Hari's channel centred around explaining the economics of tech and social media</span>
+            <span class="influence-item-domain">youtube.com</span>
+          </a>
         </div>
       </div>
 
@@ -939,7 +949,7 @@
     var SCRAMBLE_MS  = 3000;  // pure chaos before resolving
     var FRAME_MS     = 50;   // scramble frame rate
     var RESOLVE_MS   = 28;   // ms between each char resolving left→right
-    var CYCLE_MS     = 9000; // repeat interval
+    var CYCLE_MS     = 30000; // repeat interval
 
     var target = null;
     document.querySelectorAll('.influence-item').forEach(function (item) {
@@ -972,6 +982,10 @@
       if (running) return;
       running = true;
 
+      // Lock height to prevent reflow during scramble
+      target.style.height   = target.offsetHeight + 'px';
+      target.style.overflow = 'hidden';
+
       // Phase 1 — scramble everything for SCRAMBLE_MS
       frameTimer = setInterval(function () {
         target.textContent = buildFrame(0);
@@ -988,6 +1002,8 @@
           if (resolved >= original.length) {
             clearInterval(resolveTimer);
             target.textContent = original;
+            target.style.height   = '';
+            target.style.overflow = '';
             running = false;
           }
         }, RESOLVE_MS);

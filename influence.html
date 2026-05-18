@@ -249,6 +249,14 @@
       display: inline;
       transition: color 0.2s;
     }
+    .influence-item-domain a {
+      color: #2563eb;
+      text-decoration: underline;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .influence-item-domain a:hover { color: #1d4ed8; }
     .influence-item-domain::after {
       content: '→';
       display: inline-block;
@@ -370,7 +378,7 @@
     .influence-body {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 56px 48px 100px;
+      padding: 160px 48px 100px;
     }
     .influence-categories {
       display: grid;
@@ -557,42 +565,6 @@
   <header class="page-header">
     <h1>Influence</h1>
     <p>A curated collection of the people, tools, and resources that have shaped how I think and work.</p>
-    <div style="display: inline-block; background: none; border: 1px solid var(--rule); border-radius: 16px; padding: 20px; margin-top: 160px;">
-    <div class="platform-strip" style="margin-top: 0;">
-      <div class="platform-chip">
-        <img src="images/icons/Brand=YouTube, Color=ON.svg" alt="">
-        <span>YouTube</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Brand=Spotify, Color=ON.svg" alt="">
-        <span>Spotify</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Headphone.svg" alt="" class="icon-invert">
-        <span>Podcasts</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Book_Articles_Influence 1.svg" alt="">
-        <span>Books &amp; Articles</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Brand=LinkedIn, Color=ON.svg" alt="">
-        <span>LinkedIn</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Brand=Reddit, Color=ON.svg" alt="">
-        <span>Reddit</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Brand=Gumroad, Color=ON.svg" alt="">
-        <span>Gumroad</span>
-      </div>
-      <div class="platform-chip">
-        <img src="images/icons/Brand=Discord, Color=ON.svg" alt="">
-        <span>Discord</span>
-      </div>
-    </div>
-    </div>
   </header>
 
   <main class="influence-body">
@@ -605,33 +577,33 @@
         <div class="influence-list">
 
           <div class="influence-item">
-            <span class="influence-item-title">Ryan Scott</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Ryan Scott</span>
             <span class="influence-item-desc">Changed how I approach design and creative business</span>
             <a href="https://www.acceleratedesign.com/" target="_blank" class="influence-item-domain">acceleratedesign.com</a>
             <span class="influence-item-note">Discovered on <a href="http://maven.com" target="_blank">Maven.com</a> — One of the best places for product sense courses</span>
           </div>
           <a href="https://amivora.substack.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Ami Vora</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=Substack, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Ami Vora</span>
             <span class="influence-item-desc">Growth stuff</span>
             <span class="influence-item-domain">amivora.substack.com</span>
           </a>
           <a href="https://www.lennysnewsletter.com" target="_blank" class="influence-item">
-            <span class="influence-item-title">Lenny Rachitsky and... Guests</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=Spotify, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;"><img src="./images/icons/Brand=Substack, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Lenny Rachitsky and... Guests</span>
             <span class="influence-item-desc">Product and growth thinking I keep coming back to</span>
             <span class="influence-item-domain">lennysnewsletter.com</span>
           </a>
           <a href="https://www.youtube.com/watch?v=acryXl9EVEg" target="_blank" class="influence-item">
-            <span class="influence-item-title">Christian and Marty, Product Therapy SVPG and... Guests</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=Spotify, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Christian and Marty, Product Therapy SVPG and... Guests</span>
             <span class="influence-item-desc">Topics in product strategy</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
           <a href="https://open.spotify.com/show/7wVvNYSGGicmX2Nb0XhLl9?si=ea29ec2ead4b4e41" target="_blank" class="influence-item">
-            <span class="influence-item-title">Experiencing Data with Brian O'Neill podcast</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=Spotify, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Experiencing Data with Brian O'Neill podcast</span>
             <span class="influence-item-desc">Things you need to be aware of when designing for analytics</span>
             <span class="influence-item-domain">open.spotify.com</span>
           </a>
           <a href="https://roxanneallard.gumroad.com/l/navigating-complexity?layout=discover&recommended_by=search&_gl=1*1cjevry*_ga*NTcyOTAwNzYuMTY0ODMwMzYzNw..*_ga_6LJN6D94N6*czE3Nzc1MzE3OTQkbzgyJGcxJHQxNzc3NTMxODMwJGoyNCRsMCRoMA.." target="_blank" class="influence-item">
-            <span class="influence-item-title">Roxanne Allard | Dr Nick Fine &amp; etc</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=LinkedIn, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;"><img src="./images/icons/Brand=Gumroad, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Roxanne Allard | Dr Nick Fine &amp; etc</span>
             <span class="influence-item-desc">I follow several people on LinkedIn who help me cut through the noise and bullshit. I've also had the chance to work with and learn from people I consider mentors, whose time and guidance I deeply appreciate.</span>
             <span class="influence-item-domain">roxanneallard.gumroad.com</span>
           </a>
@@ -644,31 +616,31 @@
         <p class="influence-cat-desc">Tools and references worth bookmarking</p>
         <div class="influence-list">
           <a href="https://ant.design/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Ant Design System</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Ant Design System</span>
             <span class="influence-item-desc">AI-friendly design system and React UI framework</span>
             <span class="influence-item-domain">ant.design</span>
           </a>
           <a href="https://m3.material.io/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Material Design 3</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Material Design 3</span>
             <span class="influence-item-desc">Google's open-source design system — a reference I use often</span>
             <span class="influence-item-domain">m3.material.io</span>
           </a>
           <a href="https://designsystemsrepo.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Design System Repo</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Design System Repo</span>
             <span class="influence-item-desc">The name says it all</span>
             <span class="influence-item-domain">designsystemsrepo.com</span>
           </a>
           <a href="https://carbondesignsystem.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Carbon Design</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Carbon Design</span>
             <span class="influence-item-desc">IBM's design system — thorough and well-documented</span>
             <span class="influence-item-domain">carbondesignsystem.com</span>
           </a>
           <a href="https://designtools.fyi/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Design tools</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Design tools</span>
             <span class="influence-item-domain">designtools.fyi</span>
           </a>
           <a href="https://github.com/Owl-Listener/designer-skills" target="_blank" class="influence-item">
-            <span class="influence-item-title">AI MD Skills</span>
+            <span class="influence-item-title"><img src="./images/icons/github.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;"><img src="./images/icons/markdown.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">AI Mark Down Skills</span>
             <span class="influence-item-desc">At last, we can all rock those Matrix vibes with this set of skills from MCDean's Designer Skills Collection. Use them, tweak them, and connect with your inner Neo.</span>
             <span class="influence-item-domain">github.com</span>
           </a>
@@ -681,27 +653,27 @@
         <p class="influence-cat-desc">Websites, podcast or youtube</p>
         <div class="influence-list">
           <a href="https://sneakpeek.design/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Sneak Peek Design</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Sneak Peek Design</span>
             <span class="influence-item-desc">See how top design teams design</span>
             <span class="influence-item-domain">sneakpeek.design</span>
           </a>
           <a href="https://www.youtube.com/watch?v=tPI-jc3RYQo" target="_blank" class="influence-item">
-            <span class="influence-item-title">Dive Club</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Dive Club</span>
             <span class="influence-item-desc">Michael Riddering's talks with multiple guests around design.</span>
             <span class="influence-item-domain">youtube.com/watch?v=tPI-jc3RYQo</span>
           </a>
           <a href="https://www.youtube.com/@designertom/videos" target="_blank" class="influence-item">
-            <span class="influence-item-title">Tommy Geoco</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Tommy Geoco</span>
             <span class="influence-item-desc">Design thinking and process on YouTube</span>
             <span class="influence-item-domain">youtube.com/@designertom</span>
           </a>
           <a href="https://www.mindtheproduct.com" target="_blank" class="influence-item">
-            <span class="influence-item-title">Mind The Product</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Mind The Product</span>
             <span class="influence-item-desc">A great resource for product thinking</span>
             <span class="influence-item-domain">mindtheproduct.com</span>
           </a>
           <a href="https://ooux.com" target="_blank" class="influence-item">
-            <span class="influence-item-title">Object Orientated UX (OOUX)</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Object Orientated UX (OOUX)</span>
             <span class="influence-item-desc">Sophia Prater &amp; NN/g guide to deal with digital complexity</span>
             <span class="influence-item-domain">ooux.com</span>
           </a>
@@ -714,29 +686,34 @@
         <p class="influence-cat-desc">Design references I keep bookmarked</p>
         <div class="influence-list">
           <a href="https://pageflows.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Pageflows</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Pageflows</span>
             <span class="influence-item-desc">Unlock UI/UX Inspiration with the Best User Flow examples</span>
             <span class="influence-item-domain">pageflows.com</span>
           </a>
           <a href="https://mobbin.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Mobbin</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Mobbin</span>
             <span class="influence-item-desc">The world's largest mobile and web design library</span>
             <span class="influence-item-domain">mobbin.com</span>
           </a>
           <a href="https://www.designspells.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Design Spells</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Design Spells</span>
             <span class="influence-item-desc">Great for delight and micro-interaction inspiration</span>
             <span class="influence-item-domain">designspells.com</span>
           </a>
           <a href="https://marekkultys.com/case-studies/evinova" target="_blank" class="influence-item">
-            <span class="influence-item-title">Marek Kultys — Evinova</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Marek Kultys — Evinova</span>
             <span class="influence-item-desc">The case study benchmark I keep returning to</span>
             <span class="influence-item-domain">marekkultys.com</span>
           </a>
           <a href="https://contra.com/?view=projects" target="_blank" class="influence-item">
-            <span class="influence-item-title">Contra</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Contra</span>
             <span class="influence-item-desc">I'm always striving to improve my visual skills or just see great looking design, similar to Dribbble</span>
             <span class="influence-item-domain">contra.com</span>
+          </a>
+          <a href="https://www.landing.love" target="_blank" class="influence-item">
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">LandingLove</span>
+            <span class="influence-item-desc">Showcasing web inspiration</span>
+            <span class="influence-item-domain">landing.love</span>
           </a>
         </div>
       </div>
@@ -747,27 +724,27 @@
         <p class="influence-cat-desc">Tools reshaping how I design</p>
         <div class="influence-list">
           <a href="https://claude.ai" target="_blank" class="influence-item">
-            <span class="influence-item-title">Claude</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Claude</span>
             <span class="influence-item-desc">My primary AI collaborator — writing, code, thinking partner</span>
             <span class="influence-item-domain">claude.ai</span>
           </a>
           <a href="https://www.cursor.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Cursor</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Cursor</span>
             <span class="influence-item-desc">Second AI collaborator, especially when I run out of tokens on Claude. Also use Antigravity and Gemini.</span>
             <span class="influence-item-domain">cursor.com</span>
           </a>
           <a href="https://lovable.dev/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Lovable</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Lovable</span>
             <span class="influence-item-desc">Create apps and websites by chatting with AI</span>
             <span class="influence-item-domain">lovable.dev</span>
           </a>
           <a href="https://www.magnific.com/app" target="_blank" class="influence-item">
-            <span class="influence-item-title">Magnific (Freepik)</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Magnific (Freepik)</span>
             <span class="influence-item-desc">I've used Midjourney but this tool makes generation more controllable</span>
             <span class="influence-item-domain">magnific.com</span>
           </a>
           <a href="https://elevenlabs.io" target="_blank" class="influence-item">
-            <span class="influence-item-title">11 ElevenLabs</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">11 ElevenLabs</span>
             <span class="influence-item-desc">AI voice generator</span>
             <span class="influence-item-domain">elevenlabs.io</span>
           </a>
@@ -781,27 +758,27 @@
         <p class="influence-cat-desc">Useful guidelines around emerging patterns or experiences</p>
         <div class="influence-list">
           <a href="https://www.shapeof.ai/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Shape of AI</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Shape of AI</span>
             <span class="influence-item-desc">How user experience will evolve</span>
             <span class="influence-item-domain">shapeof.ai</span>
           </a>
           <a href="https://pair.withgoogle.com/guidebook/" target="_blank" class="influence-item">
-            <span class="influence-item-title">The People + AI Guidebook</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">The People + AI Guidebook</span>
             <span class="influence-item-desc">Collection of practical guidance for designing human-centered AI products</span>
             <span class="influence-item-domain">pair.withgoogle.com</span>
           </a>
           <a href="https://www.aiuxplayground.com/patterns/chatbot" target="_blank" class="influence-item">
-            <span class="influence-item-title">AI UX Playground</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">AI UX Playground</span>
             <span class="influence-item-desc">Patterns and references for designing AI-powered experiences</span>
             <span class="influence-item-domain">aiuxplayground.com</span>
           </a>
           <a href="https://www.aiverse.design/patterns" target="_blank" class="influence-item">
-            <span class="influence-item-title">aiverse.design</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">aiverse.design</span>
             <span class="influence-item-desc">The missing playbook for designing AI products</span>
             <span class="influence-item-domain">aiverse.design</span>
           </a>
           <a href="https://www.microsoft.com/en-us/haxtoolkit/" target="_blank" class="influence-item">
-            <span class="influence-item-title">HAX Toolkit</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">HAX Toolkit</span>
             <span class="influence-item-desc">A Toolkit for teams building user-facing AI products. It helps you conceptualize what the AI system will do and how it will behave. Use it early in your design process.</span>
             <span class="influence-item-domain">microsoft.com</span>
           </a>
@@ -814,27 +791,27 @@
         <p class="influence-cat-desc">Resources I return to</p>
         <div class="influence-list">
           <a href="https://www.youtube.com/@hatchconference" target="_blank" class="influence-item">
-            <span class="influence-item-title">Hatch Conference</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Hatch Conference</span>
             <span class="influence-item-desc">Event for experienced product designers and researchers.</span>
             <span class="influence-item-domain">youtube.com/@hatchconference</span>
           </a>
           <a href="https://lawsofux.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Laws of UX</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Laws of UX</span>
             <span class="influence-item-desc">A collection of UX best practices, beautifully presented</span>
             <span class="influence-item-domain">lawsofux.com</span>
           </a>
           <a href="https://growth.design/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Growth.design</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Growth.design</span>
             <span class="influence-item-desc">Case studies on persuasion and UX in the wild</span>
             <span class="influence-item-domain">growth.design</span>
           </a>
           <a href="https://practicaltypography.com/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Butterick's Practical Typography</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Butterick's Practical Typography</span>
             <span class="influence-item-desc">The typography rules I actually follow</span>
             <span class="influence-item-domain">practicaltypography.com</span>
           </a>
           <a href="https://www.checklist.design/" target="_blank" class="influence-item">
-            <span class="influence-item-title">Checklist.design</span>
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Checklist.design</span>
             <span class="influence-item-desc">UI and UX checklists to catch what you might miss</span>
             <span class="influence-item-domain">checklist.design</span>
           </a>
@@ -847,27 +824,27 @@
         <p class="influence-cat-desc">Love watching</p>
         <div class="influence-list">
           <a href="https://www.youtube.com/@Educativeinc/shorts" target="_blank" class="influence-item">
-            <span class="influence-item-title">Educative shorts</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Educative shorts</span>
             <span class="influence-item-desc">Tech's Bright Side: It's Actually Funny.</span>
             <span class="influence-item-domain">youtube.com/@Educativeinc</span>
           </a>
           <a href="https://www.youtube.com/watch?v=uyCcgG4nm90" target="_blank" class="influence-item">
-            <span class="influence-item-title">Becky Global</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Becky Global</span>
             <span class="influence-item-desc">This analysis is brilliant, painful, and uncomfortably true for some companies, causing an eventual culture change within.</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
           <a href="https://www.youtube.com/watch?v=QfUb5MEAOXA" target="_blank" class="influence-item">
-            <span class="influence-item-title">Coldfusion</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Coldfusion</span>
             <span class="influence-item-desc">Tech reporting</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
           <a href="https://www.youtube.com/@LogicallyAnswered" target="_blank" class="influence-item">
-            <span class="influence-item-title">Logically Answered</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Logically Answered</span>
             <span class="influence-item-desc">Hari's channel centred around explaining the economics of tech and social media</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
           <a href="https://www.youtube.com/@AhmedsBusiness/shorts" target="_blank" class="influence-item">
-            <span class="influence-item-title">Ahmeds Business</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Ahmeds Business</span>
             <span class="influence-item-desc">If you don't have time to study other businesses' strategies, Ahmed will give you a quick summary.</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
@@ -880,14 +857,19 @@
         <p class="influence-cat-desc">People I follow to guide my building</p>
         <div class="influence-list">
           <a href="https://www.youtube.com/watch?v=ow7qWPxkKI4" target="_blank" class="influence-item">
-            <span class="influence-item-title">Chris Raroque</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Chris Raroque</span>
             <span class="influence-item-desc">Chris who builds productivity apps</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
           <a href="https://www.youtube.com/watch?v=FjMGC2N-_VM" target="_blank" class="influence-item">
-            <span class="influence-item-title">Lukas Margerie</span>
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Lukas Margerie</span>
             <span class="influence-item-domain">youtube.com</span>
           </a>
+          <div class="influence-item">
+            <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Josh Newton</span>
+            <span class="influence-item-desc">He's a designer who used AI to augment his skills and build Orbit, an app for tracking subscriptions. Here's his talk from the aiDotEngineer Singapore</span>
+            <span class="influence-item-domain"><a href="https://www.youtube.com/watch?v=C9iHaoD9lFU&t=5s" target="_blank">youtube.com</a> <span style="color: var(--ink-light); margin: 0 2px;">|</span> <a href="https://www.youtube.com/watch?v=KKn4Uf-ZUlM" target="_blank">youtube.com</a></span>
+          </div>
         </div>
       </div>
 
@@ -948,7 +930,7 @@
 
 
   <script>
-  // ── Matrix scramble on AI MD Skills subtitle ──
+  // ── Matrix scramble on AI Mark Down Skills subtitle ──
   (function () {
     var CHARS = 'ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789';
     var SCRAMBLE_MS  = 3000;  // pure chaos before resolving
@@ -959,7 +941,7 @@
     var target = null;
     document.querySelectorAll('.influence-item').forEach(function (item) {
       var t = item.querySelector('.influence-item-title');
-      if (t && t.textContent.trim() === 'AI MD Skills') {
+      if (t && t.textContent.trim() === 'AI Mark Down Skills') {
         target = item.querySelector('.influence-item-desc');
       }
     });

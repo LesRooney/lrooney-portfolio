@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 275">
+  <g fill="#E35239">
+    <!-- Left horn: sweeps up-left, tip curves slightly down -->
+    <polygon points="128,72  6,45  10,80  128,100"/>
+    <!-- Right horn: mirror -->
+    <polygon points="232,72  354,45  350,80  232,100"/>
+    <!-- Skull body -->
+    <polygon points="
+      180,35
+      220,40  232,72  232,100
+      228,158  212,190  198,202
+      180,206  162,202  148,190
+      132,158  128,100  128,72
+      140,40
+    "/>
+    <!-- Left eye socket -->
+    <ellipse cx="158" cy="112" rx="18" ry="22" fill="white"/>
+    <!-- Right eye socket -->
+    <ellipse cx="202" cy="112" rx="18" ry="22" fill="white"/>
+    <!-- Nasal gap -->
+    <ellipse cx="180" cy="193" rx="9" ry="8" fill="white"/>
+    <!-- UV LAYOUT text -->
+    <text
+      x="180" y="260"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="17"
+      font-weight="700"
+      letter-spacing="5"
+      fill="#E35239">UV LAYOUT</text>
+  </g>
+</svg>

@@ -1,4 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <path d="M100 0L0 173.2h200L100 0z" fill="#1a1a1a"/>
-  <path d="M100 40l-52 90h104L100 40z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220">
+  <!-- Top face outer (light grey) -->
+  <polygon points="100,14 178,58 100,102 22,58" fill="#a0a0a0"/>
+  <!-- Top face inner (white window) -->
+  <polygon points="100,34 156,61 100,82 44,61" fill="#ffffff"/>
+
+  <!-- Left face outer (medium grey) -->
+  <polygon points="22,58 100,102 100,194 22,150" fill="#606060"/>
+  <!-- Left face inner (white window) -->
+  <polygon points="44,72 82,94 82,176 44,140" fill="#ffffff"/>
+
+  <!-- Right face outer (black) -->
+  <polygon points="178,58 100,102 100,194 178,150" fill="#111111"/>
+  <!-- Right face inner (white window) -->
+  <polygon points="156,72 118,94 118,176 156,140" fill="#ffffff"/>
 </svg>

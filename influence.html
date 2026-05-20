@@ -257,6 +257,27 @@
       letter-spacing: 0.04em;
     }
     .influence-item-domain a:hover { color: #1d4ed8; }
+    .influence-secondary-link {
+      display: block; margin-top: 6px;
+      color: #2563eb; text-decoration: underline;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+      width: fit-content; position: relative;
+    }
+    .influence-secondary-link:hover { color: #1d4ed8; }
+    .influence-secondary-link::after {
+      content: '→';
+      display: inline-block;
+      margin-left: 4px;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: transform 0.25s ease, opacity 0.2s;
+      font-size: 0.75rem;
+      text-decoration: none;
+    }
+    .influence-secondary-link:hover::after {
+      opacity: 1;
+      transform: translateX(3px);
+    }
     .influence-item-domain::after {
       content: '→';
       display: inline-block;
@@ -273,6 +294,10 @@
     .influence-item:hover .influence-item-domain::after {
       opacity: 1;
       transform: translateX(3px);
+    }
+    .influence-item:has(.influence-secondary-link:hover) .influence-item-domain::after {
+      opacity: 0 !important;
+      transform: translateX(-4px) !important;
     }
     .influence-item-note {
       font-size: 0.72rem;
@@ -469,6 +494,10 @@
       opacity: 1;
       transform: translateX(3px);
     }
+    .influence-item:has(.influence-secondary-link:hover) .influence-item-domain::after {
+      opacity: 0 !important;
+      transform: translateX(-4px) !important;
+    }
     .influence-item-note {
       font-size: 0.72rem;
       color: var(--ink-light);
@@ -595,7 +624,7 @@
           <a href="https://www.youtube.com/watch?v=acryXl9EVEg" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=Spotify, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Christian and Marty, Product Therapy SVPG and... Guests</span>
             <span class="influence-item-desc">Topics in product strategy</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/watch?v=acryXl9EVEg</span>
           </a>
           <a href="https://open.spotify.com/show/7wVvNYSGGicmX2Nb0XhLl9?si=ea29ec2ead4b4e41" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=Spotify, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Experiencing Data with Brian O'Neill podcast</span>
@@ -738,11 +767,12 @@
             <span class="influence-item-desc">Create apps and websites by chatting with AI</span>
             <span class="influence-item-domain">lovable.dev</span>
           </a>
-          <a href="https://www.magnific.com/app" target="_blank" class="influence-item">
-            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Magnific (Freepik)</span>
-            <span class="influence-item-desc">I've used Midjourney but this tool makes generation more controllable</span>
+          <div class="influence-item" onclick="window.open('https://www.magnific.com/app','_blank')" style="cursor: pointer;">
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Magnific (Freepik) & Weavy</span>
+            <span class="influence-item-desc">I've used Midjourney, but these tools give you more control over ai generation. Weavy was acquired by Figma, worth trying while the free tokens last. You know how it is squeeze as much as you can get</span>
             <span class="influence-item-domain">magnific.com</span>
-          </a>
+            <a href="https://app.weavy.ai/flow/xWjLEQbGZMRe64DJlsDoop" target="_blank" onclick="event.stopPropagation();" class="influence-secondary-link">app.weavy.ai</a>
+          </div>
           <a href="https://elevenlabs.io" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">11 ElevenLabs</span>
             <span class="influence-item-desc">AI voice generator</span>
@@ -825,28 +855,28 @@
         <div class="influence-list">
           <a href="https://www.youtube.com/@Educativeinc/shorts" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Educative shorts</span>
-            <span class="influence-item-desc">Funny takes on the tech industry</span>
+            <span class="influence-item-desc">Comedy in tech</span>
             <span class="influence-item-domain">youtube.com/@Educativeinc</span>
           </a>
           <a href="https://www.youtube.com/watch?v=uyCcgG4nm90" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Becky Global</span>
             <span class="influence-item-desc">This analysis is brilliant, painful, and uncomfortably true for some companies, causing an eventual culture change within.</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/watch?v=uyCcgG4nm90</span>
           </a>
           <a href="https://www.youtube.com/watch?v=QfUb5MEAOXA" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Coldfusion</span>
             <span class="influence-item-desc">Tech reporting</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/@ColdFusion</span>
           </a>
           <a href="https://www.youtube.com/@LogicallyAnswered" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Logically Answered</span>
             <span class="influence-item-desc">Hari's channel centred around explaining the economics of tech and social media</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/@LogicallyAnswered</span>
           </a>
           <a href="https://www.youtube.com/@AhmedsBusiness/shorts" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Ahmeds Business</span>
             <span class="influence-item-desc">If you don't have time to study other businesses' strategies, Ahmed will give you a quick summary.</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/@AhmedsBusiness/shorts</span>
           </a>
           <a href="https://www.youtube.com/@moneymindnews/shorts" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Money Mind</span>
@@ -864,16 +894,17 @@
           <a href="https://www.youtube.com/watch?v=ow7qWPxkKI4" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Chris Raroque</span>
             <span class="influence-item-desc">Chris who builds productivity apps</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/watch?v=ow7qWPxkKI4</span>
           </a>
           <a href="https://www.youtube.com/watch?v=FjMGC2N-_VM" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Lukas Margerie</span>
-            <span class="influence-item-domain">youtube.com</span>
+            <span class="influence-item-domain">youtube.com/watch?v=FjMGC2N-_VM</span>
           </a>
-          <div class="influence-item">
+          <div class="influence-item" onclick="window.open('https://www.youtube.com/watch?v=C9iHaoD9lFU&t=5s','_blank')" style="cursor: pointer;">
             <span class="influence-item-title"><img src="./images/icons/Brand=YouTube, Color=ON.svg" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Josh Newton</span>
             <span class="influence-item-desc">He's a designer who used AI to augment his skills and build Orbit, an app for tracking subscriptions. Here's his talk from the aiDotEngineer Singapore</span>
-            <span class="influence-item-domain"><a href="https://www.youtube.com/watch?v=C9iHaoD9lFU&t=5s" target="_blank">youtube.com</a> <span style="color: var(--ink-light); margin: 0 2px;">|</span> <a href="https://www.youtube.com/watch?v=KKn4Uf-ZUlM" target="_blank">youtube.com</a></span>
+            <span class="influence-item-domain">youtube.com/watch?v=C9iHaoD9lFU</span>
+            <a href="https://www.youtube.com/watch?v=KKn4Uf-ZUlM" target="_blank" onclick="event.stopPropagation();" class="influence-secondary-link">youtube.com/watch?v=KKn4Uf-ZUlM</a>
           </div>
         </div>
       </div>

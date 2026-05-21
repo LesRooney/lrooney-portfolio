@@ -513,7 +513,7 @@
           </div>
           <span class="vid-duration" id="exceedance-exp-duration"></span>
           <button class="sound-toggle" id="exceedance-exp-sound-btn" aria-label="Toggle sound">
-            <img id="exceedance-exp-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="exceedance-exp-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -594,7 +594,7 @@
           </div>
           <span class="vid-duration" id="qf-research-duration"></span>
           <button class="sound-toggle" id="qf-research-sound-btn" aria-label="Toggle sound">
-            <img id="qf-research-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="qf-research-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -617,7 +617,7 @@
           </div>
           <span class="vid-duration" id="qf-powerbi-duration"></span>
           <button class="sound-toggle" id="qf-powerbi-sound-btn" aria-label="Toggle sound">
-            <img id="qf-powerbi-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="qf-powerbi-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -718,7 +718,7 @@
           </div>
           <span class="vid-duration" id="qf-design-system-duration"></span>
           <button class="sound-toggle" id="qf-design-system-sound-btn" aria-label="Toggle sound">
-            <img id="qf-design-system-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="qf-design-system-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -887,7 +887,7 @@
     const icon  = document.getElementById(soundIconId);
     if (!video || !wrap) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
     function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
@@ -943,7 +943,7 @@
     const icon  = document.getElementById(soundIconId);
     if (!video || !wrap) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
     function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
@@ -999,7 +999,7 @@
     const icon  = document.getElementById(soundIconId);
     if (!video || !wrap) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
     function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }
@@ -1055,7 +1055,7 @@
     const icon  = document.getElementById(soundIconId);
     if (!video || !wrap) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) { const m = Math.floor(s / 60), sec = Math.floor(s % 60); return m + ':' + (sec < 10 ? '0' : '') + sec; }
     function setIcon(m) { if (icon) { icon.src = m ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = m ? 'Sound off' : 'Sound on'; } }

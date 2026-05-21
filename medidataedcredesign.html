@@ -315,14 +315,14 @@
     }
     .ba-handle {
       position: absolute; top: 0; bottom: 0; left: 50%;
-      width: 2px; background: #fff;
+      width: 2px; background: rgba(0,143,240,0.5);
       transform: translateX(-50%);
       pointer-events: none;
       display: flex; align-items: center; justify-content: center;
     }
     .ba-grip {
       width: 44px; height: 44px; border-radius: 50%;
-      background: #fff; border: 1.5px solid rgba(0,0,0,0.12);
+      background: rgba(0,143,240,0.5); border: 1.5px solid rgba(0,143,240,0.5);
       display: flex; align-items: center; justify-content: center;
       gap: 3px; flex-shrink: 0;
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
@@ -330,8 +330,8 @@
     .ba-arrow {
       width: 0; height: 0; border-style: solid;
     }
-    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--ink-mid) transparent transparent; }
-    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--ink-mid); }
+    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent #fff transparent transparent; }
+    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent #fff; }
     .ba-label-row {
       display: flex; justify-content: space-between;
       margin-bottom: 10px;
@@ -342,9 +342,9 @@
       background: #000; color: #fff; pointer-events: none;
     }
     /* Handle hover state */
-    .ba-handle.ba-hover { background: #0070BF; }
+    .ba-handle.ba-hover { background: #008FF0; }
     .ba-handle.ba-hover .ba-grip {
-      background: #0070BF; border-color: #0070BF;
+      background: #008FF0; border-color: #008FF0;
     }
     .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
     .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
@@ -1115,7 +1115,7 @@
 
   <!-- 20. DEEP DIVE 01 -->
   <div class="deep-dive reveal" id="dd1">
-    <p class="dd-label">Deep Dive: Problem and Solution 01</p>
+    <p class="dd-label">Design 01</p>
     <h2>Streamlining Patient Data Workflows, Reducing Back and Forth Navigation</h2>
     <p style="max-width: 100%; margin-bottom: 28px;">Users were stuck in an endless loop: <strong>find patient → drill in → lose context → navigate back → reapply filters → repeat.</strong> The monochromatic interface made scanning hard, and <strong>task visibility vanished the moment they clicked into a patient record.</strong></p>
     <!-- BEFORE / AFTER SLIDER -->
@@ -1177,7 +1177,7 @@
 
   <!-- 21. DEEP DIVE 02 -->
   <div class="deep-dive reveal" id="dd2">
-    <p class="dd-label">Deep Dive: Problem and Solution 02</p>
+    <p class="dd-label">Design 02</p>
     <h2>Design System Contribution: Patient Search &amp; Filter Prototype</h2>
     <p><strong>Data Managers were spot-checking patient progress on the drugs more frequently.</strong> They were receiving lists of <strong>15 to 100 patient IDs by email or spreadsheet</strong>, then locking records one by one. The design system's suggestive-text component gave them no other option. One Data Manager put it bluntly: <strong>"We now have a problem with Medidata."</strong></p>
     <p style="margin-top: 28px;">I designed a <strong>bulk-paste solution with a 15-tag maximum</strong> that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a <strong>reusable design system component</strong> that Clinical Data Studio (another product) could adopt.</p>
@@ -1211,7 +1211,7 @@
 
   <!-- 22. DEEP DIVE 03 -->
   <div class="deep-dive reveal" id="dd3">
-    <p class="dd-label">Deep Dive 03</p>
+    <p class="dd-label">Design 03</p>
     <h2>The Unsaid Legacy Attraction — From Custom Code Workaround to Core Feature</h2>
     <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered <strong>a deeper migration risk. Rave Classic</strong> let study builders custom-code features outside the core product. Like Figma plugins, <strong>these extensions expanded the platform in ways we couldn't track</strong>, leaving us blind to what existed or how widely it was used.</p>
     <p>One such extension surfaced during interviews: <strong>dummy patients.</strong> Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. <strong>Only the most well-resourced studies hacked a solution. Others refused to upgrade from Classic entirely.</strong> Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
@@ -1226,7 +1226,7 @@
 
   <!-- 23. DEEP DIVE 04 -->
   <div class="deep-dive reveal" id="dd4">
-    <p class="dd-label">Deep Dive 04</p>
+    <p class="dd-label">Design 04</p>
     <h2>Discovering a Root Problem from Various Symptoms — How Unresolvable Queries Undermine Trust and Data Integrity Across Clinical Teams</h2>
     <p>I began to notice a fundamental system flaw showing up in my own as well as other designers' user calls. <strong>The platform treated 'not yet available' data the same as 'missing' data.</strong> Take drug returns: <strong>when patients are given medication, they must bring back any unused study doses at their next visit, which might not happen for weeks or months.</strong> The system didn't account for that. It immediately flagged those fields as queries, <strong>creating alerts no one could honestly resolve.</strong></p>
     <p>To cope, <strong>users entered junk data to clear these query alerts temporarily from the system.</strong> If they didn't, these queries would clog up task lists across <strong>EDC, Clinical Data Studio, and the Homepage</strong>, inflating counts and eroding trust in the whole ecosystem — but the junk data could also be forgotten. Losing accuracy. I mapped the impact and escalated it, showing that <strong>a UI patch wouldn't fix a system-level issue.</strong> That work was brought to the attention of <strong>Design VP and manager</strong> to secure a proper future root-cause fix to handle deferred queries and finally stop penalising users for real-world delays.</p>
@@ -1621,9 +1621,10 @@
     if (video.readyState >= 1 && duration) duration.textContent = fmt(video.duration);
     video.addEventListener('timeupdate', updateBar);
 
-    // Keep icon in sync with actual video state
+    // Keep icon in sync with actual video state (including mute from scroll-away)
     video.addEventListener('play',  function() { syncState(true); });
     video.addEventListener('pause', function() { syncState(false); });
+    video.addEventListener('volumechange', function() { setIcon(video.muted); });
 
     // Drag scrubbing
     function scrubTo(e) {
@@ -1700,6 +1701,8 @@
     function setIcon(muted) {
       if (icon) { icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = muted ? 'Sound off' : 'Sound on'; }
     }
+    // Keep icon in sync when muted by scroll-away
+    video.addEventListener('volumechange', function() { setIcon(video.muted); });
     function updateBar() {
       if (!video.duration) return;
       const pct = (video.currentTime / video.duration * 100).toFixed(2) + '%';

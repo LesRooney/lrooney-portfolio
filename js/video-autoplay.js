@@ -21,6 +21,7 @@
         inView.delete(video);
         video.pause();
         video.currentTime = 0;
+        video.muted = true; // silence when scrolled away
         // Clear user-paused state so it auto-plays next time it scrolls in
         if (wrap) wrap.classList.remove('is-paused');
       }

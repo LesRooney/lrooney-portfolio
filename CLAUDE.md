@@ -696,6 +696,26 @@ document.addEventListener('visibilitychange', function () { if (document.hidden)
 
 **Fan scatter (optional — only used on books group):** Items hidden at collapsed position, `fan-open` class transitions each `.insp-item` to its final `transform` with staggered `transition-delay`. `fan-closing` applies randomised CSS custom props (`--close-x`, `--close-y`, `--close-r`) for a scatter-out exit. See `index.html` lines ~1973–2033 for the full implementation.
 
+### influence page — dual-link item (two outbound URLs on one card)
+When an influence card needs two separate outbound links, the outer element must be a `<div>` not an `<a>` (nested anchors are invalid HTML). Pattern:
+
+```html
+<div class="influence-item" onclick="window.open('PRIMARY_URL','_blank')" style="cursor: pointer;">
+  <span class="influence-item-title">…Title</span>
+  <span class="influence-item-desc">…Description</span>
+  <span class="influence-item-domain">primary-domain.com/path</span>
+  <a href="SECONDARY_URL" target="_blank" onclick="event.stopPropagation();" class="influence-secondary-link">secondary-domain.com/path</a>
+</div>
+```
+
+**How it works:**
+- Card `onclick` navigates to the primary URL; the card's full hover state (including `::after` arrow on `.influence-item-domain`) applies as normal
+- `.influence-secondary-link` is a CSS class defined in `influence.html`'s `<style>` block — it shows its own `→` arrow on hover using the same `::after` animation as `.influence-item-domain`
+- `:has(.influence-secondary-link:hover)` suppresses the domain arrow when hovering the secondary link, so only one arrow is visible at any time
+- `event.stopPropagation()` on the secondary link prevents the card's `onclick` from also firing
+
+**Currently used on:** Josh Newton (Building section), Magnific & Weavy (AI Tools section)
+
 ### custom cursor — scope (default cursor on case studies)
 The custom dot+ring cursor (`#cursor-dot` + `#cursor-ring`) is **only on `influence.html`** and the homepage's hero playground. **All case study pages use the OS default cursor** — do not add the cursor markup to case studies.
 - The cursor JS (`js/page-common.js`) auto-exits when the elements are absent, so simply omitting the markup is enough

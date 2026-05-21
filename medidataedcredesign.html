@@ -916,7 +916,7 @@
           </div>
           <span class="vid-duration" id="loom-duration"></span>
           <button class="sound-toggle" id="loom-sound-btn" aria-label="Toggle sound">
-            <img id="loom-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="loom-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -1168,7 +1168,7 @@
           </div>
           <span class="vid-duration" id="exp-duration"></span>
           <button class="sound-toggle" id="exp-sound-btn" aria-label="Toggle sound">
-            <img id="exp-sound-icon" src="images/icons/Sound on.svg" alt="Sound on">
+            <img id="exp-sound-icon" src="images/icons/Sound off.svg" alt="Sound off">
           </button>
         </div>
       </div>
@@ -1590,7 +1590,7 @@
     const playBtn  = wrap ? wrap.querySelector('.hr-play') : null;
     if (!wrap || !video) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) {
       const m = Math.floor(s / 60);
@@ -1691,7 +1691,7 @@
     const thumb    = document.getElementById('exp-thumb');
     if (!video || !wrap) return;
 
-    let userMuted = false;
+    let userMuted = true; // starts muted — user clicks sound btn to enable
 
     function fmt(s) {
       const m = Math.floor(s / 60);

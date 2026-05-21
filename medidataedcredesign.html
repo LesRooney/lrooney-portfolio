@@ -440,7 +440,15 @@
     }
     .video-wrap:hover .vid-controls,
     #loom-reveal:hover .vid-controls,
+    .video-wrap.is-paused .vid-controls,
+    #loom-reveal.is-paused .vid-controls,
     .vid-controls.is-active { opacity: 1; pointer-events: auto; }
+
+    /* Show overlay play button when loom is paused */
+    #loom-reveal.is-paused .hr-overlay { opacity: 1; }
+
+    /* Pointer cursor so users know they can click */
+    .video-wrap, #loom-reveal { cursor: pointer; }
 
     /* Scrubber track */
     .vid-track {
@@ -889,7 +897,7 @@
   <!-- 12. RESEARCH LOOM — full width -->
   <div class="cs-section reveal" style="padding-top: 48px;">
     <div class="img-card">
-      <p class="cs-caption" style="margin: 0 0 8px;">Hover to hear highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions.</p>
+      <p class="cs-caption" style="margin: 0 0 8px;">Highlights from a 10-minute Loom I cut to surface the research themes. I also credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions. Click to pause.</p>
       <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base" style="position:relative;">
           <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
@@ -1147,7 +1155,7 @@
     <p style="max-width: 100%; margin-top: 28px;">My idea was simple: <strong>make patient visits folders (left hand side) communicate more at a glance.</strong> I added right-aligned status badges — <strong>red for critical blocking work, yellow for next priority, neutral for low priority tasks</strong> that could wait, coordinating with Michael for the left side study visit. In space-constrained views, <strong>only the highest-priority indicator shows with an overflow indicator</strong>, keeping things clean without losing signal. This visual language was aligned across EDC and with other platform designers to avoid cross-application conflicts.</p>
     <p style="max-width: 100%;"><strong>Smart filtering and form search</strong> reduced reliance on the matrix grid that disappeared once a user selected a patient form. <strong>A hover-to-preview the tasks on visit folders</strong> (like an accelerator) meant users could check tasks without drilling in. And <strong>a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page</strong>, updating dynamically without a refresh.</p>
     <div class="img-card">
-      <p class="cs-caption" style="margin: 0 0 8px;">Hover to view and listen to scrappy design experiments or multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing.</p>
+      <p class="cs-caption" style="margin: 0 0 8px;">Scrappy design experiments and multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing. Click to pause.</p>
       <div class="video-wrap">
         <video id="exp-video" muted loop playsinline poster="images/EDCRedesign/exp_video_poster.jpg" style="width:100%; aspect-ratio:1670/1080; display:block; border-radius:8px;">
           <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
@@ -1569,7 +1577,7 @@
     });
   })();
 
-  /* ── LOOM VIDEO — hover to play with sound, scrubber + countdown ── */
+  /* ── LOOM VIDEO — scroll-triggered, click to pause/resume, scrubber + sound ── */
   (function() {
     const wrap     = document.getElementById('loom-reveal');
     const video    = document.getElementById('loom-video');
@@ -1590,11 +1598,11 @@
       return m + ':' + (sec < 10 ? '0' : '') + sec;
     }
     function setIcon(muted) {
-      icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg';
-      icon.alt = muted ? 'Sound off' : 'Sound on';
+      if (icon) { icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = muted ? 'Sound off' : 'Sound on'; }
     }
-    function setPlaying(playing) {
+    function syncState(playing) {
       if (playBtn) playBtn.classList.toggle('is-paused', !playing);
+      wrap.classList.toggle('is-paused', !playing);
     }
     function updateBar() {
       if (!video.duration) return;
@@ -1604,14 +1612,18 @@
       if (duration) duration.textContent = fmt(video.duration - video.currentTime);
     }
 
-    // Start in paused state (play triangle shown)
-    setPlaying(false);
+    // Show as paused until scroll triggers play
+    syncState(false);
 
     video.addEventListener('loadedmetadata', function() {
       if (duration) duration.textContent = fmt(video.duration);
     });
     if (video.readyState >= 1 && duration) duration.textContent = fmt(video.duration);
     video.addEventListener('timeupdate', updateBar);
+
+    // Keep icon in sync with actual video state
+    video.addEventListener('play',  function() { syncState(true); });
+    video.addEventListener('pause', function() { syncState(false); });
 
     // Drag scrubbing
     function scrubTo(e) {
@@ -1622,28 +1634,39 @@
       updateBar();
     }
     let dragging = false;
-    track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
-    document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
-    document.addEventListener('mouseup',   function()  { dragging = false; });
+    if (track) {
+      track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup',   function()  { dragging = false; });
+    }
 
-    wrap.addEventListener('mouseenter', function() {
-      video.muted = userMuted;
-      video.play().catch(function() { video.muted = true; userMuted = true; setIcon(true); });
-      setPlaying(true);
+    // Click anywhere on the wrap (excluding controls) to toggle pause/resume
+    wrap.addEventListener('click', function(e) {
+      if (e.target.closest('#loom-controls') || e.target.closest('.hr-play')) return;
+      if (video.paused) {
+        wrap.classList.remove('is-paused');
+        video.muted = userMuted;
+        video.play().catch(function() {});
+      } else {
+        wrap.classList.add('is-paused');
+        video.pause();
+      }
     });
-    wrap.addEventListener('mouseleave', function() {
-      if (dragging) return;
-      video.pause();
-      video.load(); // resets to poster image
-      if (fill) fill.style.width = '0%';
-      if (thumb) thumb.style.left = '0%';
-      setIcon(userMuted);
-      setPlaying(false);
-      video.addEventListener('loadedmetadata', function onMeta() {
-        if (duration) duration.textContent = fmt(video.duration);
-        video.removeEventListener('loadedmetadata', onMeta);
+
+    // Play button also toggles
+    if (playBtn) {
+      playBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (video.paused) {
+          wrap.classList.remove('is-paused');
+          video.muted = userMuted;
+          video.play().catch(function() {});
+        } else {
+          wrap.classList.add('is-paused');
+          video.pause();
+        }
       });
-    });
+    }
 
     if (btn) {
       btn.addEventListener('click', function(e) {
@@ -1655,9 +1678,9 @@
     }
   })();
 
-  /* ── EXPERIMENTS VIDEO — hover to play with sound, scrubber + countdown ── */
+  /* ── EXPERIMENTS VIDEO — scroll-triggered, click to pause/resume, scrubber + sound ── */
   (function() {
-    const wrap     = document.querySelector('#exp-video').closest('.video-wrap');
+    const wrap     = document.querySelector('#exp-video') && document.querySelector('#exp-video').closest('.video-wrap');
     const video    = document.getElementById('exp-video');
     const btn      = document.getElementById('exp-sound-btn');
     const icon     = document.getElementById('exp-sound-icon');
@@ -1675,8 +1698,7 @@
       return m + ':' + (sec < 10 ? '0' : '') + sec;
     }
     function setIcon(muted) {
-      icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg';
-      icon.alt = muted ? 'Sound off' : 'Sound on';
+      if (icon) { icon.src = muted ? 'images/icons/Sound off.svg' : 'images/icons/Sound on.svg'; icon.alt = muted ? 'Sound off' : 'Sound on'; }
     }
     function updateBar() {
       if (!video.duration) return;
@@ -1701,27 +1723,23 @@
       updateBar();
     }
     let dragging = false;
-    track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
-    document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
-    document.addEventListener('mouseup',   function()  { dragging = false; });
+    if (track) {
+      track.addEventListener('mousedown', function(e) { e.stopPropagation(); dragging = true; scrubTo(e); });
+      document.addEventListener('mousemove', function(e) { if (dragging) scrubTo(e); });
+      document.addEventListener('mouseup',   function()  { dragging = false; });
+    }
 
-    wrap.addEventListener('mouseenter', function() {
-      video.muted = userMuted;
-      video.play().catch(function() { video.muted = true; userMuted = true; setIcon(true); });
-    });
-    wrap.addEventListener('mouseleave', function() {
-      if (dragging) return;
-      video.pause();
-      video.load(); // resets to poster image
-      video.muted = true;
-      if (fill) fill.style.width = '0%';
-      if (thumb) thumb.style.left = '0%';
-      if (duration) duration.textContent = '';
-      video.addEventListener('loadedmetadata', function onMeta() {
-        if (duration) duration.textContent = fmt(video.duration);
-        video.removeEventListener('loadedmetadata', onMeta);
-      });
-      setIcon(userMuted);
+    // Click anywhere on the wrap (excluding controls) to toggle pause/resume
+    wrap.addEventListener('click', function(e) {
+      if (e.target.closest('#exp-controls')) return;
+      if (video.paused) {
+        wrap.classList.remove('is-paused');
+        video.muted = userMuted;
+        video.play().catch(function() {});
+      } else {
+        wrap.classList.add('is-paused');
+        video.pause();
+      }
     });
 
     if (btn) {

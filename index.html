@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://stream.mux.com">
+  <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -182,6 +184,17 @@
     .card-video { opacity: 0; transition: opacity 0.2s ease; }
     .card-item:hover .card-thumb { opacity: 0; }
     .card-item:hover .card-video { opacity: 1; }
+    /* ── Mux player — card-4 */
+    .card-mux {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+      opacity: 0;
+      --controls: none;
+      --media-object-fit: cover;
+      --media-loading-indicator-display: none;
+    }
+    #card-4 .card-thumb { transition: none; }
+    #card-4:hover .card-thumb { opacity: 0; }
+    #card-4:hover .card-mux { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
     .card-item:hover { z-index: 2; }
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
@@ -1011,9 +1024,14 @@
           <a href="./qualisflow-02.html" class="card-item" id="card-4" data-locked="true">
             <div class="card">
               <img class="card-thumb" src="images/qualis-alerts-thumb.webp" alt="Qualis Flow Alerts & IA" width="840" height="840" loading="lazy">
-              <video class="card-video" muted loop playsinline preload="none">
-                <source data-src="videos/qualis-alerts-preview.mp4" type="video/mp4">
-              </video>
+              <mux-player
+                class="card-mux"
+                playback-id="suZsFI2u00BSS13X02JN3mhvOF4Vgd02CZaQITNuBRrbvI"
+                muted
+                loop
+                preload="auto"
+                playsinline
+              ></mux-player>
             </div>
             <div class="card-info">
               <div class="card-title">Qualis Flow • Alerts &amp; IA<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1138,6 +1156,20 @@
 
       card.addEventListener('mouseleave', () => video.pause());
     });
+
+    // ── Mux player hover — card-4
+    (function() {
+      var card4 = document.getElementById('card-4');
+      var mux   = card4 && card4.querySelector('mux-player');
+      if (!card4 || !mux) return;
+      card4.addEventListener('mouseenter', function() {
+        mux.play().catch(function() {});
+      });
+      card4.addEventListener('mouseleave', function() {
+        mux.pause();
+        mux.currentTime = 0;
+      });
+    })();
 
     // ── Blur sibling cards on hover
     (function() {

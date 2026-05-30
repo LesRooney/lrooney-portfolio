@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Qualis Flow — Air Quality · Lesley Rooney</title>
+  <link rel="preconnect" href="https://stream.mux.com">
+  <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -308,9 +310,12 @@
     <p class="cs-caption" style="margin: 0 0 8px;">Displaying air quality with empty state work packages (Gantt chart) below.</p>
     <div style="position: relative; width: 100%;">
       <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
-      <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
-        <source src="images/Qflow_Airquality/QflowPredictiveGraph_March2.mp4" type="video/mp4">
-      </video>
+      <mux-player
+        playback-id="QDv65ZbaX8Kje00z4dxBnWg8NqNCYO8OhMyEykD2hUaQ"
+        autoplay muted loop playsinline
+        preload="auto"
+        style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; border-radius: 2px; --controls: none; --media-object-fit: cover; --media-loading-indicator-display: none;"
+      ></mux-player>
     </div>
   </div>
 
@@ -562,9 +567,12 @@
     <div style="position: relative; width: 88%; margin-left: 6%; margin-bottom: 230px;">
       <div class="laptop-dim" style="position: relative; cursor: default;">
         <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
-        <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; object-fit: cover; border-radius: 2px;">
-          <source src="images/Qflow_Airquality/QflowPredictiveGraph_March2.mp4" type="video/mp4">
-        </video>
+        <mux-player
+          playback-id="QDv65ZbaX8Kje00z4dxBnWg8NqNCYO8OhMyEykD2hUaQ"
+          autoplay muted loop playsinline
+          preload="auto"
+          style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.56%; border-radius: 2px; --controls: none; --media-object-fit: cover; --media-loading-indicator-display: none;"
+        ></mux-player>
         <div class="laptop-dim-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.4s ease; border-radius: 4px; pointer-events: none;"></div>
       </div>
       <style>

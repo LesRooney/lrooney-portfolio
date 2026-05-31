@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medidata EDC Redesign · Lesley Rooney</title>
+  <link rel="preconnect" href="https://stream.mux.com">
+  <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1012,9 +1014,13 @@
       <p class="cs-caption" style="margin: 0 0 8px;">Hover to see system maps of interconnected tasks</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base">
-          <video id="system-maps-video" muted loop playsinline preload="auto" style="width:100%; display:block; border-radius:10px;">
-            <source src="images/EDCRedesign/SystemMaps&amp;ScrappyFrameworks.mp4" type="video/mp4">
-          </video>
+          <mux-player
+            id="system-maps-video"
+            playback-id="YcUZ00v01xQIWIdMBYSWyH1EiohzeD4t3YwDMQ502tZpWs"
+            muted loop playsinline
+            preload="auto"
+            style="width:100%; display:block; border-radius:10px; --controls: none; --media-loading-indicator-display: none;"
+          ></mux-player>
         </div>
         <div class="hr-overlay" style="border-radius: 10px;">
           <div class="hr-play"><span class="hr-play-icon"></span></div>

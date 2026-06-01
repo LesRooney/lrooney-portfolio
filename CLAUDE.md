@@ -740,6 +740,24 @@ All case study pages except games use these values. Do not change without asking
 
 **Caption position** — always **above** media. Never below. Remove any "Below:" or "Above:" prefix text from captions.
 
+## Design tokens (`styles/tokens.css`)
+
+Two-layer architecture — primitives → semantic aliases:
+- **Layer 1 (primitives):** raw values (`--primitive-blue-600: #2563eb`)
+- **Layer 2 (aliases):** semantic names that reference primitives (`--color-link: var(--primitive-blue-600)`)
+
+Key semantic tokens: `--paper` (warm white #FDFDFC), `--ink` (near-black), `--ink-mid`, `--ink-light`, `--rule`, `--color-link`, `--color-link-hover`, `--color-blue`, `--color-blue-bright`, `--color-blue-800`, `--color-off-black`, `--color-highlight`, `--color-scrubber-track`, `--sans`, `--serif`, `--max`.
+
+**`tokens.css` is linked on every page.** Current cache-bust version: `?v=1`. Bump if edited (same rule as components.css below).
+
+**`#fff` substitution rule:**
+- Pages where `--paper: #FDFDFC` (all standard pages): use `var(--paper)` — imperceptibly identical
+- Pages where `--paper: #f5f5f5` (grey, e.g. coming-soon-playground): use `var(--primitive-white)` to preserve white contrast on grey bg
+
+**Token audit script:** `node scripts/token-audit.js` — scans all HTML `<style>` blocks and CSS files for hardcoded color values that should use tokens. Errors = must fix; warnings = advisory (rgba overlays, intentional brand/gradient values).
+
+Intentional hardcoded values (do not tokenize): hero gradient darks (`#1a2a4a`, `#0f1e36`, `#263a2e`, `#1a2f22`, `#0d1829`), page theme colors (`#c8c8c4`, `#f5f5f5` on coming-soon-fire-tracker), particle morph gradient stops (`#1C88E5`, `#5aabee`, etc.), Qualis brand green (`#2a7a4e`), medidata carousel cream (`#F9F8F7`), deco title muted grey (`#7B7B7A`).
+
 ## CSS cache-buster (immutable assets)
 Cloudflare serves `styles/components.css` with `cache-control: public, max-age=31536000, immutable`. Browsers will keep a cached copy for a year regardless of file changes — they only re-fetch when the URL changes.
 

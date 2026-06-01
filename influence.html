@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/tokens.css?v=1">
   <link rel="stylesheet" href="./styles/components.css?v=8">
   <!-- Preload above-fold platform strip icons -->
   <link rel="preload" as="image" href="images/icons/Brand=YouTube, Color=ON.svg">
@@ -19,7 +20,11 @@
   <link rel="preload" as="image" href="images/icons/Brand=Discord, Color=ON.svg">
   <style>
 
-    :root { --max: 1200px; --nav-bg: rgba(253, 253, 252, 0.30); --nav-blur: blur(20px); }
+    :root {
+      --max: 1200px;                          /* override tokens.css default of 1080px */
+      --nav-bg: rgba(253, 253, 252, 0.30);    /* transparent nav for influence hero */
+      --nav-blur: blur(20px);
+    }
 
     #influence-dots { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
 

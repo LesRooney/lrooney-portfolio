@@ -1,0 +1,116 @@
+/*
+  tokens.css — Design token system for lrooney.com
+  ─────────────────────────────────────────────────
+  Link this as the FIRST stylesheet on every page.
+  Usage: <link rel="stylesheet" href="./styles/tokens.css?v=1">
+
+  Layer 1 — Primitives   raw palette values, never used directly in components
+  Layer 2 — Aliases      semantic names that reference Layer 1 with fallbacks
+*/
+
+
+/* ══════════════════════════════════════════════════════
+   LAYER 1 — PRIMITIVES
+   ══════════════════════════════════════════════════════ */
+:root {
+
+  /* Neutral */
+  --primitive-black:      #0A0A0A;
+  --primitive-grey-70:    #4A4A4A;
+  --primitive-grey-50:    #717171;
+  --primitive-white:      #FDFDFC;
+  --primitive-off-white:  #efede7;
+  --primitive-warm-grey:  #f5f3ef;
+  --primitive-rule:       #e2e0d8;
+
+  /* Blue */
+  --primitive-blue-500:   #3b82f6;
+  --primitive-blue-600:   #2563eb;
+  --primitive-blue-650:   #1C88E5;
+  --primitive-blue-700:   #1d4ed8;
+  --primitive-blue-800:   #0070BF;
+  --primitive-blue-bright:#008FF0;
+  --primitive-navy:       #1e3a5f;
+
+  /* Accent */
+  --primitive-salmon:     #C97B63;
+  --primitive-red:        #e53e3e;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   LAYER 2 — ALIASES
+   ══════════════════════════════════════════════════════ */
+:root {
+
+  /* ── Text ── */
+  --ink:              var(--primitive-black);
+  --ink-mid:          var(--primitive-grey-70);
+  --ink-light:        var(--primitive-grey-50);
+
+  /* ── Backgrounds ── */
+  --paper:            var(--primitive-white);     /* was #f5f5f5 — fixed to match actual bg */
+  --paper-alt:        var(--primitive-off-white);
+  --faint:            var(--primitive-warm-grey);
+
+  /* ── Borders ── */
+  --rule:             var(--primitive-rule);
+
+  /* ── Interactive ── */
+  --color-link:       var(--primitive-blue-600);
+  --color-link-hover: var(--primitive-blue-700);
+  --color-blue:       var(--primitive-blue-500);
+  --blue:             var(--primitive-blue-500);  /* backward-compat alias (password.html) */
+  --color-blue-bright:var(--primitive-blue-bright);
+  --color-salmon:     var(--primitive-salmon);
+  --color-navy:       var(--primitive-navy);
+  --red:              var(--primitive-red);
+  --accent:           var(--primitive-black);
+  --accent-text:      var(--primitive-black);
+
+  /* ── Typography ── */
+  --serif:            'Plus Jakarta Sans', system-ui, sans-serif;
+  --sans:             'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ── Nav ── */
+  --nav-bg:           rgba(253, 253, 252, 0.88);
+  --nav-blur:         blur(12px);
+
+  /* ── Layout ── */
+  --max:              1080px;   /* case study default; homepage/influence/games override to 1200px */
+  --pad:              40px;
+
+  /* ── Border Radius ── */
+  --radius-xs:        2px;
+  --radius-sm:        4px;
+  --radius-md:        8px;
+  --radius-lg:        12px;
+  --radius-xl:        16px;
+  --radius-2xl:       20px;
+
+  /* ── Elevation / Shadows ── */
+  --shadow-xs:        0 1px 4px rgba(0,0,0,0.12);
+  --shadow-sm:        1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md:        0 6px 18px rgba(0,0,0,0.15);
+  --shadow-lg:        0 12px 40px rgba(0,0,0,0.15);
+  --shadow-xl:        0 16px 48px rgba(20,20,18,0.14);
+
+  /* ── Z-Index Scale ── */
+  --z-below:          -1;
+  --z-base:            0;
+  --z-card:            2;
+  --z-sticky:         10;
+  --z-nav:           100;
+  --z-overlay:       200;
+  --z-modal:         500;
+  --z-toast:        1000;
+  --z-top:          9000;
+
+  /* ── Motion ── */
+  --duration-fast:    0.15s;
+  --duration-base:    0.2s;
+  --duration-medium:  0.3s;
+  --duration-slow:    0.55s;
+  --ease-out:         ease-out;
+  --ease-spring:      cubic-bezier(0.16, 1, 0.3, 1);
+}

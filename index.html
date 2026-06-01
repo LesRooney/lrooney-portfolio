@@ -19,6 +19,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/tokens.css?v=1">
   <style>
 /* ── PAGE SWITCHING ── */
     #page-home, #page-influence { display: none; }
@@ -28,23 +29,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:       #0A0A0A;
-      --ink-mid:   #4A4A4A;
-      --ink-light: #717171;  /* darkened for WCAG AA — was #9a9a92 (fail) */
-      --paper:     #f5f5f5;
-      --paper-alt: #efede7;
-      --accent:      #0A0A0A;
-      --accent-text: #0A0A0A;
-      --rule:      #e2e0d8;
-      --serif: 'Plus Jakarta Sans', system-ui, sans-serif;
-      --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-      --max: 1200px;
+      --max: 1200px; /* override tokens.css default of 1080px */
     }
 
-    html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
+    html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
 
     body {
-      background: #FDFDFC;
+      background: var(--paper);
       color: var(--ink);
       font-family: var(--sans);
       font-weight: 300;
@@ -60,7 +51,7 @@
       padding: 92px 48px 72px;
       opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
       position: sticky; top: 0; z-index: 0;
-      background: #FDFDFC;
+      background: var(--paper);
     }
     .floating-emoji {
       position: absolute;
@@ -127,7 +118,7 @@
     }
 
     /* ── WORK SECTION ── */
-    .work-section { max-width: var(--max); margin: 0 auto; padding: 8px 48px 0; position: relative; z-index: 2; background: #FDFDFC; }
+    .work-section { max-width: var(--max); margin: 0 auto; padding: 8px 48px 0; position: relative; z-index: 2; background: var(--paper); }
     /* ── WORK SECTION TOP FADE — reversible, remove the two lines below to undo ── */
     .work-header { max-width: var(--max); margin: 0 auto 32px; padding: 0; font-size: 0.95rem; color: var(--ink-mid); opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
     .work-header strong { color: var(--ink); }
@@ -205,7 +196,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: #FDFDFC;
+      background: var(--paper);
       z-index: 2;
       pointer-events: none;
     }
@@ -227,7 +218,7 @@
 
     /* Badges stay on the thumb */
     .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
-    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: #2563eb; color: #fff; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--color-link); color: #fff; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* Info lives BELOW the thumb */
     .card-info  { display: flex; flex-direction: column; gap: 4px; }
@@ -708,7 +699,7 @@
       position: fixed;
       pointer-events: none;
       z-index: 10000;
-      background: #FDFDFC;
+      background: var(--paper);
       border-radius: 24px;
       opacity: 1;
       transition:
@@ -2102,7 +2093,7 @@
     /* ── Panel ── */
     #pw-modal-panel {
       position: relative; z-index: 1;
-      background: #FDFDFC;
+      background: var(--paper);
       border-radius: 20px;
       overflow: hidden;
       width: min(600px, calc(100vw - 32px));
@@ -2195,7 +2186,7 @@
       width: 100%; height: 44px;
       padding: 0 14px 0 38px;
       box-sizing: border-box;
-      border: 2px solid #2563eb; border-radius: 10px;
+      border: 2px solid var(--color-link); border-radius: 10px;
       background: #fff;
       font-family: var(--sans); font-size: 1.1rem; letter-spacing: 0.18em;
       color: var(--ink); outline: none;
@@ -2209,7 +2200,7 @@
       transform: translateY(-50%);
       width: 4px;
       height: 20px;
-      background: #2563eb;
+      background: var(--color-link);
       border-radius: 2px;
       pointer-events: none;
       opacity: 0;
@@ -2222,7 +2213,7 @@
       50%       { opacity: 0; }
     }
     #pw-visible-input:focus {
-      border-color: #2563eb; border-width: 2px; background: #fff;
+      border-color: var(--color-link); border-width: 2px; background: #fff;
     }
     #pw-visible-input.pw-input-error {
       border-color: #ef4444; border-width: 2px;

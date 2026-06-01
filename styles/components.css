@@ -4,7 +4,6 @@
   ══════════════════════════════════════════════════════════
 
   Sections:
-    · CSS custom properties (:root)
     · Base reset (html, body, strong)
     · Nav (fixed bar, dropdown, squareMorph keyframe, audio controls)
     · Footer
@@ -20,34 +19,14 @@
 
 
 /* ══════════════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   ══════════════════════════════════════════════════════════ */
-
-:root {
-  --ink:       #0A0A0A;
-  --ink-mid:   #4A4A4A;
-  --ink-light: #717171;
-  --paper:     #f5f5f5;
-  --paper-alt: #efede7;
-  --faint:     #f5f3ef;
-  --rule:      #e2e0d8;
-  --serif:     'Plus Jakarta Sans', system-ui, sans-serif;
-  --sans:      'Plus Jakarta Sans', system-ui, sans-serif;
-  --max:       1080px;
-  --pad:       40px;
-  --nav-bg:    rgba(253, 253, 252, 0.88);
-  --nav-blur:  blur(12px);
-}
-
-
-/* ══════════════════════════════════════════════════════════
    BASE
+   (tokens come from tokens.css, linked before this file)
    ══════════════════════════════════════════════════════════ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; background: #FDFDFC; }
+html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
 body {
-  background: #FDFDFC;
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 300;
@@ -199,16 +178,16 @@ footer { background: var(--paper); border-top: 1px solid var(--rule); padding: 4
   font-family: var(--sans);
   font-size: 1rem;
   font-weight: 700;
-  color: #2563eb;
+  color: var(--color-link);
   text-decoration: none;
   letter-spacing: 0.02em;
-  border-bottom: 1px solid #2563eb;
+  border-bottom: 1px solid var(--color-link);
   padding-bottom: 2px;
   transition: color 0.2s ease;
 }
 
 .back-to-work-link:hover {
-  color: #1d4ed8;
+  color: var(--color-link-hover);
 }
 
 .back-to-work-arrow {

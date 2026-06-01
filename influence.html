@@ -104,8 +104,8 @@
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease; }
 
     /* Badges stay on the thumb */
-    .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
-    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--accent); color: #fff; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: var(--paper); padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
+    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--accent); color: var(--paper); padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* Info lives BELOW the thumb */
     .card-info  { display: flex; flex-direction: column; gap: 4px; }
@@ -247,7 +247,7 @@
     .influence-item-domain {
       font-size: 0.7rem;
       font-weight: 600;
-      color: #2563eb;
+      color: var(--color-link);
       text-decoration: underline;
       margin-top: 3px;
       letter-spacing: 0.04em;
@@ -255,20 +255,20 @@
       transition: color 0.2s;
     }
     .influence-item-domain a {
-      color: #2563eb;
+      color: var(--color-link);
       text-decoration: underline;
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.04em;
     }
-    .influence-item-domain a:hover { color: #1d4ed8; }
+    .influence-item-domain a:hover { color: var(--color-link-hover); }
     .influence-secondary-link {
       display: block; margin-top: 6px;
-      color: #2563eb; text-decoration: underline;
+      color: var(--color-link); text-decoration: underline;
       font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
       width: fit-content; position: relative;
     }
-    .influence-secondary-link:hover { color: #1d4ed8; }
+    .influence-secondary-link:hover { color: var(--color-link-hover); }
     .influence-secondary-link::after {
       content: '→';
       display: inline-block;
@@ -294,7 +294,7 @@
       text-decoration: none;
     }
     .influence-item:hover .influence-item-domain {
-      color: #1d4ed8;
+      color: var(--color-link-hover);
     }
     .influence-item:hover .influence-item-domain::after {
       opacity: 1;
@@ -311,11 +311,11 @@
       line-height: 1.5;
     }
     .influence-item-note a {
-      color: #2563eb;
+      color: var(--color-link);
       font-weight: 600;
       text-decoration: underline;
     }
-    .influence-item-note a:hover { color: #1d4ed8; }
+    .influence-item-note a:hover { color: var(--color-link-hover); }
 
     /* ── Scroll-reveal: desc + domain slide down into view ── */
     .influence-item-desc,
@@ -476,7 +476,7 @@
     .influence-item-domain {
       font-size: 0.7rem;
       font-weight: 600;
-      color: #2563eb;
+      color: var(--color-link);
       margin-top: 4px;
       letter-spacing: 0.04em;
       display: inline;
@@ -493,7 +493,7 @@
       text-decoration: none;
     }
     .influence-item:hover .influence-item-domain {
-      color: #1d4ed8;
+      color: var(--color-link-hover);
     }
     .influence-item:hover .influence-item-domain::after {
       opacity: 1;
@@ -510,10 +510,10 @@
       line-height: 1.5;
     }
     .influence-item-note a {
-      color: #2563eb;
+      color: var(--color-link);
       text-decoration: none;
     }
-    .influence-item-note a:hover { color: #1d4ed8; }
+    .influence-item-note a:hover { color: var(--color-link-hover); }
 
     /* ── FOOTER ── */
     footer { padding: 48px 48px; }

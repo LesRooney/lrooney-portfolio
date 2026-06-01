@@ -16,8 +16,10 @@
 
   /* Neutral */
   --primitive-black:      #0A0A0A;
+  --primitive-off-black:  #1a1a18;   /* near-black for dark overlay surfaces */
   --primitive-grey-70:    #4A4A4A;
   --primitive-grey-50:    #717171;
+  --primitive-grey-5:     #f0f0f0;   /* light grey — video scrubber track */
   --primitive-white:      #FDFDFC;
   --primitive-off-white:  #efede7;
   --primitive-warm-grey:  #f5f3ef;
@@ -35,6 +37,9 @@
   /* Accent */
   --primitive-salmon:     #C97B63;
   --primitive-red:        #e53e3e;
+
+  /* Highlight */
+  --primitive-highlight:  #FFFBCC;   /* soft yellow text-marker highlight */
 }
 
 
@@ -65,6 +70,10 @@
   --color-salmon:     var(--primitive-salmon);
   --color-navy:       var(--primitive-navy);
   --red:              var(--primitive-red);
+  --color-off-black:  var(--primitive-off-black);  /* dark near-black for surfaces/overlays */
+  --color-blue-800:   var(--primitive-blue-800);   /* #0070BF — hover state on BA slider */
+  --color-highlight:  var(--primitive-highlight);  /* #FFFBCC — yellow text marker */
+  --color-scrubber-track: var(--primitive-grey-5); /* #f0f0f0 — video scrubber background */
   --accent:           var(--primitive-black);
   --accent-text:      var(--primitive-black);
 

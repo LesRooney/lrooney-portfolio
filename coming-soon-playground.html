@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/tokens.css?v=1">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -125,7 +126,7 @@
       line-height: 1.1;
     }
     .video-card {
-      background: #fff;
+      background: var(--primitive-white);
       border-radius: 16px;
       padding: 12px;
       margin-bottom: 32px;
@@ -153,10 +154,10 @@
       margin-top: 52px;
       font-size: 1.1rem;
       font-weight: 700;
-      color: #2563eb;
+      color: var(--color-link);
       text-decoration: none;
       letter-spacing: 0.04em;
-      border-bottom: 1px solid #2563eb;
+      border-bottom: 1px solid var(--color-link);
       padding-bottom: 2px;
       cursor: pointer;
     }
@@ -205,7 +206,7 @@
       display: block;
     }
     .video-card-sm {
-      background: #fff;
+      background: var(--primitive-white);
       border-radius: 12px;
       padding: 8px;
       width: 160px;

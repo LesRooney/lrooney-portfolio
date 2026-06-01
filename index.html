@@ -217,8 +217,8 @@
     }
 
     /* Badges stay on the thumb */
-    .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: #fff; padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
-    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--color-link); color: #fff; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: var(--paper); padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
+    .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--color-link); color: var(--paper); padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* Info lives BELOW the thumb */
     .card-info  { display: flex; flex-direction: column; gap: 4px; }
@@ -2114,7 +2114,7 @@
       color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.12);
       transition: background 0.15s;
     }
-    #pw-modal-close:hover { background: #fff; }
+    #pw-modal-close:hover { background: var(--paper); }
 
     /* ── Panel content stagger on open ── */
     #pw-modal-banner,
@@ -2187,7 +2187,7 @@
       padding: 0 14px 0 38px;
       box-sizing: border-box;
       border: 2px solid var(--color-link); border-radius: 10px;
-      background: #fff;
+      background: var(--paper);
       font-family: var(--sans); font-size: 1.1rem; letter-spacing: 0.18em;
       color: var(--ink); outline: none;
       caret-color: transparent;
@@ -2213,7 +2213,7 @@
       50%       { opacity: 0; }
     }
     #pw-visible-input:focus {
-      border-color: var(--color-link); border-width: 2px; background: #fff;
+      border-color: var(--color-link); border-width: 2px; background: var(--paper);
     }
     #pw-visible-input.pw-input-error {
       border-color: #ef4444; border-width: 2px;
@@ -2256,7 +2256,7 @@
     }
     #pw-modal-submit {
       width: 44px; height: 44px; padding: 0;
-      background: var(--ink); color: #fff;
+      background: var(--ink); color: var(--paper);
       border: none; border-radius: 8px;
       font-size: 1.15rem; line-height: 1;
       cursor: pointer;

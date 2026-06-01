@@ -144,7 +144,7 @@
     .nda-placeholder .nda-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
 
     /* LAPTOP FRAME */
-    .laptop-frame { width: 100%; background: #1a1a18; border-radius: 14px; padding: 16px 16px 10px; margin: 56px 0; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+    .laptop-frame { width: 100%; background: var(--color-off-black); border-radius: 14px; padding: 16px 16px 10px; margin: 56px 0; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
     .laptop-screen { width: 100%; background: var(--paper-alt); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--ink-mid); font-style: italic; text-align: center; padding: 16px; }
 
     /* HOVER AUDIO PLACEHOLDER */
@@ -228,24 +228,24 @@
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
     }
     .ba-arrow { width: 0; height: 0; border-style: solid; }
-    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent #fff transparent transparent; }
-    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent #fff; }
+    .ba-arrow.left  { border-width: 5px 7px 5px 0; border-color: transparent var(--paper) transparent transparent; }
+    .ba-arrow.right { border-width: 5px 0 5px 7px; border-color: transparent transparent transparent var(--paper); }
     .ba-label-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
     .ba-pill {
       font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
       text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
-      background: #000; color: #fff; pointer-events: none;
+      background: var(--ink); color: var(--paper); pointer-events: none;
     }
-    .ba-handle.ba-hover { background: #008FF0; }
-    .ba-handle.ba-hover .ba-grip { background: #008FF0; border-color: #008FF0; }
-    .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent #fff transparent transparent; }
-    .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent #fff; }
+    .ba-handle.ba-hover { background: var(--color-blue-bright); }
+    .ba-handle.ba-hover .ba-grip { background: var(--color-blue-bright); border-color: var(--color-blue-bright); }
+    .ba-handle.ba-hover .ba-arrow.left  { border-color: transparent var(--paper) transparent transparent; }
+    .ba-handle.ba-hover .ba-arrow.right { border-color: transparent transparent transparent var(--paper); }
 
     /* Post-it notes */
     .postit-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 8px 0 32px; }
     .postit {
       flex: 1;
-      background: #FFFBCC;
+      background: var(--color-highlight);
       padding: 16px 18px;
       border-radius: 2px;
       box-shadow: 1px 2px 6px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
@@ -283,7 +283,7 @@
       font-size: 1.8rem; cursor: pointer; line-height: 1;
       transition: color 0.15s;
     }
-    .lightbox-close:hover { color: #fff; }
+    .lightbox-close:hover { color: var(--paper); }
     [data-zoom] { cursor: zoom-in; }
   </style>
 

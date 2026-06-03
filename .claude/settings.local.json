@@ -203,7 +203,16 @@
       "Bash(sed -n '140,155p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
       "Bash(sed -n '208,255p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/homerenter.html)",
       "Bash(sed -n '88,135p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)",
-      "Bash(sed -n '125,135p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)"
+      "Bash(sed -n '125,135p' /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/contech-qflow.html)",
+      "Bash(grep -rohn \"#[0-9a-fA-F]\\\\{3,8\\\\}\" styles/components.css index.html influence.html medidataedcredesign.html contech-qflow.html qualisflow-02.html clinical-risk-based-monitoring.html homerenter.html lesleyrooney-games-sims-vfxworks.html password.html)",
+      "Bash(sort -t: -k3)",
+      "Bash(uniq -f2 -c)",
+      "Bash(grep -o \"#[0-9a-fA-F]\\\\{3,8\\\\}\")",
+      "Bash(node scripts/token-audit.js)",
+      "Bash(grep -v \"^$\")",
+      "Bash(node -e \"require\\('sharp'\\); console.log\\('sharp ok'\\)\")",
+      "Bash(ffmpeg -encoders)",
+      "Bash(ffmpeg -formats)"
     ]
   }
 }

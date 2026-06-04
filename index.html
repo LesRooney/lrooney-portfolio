@@ -84,7 +84,7 @@
       margin: 0 4px; top: -1px;
     }
     .tube-glass-wrap img { position: absolute; top: 0; left: 0; width: 24px; height: 24px; }
-    .tube-img { object-fit: cover; object-position: center center; border-radius: 8px; }
+    .tube-img { object-fit: contain; object-position: center center; }
     .glass-img { object-fit: contain; border-radius: 0; transform: scaleX(-1); }
     @keyframes showTube  { 0% { opacity: 1; } 44% { opacity: 1; } 50% { opacity: 0; } 94% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes showGlass { 0% { opacity: 0; } 44% { opacity: 0; } 50% { opacity: 1; } 94% { opacity: 1; } 100% { opacity: 0; } }
@@ -949,7 +949,6 @@
       </div>
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a problem solver,</strong> I experiment,<span class="tube-glass-wrap"><picture>
-                <source srcset="images/HomepageImages/test-tube.avif" type="image/avif">
                 <img src="images/HomepageImages/test-tube.png" alt="" aria-hidden="true" class="tube-img">
               </picture><picture>
                 <source srcset="images/HomepageImages/MagnifyingGlass_small.avif" type="image/avif">

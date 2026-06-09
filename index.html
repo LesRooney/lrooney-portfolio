@@ -204,6 +204,9 @@
     .card-item.is-dimmed .card-sub { }
     .card-item .card-title { transition: padding-left 0.28s ease-out, opacity 0.35s ease; }
 
+    /* Enlarged separator dot inside card subtitles */
+    .card-sub .cd { font-size: 1.5em; line-height: 0; vertical-align: -0.08em; }
+
     /* card-sub slides down into position after card enters */
     .card-sub {
       font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5;
@@ -2946,6 +2949,13 @@
       clouds.forEach(function (el) { el.style.transform = ''; });
     });
   })();
+  </script>
+
+  <script>
+  /* Enlarge · separators in card subtitles */
+  document.querySelectorAll('.card-sub').forEach(function (el) {
+    el.innerHTML = el.innerHTML.replace(/ · /g, ' <span class="cd">·</span> ');
+  });
   </script>
 </body>
 </html>

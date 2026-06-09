@@ -2846,6 +2846,63 @@
   </script>
 
   <script>
+  /* ── CLOUD-CLUSTER HORIZONTAL SLIDE-IN ── */
+  (function () {
+    var cluster = document.querySelector('.cloud-cluster');
+    if (!cluster) return;
+
+    var groups = [
+      { el: cluster.querySelector('.cloud-group'),             x: -56, delay: 0   },
+      { el: cluster.querySelector('.deco-r.deco-group'),       x:  56, delay: 120 },
+      { el: cluster.querySelector('.deco-r.ipad-shelf-group'), x: -56, delay: 260 },
+    ].filter(function (g) { return g.el; });
+
+    var DURATION = '0.72s';
+    var EASE     = 'cubic-bezier(0.2, 0.8, 0.3, 1)';
+
+    function init() {
+      // Desktop only — check at init time when viewport dimensions are settled
+      if (window.matchMedia('(max-width: 900px)').matches) return;
+
+      // Set initial hidden state
+      groups.forEach(function (g) {
+        g.el.style.opacity   = '0';
+        g.el.style.transform = 'translateX(' + g.x + 'px)';
+      });
+
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+
+        groups.forEach(function (g) {
+          g.el.style.transition      = 'opacity ' + DURATION + ' ease, transform ' + DURATION + ' ' + EASE;
+          g.el.style.transitionDelay = g.delay + 'ms';
+          g.el.style.opacity         = '1';
+          g.el.style.transform       = 'translateX(0)';
+        });
+
+        // Strip inline overrides once animations finish so hover/repel CSS works normally
+        var clearAfter = 260 + 720 + 60; // max delay + duration + buffer
+        setTimeout(function () {
+          groups.forEach(function (g) {
+            g.el.style.transition      = '';
+            g.el.style.transitionDelay = '';
+            g.el.style.transform       = '';
+            g.el.style.opacity         = '';
+          });
+        }, clearAfter);
+
+      }, { threshold: 0.06 });
+
+      io.observe(cluster);
+    }
+
+    // Double rAF defers until after the browser has painted and settled viewport dimensions
+    requestAnimationFrame(function () { requestAnimationFrame(init); });
+  })();
+  </script>
+
+  <script>
   (function () {
     var cloudGroup = document.querySelector('.cloud-group');
     if (!cloudGroup) return;

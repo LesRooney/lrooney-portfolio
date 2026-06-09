@@ -2852,12 +2852,12 @@
     if (!cluster) return;
 
     var groups = [
-      { el: cluster.querySelector('.cloud-group'),             x: -56, delay: 0   },
-      { el: cluster.querySelector('.deco-r.deco-group'),       x:  56, delay: 120 },
-      { el: cluster.querySelector('.deco-r.ipad-shelf-group'), x: -56, delay: 260 },
+      { el: cluster.querySelector('.cloud-group'),             x: -90, delay: 0   },
+      { el: cluster.querySelector('.deco-r.deco-group'),       x:  90, delay: 180 },
+      { el: cluster.querySelector('.deco-r.ipad-shelf-group'), x: -90, delay: 380 },
     ].filter(function (g) { return g.el; });
 
-    var DURATION = '0.72s';
+    var DURATION = '1.1s';
     var EASE     = 'cubic-bezier(0.2, 0.8, 0.3, 1)';
 
     function init() {
@@ -2882,7 +2882,7 @@
         });
 
         // Strip inline overrides once animations finish so hover/repel CSS works normally
-        var clearAfter = 260 + 720 + 60; // max delay + duration + buffer
+        var clearAfter = 380 + 1100 + 60; // max delay + duration + buffer
         setTimeout(function () {
           groups.forEach(function (g) {
             g.el.style.transition      = '';

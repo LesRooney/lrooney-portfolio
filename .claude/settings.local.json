@@ -212,7 +212,9 @@
       "Bash(grep -v \"^$\")",
       "Bash(node -e \"require\\('sharp'\\); console.log\\('sharp ok'\\)\")",
       "Bash(ffmpeg -encoders)",
-      "Bash(ffmpeg -formats)"
+      "Bash(ffmpeg -formats)",
+      "mcp__figma-remote-mcp__whoami",
+      "mcp__fd71af9a-b2ba-4b02-965c-696818f28aa9__whoami"
     ]
   }
 }

@@ -176,7 +176,7 @@
     .card-video { opacity: 0; transition: opacity 0.2s ease; }
     .card-item:hover .card-thumb { opacity: 0; }
     .card-item:hover .card-video { opacity: 1; }
-    /* ── Mux player — card-4 */
+    /* ── Mux player — card-3, card-4 */
     .card-mux {
       position: absolute; inset: 0; width: 100%; height: 100%; display: block;
       opacity: 0;
@@ -184,9 +184,9 @@
       --media-object-fit: cover;
       --media-loading-indicator-display: none;
     }
-    #card-4 .card-thumb { transition: none; }
-    #card-4:hover .card-thumb { opacity: 0; }
-    #card-4:hover .card-mux { opacity: 1; }
+    #card-3 .card-thumb, #card-4 .card-thumb { transition: none; }
+    #card-3:hover .card-thumb, #card-4:hover .card-thumb { opacity: 0; }
+    #card-3:hover .card-mux, #card-4:hover .card-mux { opacity: 1; }
     .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
     .card-item:hover { z-index: 2; }
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
@@ -1029,9 +1029,16 @@
                 <source srcset="images/homerenter-thumb-v2.avif" type="image/avif">
                 <img class="card-thumb" src="images/homerenter-thumb-v2.jpg" alt="HomeRenter" width="840" height="840" loading="lazy">
               </picture>
-              <video class="card-video" muted loop playsinline preload="none">
-                <source data-src="videos/homerenter-preview.mp4" type="video/mp4">
-              </video>
+              <mux-player
+                class="card-mux"
+                playback-id="dg8u1yBsCuXqdaKDenM029OzZsRMS5MqIu8TfoJekXOM"
+                muted
+                loop
+                preload="auto"
+                playsinline
+                max-resolution="1080p"
+                min-resolution="720p"
+              ></mux-player>
             </div>
             <div class="card-info">
               <div class="card-title">HomeRenter</div>
@@ -1204,19 +1211,19 @@
       card.addEventListener('mouseleave', () => video.pause());
     });
 
-    // ── Mux player hover — card-4
-    (function() {
-      var card4 = document.getElementById('card-4');
-      var mux   = card4 && card4.querySelector('mux-player');
-      if (!card4 || !mux) return;
-      card4.addEventListener('mouseenter', function() {
+    // ── Mux player hover — card-3, card-4
+    ['card-3', 'card-4'].forEach(function(id) {
+      var card = document.getElementById(id);
+      var mux  = card && card.querySelector('mux-player');
+      if (!card || !mux) return;
+      card.addEventListener('mouseenter', function() {
         mux.play().catch(function() {});
       });
-      card4.addEventListener('mouseleave', function() {
+      card.addEventListener('mouseleave', function() {
         mux.pause();
         mux.currentTime = 0;
       });
-    })();
+    });
 
     // ── Blur sibling cards on hover
     (function() {

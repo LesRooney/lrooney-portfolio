@@ -20,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles/tokens.css?v=1">
+  <link rel="stylesheet" href="./styles/tokens.css?v=2">
   <style>
 /* ── PAGE SWITCHING ── */
     #page-home, #page-influence { display: none; }
@@ -99,7 +99,7 @@
     .person-em-clip {
       display: inline-block;
       vertical-align: baseline;
-      position: relative; left: 2px;
+      position: relative; left: 2px; z-index: 1;
       /* margin-right initialised to -clipWidth by JS on load; keeps natural width but collapses space */
     }
     .person-em {

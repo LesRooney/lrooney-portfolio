@@ -1387,7 +1387,17 @@
 
     // ── h1 entrance — extracted so it can replay on bfcache restore
     function runHeroEntrance() {
-      gsap.from('.h1-word', {
+      var hWords = gsap.utils.toArray('.h1-word');
+      // "Hi," — biggest overshoot in the sequence
+      gsap.from(hWords[0], {
+        opacity: 0,
+        y: 24,
+        duration: 0.6,
+        ease: 'back.out(1.8)',
+        delay: 0.18,
+      });
+      // "I'm" and "Lesley" word-wrappers — plain fade (chars carry their own overshoot)
+      gsap.from([hWords[1], hWords[2]], {
         opacity: 0,
         y: 24,
         duration: 0.6,

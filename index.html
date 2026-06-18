@@ -149,7 +149,6 @@
       position: relative;
       opacity: 0;
       transform: translateY(32px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
     }
     .card-item.in-view {
       opacity: 1;
@@ -1326,18 +1325,26 @@
       }
     });
 
-    // ── Scroll-in animation
+    // ── Scroll-in animation — GSAP overshoot, decreasing per card
     const cardItems = document.querySelectorAll('.card-item');
+    const cardOvershoots = [2.0, 1.6, 1.2, 0.9, 0.6, 0.3];
+    const cardDelaysMs   = [0, 180, 350, 0, 170, 350, 0, 180, 350];
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const idx = Array.from(cardItems).indexOf(entry.target);
-          const delays    = [0, 180, 350, 0, 170, 350, 0, 180, 350];
-          const cardDelay = delays[idx] ?? (idx % 3) * 170;
-          entry.target.style.transitionDelay = `${cardDelay}ms`;
+          const idx       = Array.from(cardItems).indexOf(entry.target);
+          const delayMs   = cardDelaysMs[idx] ?? (idx % 3) * 170;
+          const delaySec  = delayMs / 1000;
+          const overshoot = cardOvershoots[idx] ?? 0.4;
+          // Wire card-sub CSS transition timing
           const sub = entry.target.querySelector('.card-sub');
-          if (sub) sub.style.transitionDelay = `${cardDelay + 350}ms`;
+          if (sub) sub.style.transitionDelay = `${delayMs + 350}ms`;
           entry.target.classList.add('in-view');
+          // GSAP drives card-item entrance with back.out overshoot
+          gsap.fromTo(entry.target,
+            { opacity: 0, y: 32 },
+            { opacity: 1, y: 0, duration: 0.62, ease: 'back.out(' + overshoot + ')', delay: delaySec }
+          );
           observer.unobserve(entry.target);
         }
       });

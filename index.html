@@ -1341,10 +1341,16 @@
           if (sub) sub.style.transitionDelay = `${delayMs + 350}ms`;
           entry.target.classList.add('in-view');
           // GSAP drives card-item entrance with back.out overshoot
-          gsap.fromTo(entry.target,
-            { opacity: 0, y: 32 },
-            { opacity: 1, y: 0, duration: 0.62, ease: 'back.out(' + overshoot + ')', delay: delaySec }
-          );
+          // Guard: GSAP may not yet be loaded on first paint (CDN race) — fall back to CSS transition
+          if (window.gsap) {
+            gsap.fromTo(entry.target,
+              { opacity: 0, y: 32 },
+              { opacity: 1, y: 0, duration: 0.62, ease: 'back.out(' + overshoot + ')', delay: delaySec }
+            );
+          } else {
+            entry.target.style.transitionDelay = delayMs + 'ms';
+            entry.target.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+          }
           observer.unobserve(entry.target);
         }
       });

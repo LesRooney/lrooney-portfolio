@@ -1437,12 +1437,15 @@
     runHeroEntrance();
     // Helper — expands the clip to push person-rest right, then slots person-em up
     // Collapse the clip's space by setting margin-right = -offsetWidth (no transition yet)
+    var personAnimStarted = false;
     function collapsePersonClip() {
+      if (personAnimStarted) return; // animation already expanded the clip — don't re-collapse
       var clip = document.querySelector('.person-em-clip');
       if (clip) clip.style.marginRight = '-' + clip.offsetWidth + 'px';
     }
 
     function triggerPersonAnimation() {
+      personAnimStarted = true;
       var em   = document.querySelector('.person-em');
       var clip = document.querySelector('.person-em-clip');
       if (clip) {

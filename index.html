@@ -71,7 +71,7 @@
     .h1-word { display: inline-block; opacity: 1; }
     .h1-char { display: inline-block; opacity: 1; }
     .hero-intro { display: flex; flex-direction: column; gap: 10px; margin-top: 80px; }
-    .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: transform 0.5s ease; }
+    .intro-block { padding-left: 0; opacity: 0; transform: translateY(18px); transition: opacity 0.3s ease, transform 0.3s ease; }
     .intro-block.in-view { opacity: 1; transform: translateY(0); }
     .intro-label { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: capitalize; color: var(--ink); }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
@@ -1276,7 +1276,7 @@
 
     // ── Staggered slide-up for intro blocks
     function showIntroBlocks() {
-      const delays = [0, 150, 300, 450];
+      const delays = [0, 80, 160, 240];
       document.querySelectorAll('.intro-block').forEach((el, idx) => {
         setTimeout(() => el.classList.add('in-view'), delays[idx]);
       });

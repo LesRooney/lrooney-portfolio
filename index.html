@@ -1281,10 +1281,23 @@
         setTimeout(() => el.classList.add('in-view'), delays[idx]);
       });
     }
-    window.addEventListener('load', function() {
-      collapsePersonClip(); // collapse clip space after fonts load (accurate measurement)
+    // Show intro blocks after fonts resolve — don't wait for images/videos (Mux, Rive)
+    // which can take several seconds on Safari and leave the hero text invisible.
+    // document.fonts.ready fires as soon as fonts are available (system fonts = instant).
+    var introBlocksShown = false;
+    function triggerIntroBlocks() {
+      if (introBlocksShown) return;
+      introBlocksShown = true;
+      collapsePersonClip();
       showIntroBlocks();
-    });
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(triggerIntroBlocks);
+    } else {
+      window.addEventListener('load', triggerIntroBlocks);
+    }
+    // Safety fallback — never wait longer than 600ms regardless of font state
+    setTimeout(triggerIntroBlocks, 600);
 
     // ── bfcache restore: kill stale GSAP tweens, reset hero text to visible
     window.addEventListener('pageshow', (e) => {

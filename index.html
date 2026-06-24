@@ -228,12 +228,14 @@
       position: absolute; inset: 0; z-index: 0;
       display: flex; align-items: center; justify-content: center;
       border: 1.5px solid #e8e8e6;
+      border-radius: 20px;
+      background: var(--paper);
       pointer-events: none;
     }
     .card-loading.is-loaded { display: none; }
     .card-loading-label {
       font-family: var(--sans); font-size: 0.75rem; font-weight: 400;
-      color: #c8c8c4; letter-spacing: 0.04em;
+      color: var(--ink); letter-spacing: 0.04em;
     }
     .card-loading-label .dot { display: inline-block; }
     .dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }

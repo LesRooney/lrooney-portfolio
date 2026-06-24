@@ -223,6 +223,28 @@
       transform: translateY(0);
     }
 
+    /* ── Card loading placeholder ── */
+    .card-loading {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid #e8e8e6;
+      pointer-events: none;
+    }
+    .card-loading.is-loaded { display: none; }
+    .card-loading-label {
+      font-family: var(--sans); font-size: 0.75rem; font-weight: 400;
+      color: #c8c8c4; letter-spacing: 0.04em;
+    }
+    .card-loading-label .dot { display: inline-block; }
+    .dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }
+    .dot-3 { opacity: 0; animation: dot3Ping 2s ease-in-out infinite; }
+    @keyframes dot2Ping {
+      0%, 16.9% { opacity: 0; } 17%, 66.9% { opacity: 1; } 67%, 100% { opacity: 0; }
+    }
+    @keyframes dot3Ping {
+      0%, 33.9% { opacity: 0; } 34%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; }
+    }
+
     /* Badges stay on the thumb */
     .card-lock { position: absolute; top: 12px; left: 12px; font-size: 0.72rem; background: rgba(20,20,18,0.72); color: var(--paper); padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
     .card-new  { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 500; background: var(--color-link); color: var(--paper); padding: 3px 9px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -982,6 +1004,7 @@
                 <source data-src="images/EDCRedesign/EDC_Redesign_Tile.mp4" type="video/mp4">
               </video>
               <span class="card-new">New</span>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">Medidata • EDC Redesign<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -998,6 +1021,7 @@
               <video class="card-video" muted loop playsinline preload="none">
                 <source data-src="videos/qualis-airquality-preview.mp4" type="video/mp4">
               </video>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">Qualis Flow • Air Quality</div>
@@ -1016,6 +1040,7 @@
                 <source srcset="images/FireTracker/Menu - Portfolio.avif" type="image/avif">
                 <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="" width="840" height="840" loading="lazy">
               </picture>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">Side Project • FIRE Tracker</div>
@@ -1039,6 +1064,7 @@
                 max-resolution="1080p"
                 min-resolution="720p"
               ></mux-player>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">HomeRenter</div>
@@ -1062,6 +1088,7 @@
                 max-resolution="1080p"
                 min-resolution="720p"
               ></mux-player>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">Qualis Flow • Alerts &amp; IA<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1078,6 +1105,7 @@
               <video class="card-video" muted loop playsinline preload="none">
                 <source data-src="videos/medidata-risk-preview.mp4" type="video/mp4">
               </video>
+              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
             </div>
             <div class="card-info">
               <div class="card-title">Medidata • Risk Management<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1337,6 +1365,15 @@
         resetPersonAnimation();
         showIntroBlocks();
       }
+    });
+
+    // ── Hide card-loading placeholder once thumbnail image loads
+    document.querySelectorAll('.card-thumb').forEach(function(img) {
+      var placeholder = img.closest('.card') && img.closest('.card').querySelector('.card-loading');
+      if (!placeholder) return;
+      function hide() { placeholder.classList.add('is-loaded'); }
+      if (img.complete && img.naturalWidth > 0) { hide(); }
+      else { img.addEventListener('load', hide); img.addEventListener('error', hide); }
     });
 
     // ── Scroll-in animation — GSAP overshoot, decreasing per card

@@ -80,7 +80,7 @@
     .intro-label { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: capitalize; color: var(--ink); }
     .intro-text { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.65; }
     .intro-rive { display: inline-block; vertical-align: -3px; height: 24px; width: auto; margin-left: 4px; }
-    .intro-selfie { display: inline-block; vertical-align: middle; width: 24px; height: 24px; border-radius: 8px; object-fit: cover; object-position: center 30%; margin: 0 4px; position: relative; top: -1px; }
+    .intro-selfie { display: inline-block; vertical-align: middle; width: 24px; height: 24px; border-radius: 8px; object-fit: cover; object-position: center 30%; margin: 0 4px; position: relative; top: -1px; transform: rotate(5deg); }
 
     /* ── Alternating test tube / magnifying glass ── */
     .tube-glass-wrap {
@@ -90,7 +90,7 @@
     }
     .tube-glass-wrap img { position: absolute; top: 0; left: 0; width: 24px; height: 24px; mix-blend-mode: multiply; }
     .tube-img { object-fit: contain; object-position: center center; }
-    .glass-img { object-fit: contain; border-radius: 0; transform: scaleX(-1); }
+    .glass-img { transform: scaleX(-1); }
     @keyframes showTube  { 0% { opacity: 1; } 44% { opacity: 1; } 50% { opacity: 0; } 94% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes showGlass { 0% { opacity: 0; } 44% { opacity: 0; } 50% { opacity: 1; } 94% { opacity: 1; } 100% { opacity: 0; } }
     @keyframes tubeTilt  { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
@@ -957,10 +957,7 @@
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a problem solver,</strong> I experiment,<span class="tube-glass-wrap"><picture>
                 <img src="images/HomepageImages/test-tube.png" alt="" aria-hidden="true" class="tube-img">
-              </picture><picture>
-                <source srcset="images/HomepageImages/MagnifyingGlass_small.avif" type="image/avif">
-                <img src="images/HomepageImages/MagnifyingGlass_small.webp" alt="" aria-hidden="true" class="glass-img">
-              </picture></span> research and collaborate to de-risk ideas before committing resources.</p>
+              </picture><img src="images/icons/search-icon 1.svg" alt="" aria-hidden="true" class="glass-img"></span> research and collaborate to de-risk ideas before committing resources.</p>
       </div>
       <div class="intro-block">
         <p class="intro-text"><strong class="intro-label">As a creative,</strong> I've moved across industries and domains, applying and learning from the best ideas <img class="intro-rive" src="images/Animations/LesleyFavicon_r2r2_front_walk_walk.webp" alt="" aria-hidden="true"></p>

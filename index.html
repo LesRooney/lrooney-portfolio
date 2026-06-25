@@ -416,6 +416,47 @@
     .ipad-shelf-group:hover .ipad-shelf-title { color: var(--ink); }
     .ipad-shelf-group:hover .ipad-shelf-title span { padding-left: 20px; }
     .ipad-shelf-group:hover .ipad-shelf-title span::before { animation: squareMorph 0.28s ease-out forwards; }
+    .ipad-shelf-subtitle {
+      margin-top: 10px; pointer-events: none;
+      display: flex; justify-content: center; width: 100%;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .ipad-shelf-subtitle span {
+      display: inline-block;
+      font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
+      background: var(--paper);
+      border: 1px solid var(--rule); border-radius: 8px;
+      padding: 5px 14px; white-space: nowrap;
+    }
+    .ipad-shelf-group:hover .ipad-shelf-subtitle { opacity: 1; transform: translateY(0); }
+    /* Shared subtitle pill for Influence and TV groups */
+    .deco-subtitle {
+      margin-top: 10px; pointer-events: none;
+      display: flex; justify-content: center; width: 100%;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .deco-subtitle span {
+      display: inline-block;
+      font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+      padding: 5px 14px; white-space: nowrap;
+    }
+    /* Influence subtitle — same left/width as .deco-group-influence-title */
+    .deco-group-influence-title ~ .deco-subtitle {
+      position: absolute; top: 390px; left: 70px; width: 100%;
+    }
+    /* TV subtitle — same left/width as .deco-tv-title */
+    .deco-tv-group .deco-subtitle {
+      position: absolute; top: 460px; left: 110px; width: 100%;
+    }
+    .deco-tv-group .deco-subtitle { transform: scale(0.831) translateY(6px); transform-origin: top center; }
+    .deco-tv-group .deco-subtitle span { background: transparent; border-color: #D3D8DA; height: 32px; box-sizing: border-box; display: inline-flex; align-items: center; }
+    .deco-tv-group.tv-hovered .deco-subtitle { transform: scale(0.831) translateY(0); }
+    .deco-group-books:hover ~ .deco-subtitle,
+    .deco-group-books.books-hovered ~ .deco-subtitle { opacity: 1; transform: translateY(0); }
+    .deco-tv-group.tv-hovered .deco-subtitle { opacity: 1; transform: translateY(0); }
 
     /* ── RIGHT-SIDE DECO (blackboard + shelf grouped) ── */
     .deco-r { position: absolute; }
@@ -534,6 +575,7 @@
       position: relative;
       line-height: 0;
       background-color: transparent;
+      margin-top: 160px;
     }
     .rive-divider canvas {
       position: absolute;
@@ -1170,6 +1212,7 @@
         </div>
 
         <div class="deco-group-influence-title"><span>Influence</span></div>
+        <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
         <div class="deco-tv-group">
           <img src="images/icons/TVGreen_on 1.png" class="deco-group-tv" alt="" loading="lazy">
           <video class="deco-group-tv-screen" muted playsinline loop>
@@ -1177,6 +1220,7 @@
           </video>
 
           <div class="deco-tv-title"><span>Other Professional Work</span></div>
+          <div class="deco-subtitle"><span>Games • Simulation • Films &amp; Stuff</span></div>
         </div>
       </div>
       <!-- iPad + hand-drawn shelf — grouped, no gap -->
@@ -1190,6 +1234,7 @@
         </a>
         <img src="images/icons/HandDrawn_Shelf.svg" class="ipad-shelf-line" alt="" loading="lazy">
         <div class="ipad-shelf-title"><span>Playground</span></div>
+        <div class="ipad-shelf-subtitle"><span>Experiments • Animations • Side projects and more</span></div>
       </div>
     </div>
     </div><!-- /.cloud-cluster-bg -->

@@ -39,10 +39,6 @@
 
     html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
 
-    @keyframes pageBlurIn {
-      from { filter: blur(6px); opacity: 0.85; }
-      to   { filter: blur(0);   opacity: 1; }
-    }
     body {
       background: var(--paper);
       color: var(--ink);
@@ -51,7 +47,6 @@
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      animation: pageBlurIn 0.45s ease-out both;
     }
 
 
@@ -984,7 +979,6 @@
   [src*="ardalio"] { display: none !important; }
   </style>
 
-  
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){

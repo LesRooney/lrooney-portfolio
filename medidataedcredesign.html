@@ -700,6 +700,22 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
+  /* ── Lightbox ── */
+  .lb-trigger { cursor: zoom-in; }
+  #edc-lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(20,20,18,0.96);
+    align-items: center; justify-content: center;
+  }
+  #edc-lightbox.open { display: flex; }
+  #edc-lb-img { max-width: 92vw; max-height: 90vh; object-fit: contain; display: block; border-radius: 8px; }
+  #edc-lb-close {
+    position: absolute; top: 20px; right: 24px;
+    background: none; border: none; color: #fff; font-size: 2rem;
+    cursor: pointer; line-height: 1; opacity: 0.7;
+  }
+  #edc-lb-close:hover { opacity: 1; }
+
   </style>
 
   <!-- Hotjar Tracking Code for https://www.lrooney.com -->
@@ -1259,7 +1275,15 @@
         </div>
       </div>
     </div>
-    <p style="margin-top: 28px;">Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external design systems and static step by step mocks falling flat, I put together a quick prototype for the team to try.</p>
+    <div class="img-card reveal" style="margin: 56px 0;">
+      <p class="cs-caption">I put together a <strong>component audit of the redesign</strong>, basically a <strong>proactive spreadsheet that keeps everyone informed</strong> and aligned. It displayed which components the <strong>Design System team needs to prioritise across products, and which ones EDC engineers will need to build</strong> from scratch while still following system standards, patterns and contribute back. Each <strong>component tagged by user value</strong>, existing, or new, making it clear its importance and transparency to build or weight the pros and cons.</p>
+      <picture>
+        <source srcset="images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.avif" type="image/avif">
+        <img src="images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.webp" alt="Component audit spreadsheet showing value buckets and priorities" style="width:100%; display:block; border-radius:8px;">
+      </picture>
+    </div>
+
+    <p>Another pattern that made it into the design system: <strong>a smoother, faster, more forgiving time-input for medication.</strong> With no strong examples in external design systems and static step by step mocks falling flat, I put together a quick prototype for the team to try.</p>
     <a href="https://1xe7ex.axshare.com/" target="_blank" class="proto-link fill">Time picker prototype ↗</a>
   </div>
 
@@ -1318,6 +1342,33 @@
       <span class="back-to-work-arrow">←</span> Back to work
     </a>
   </div>
+
+<script>
+(function() {
+  // Build lightbox as direct body child so position:fixed isn't broken by Lenis transforms
+  var lb = document.createElement('div');
+  lb.id = 'edc-lightbox';
+  lb.setAttribute('role', 'dialog');
+  lb.setAttribute('aria-modal', 'true');
+  lb.setAttribute('aria-label', 'Image viewer');
+  lb.innerHTML = '<button id="edc-lb-close" aria-label="Close">&times;</button><img id="edc-lb-img" src="" alt="">';
+  document.body.appendChild(lb);
+  var img = document.getElementById('edc-lb-img');
+  var close = document.getElementById('edc-lb-close');
+  document.querySelectorAll('.lb-trigger').forEach(function(el) {
+    el.addEventListener('click', function() {
+      img.src = el.dataset.lbSrc || el.querySelector('img').src;
+      img.alt = el.querySelector('img') ? el.querySelector('img').alt : '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLb() { lb.classList.remove('open'); img.src = ''; document.body.style.overflow = ''; }
+  close.addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e) { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLb(); });
+})();
+</script>
 
 <footer>
   <div class="footer-inner">

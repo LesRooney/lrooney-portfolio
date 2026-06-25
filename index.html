@@ -1172,7 +1172,7 @@
         <div class="deco-group-influence-title"><span>Influence</span></div>
         <div class="deco-tv-group">
           <img src="images/icons/TVGreen_on 1.png" class="deco-group-tv" alt="" loading="lazy">
-          <video class="deco-group-tv-screen" playsinline loop>
+          <video class="deco-group-tv-screen" muted playsinline loop>
             <source src="images/HomepageImages/GamesVFXTV_InsideAgain.mp4" type="video/mp4">
           </video>
 
@@ -2122,8 +2122,14 @@
       vid.addEventListener('play', function () { if (!vid._hovered) vid.pause(); });
       var tvGroup = vid.closest('.deco-tv-group');
       var tvTitle = tvGroup && tvGroup.querySelector('.deco-tv-title');
-      function activateTV() { vid._hovered = true; vid.loop = true; vid.play(); if (tvGroup) tvGroup.classList.add('tv-hovered'); }
-      function resetTV() { vid._hovered = false; vid.pause(); vid.currentTime = 0; if (tvGroup) tvGroup.classList.remove('tv-hovered'); }
+      function activateTV() {
+        vid._hovered = true; vid.loop = true;
+        vid.muted = false; // unmute on hover (user gesture allows this)
+        var p = vid.play();
+        if (p !== undefined) p.catch(function() { vid.muted = true; vid.play(); }); // fallback: muted if browser blocks
+        if (tvGroup) tvGroup.classList.add('tv-hovered');
+      }
+      function resetTV() { vid._hovered = false; vid.muted = true; vid.pause(); vid.currentTime = 0; if (tvGroup) tvGroup.classList.remove('tv-hovered'); }
       vid.addEventListener('mouseenter', activateTV);
       vid.addEventListener('mouseleave', resetTV);
       if (tvTitle) tvTitle.addEventListener('mouseenter', activateTV);

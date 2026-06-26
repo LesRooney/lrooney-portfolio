@@ -769,6 +769,119 @@ Cloudflare serves `styles/components.css` with `cache-control: public, max-age=3
 - All case study pages + `influence.html` link this stylesheet — bump them together
 - Without the bump, returning visitors won't see the new styles even after deploy
 
+## deco-subtitle pill (homepage deco groups)
+
+A hover-revealed descriptor pill beneath each deco group title (Playground/iPad, Influence/books, TV). Fades in with a 6px upward slide when the group is hovered.
+
+**CSS (in `index.html`):**
+```css
+.ipad-shelf-subtitle {
+  margin-top: 10px; pointer-events: none;
+  display: flex; justify-content: center; width: 100%;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+}
+.ipad-shelf-subtitle span {
+  display: inline-flex; align-items: center;
+  font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 5px 14px; white-space: nowrap;
+  height: 32px; box-sizing: border-box;
+}
+.ipad-shelf-group:hover .ipad-shelf-subtitle { opacity: 1; transform: translateY(0); }
+```
+
+**For Influence and TV groups** use `.deco-subtitle` class instead of `.ipad-shelf-subtitle`. TV variant: `background: transparent; border-color: #D3D8DA;` and `transform: scale(0.831)` on the div to counteract `.deco-tv-group`'s `scale(1.204)`. **All three pills render at 32px** — Playground is direct (height: 32px), Influence/TV are inside containers and need the same 32px CSS since `deco-r.deco-group` resolves to `scale(1)` at rest.
+
+**Hover triggers:**
+- Playground: `.ipad-shelf-group:hover .ipad-shelf-subtitle`
+- Influence: `.deco-group-books:hover ~ .deco-subtitle` and `.books-hovered ~ .deco-subtitle`
+- TV: `.deco-tv-group.tv-hovered .deco-subtitle`
+
+**HTML (Playground):**
+```html
+<div class="ipad-shelf-subtitle"><span>Experiments • Animations • Side projects and more</span></div>
+```
+
+**HTML (Influence/TV):**
+```html
+<div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
+```
+
+## card-loading placeholder (homepage work grid)
+
+Shows a "Loading..." label with ping-pong dot animation while a card thumbnail is fetching. Hides automatically once the image loads.
+
+**CSS (in `index.html`):**
+```css
+.card-loading { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; border: 1.5px solid #e8e8e6; border-radius: 20px; background: var(--paper); pointer-events: none; }
+.card-loading.is-loaded { display: none; }
+.card-loading-label { font-family: var(--sans); font-size: 0.75rem; font-weight: 400; color: var(--ink); letter-spacing: 0.04em; }
+.dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }
+.dot-3 { opacity: 0; animation: dot3Ping 2s ease-in-out infinite; }
+```
+
+**HTML (inside every `.card`):**
+```html
+<div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+```
+
+**JS:** Hides `.card-loading` by adding `is-loaded` class once `img.complete && img.naturalWidth > 0`.
+
+## selfie-wrap / pixel scatter (homepage hero)
+
+The selfie photo uses a two-layer pattern to separate GSAP scroll-tilt from a pixel scatter hover effect.
+
+**Pattern:**
+- `.selfie-wrap` (the `<span>`) — GSAP ScrollTrigger targets this for scroll-driven 0→30° rotation
+- `.intro-selfie` (the `<img>`) — pixel scatter canvas overlays this on hover
+
+**HTML:**
+```html
+<span class="selfie-wrap"><picture>
+  <source srcset="images/HomepageImages/Selfie.avif" type="image/avif">
+  <img src="images/HomepageImages/Selfie.webp" alt="Lesley Rooney" class="intro-selfie">
+</picture></span>
+```
+
+**Scroll tilt (GSAP ScrollTrigger):**
+```js
+gsap.to('.selfie-wrap', { rotation: 30, ease: 'none', scrollTrigger: { trigger: 'body', start: '0px top', end: '320px top', scrub: 0.4 } });
+```
+
+**Pixel scatter hover** — JS samples the 28×28 image via canvas, spawns coloured particle dots at each pixel origin, animates them outward on `mouseenter` and back on `mouseleave`. Canvas is `position:absolute` inside `.selfie-wrap` with `pointer-events:none`. **Never apply `body { filter: blur() }` on this page** — any non-`none` filter on `body` creates a stacking context that breaks `position:fixed` elements (cursor canvas, modals) and offsets pointer tracking.
+
+## body `filter` warning
+
+**Do not apply `filter` or `animation` with `filter` to `body`.** Even `filter: blur(0)` creates a new stacking context that:
+- Breaks `position: fixed` coordinate space (cursor canvas, lightbox overlays)
+- Offsets mouse pointer tracking in the cursor particle trail
+
+If you need a page-load blur effect, use a separate fixed overlay with `backdrop-filter` instead of `body { filter }`.
+
+## lightbox (single image, EDC page)
+
+Body-appended via JS to avoid Lenis scroll wrapper transform breaking `position: fixed`.
+
+**Key:** Do NOT place the lightbox `<div>` inside `#page-content` or any Lenis wrapper. Always append to `document.body` directly:
+
+```js
+var lb = document.createElement('div');
+lb.id = 'edc-lightbox';
+lb.innerHTML = '<button id="edc-lb-close">&times;</button><img id="edc-lb-img" src="" alt="">';
+document.body.appendChild(lb);
+```
+
+**Trigger:** add `lb-trigger` class and `data-lb-src="path/to/image.webp"` to the clickable element. CSS `cursor: zoom-in` on `.lb-trigger`.
+
+**CSS (inside page `<style>`):**
+```css
+#edc-lightbox { display:none; position:fixed; inset:0; z-index:1000; background:rgba(20,20,18,0.96); align-items:center; justify-content:center; }
+#edc-lightbox.open { display:flex; }
+#edc-lb-img { max-width:92vw; max-height:90vh; object-fit:contain; display:block; border-radius:8px; }
+#edc-lb-close { position:absolute; top:20px; right:24px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; opacity:0.7; }
+```
+
 ## Owner
 Lesley Rooney — Senior Product Designer
 Contact: ley.rooney@gmail.com

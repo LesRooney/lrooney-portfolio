@@ -227,7 +227,7 @@
     /* ── Card loading placeholder ── */
     .card-loading {
       position: absolute; inset: 0; z-index: 0;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
       border: 1.5px solid #e8e8e6;
       border-radius: 20px;
       background: var(--paper);
@@ -236,9 +236,34 @@
     .card-loading.is-loaded { display: none; }
     /* Re-show placeholder when hovering but video not ready yet */
     .card-item.video-loading .card-loading { display: flex !important; }
+    /* ── Square loading squares ── */
+    .card-blob-loader { display: flex; align-items: center; gap: 3px; }
+    .card-blob-loader span {
+      display: block; width: 7px; height: 7px;
+      background: var(--ink); border-radius: 2px; opacity: 0.35;
+      animation: cardBlobLoad 0.9s ease-in-out infinite;
+    }
+    .card-blob-loader span:nth-child(2) { animation-delay: 0.15s; }
+    .card-blob-loader span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes cardBlobLoad {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.25; }
+      50%       { transform: scaleY(1);   opacity: 0.55; }
+    }
+    /* ── Video progress bar — 2px at bottom of tile ── */
+    .card-progress {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: rgba(0,0,0,0.08); border-radius: 0 0 20px 20px;
+      overflow: hidden; opacity: 0; transition: opacity 0.2s;
+      z-index: 2;
+    }
+    .card-item.video-loading .card-progress { opacity: 1; }
+    .card-progress-fill {
+      height: 100%; width: 0%; background: var(--ink);
+      transition: width 0.3s ease;
+    }
     .card-loading-label {
       font-family: var(--sans); font-size: 0.75rem; font-weight: 400;
-      color: var(--ink); letter-spacing: 0.04em;
+      color: #ABABAB; letter-spacing: 0.04em;
     }
     .card-loading-label .dot { display: inline-block; }
     .dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }
@@ -1052,7 +1077,7 @@
                 <source data-src="images/EDCRedesign/EDC_Redesign_Tile.mp4" type="video/mp4">
               </video>
               <span class="card-new">New</span>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">Medidata • EDC Redesign<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1069,7 +1094,7 @@
               <video class="card-video" muted loop playsinline preload="none">
                 <source data-src="videos/qualis-airquality-preview.mp4" type="video/mp4">
               </video>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">Qualis Flow • Air Quality</div>
@@ -1088,7 +1113,7 @@
                 <source srcset="images/FireTracker/Menu - Portfolio.avif" type="image/avif">
                 <img class="card-video" src="images/FireTracker/Menu - Portfolio.webp" alt="" width="840" height="840" loading="lazy">
               </picture>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">Side Project • FIRE Tracker</div>
@@ -1112,7 +1137,7 @@
                 max-resolution="1080p"
                 min-resolution="720p"
               ></mux-player>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">HomeRenter</div>
@@ -1136,7 +1161,7 @@
                 max-resolution="1080p"
                 min-resolution="720p"
               ></mux-player>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">Qualis Flow • Alerts &amp; IA<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1153,7 +1178,7 @@
               <video class="card-video" muted loop playsinline preload="none">
                 <source data-src="videos/medidata-risk-preview.mp4" type="video/mp4">
               </video>
-              <div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
+              <div class="card-loading"><div class="card-blob-loader"><span></span><span></span><span></span></div><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div><div class="card-progress"><div class="card-progress-fill"></div></div>
             </div>
             <div class="card-info">
               <div class="card-title">Medidata • Risk Management<span class="lock-badge"><img src="images/icons/locked_extrabold.svg" alt="Password protected" class="card-lock-icon"></span></div>
@@ -1285,17 +1310,33 @@
         if (video.dataset.playbackRate) video.playbackRate = parseFloat(video.dataset.playbackRate);
         video.currentTime = 0;
         video.play().catch(() => {});
-        // Show loading placeholder if video not ready yet
+        // Show loading placeholder + progress bar if video not ready yet
         if (video.readyState < 2) {
           card.classList.add('video-loading');
-          video.addEventListener('canplay', () => card.classList.remove('video-loading'), { once: true });
-          video.addEventListener('error',   () => card.classList.remove('video-loading'), { once: true });
+          const fill = card.querySelector('.card-progress-fill');
+          const updateProgress = () => {
+            if (fill && video.duration && video.buffered.length) {
+              fill.style.width = (video.buffered.end(0) / video.duration * 100) + '%';
+            }
+          };
+          video.addEventListener('progress', updateProgress);
+          video.addEventListener('canplay', () => {
+            card.classList.remove('video-loading');
+            video.removeEventListener('progress', updateProgress);
+            if (fill) fill.style.width = '0%';
+          }, { once: true });
+          video.addEventListener('error', () => {
+            card.classList.remove('video-loading');
+            video.removeEventListener('progress', updateProgress);
+          }, { once: true });
         }
       });
 
       card.addEventListener('mouseleave', () => {
         video.pause();
         card.classList.remove('video-loading');
+        const fill = card.querySelector('.card-progress-fill');
+        if (fill) fill.style.width = '0%';
       });
     });
 

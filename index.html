@@ -234,6 +234,8 @@
       pointer-events: none;
     }
     .card-loading.is-loaded { display: none; }
+    /* Re-show placeholder when hovering but video not ready yet */
+    .card-item.video-loading .card-loading { display: flex !important; }
     .card-loading-label {
       font-family: var(--sans); font-size: 0.75rem; font-weight: 400;
       color: var(--ink); letter-spacing: 0.04em;
@@ -1283,9 +1285,18 @@
         if (video.dataset.playbackRate) video.playbackRate = parseFloat(video.dataset.playbackRate);
         video.currentTime = 0;
         video.play().catch(() => {});
+        // Show loading placeholder if video not ready yet
+        if (video.readyState < 2) {
+          card.classList.add('video-loading');
+          video.addEventListener('canplay', () => card.classList.remove('video-loading'), { once: true });
+          video.addEventListener('error',   () => card.classList.remove('video-loading'), { once: true });
+        }
       });
 
-      card.addEventListener('mouseleave', () => video.pause());
+      card.addEventListener('mouseleave', () => {
+        video.pause();
+        card.classList.remove('video-loading');
+      });
     });
 
     // ── Mux player hover — card-3, card-4

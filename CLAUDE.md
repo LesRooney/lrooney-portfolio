@@ -808,6 +808,51 @@ A hover-revealed descriptor pill beneath each deco group title (Playground/iPad,
 <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
 ```
 
+## tile-loader (homepage work grid)
+
+**Name to use when referencing this:** `tile-loader`
+
+A three-part loading state that lives inside each `.card` on the homepage. Shows while the thumbnail image is loading, and re-appears (with a real progress bar) when the user hovers a card but the hover video hasn't buffered yet.
+
+**Three parts:**
+1. **Animated squares** — 3 small 7px rounded squares that bounce with staggered delay (subtle, not text-based)
+2. **Loading text with animated dots** — "Loading..." with a ping-pong dot sequence (1→2→3→2→1)
+3. **Video progress bar** — 2px bar at the bottom of the tile, fills in real-time via `video.buffered` as the video downloads
+
+**HTML (inside every `.card` div, after the video element):**
+```html
+<div class="card-loading">
+  <div class="card-blob-loader"><span></span><span></span><span></span></div>
+  <span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span>
+</div>
+<div class="card-progress"><div class="card-progress-fill"></div></div>
+```
+
+**CSS class reference:**
+- `.card-loading` — full-card overlay container, hidden once thumbnail loads (`is-loaded` class), re-shown via `.card-item.video-loading .card-loading { display: flex !important }`
+- `.card-blob-loader` — flex row of 3 spans, each 7×7px black squares with `border-radius: 2px`, staggered `scaleY` bounce
+- `.card-loading-label` — "Loading..." text at `#ABABAB`, uses `.dot-1/.dot-2/.dot-3` for ping-pong animation
+- `.card-progress` — `position: absolute; bottom: 0; height: 2px;` — hidden until `.card-item.video-loading` class is added
+- `.card-progress-fill` — `width` driven by `video.buffered.end(0) / video.duration * 100`
+
+**State transitions:**
+- Page load → thumbnail loads → JS adds `is-loaded` → `.card-loading` hides permanently
+- Hover → if `video.readyState < 2` → JS adds `video-loading` to `.card-item` → both `.card-loading` and `.card-progress` appear → `progress` event updates fill width → `canplay` fires → `video-loading` removed → both disappear
+- `mouseleave` → `video-loading` removed, progress fill resets to 0%
+
+**CSS key rules (all in `index.html` `<style>` block):**
+```css
+.card-loading { position:absolute; inset:0; z-index:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border:1.5px solid #e8e8e6; border-radius:20px; background:var(--paper); pointer-events:none; }
+.card-loading.is-loaded { display:none; }
+.card-item.video-loading .card-loading { display:flex !important; }
+.card-blob-loader { display:flex; align-items:center; gap:3px; }
+.card-blob-loader span { display:block; width:7px; height:7px; background:var(--ink); border-radius:2px; opacity:0.35; animation:cardBlobLoad 0.9s ease-in-out infinite; }
+.card-loading-label { font-family:var(--sans); font-size:0.75rem; color:#ABABAB; }
+.card-progress { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(0,0,0,0.08); border-radius:0 0 20px 20px; overflow:hidden; opacity:0; transition:opacity 0.2s; z-index:2; }
+.card-item.video-loading .card-progress { opacity:1; }
+.card-progress-fill { height:100%; width:0%; background:var(--ink); transition:width 0.3s ease; }
+```
+
 ## card-loading placeholder (homepage work grid)
 
 Shows a "Loading..." label with ping-pong dot animation while a card thumbnail is fetching. Hides automatically once the image loads.

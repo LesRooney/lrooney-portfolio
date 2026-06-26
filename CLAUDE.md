@@ -808,9 +808,27 @@ A hover-revealed descriptor pill beneath each deco group title (Playground/iPad,
 <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
 ```
 
-## tile-loader (homepage work grid)
+## media-loader (formerly tile-loader)
 
-**Name to use when referencing this:** `tile-loader`
+**Name to use when referencing this:** `media-loader`
+**Dark variant:** `media-loader--dark`
+
+A three-part loading state for any image, video, or card waiting on content. Lives on the homepage work tiles and can be applied to case study images/videos. Two colour variants — light (default) and dark (for black-background contexts).
+
+**Variants:**
+
+| Variant | Background | Squares | Text | Border | Progress bar |
+|---|---|---|---|---|---|
+| `media-loader` (light) | `var(--paper)` | `var(--ink)` | `#ABABAB` | `#e8e8e6` | `var(--ink)` |
+| `media-loader--dark` | dark/transparent | `#fff` | `rgba(255,255,255,0.5)` | `rgba(255,255,255,0.15)` | `#fff` |
+
+**Use `media-loader--dark` when:** the content behind the placeholder is a dark/black video (e.g. TV deco, dark hero images), or when the card background is explicitly dark.
+
+---
+
+*Homepage implementation note:* The existing CSS class names (`card-loading`, `card-blob-loader`, `card-progress` etc.) are kept as-is in `index.html`. "media-loader" is the design-system name; the code classes don't need to match.
+
+---
 
 A three-part loading state that lives inside each `.card` on the homepage. Shows while the thumbnail image is loading, and re-appears (with a real progress bar) when the user hovers a card but the hover video hasn't buffered yet.
 

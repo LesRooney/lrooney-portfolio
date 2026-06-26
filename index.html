@@ -265,6 +265,11 @@
       font-family: var(--sans); font-size: 0.75rem; font-weight: 400;
       color: #ABABAB; letter-spacing: 0.04em;
     }
+    /* ── media-loader--dark variant (dark/black backgrounds) ── */
+    .card-loading.media-loader--dark { background: rgba(0,0,0,0.72); border-color: rgba(255,255,255,0.15); }
+    .card-loading.media-loader--dark .card-blob-loader span { background: #fff; }
+    .card-loading.media-loader--dark .card-loading-label { color: rgba(255,255,255,0.5); }
+    .card-progress.media-loader--dark .card-progress-fill { background: #fff; }
     .card-loading-label .dot { display: inline-block; }
     .dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }
     .dot-3 { opacity: 0; animation: dot3Ping 2s ease-in-out infinite; }

@@ -716,6 +716,23 @@
   }
   #edc-lb-close:hover { opacity: 1; }
 
+  /* ── edc-ml: unified media-loader for EDC page elements ── */
+  .edc-ml {
+    position:absolute; inset:0; z-index:5;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    transition:opacity 0.4s ease; pointer-events:none;
+  }
+  .edc-ml--light { background:var(--paper); border:1.5px solid #e8e8e6; border-radius:8px; }
+  .edc-ml--dark  { background:rgba(0,0,0,0.88); border-radius:inherit; }
+  .edc-ml-progress { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(0,0,0,0.08); border-radius:0 0 8px 8px; }
+  .edc-ml--dark .edc-ml-progress { background:rgba(255,255,255,0.1); }
+  .edc-ml-fill { height:100%; width:0%; background:var(--ink); transition:width 0.3s ease; }
+  .edc-ml--dark .edc-ml-fill { background:#fff; }
+
+  /* ── media-loader light variant (praise carousel, system maps) ── */
+  .ml-squares--light span { background: var(--ink); }
+  .ml-label--light { color: #ABABAB; }
+
   /* ── media-loader--dark (EDC mockup video) ── */
   .ml-squares { display:flex; align-items:center; gap:3px; }
   .ml-squares span { display:block; width:7px; height:7px; background:#fff; border-radius:2px; opacity:0.35; animation:mlBounce 0.9s ease-in-out infinite; }
@@ -888,7 +905,7 @@
           <div class="tool-item"><img class="tool-icon" src="images/icons/slack.svg" alt=""><span>Slack</span></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/zoom.svg" alt=""><span>Zoom</span></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/notion.svg" alt=""><span>Notion</span></div>
-          <div class="tool-item"><img class="tool-icon" src="images/icons/pendo.svg" alt="" style="width:auto;height:16px;"></div>
+          <div class="tool-item"><img class="tool-icon" src="images/icons/pendo.svg" alt="" style="width:auto;height:20px;"></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/axure.svg" alt="" style="width:auto;height:10px;"></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/condens.svg" alt="" style="width:auto;height:16px;"></div>
           <div class="tool-item"><img class="tool-icon" src="images/icons/pen-paper.svg" alt=""><span>Pen &amp; Paper</span></div>
@@ -936,7 +953,11 @@
       <p class="cs-caption" style="margin: 0 0 8px;">Highlights from a 10-minute Loom I created to surface research themes for stakeholders. Credited past designers whose earlier work helped the team to avoid bias or see patterns within our conclusions. Click to pause.</p>
       <div class="hover-reveal" id="loom-reveal" style="margin: 0; border-radius: 10px;">
         <div class="hr-base" style="position:relative;">
-          <canvas id="loom-rive-loader" style="position:absolute; inset:0; width:100%; height:100%; border-radius:10px; background:#1a2f56; z-index:1; display:flex; align-items:center; justify-content:center;"></canvas>
+          <div id="loom-rive-loader" style="position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:#1a2f56; border-radius:10px; transition:opacity 0.4s ease;">
+            <div class="ml-squares"><span></span><span></span><span></span></div>
+            <span class="ml-label">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span>
+            <div style="position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,0.1); border-radius:0 0 10px 10px;"><div id="loom-ml-fill" style="height:100%; width:0%; background:#fff; transition:width 0.3s ease;"></div></div>
+          </div>
           <video id="loom-video" muted loop playsinline preload="metadata" poster="images/EDCRedesign/EDC_LoomResearch_poster.jpg" style="width:100%; aspect-ratio:16/9; display:block; border-radius:10px; position:relative; z-index:2;">
             <source src="images/EDCRedesign/EDC_LoomResearchMovie.mp4" type="video/mp4">
           </video>
@@ -996,7 +1017,12 @@
     <!-- Carousel: Outcomes -->
     <div class="img-card">
       <p class="cs-caption" style="max-width: 100%; margin: 0 0 8px;">After a lukewarm end of year 2022 pitch, <strong>executive buy-in came in 2023 once we demonstrated interactive prototypes and clear productivity gains.</strong> The redesign is rolling out in phases across Q4 2025 to Q3 2026. Some platform changes by other teams, particularly the homepage redesign, received negative feedback on Reddit. Through ongoing user research and feedback analysis, we helped identify key issues. The EDC redesign was received more positively. The images below show a snapshot of post-launch customer feedback.</p>
-      <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9;">
+      <div class="carousel" data-carousel="outcomes" data-fade data-autoplay="3500" style="--carousel-ratio: 16/9; position:relative;">
+        <div id="outcomes-loader" style="position:absolute; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:var(--paper); border-radius:8px; border:1.5px solid #e8e8e6; transition:opacity 0.4s ease;">
+          <div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div>
+          <span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span>
+          <div style="position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(0,0,0,0.08); border-radius:0 0 8px 8px;"><div style="height:100%; width:0%; background:var(--ink);"></div></div>
+        </div>
         <div class="carousel-track">
           <div class="carousel-slide active"><picture>
                 <source srcset="images/EDCRedesign/MD_EDC_Praise.avif" type="image/avif">
@@ -1042,7 +1068,8 @@
   <!-- 14. ALL BRAINS ON DECK -->
   <div class="cs-section reveal">
     <h2>🧠 All Brains On Deck Approach</h2>
-    <div class="img-card" style="width: 80%; margin-left: auto; margin-right: auto;">
+    <div class="img-card" style="width: 80%; margin-left: auto; margin-right: auto; position:relative;">
+      <div class="edc-ml edc-ml--light"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:10px;">
         <source src="images/EDCRedesign/MD_AFootballCollaboration.mp4" type="video/mp4">
       </video>
@@ -1056,7 +1083,12 @@
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 8px;">Hover to see system maps of interconnected tasks and professionals</p>
       <div class="hover-reveal" id="system-maps-reveal" style="margin: 0; border-radius: 10px;">
-        <div class="hr-base">
+        <div class="hr-base" style="position:relative;">
+          <div id="system-maps-loader" style="position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:var(--paper); border-radius:10px; border:1.5px solid #e8e8e6; transition:opacity 0.4s ease;">
+            <div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div>
+            <span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span>
+            <div style="position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(0,0,0,0.08); border-radius:0 0 10px 10px;"><div id="sm-ml-fill" style="height:100%; width:0%; background:var(--ink); transition:width 0.3s ease;"></div></div>
+          </div>
           <mux-player
             id="system-maps-video"
             playback-id="YcUZ00v01xQIWIdMBYSWyH1EiohzeD4t3YwDMQ502tZpWs"
@@ -1229,7 +1261,8 @@
     <p style="max-width: 100%;"><strong>Smart filtering and form search</strong> reduced reliance on the matrix grid that disappeared once a user selected a patient form. <strong>A hover-to-preview the tasks on visit folders</strong> (like an accelerator) meant users could check tasks without drilling in. And <strong>a consistent left-side pattern lets users glance progress or outstanding tasks from any listing or detail page</strong>, updating dynamically without a refresh.</p>
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 8px;">Scrappy design experiments and multiple design iterations, excerpted from a compilation capturing successes and failures during concept testing. Click to pause.</p>
-      <div class="video-wrap">
+      <div class="video-wrap" style="position:relative;">
+        <div class="edc-ml edc-ml--dark"><div class="ml-squares"><span></span><span></span><span></span></div><span class="ml-label">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
         <video id="exp-video" muted loop playsinline poster="images/EDCRedesign/exp_video_poster.jpg" style="width:100%; aspect-ratio:1670/1080; display:block; border-radius:8px;">
           <source src="images/EDCRedesign/cutVersion.Experiments01_Shorter_Small.mp4" type="video/mp4">
         </video>
@@ -1256,21 +1289,28 @@
     <p style="margin-top: 28px;">I designed a <strong>bulk-paste solution with a 15-tag maximum</strong> that balanced performance with real-world needs and edge cases. The pattern reduced workflow time to minutes and became a <strong>reusable design system component</strong> that Clinical Data Studio (another product) could adopt.</p>
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 8px;">Design system option</p>
-      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-        <source src="images/EDCRedesign/EDCPatientFilterNew_DesignSystem.mp4" type="video/mp4">
-      </video>
+      <div style="position:relative;">
+        <div class="edc-ml edc-ml--light"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/EDCRedesign/EDCPatientFilterNew_DesignSystem.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 8px;">New filter designed and refined with my front end lead.</p>
-      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-        <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
-      </video>
+      <div style="position:relative;">
+        <div class="edc-ml edc-ml--light"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/EDCRedesign/PatientFiltersSplit_AAA.mp4" type="video/mp4">
+        </video>
+      </div>
       <a href="https://patient-finder-scribe-ui.lovable.app/" target="_blank" class="proto-link fill" style="margin-top: 16px; display: inline-block; width: fit-content;">Try the prototype ↗</a>
     </div>
     <!-- Carousel: DD02 -->
     <div class="img-card" style="margin-top: 28px;">
       <p class="cs-caption" style="margin: 0 0 8px;">Below final design solution, including sandbox screenshots showing iterative conversations with engineers and refined Figma screens</p>
-      <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000">
+      <div class="carousel" data-carousel="dd02" data-fade data-autoplay="4000" style="position:relative;">
+        <div class="edc-ml edc-ml--light"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
         <div class="carousel-track">
           <div class="carousel-slide active"><picture>
                 <source srcset="images/EDCRedesign/MD_EDC_DesignSystem_PatientFilter_Ideas.avif" type="image/avif">
@@ -1291,7 +1331,8 @@
         </div>
       </div>
     </div>
-    <div class="img-card reveal" style="margin: 56px 0;">
+    <div class="img-card reveal" style="margin: 56px 0; position:relative;">
+      <div class="edc-ml edc-ml--light" style="top:auto; height:calc(100% - 30px); margin-top:30px;"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
       <p class="cs-caption">I put together a <strong>component audit of the redesign</strong>, basically a <strong>proactive spreadsheet that keeps everyone informed</strong> and aligned. It displayed which components the <strong>Design System team needs to prioritise across products, and which ones EDC engineers will need to build</strong> from scratch while still following system standards, patterns and contribute back. Each <strong>component tagged by user value</strong>, existing, or new, making it clear its importance and transparency to build or weight the pros and cons.</p>
       <picture>
         <source srcset="images/EDCRedesign/MD_DesignSystemSpreadSheetValueBuckets.avif" type="image/avif">
@@ -1318,6 +1359,7 @@
     <p>While exploring potential pitfalls of an autosave-to-draft idea, I accidentally uncovered <strong>a deeper migration risk to the new redesign. Rave Classic</strong> let study builders custom-code features outside the core product. Like Figma plugins, <strong>these extensions expanded the platform in ways we couldn't track</strong>, leaving us blind to what existed or how widely it was used.</p>
     <p>One such extension surfaced during interviews: <strong>dummy patients.</strong> Site staff needed to preview forms and study builders or DM wanted to run UAT to check and verify dynamically generated fields within the forms before the first live patient started. Without it, problems in the study could go unnoticed and take months to resolve. <strong>Only the most well-resourced studies (companies) hacked a solution. Others refused to upgrade from Classic entirely.</strong> Populating multiple forms with realistic data for a single patient could take weeks or months.</p>
     <div style="position: relative; display: block; width: 90%; margin: 32px auto;">
+      <div class="edc-ml edc-ml--dark" style="border-radius:2px; top:1.23%; left:8.17%; width:83.88%; height:90.48%; inset:unset;"><div class="ml-squares"><span></span><span></span><span></span></div><span class="ml-label">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
       <img src="images/Mockups/Dell XPS 13.svg" alt="Dell XPS 13 laptop mockup" style="width: 100%; display: block;">
       <video autoplay muted loop playsinline style="position: absolute; left: 8.17%; top: 1.23%; width: 83.88%; height: 90.48%; object-fit: cover; border-radius: 2px;">
         <source src="images/EDCRedesign/AI Feature3Small.mp4" type="video/mp4">
@@ -1335,7 +1377,8 @@
     <!-- Carousel: DD04 — autoplay fade -->
     <div class="img-card">
       <p class="cs-caption" style="margin: 0 0 8px;">Visual presentation of the lack of trust and accuracy. A problem to help communicate the issue across different teams.</p>
-      <div class="carousel" data-carousel="dd04" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3;">
+      <div class="carousel" data-carousel="dd04" data-fade data-autoplay="4000" style="--carousel-ratio: 4/3; position:relative;">
+        <div class="edc-ml edc-ml--light"><div class="ml-squares ml-squares--light"><span></span><span></span><span></span></div><span class="ml-label ml-label--light">Loading<span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-2">.</span><span class="ml-dot ml-dot-3">.</span></span><div class="edc-ml-progress"><div class="edc-ml-fill"></div></div></div>
         <div class="carousel-track">
           <div class="carousel-slide active"><picture>
                 <source srcset="images/EDCRedesign/MD_SystemQueryissues01.avif" type="image/avif">
@@ -1917,20 +1960,68 @@
       }, { once: true });
     }
 
-    // 2. Loom reveal loading placeholder
-    const loomCanvas = document.getElementById('loom-rive-loader');
-    const loomVideo  = document.getElementById('loom-video');
-    if (loomCanvas && loomVideo) {
-      new rive.Rive({
-        src: 'images/movie/13202-24949-loading.riv',
-        canvas: loomCanvas,
-        autoplay: true,
-        layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.Center }),
-      });
-      // Hide loader once video has enough data to display a frame
+    // 2. Loom media-loader--dark
+    var loomLoader = document.getElementById('loom-rive-loader');
+    var loomFill   = document.getElementById('loom-ml-fill');
+    var loomVideo  = document.getElementById('loom-video');
+    if (loomLoader && loomVideo) {
+      function updateLoomProgress() {
+        if (loomFill && loomVideo.duration && loomVideo.buffered.length) {
+          loomFill.style.width = (loomVideo.buffered.end(0) / loomVideo.duration * 100) + '%';
+        }
+      }
+      loomVideo.addEventListener('progress', updateLoomProgress);
       loomVideo.addEventListener('loadeddata', function () {
-        loomCanvas.style.display = 'none';
+        loomLoader.style.opacity = '0';
+        setTimeout(function () { loomLoader.style.display = 'none'; }, 450);
+        loomVideo.removeEventListener('progress', updateLoomProgress);
       }, { once: true });
+    }
+
+    // ── Auto-wire all .edc-ml loaders to their sibling media
+    document.querySelectorAll('.edc-ml').forEach(function(loader) {
+      var parent = loader.parentElement;
+      var video = parent.querySelector('video');
+      var img = parent.querySelector('img:not([src*="svg"]):not([src*="Mockup"])');
+      function hideLoader() {
+        loader.style.opacity = '0';
+        setTimeout(function() { loader.style.display = 'none'; }, 450);
+      }
+      if (video) {
+        if (video.readyState >= 2) { hideLoader(); }
+        else { video.addEventListener('loadeddata', hideLoader, { once: true }); }
+      } else if (img) {
+        if (img.complete && img.naturalWidth > 0) { hideLoader(); }
+        else { img.addEventListener('load', hideLoader, { once: true }); }
+      }
+    });
+
+    // 3. Praise carousel loader — hide once first image loads
+    var outcomesLoader = document.getElementById('outcomes-loader');
+    if (outcomesLoader) {
+      var firstImg = document.querySelector('[data-carousel="outcomes"] img');
+      function hideOutcomesLoader() {
+        outcomesLoader.style.opacity = '0';
+        setTimeout(function () { outcomesLoader.style.display = 'none'; }, 400);
+      }
+      if (firstImg && firstImg.complete && firstImg.naturalWidth > 0) { hideOutcomesLoader(); }
+      else if (firstImg) { firstImg.addEventListener('load', hideOutcomesLoader, { once: true }); }
+    }
+
+    // 4. System maps loader — hide once mux-player is ready
+    var smLoader = document.getElementById('system-maps-loader');
+    if (smLoader) {
+      var smPlayer = document.getElementById('system-maps-video');
+      function hideSmLoader() {
+        smLoader.style.opacity = '0';
+        setTimeout(function () { smLoader.style.display = 'none'; }, 400);
+      }
+      if (smPlayer) {
+        smPlayer.addEventListener('playing', hideSmLoader, { once: true });
+        smPlayer.addEventListener('loadeddata', hideSmLoader, { once: true });
+        // Fallback — hide after 4s regardless
+        setTimeout(hideSmLoader, 4000);
+      }
     }
   })();
 </script>

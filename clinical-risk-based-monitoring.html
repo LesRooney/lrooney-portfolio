@@ -286,6 +286,26 @@
     }
     .lightbox-close:hover { color: var(--paper); }
     [data-zoom] { cursor: zoom-in; }
+
+  /* ── media-loader (dark + light) for Risk Management ── */
+  .rm-ml { position:absolute; z-index:5; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:rgba(0,0,0,0.88); transition:opacity 0.4s ease; pointer-events:none; }
+  .rm-ml--light { background:var(--paper); }
+  .rm-ml--light .rm-ml-squares span { background:var(--ink); }
+  .rm-ml--light .rm-ml-label { color:#ABABAB; }
+  .rm-ml--light .rm-ml-progress { background:rgba(0,0,0,0.08); }
+  .rm-ml--light .rm-ml-fill { background:var(--ink); }
+  .rm-ml-squares { display:flex; align-items:center; gap:3px; }
+  .rm-ml-squares span { display:block; width:7px; height:7px; background:#fff; border-radius:2px; opacity:0.35; animation:rmBounce 0.9s ease-in-out infinite; }
+  .rm-ml-squares span:nth-child(2) { animation-delay:0.15s; }
+  .rm-ml-squares span:nth-child(3) { animation-delay:0.3s; }
+  @keyframes rmBounce { 0%,100%{transform:scaleY(0.4);opacity:0.25;} 50%{transform:scaleY(1);opacity:0.65;} }
+  .rm-ml-label { font-family:var(--sans); font-size:0.75rem; color:rgba(255,255,255,0.45); letter-spacing:0.04em; }
+  .rm-ml-dot { display:inline-block; opacity:0; animation:rmDot 2s ease-in-out infinite; }
+  .rm-ml-dot:nth-child(2) { animation-delay:0.28s; }
+  .rm-ml-dot:nth-child(3) { animation-delay:0.56s; }
+  @keyframes rmDot { 0%,16.9%{opacity:0;} 17%,66.9%{opacity:1;} 67%,100%{opacity:0;} }
+  .rm-ml-progress { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,0.1); }
+  .rm-ml-fill { height:100%; width:0%; background:#fff; transition:width 0.3s ease; }
   </style>
 
   
@@ -352,6 +372,7 @@
     <p class="cs-caption" style="margin: 0 0 8px;">Below: A short-term vision concept with an updated design system and branding, 2021</p>
     <div style="position: relative; display: block; line-height: 0;">
       <img src="images/Mockups/Microsoft Surface Book.svg" alt="Microsoft Surface Book laptop frame" style="width: 100%; display: block;">
+      <div class="rm-ml" style="left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
       <video autoplay loop muted playsinline style="position: absolute; left: 12.01%; top: calc(2.50% + 28px); width: 76.20%; height: 91.18%; object-fit: contain; border-radius: 4px;">
         <source src="images/MedidataRiskManagement/22 - ScreenFlowBig2Smaller.mp4" type="video/mp4">
       </video>
@@ -461,6 +482,7 @@
         <!-- BEFORE — bottom layer, sets height; looping video -->
         <div class="ba-before">
           <div style="position:relative; aspect-ratio:16/9; overflow:hidden;">
+            <div class="rm-ml rm-ml--light" style="inset:0;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
             <video autoplay muted loop playsinline
                    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
               <source src="images/MedidataRiskManagement/24 - RiskAccordion_1B.mp4" type="video/mp4">
@@ -515,9 +537,12 @@
     <p>Triangulated insights from subject matter experts, desk research, job postings, YouTube content, and the Product Director — focusing on trade-offs, user personas, and strategies to achieve key goals.</p>
 
     <div class="img-card" style="padding: 20px;">
-      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-        <source src="images/MedidataRiskManagement/MD_Risk_ResearchCollectionD_HH.mp4" type="video/mp4">
-      </video>
+      <div style="position:relative; border-radius:8px; overflow:hidden;">
+        <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/MedidataRiskManagement/MD_Risk_ResearchCollectionD_HH.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
 
   </div>
@@ -529,9 +554,12 @@
     <p>The first release prioritised a data table over visualisations due to limited front-end resources. The design intention was to offer a clear view of all risks — across categories — allowing users to compare status (from open, closed to deferred), trace origin (e.g., medical dispensation or tumour assessment), so users could work toward closing them out from an easily understood view. All without leaving the risk listing page. Each risk included contextual details such as descriptions, links to any attached Quality Tolerance Limits (QTLs) and Key Risk Indicators (KRIs) for that risk. Due to technical limitations, support for column rearrangement and resizing was not possible. The hover states revealed extra content, so I had several calls with the product director — formerly a risk manager — to figure out how to rearrange the grid so that the most important information appeared first, moving left to right.</p>
     <div style="position: relative; display: flex; justify-content: center; margin-top: 56px; margin-bottom: 220px;">
       <div class="img-card" style="padding: 20px; width: 60%; box-sizing: border-box; margin: 0;">
-        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-          <source src="images/MedidataRiskManagement/sectionrec.mp4" type="video/mp4">
-        </video>
+        <div style="position:relative; border-radius:8px; overflow:hidden;">
+          <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
+          <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+            <source src="images/MedidataRiskManagement/sectionrec.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
       <div class="postit postit--3" style="position: absolute; bottom: -184px; left: 10%; width: 280px; z-index: 2;">
         <p>Original pattern had two hover points — risk details and truncated content. <strong>I recommended merging them to improve scannability and reduce friction,</strong> then added an info icon so users wouldn't miss hidden content.</p>
@@ -539,17 +567,23 @@
     </div>
 
     <div class="img-card" style="padding: 20px; width: 80%; margin: -40px auto 0;">
-      <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-        <source src="images/MedidataRiskManagement/MD_Risk_List_HoverAfter.mp4" type="video/mp4">
-      </video>
+      <div style="position:relative; border-radius:8px; overflow:hidden;">
+        <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
+        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+          <source src="images/MedidataRiskManagement/MD_Risk_List_HoverAfter.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
 
     <p class="cs-caption" style="margin: 0 0 8px;">Below: Giving users the ability to see multiple Quality Tolerance Limits — very data-dense information — attached to a single risk. These read-only statistical metrics, sourced from Detect, helped users to review while entering or editing risk mitigation strategy in context without overwhelming the interface.</p>
     <div style="position: relative;">
       <div class="img-card" style="padding: 20px; margin-top: 0; margin-bottom: 275px;">
-        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-          <source src="images/MedidataRiskManagement/CanSeethequestion2A.mp4" type="video/mp4">
-        </video>
+        <div style="position:relative; border-radius:8px; overflow:hidden;">
+          <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
+          <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+            <source src="images/MedidataRiskManagement/CanSeethequestion2A.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
 
       <div class="postit postit--3" style="position: absolute; left: 48px; top: calc(50% - 8px); transform: translateY(-50%) rotate(1.5deg); width: 300px; z-index: 2;">
@@ -557,9 +591,12 @@
       </div>
 
       <div class="img-card" style="padding: 20px; margin-top: 267px; margin-bottom: 0;">
-        <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
-          <source src="images/MedidataRiskManagement/FullModalSlideUp_small.mp4" type="video/mp4">
-        </video>
+        <div style="position:relative; border-radius:8px; overflow:hidden;">
+          <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
+          <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
+            <source src="images/MedidataRiskManagement/FullModalSlideUp_small.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </div>
 
@@ -575,12 +612,14 @@
     <p><strong>Surprisingly, the design below became one of the fastest adopted features.</strong> It lets users control email alerts for drug supplies. Consultants often needed context while multitasking, so they preferred configuring all alerts at once with everything visible. After testing several concepts, I chose a dense checkbox map instead of a list with descriptions. It looked cluttered but gave a clear overview of defaults and non recommended alerts. I later added change highlights and a simple save button so people could see what they had done. It reinforced a key lesson: knowing when to break best practice matters more than following it.</p>
 
     <div class="img-card" style="padding: 0;">
+      <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span><div class="rm-ml-progress"><div class="rm-ml-fill"></div></div></div>
       <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:8px;">
         <source src="images/MedidataRiskManagement/RTSMAlerts02 .mp4" type="video/mp4">
       </video>
     </div>
 
     <div class="img-card" style="padding: 0;" data-zoom>
+      <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span></div>
       <picture>
                 <source srcset="images/MedidataRiskManagement/InvestigationalDrugSupplyAccountability2.avif" type="image/avif">
                 <img src="images/MedidataRiskManagement/InvestigationalDrugSupplyAccountability2.webp"
@@ -597,6 +636,7 @@
     <p>My partnership and influence weakened after RTSM Product Director left; product priorities realigned toward immediate sales wins, which began to erode support for our long-term design system vision. To address this challenge, I synthesised stakeholder concerns and strategic perspectives into a framing canvas that articulated both the new leadership's priorities and the business case for systemic design. It was a way to debrief my Design Director as he advocated for adoption during our weekly stakeholder calls with selected leaders within the team. Eventually, I transitioned to RAVE EDC.</p>
 
     <div class="img-card" style="padding: 0;">
+      <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span></div>
       <picture>
                 <source srcset="images/MedidataRiskManagement/MD_RTSM_DesignSystem_rationaleReason.avif" type="image/avif">
                 <img src="images/MedidataRiskManagement/MD_RTSM_DesignSystem_rationaleReason.webp"
@@ -606,6 +646,7 @@
     </div>
 
     <div class="img-card" style="padding: 0;">
+      <div class="rm-ml rm-ml--light" style="inset:0; border-radius:8px;"><div class="rm-ml-squares"><span></span><span></span><span></span></div><span class="rm-ml-label">Loading<span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span><span class="rm-ml-dot">.</span></span></div>
       <picture>
                 <source srcset="images/MedidataRiskManagement/RTSM_DS_FramingCanvas2.avif" type="image/avif">
                 <img src="images/MedidataRiskManagement/RTSM_DS_FramingCanvas2.webp"
@@ -785,6 +826,21 @@
   <!-- end Web-Stat code v 7.0 -->
 
   <script src="./js/page-common.js"></script>
+<script>
+  document.querySelectorAll('.rm-ml').forEach(function(loader) {
+    var parent = loader.parentElement;
+    var video = parent.querySelector('video');
+    var img = parent.querySelector('img');
+    function hide() { loader.style.opacity='0'; setTimeout(function(){loader.style.display='none';},450); }
+    if (video) {
+      if (video.readyState >= 2) { hide(); }
+      else { video.addEventListener('loadeddata', hide, { once: true }); }
+    } else if (img) {
+      if (img.complete && img.naturalWidth > 0) { hide(); }
+      else { img.addEventListener('load', hide, { once: true }); setTimeout(hide, 6000); }
+    }
+  });
+</script>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image zoom">
   <div class="lightbox-inner">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>

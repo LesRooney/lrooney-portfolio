@@ -280,6 +280,25 @@
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
 
+  /* ── media-loader--dark for HomeRenter laptop video ── */
+  .hr-ml { position:absolute; z-index:5; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:rgba(0,0,0,0.88); border-radius:2px; transition:opacity 0.4s ease; pointer-events:none; }
+  .hr-ml-squares { display:flex; align-items:center; gap:3px; }
+  .hr-ml-squares span { display:block; width:7px; height:7px; background:#fff; border-radius:2px; opacity:0.35; animation:hrBounce 0.9s ease-in-out infinite; }
+  .hr-ml-squares span:nth-child(2) { animation-delay:0.15s; }
+  .hr-ml-squares span:nth-child(3) { animation-delay:0.3s; }
+  @keyframes hrBounce { 0%,100%{transform:scaleY(0.4);opacity:0.25;} 50%{transform:scaleY(1);opacity:0.65;} }
+  .hr-ml-label { font-family:var(--sans); font-size:0.75rem; color:rgba(255,255,255,0.45); letter-spacing:0.04em; }
+  .hr-ml-dot { display:inline-block; opacity:0; animation:hrDot 2s ease-in-out infinite; }
+  .hr-ml-dot:nth-child(2) { animation-delay:0.28s; }
+  .hr-ml-dot:nth-child(3) { animation-delay:0.56s; }
+  @keyframes hrDot { 0%,16.9%{opacity:0;} 17%,66.9%{opacity:1;} 67%,100%{opacity:0;} }
+  .hr-ml-progress { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,0.1); }
+  .hr-ml-fill { height:100%; width:0%; background:#fff; transition:width 0.3s ease; }
+  .hr-ml--light { background:var(--paper); }
+  .hr-ml--light .hr-ml-squares span { background:var(--ink); }
+  .hr-ml--light .hr-ml-label { color:#ABABAB; }
+  .carousel-slide { position:relative; }
+
   </style>
 
   
@@ -357,6 +376,7 @@
         <div class="laptop-frame-wrap">
           <div style="position: relative; display: block; line-height: 0;">
             <img src="images/dell-xps-13.svg" alt="Dell XPS 13 laptop frame" style="width: 100%; display: block;">
+            <div class="hr-ml" style="inset:unset; top:2.72%; left:8.70%; width:82.82%; height:81.55%;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span><div class="hr-ml-progress"><div class="hr-ml-fill"></div></div></div>
             <video autoplay loop muted playsinline style="position: absolute; left: 8.70%; top: 2.72%; width: 82.82%; height: 81.55%; object-fit: cover;">
               <source src="videos/homerenter-laptop.mp4" type="video/mp4">
             </video>
@@ -467,16 +487,20 @@
     <h2>The Work Behind the Recommendations</h2>
     <div>
       <p class="cs-caption" style="margin: 0 0 8px;">A map showing the external sources driving traffic to HomeRenter's site, giving us extra evidence on where visitors were coming from and where they were dropping off.</p>
-      <picture>
+      <div style="position:relative;">
+        <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
+        <picture>
                 <source srcset="images/traffic-sources-map.avif" type="image/avif">
                 <img src="images/traffic-sources-map.png" alt="Traffic sources map showing referral sources and drop-off points" style="width:100%; display:block;">
               </picture>
+      </div>
     </div>
 
     <div style="margin-top:56px;">
       <p class="cs-caption" style="margin: 0 0 8px;">Prominent high-end rentals featured on the homepage created confusion about who the platform was for. To demonstrate the value of showcasing a range of price points, I referenced Airbnb as an example of attracting a broad audience without alienating core users.</p>
       <div class="img-pair-zoom" style="gap:8px; margin:0;">
         <div class="zoom-img" data-zoom data-caption="Competitor analysis 1">
+          <div class="hr-ml hr-ml--light" style="inset:0; border-radius:12px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
           <picture>
                 <source srcset="images/competitor-analysis-1.avif" type="image/avif">
                 <img src="images/competitor-analysis-1.png" alt="Competitor pricing and property range comparison" style="width:100%; height:280px; object-fit:cover; object-position:top; display:block; border-radius:12px;">
@@ -484,6 +508,7 @@
           <span class="zoom-hint">↔ Click to zoom</span>
         </div>
         <div class="zoom-img" data-zoom data-caption="Competitor analysis 2">
+          <div class="hr-ml hr-ml--light" style="inset:0; border-radius:12px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
           <picture>
                 <source srcset="images/competitor-analysis-2.avif" type="image/avif">
                 <img src="images/competitor-analysis-2.png" alt="Competitor pricing and property range comparison" style="width:100%; height:280px; object-fit:cover; object-position:top; display:block; border-radius:12px;">
@@ -500,24 +525,28 @@
         <div class="carousel-track-wrap">
           <div class="carousel-track">
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/Homerenter/StuffOnRightmove.avif" type="image/avif">
                 <img src="images/Homerenter/StuffOnRightmove.webp" alt="Rightmove bar chart comparing HomeRenter, I Am The Agent, and House Simple by property type" style="width:100%; height:633px; object-fit:contain; background:#fff; display:block;">
               </picture>
             </div>
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/homerenter-website-latest-props.avif" type="image/avif">
                 <img src="images/homerenter-website-latest-props.png" alt="HomeRenter website latest properties section" style="width:100%; height:633px; object-fit:contain; background:#F5F5F4; display:block;">
               </picture>
             </div>
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/landlord-creation-flow-1.avif" type="image/avif">
                 <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow diagram" style="width:100%; height:633px; object-fit:cover; object-position:top; display:block;">
               </picture>
             </div>
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/ll-landing-comparison.avif" type="image/avif">
                 <img src="images/ll-landing-comparison.png" alt="Landlord landing page A/B/C variants" style="width:100%; height:633px; object-fit:contain; background:#F5F5F4; display:block;">
@@ -535,10 +564,13 @@
 
     <div style="margin-top:56px;">
       <p class="cs-caption" style="margin: 0 0 8px;">Marketing: Multiple copy tweaks using assets from the previous designer, plus a few small additions from me. Settled on "no strings attached, no credit card needed" to ease landlord anxiety, which led to an uptick in listed properties.</p>
-      <picture>
+      <div style="width:70%; margin:0 auto; position:relative;">
+        <div class="hr-ml hr-ml--light" style="inset:0; border-radius:8px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
+        <picture>
                 <source srcset="images/Homerenter/LL_Let_prop_freeBannerHalf.avif" type="image/avif">
-                <img src="images/Homerenter/LL_Let_prop_freeBannerHalf.png" alt="Ad variants: Landlords enjoy a free 30 day listing on Rightmove and Zoopla" style="width:70%; display:block; border-radius:8px; margin:0 auto;">
+                <img src="images/Homerenter/LL_Let_prop_freeBannerHalf.png" alt="Ad variants: Landlords enjoy a free 30 day listing on Rightmove and Zoopla" style="width:100%; display:block; border-radius:8px;">
               </picture>
+      </div>
     </div>
   </div>
 
@@ -551,12 +583,14 @@
       <div class="carousel-track-wrap">
         <div class="carousel-track">
           <div class="carousel-slide">
+            <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
             <picture>
                 <source srcset="images/landlord-creation-flow-1.avif" type="image/avif">
                 <img src="images/landlord-creation-flow-1.png" alt="Landlord property creation flow map — part 1" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
               </picture>
           </div>
           <div class="carousel-slide">
+            <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
             <picture>
                 <source srcset="images/landlord-creation-flow-2.avif" type="image/avif">
                 <img src="images/landlord-creation-flow-2.png" alt="Landlord property creation flow map — part 2" style="width:100%; height:659px; object-fit:cover; object-position:top; display:block;">
@@ -577,24 +611,33 @@
     <h2>Design Concepts</h2>
     <div>
       <p class="cs-caption" style="margin: 0 0 8px;">Applying Susan Weinschenk's principle that authentic photos of people and homes engage the brain faster and naturally draw the eye to what matters.</p>
-      <picture>
+      <div style="width:30%; margin:0 auto; position:relative;">
+        <div class="hr-ml hr-ml--light" style="inset:0; border-radius:8px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
+        <picture>
                 <source srcset="images/ll-landing-page-full.avif" type="image/avif">
-                <img src="images/ll-landing-page-full.png" alt="Landing page redesign concept" style="width:30%; display:block; margin:0 auto; border-radius:8px;">
+                <img src="images/ll-landing-page-full.png" alt="Landing page redesign concept" style="width:100%; display:block; border-radius:8px;">
               </picture>
+      </div>
     </div>
 
     <div style="margin-top:56px; display:flex; flex-direction:column; gap:8px;">
-      <picture>
+      <div style="width:90%; margin:0 auto; position:relative;">
+        <div class="hr-ml hr-ml--light" style="inset:0; border-radius:8px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
+        <picture>
                 <source srcset="images/faqs-redesign-annotated.avif" type="image/avif">
-                <img src="images/faqs-redesign-annotated.png" alt="FAQs page redesign with annotations" style="width:90%; display:block; margin:0 auto; border-radius:8px;">
+                <img src="images/faqs-redesign-annotated.png" alt="FAQs page redesign with annotations" style="width:100%; display:block; border-radius:8px;">
               </picture>
+      </div>
       <ul class="cs-list" style="margin:0;">
         <li>Reduce content density making text more readable with more alignment, chunking (grouping) and white space.</li>
         <li>Added blog links and advice on navigating the letting market.</li>
         <li>Reordered FAQs by importance and spread key answers across the site.</li>
         <li>Added a clear "How it works" for each audience.</li>
       </ul>
-      <img src="images/iphones-small.gif" alt="Mobile UI animation showing the redesigned HomeRenter experience" style="width:100%; display:block; border-radius:8px;">
+      <div style="position:relative; border-radius:8px; overflow:hidden;">
+        <div class="hr-ml hr-ml--light" style="inset:0; border-radius:8px;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
+        <img src="images/iphones-small.gif" alt="Mobile UI animation showing the redesigned HomeRenter experience" style="width:100%; display:block; border-radius:8px;">
+      </div>
     </div>
 
     <div style="margin-top:56px;">
@@ -604,12 +647,14 @@
         <div class="carousel-track-wrap">
           <div class="carousel-track">
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/Homerenter/LL_journ01.avif" type="image/avif">
                 <img src="images/Homerenter/LL_journ01.webp" alt="Landlord journey map in Trello — steps 0 to 3" style="width:100%; height:520px; object-fit:cover; object-position:top; display:block;">
               </picture>
             </div>
             <div class="carousel-slide">
+              <div class="hr-ml hr-ml--light" style="inset:0;"><div class="hr-ml-squares"><span></span><span></span><span></span></div><span class="hr-ml-label">Loading<span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span><span class="hr-ml-dot">.</span></span></div>
               <picture>
                 <source srcset="images/Homerenter/LL_journ02.avif" type="image/avif">
                 <img src="images/Homerenter/LL_journ02.webp" alt="Landlord journey map in Trello — steps 4 to 8" style="width:100%; height:520px; object-fit:cover; object-position:top; display:block;">
@@ -819,5 +864,20 @@
   <!-- end Web-Stat code v 7.0 -->
 
   <script src="./js/page-common.js"></script>
+  <script>
+  document.querySelectorAll('.hr-ml').forEach(function(loader) {
+    var parent = loader.parentElement;
+    var video = parent.querySelector('video');
+    var img = parent.querySelector('img');
+    function hide() { loader.style.opacity='0'; setTimeout(function(){loader.style.display='none';},450); }
+    if (video) {
+      if (video.readyState >= 2) { hide(); }
+      else { video.addEventListener('loadeddata', hide, { once: true }); }
+    } else if (img) {
+      if (img.complete && img.naturalWidth > 0) { hide(); }
+      else { img.addEventListener('load', hide, { once: true }); setTimeout(hide, 6000); }
+    }
+  });
+  </script>
 </body>
 </html>

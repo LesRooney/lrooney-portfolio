@@ -359,6 +359,19 @@ footer { padding: 32px 24px; }
   [id*="web-stat"],
   [class*="wts"],
   [src*="ardalio"] { display: none !important; }
+
+  /* ── media-loader--dark for showreel iframe ── */
+  .gvfx-ml { position:absolute; inset:0; z-index:5; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background:rgba(0,0,0,0.88); transition:opacity 0.4s ease; pointer-events:none; }
+  .gvfx-ml-squares { display:flex; align-items:center; gap:3px; }
+  .gvfx-ml-squares span { display:block; width:7px; height:7px; background:#fff; border-radius:2px; opacity:0.35; animation:gvfxBounce 0.9s ease-in-out infinite; }
+  .gvfx-ml-squares span:nth-child(2) { animation-delay:0.15s; }
+  .gvfx-ml-squares span:nth-child(3) { animation-delay:0.3s; }
+  @keyframes gvfxBounce { 0%,100%{transform:scaleY(0.4);opacity:0.25;} 50%{transform:scaleY(1);opacity:0.65;} }
+  .gvfx-ml-label { font-family:var(--sans); font-size:0.75rem; color:rgba(255,255,255,0.45); letter-spacing:0.04em; }
+  .gvfx-ml-dot { display:inline-block; opacity:0; animation:gvfxDot 2s ease-in-out infinite; }
+  .gvfx-ml-dot:nth-child(2) { animation-delay:0.28s; }
+  .gvfx-ml-dot:nth-child(3) { animation-delay:0.56s; }
+  @keyframes gvfxDot { 0%,16.9%{opacity:0;} 17%,66.9%{opacity:1;} 67%,100%{opacity:0;} }
   </style>
 
   
@@ -429,6 +442,7 @@ footer { padding: 32px 24px; }
       <p>My texturing showreel showcasing VFX work from hero pieces to background assets</p>
     </div>
     <div class="video-wrap video-wrap--full">
+      <div class="gvfx-ml"><div class="gvfx-ml-squares"><span></span><span></span><span></span></div><span class="gvfx-ml-label">Loading<span class="gvfx-ml-dot">.</span><span class="gvfx-ml-dot">.</span><span class="gvfx-ml-dot">.</span></span></div>
       <iframe id="showreel-iframe"
               src="https://player.vimeo.com/video/67950765?title=0&byline=0&portrait=0&api=1"
               frameborder="0"
@@ -1462,5 +1476,88 @@ footer { padding: 32px 24px; }
   <!-- end Web-Stat code v 7.0 -->
 
   <script src="./js/page-common.js"></script>
+  <script>
+  (function() {
+    // ── Showreel iframe loader ────────────────────────────────────────
+    var iframeLoader = document.querySelector('.video-wrap .gvfx-ml');
+    var iframe = iframeLoader && iframeLoader.parentElement.querySelector('iframe');
+    if (iframeLoader && iframe) {
+      function hideIframe() { iframeLoader.style.opacity='0'; setTimeout(function(){iframeLoader.style.display='none';},450); }
+      iframe.addEventListener('load', hideIframe, { once: true });
+      setTimeout(hideIframe, 8000);
+    }
+
+    // ── Gallery items / section videos / section banners ─────────────
+    function makeLoader() {
+      var d = document.createElement('div');
+      d.className = 'gvfx-ml';
+      d.style.borderRadius = 'inherit';
+      d.innerHTML = '<div class="gvfx-ml-squares"><span></span><span></span><span></span></div><span class="gvfx-ml-label">Loading<span class="gvfx-ml-dot">.</span><span class="gvfx-ml-dot">.</span><span class="gvfx-ml-dot">.</span></span>';
+      return d;
+    }
+
+    function hide(loader) {
+      loader.style.opacity = '0';
+      setTimeout(function() { loader.style.display = 'none'; }, 450);
+    }
+
+    function wireHide(loader, media) {
+      if (media.tagName === 'VIDEO') {
+        if (media.readyState >= 2) { hide(loader); return; }
+        media.addEventListener('loadeddata', function() { hide(loader); }, { once: true });
+      } else {
+        if (media.complete && media.naturalWidth > 0) { hide(loader); return; }
+        media.addEventListener('load', function() { hide(loader); }, { once: true });
+        setTimeout(function() { hide(loader); }, 6000);
+      }
+    }
+
+    function wrapEl(el, styles) {
+      var w = document.createElement('div');
+      w.className = 'gvfx-section-wrap';
+      Object.assign(w.style, styles);
+      el.parentNode.insertBefore(w, el);
+      w.appendChild(el);
+      return w;
+    }
+
+    // 1. Gallery items — already position:relative, overflow:hidden, border-radius:16px
+    document.querySelectorAll('.gallery-item').forEach(function(item) {
+      if (item.querySelector('.gvfx-ml')) return;
+      var loader = makeLoader();
+      item.insertBefore(loader, item.firstChild);
+      var media = item.querySelector('video') || item.querySelector('img');
+      if (media) wireHide(loader, media);
+    });
+
+    // 2. Section videos — wrap so we can position loader absolutely
+    document.querySelectorAll('video.section-video').forEach(function(video) {
+      var w = wrapEl(video, {
+        position: 'relative', display: 'block', overflow: 'hidden',
+        borderRadius: '16px', marginBottom: '12px',
+        background: 'var(--color-off-black)'
+      });
+      video.style.borderRadius = '0';
+      video.style.marginBottom = '0';
+      var loader = makeLoader();
+      w.insertBefore(loader, video);
+      wireHide(loader, video);
+    });
+
+    // 3. Section banners (img with class section-banner)
+    document.querySelectorAll('img.section-banner').forEach(function(img) {
+      var target = img.closest('picture') || img;
+      var w = wrapEl(target, {
+        position: 'relative', display: 'block', overflow: 'hidden',
+        borderRadius: '16px', marginBottom: '12px'
+      });
+      img.style.borderRadius = '0';
+      img.style.marginBottom = '0';
+      var loader = makeLoader();
+      w.insertBefore(loader, w.firstChild);
+      wireHide(loader, img);
+    });
+  })();
+  </script>
 </body>
 </html>

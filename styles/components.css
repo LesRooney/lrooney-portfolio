@@ -25,6 +25,17 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; scroll-behavior: smooth; background: var(--paper); }
+
+/* ── Page-load blur clear (safe: pseudo-element, not body filter) ── */
+@keyframes cs-blur-clear { from { opacity: 1; } to { opacity: 0; } }
+html::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: cs-blur-clear 0.35s ease-out 0.05s forwards;
+}
 body {
   background: var(--paper);
   color: var(--ink);

@@ -2066,28 +2066,6 @@
     // Only run on desktop — keep mobile clean
     if (window.matchMedia('(min-width: 900px)').matches) {
 
-      var heroH1FadeSTId = 'hero-h1-scroll-fade';
-
-      // Hash is available immediately; scrollY is often still 0 when /#work first paints,
-      // so we must not create the h1 scrub-fade in that case or "Hi, I'm Lesley" stays opacity:0.
-      function shouldSkipHeroH1ScrollFade() {
-        var h = (window.location.hash || '').replace(/^#/, '').toLowerCase();
-        if (h === 'work' || h === 'about') return true;
-        return window.scrollY >= 180;
-      }
-
-      // After full load: if URL hash is work/about, tear down any mistaken h1 scrub tween
-      // (do not use scrollY here — user may have scrolled down before load and still want the fade).
-      function reconcileHeroH1AfterLayout() {
-        ScrollTrigger.refresh();
-        var h = (window.location.hash || '').replace(/^#/, '').toLowerCase();
-        if (h === 'work' || h === 'about') {
-          var st = ScrollTrigger.getById(heroH1FadeSTId);
-          if (st) st.kill();
-          gsap.set('.hero h1', { clearProps: 'opacity,transform' });
-        }
-      }
-
       // Selfie tilts from 0deg at top to 15deg as user scrolls down
       gsap.to('.selfie-wrap', {
         rotation: 30,
@@ -2203,30 +2181,9 @@
         }
       );
 
-      // h1 drifts down + fades out — only when landing at the top (not #work / #about / already scrolled)
-      if (!shouldSkipHeroH1ScrollFade()) {
-        gsap.fromTo('.hero h1',
-          { y: 0, opacity: 1 },
-          {
-            y: 80,
-            opacity: 0,
-            ease: 'none',
-            scrollTrigger: {
-              id: heroH1FadeSTId,
-              trigger: 'body',
-              start: '180px top',
-              end:   '380px top',
-              scrub: true,
-            }
-          }
-        );
-      } else {
-        gsap.set('.hero h1', { clearProps: 'opacity,y' });
-      }
-
       window.addEventListener('load', function() {
         requestAnimationFrame(function() {
-          requestAnimationFrame(reconcileHeroH1AfterLayout);
+          requestAnimationFrame(function() { ScrollTrigger.refresh(); });
         });
       });
 

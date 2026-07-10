@@ -10,6 +10,15 @@ Production: https://lrooney.com
 ## How deployment works
 Push to GitHub main branch → Cloudflare Pages auto-deploys. No manual steps needed.
 
+## Analytics
+Web-Stat account: **ws2216603** (ardalio.com). Snippet goes before `</body>` on every content page:
+```html
+<span id="wts2216603"></span>
+<script>var wts=document.createElement('script');wts.async=true;wts.src='https://app.ardalio.com/wts7.js';document.head.appendChild(wts);wts.onload=function(){wtsl7(2216603,2);};</script>
+<noscript><img src="https://app.ardalio.com/7/2/2216603.png"></noscript>
+```
+Live on: `index.html`, `influence.html`, all 6 case study pages.
+
 ## Folder structure
 ```
 /                        — root
@@ -45,7 +54,7 @@ Read the relevant spec file in /specs before building or editing any of these.
 | /homerenter | HomeRenter-spec.md | ✅ Built |
 | /lesleyrooney-games-sims-vfxworks | Games-VFX-spec.md | ✅ Built |
 
-Note: `games-simulations-films.html` also exists as an alternate URL for the Games/VFX page.
+Note: `games-simulations-films.html` was deleted — the Games/VFX page lives only at `/lesleyrooney-games-sims-vfxworks`.
 
 ## Shared components (build once, import across all case study pages)
 Build these first before any case study pages.
@@ -582,7 +591,7 @@ A small translucent square pinned to the bottom-right of every case study page. 
 
 - **JS** — `js/back-to-top.js` injects the `<button class="back-to-top-btn">` and wires the scroll/click handlers. Add `<script src="./js/back-to-top.js" defer></script>` before `</body>` on any new case study page
 - **CSS** — `.back-to-top-btn` rule lives in `styles/components.css` (loaded by all case study pages)
-- **Live on:** all 7 case study pages (`medidataedcredesign`, `contech-qflow`, `qualisflow-02`, `clinical-risk-based-monitoring`, `homerenter`, `lesleyrooney-games-sims-vfxworks`, `games-simulations-films`)
+- **Live on:** all 6 case study pages (`medidataedcredesign`, `contech-qflow`, `qualisflow-02`, `clinical-risk-based-monitoring`, `homerenter`, `lesleyrooney-games-sims-vfxworks`)
 - **NOT on:** Fire Tracker (`coming-soon-fire-tracker.html`) and Animation/Playground (`coming-soon-playground.html`) — coming-soon pages are excluded
 - **Visibility:** opacity 0 + `pointer-events: none` until JS adds `.is-visible` (after `scrollY > 400`)
 
@@ -696,6 +705,21 @@ document.addEventListener('visibilitychange', function () { if (document.hidden)
 
 **Fan scatter (optional — only used on books group):** Items hidden at collapsed position, `fan-open` class transitions each `.insp-item` to its final `transform` with staggered `transition-delay`. `fan-closing` applies randomised CSS custom props (`--close-x`, `--close-y`, `--close-r`) for a scatter-out exit. See `index.html` lines ~1973–2033 for the full implementation.
 
+### inline video icon (influence page)
+Small looping video used inline in body text as an animated icon. Currently used in the mentors card description (`influence.html`). Two source files for cross-browser support:
+- `images/icons/fire.webm` — 50KB, VP9 (Chrome/Firefox/Edge)
+- `images/icons/fire.mp4` — 32KB, H.264, no audio (Safari fallback)
+
+Pattern — display size matches surrounding icon size (16–18px):
+```html
+<video autoplay loop muted playsinline width="18" height="18"
+  style="display:inline-block;vertical-align:middle;position:relative;top:-1px;" aria-label="fire">
+  <source src="./images/icons/fire.webm" type="video/webm">
+  <source src="./images/icons/fire.mp4" type="video/mp4">
+</video>
+```
+Always use `muted` + `playsinline` for autoplay on iOS Safari. Always put WebM first.
+
 ### influence page — dual-link item (two outbound URLs on one card)
 When an influence card needs two separate outbound links, the outer element must be a `<div>` not an `<a>` (nested anchors are invalid HTML). Pattern:
 
@@ -736,7 +760,7 @@ All case study pages except games use these values. Do not change without asking
 
 **Total visual gap between sections** = 56px (last media bottom) + 160px (next section top) = ~216px. This is intentional.
 
-**Games page exception** — `.cs-section { padding: 48px 0 0; }` and no 56px media margin system. Gallery grid uses `gap: 8px` (both row and column).
+**Games page exception** — `.cs-section { padding: 48px 0 0; }` and no 56px media margin system. Gallery grid uses `gap: 8px` (both row and column). Section-video wrappers (`.gvfx-section-wrap`) use `margin-bottom: 12px`; when one directly follows a gallery grid, also add `margin-top: 12px` via `.gallery-grid + .gvfx-section-wrap { margin-top: 12px; }` (already in the page's `<style>` block).
 
 **Caption position** — always **above** media. Never below. Remove any "Below:" or "Above:" prefix text from captions.
 
@@ -824,6 +848,8 @@ A three-part loading state for any image, video, or card waiting on content. Liv
 
 **Use `media-loader--dark` when:** the content behind the placeholder is a dark/black video (e.g. TV deco, dark hero images), or when the card background is explicitly dark.
 
+**Label and progress bar are hidden on all case study pages** — each page suppresses them with `display:none` on its namespaced classes (e.g. `.gvfx-ml-label`, `.qf-ml-progress`). Do not re-enable without asking.
+
 ---
 
 *Homepage implementation note:* The existing CSS class names (`card-loading`, `card-blob-loader`, `card-progress` etc.) are kept as-is in `index.html`. "media-loader" is the design-system name; the code classes don't need to match.
@@ -871,25 +897,6 @@ A three-part loading state that lives inside each `.card` on the homepage. Shows
 .card-progress-fill { height:100%; width:0%; background:var(--ink); transition:width 0.3s ease; }
 ```
 
-## card-loading placeholder (homepage work grid)
-
-Shows a "Loading..." label with ping-pong dot animation while a card thumbnail is fetching. Hides automatically once the image loads.
-
-**CSS (in `index.html`):**
-```css
-.card-loading { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; border: 1.5px solid #e8e8e6; border-radius: 20px; background: var(--paper); pointer-events: none; }
-.card-loading.is-loaded { display: none; }
-.card-loading-label { font-family: var(--sans); font-size: 0.75rem; font-weight: 400; color: var(--ink); letter-spacing: 0.04em; }
-.dot-2 { opacity: 0; animation: dot2Ping 2s ease-in-out infinite; }
-.dot-3 { opacity: 0; animation: dot3Ping 2s ease-in-out infinite; }
-```
-
-**HTML (inside every `.card`):**
-```html
-<div class="card-loading"><span class="card-loading-label">Loading<span class="dot dot-1">.</span><span class="dot dot-2">.</span><span class="dot dot-3">.</span></span></div>
-```
-
-**JS:** Hides `.card-loading` by adding `is-loaded` class once `img.complete && img.naturalWidth > 0`.
 
 ## selfie-wrap / pixel scatter (homepage hero)
 

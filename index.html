@@ -125,10 +125,7 @@
     }
 
     /* ── WORK SECTION ── */
-    .work-section { max-width: var(--max); margin: 0 auto; padding: 8px 48px 0; position: relative; z-index: 2; background: var(--paper); }
-    /* ── WORK SECTION TOP FADE — reversible, remove the two lines below to undo ── */
-    .work-header { max-width: var(--max); margin: 0 auto 32px; padding: 0; font-size: 0.95rem; color: var(--ink-mid); opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
-    .work-header strong { color: var(--ink); }
+    .work-section { max-width: var(--max); margin: 0 auto; padding: 40px 48px 0; position: relative; z-index: 2; background: var(--paper); }
 
     /* ── GRID WRAPPER ── */
     .grid-wrap { padding: 0 0 80px; }
@@ -215,6 +212,8 @@
     /* card-sub slides down into position after card enters */
     .card-sub {
       font-size: 0.75rem; color: var(--ink-mid); line-height: 1.5;
+      background: var(--paper);
+      border-radius: 12px;
       opacity: 0;
       transform: translateY(-10px);
       transition: opacity 0.65s ease, transform 0.65s ease;
@@ -376,7 +375,6 @@
     }
     .cloud-cluster-dots {
       position: absolute;
-      inset: 0;
       pointer-events: none;
     }
     .cloud-cluster {
@@ -459,7 +457,7 @@
       display: inline-flex; align-items: center;
       font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
       background: var(--paper);
-      border: 1px solid var(--rule); border-radius: 8px;
+      border-radius: 8px;
       padding: 5px 14px; white-space: nowrap;
       height: 32px; box-sizing: border-box;
     }
@@ -474,7 +472,7 @@
     .deco-subtitle span {
       display: inline-flex; align-items: center;
       font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
-      background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+      background: var(--paper); border-radius: 8px;
       padding: 5px 14px; white-space: nowrap;
       height: 32px; box-sizing: border-box;
     }
@@ -487,7 +485,7 @@
       position: absolute; top: 460px; left: 110px; width: 100%;
     }
     .deco-tv-group .deco-subtitle { transform: scale(0.831) translateY(6px); transform-origin: top center; }
-    .deco-tv-group .deco-subtitle span { background: transparent; border-color: #D3D8DA; height: 32px; box-sizing: border-box; display: inline-flex; align-items: center; }
+    .deco-tv-group .deco-subtitle span { background: transparent; height: 32px; box-sizing: border-box; display: inline-flex; align-items: center; }
     .deco-tv-group.tv-hovered .deco-subtitle { transform: scale(0.831) translateY(0); }
     .deco-group-books:hover ~ .deco-subtitle,
     .deco-group-books.books-hovered ~ .deco-subtitle { opacity: 1; transform: translateY(0); }
@@ -1066,10 +1064,6 @@
   </section>
 
   <section class="work-section" id="work">
-    <div class="work-header">
-      You can hover to take a sneak peek of selected work 👀 or use my password on restricted cases
-    </div>
-
     <div class="grid" id="grid">
 
           <a href="./medidataedcredesign.html" class="card-item" id="card-0" data-locked="true">
@@ -3011,12 +3005,20 @@
 
   <script>
   (function () {
+    var section = document.querySelector('.work-section');
     var bg = document.querySelector('.cloud-cluster-bg');
-    if (!bg) return;
+    var grid = document.getElementById('grid');
+    if (!section || !bg || !grid) return;
+
+    var LEAD_IN = 40; // fade-in starts this many px before the case study tiles
 
     var canvas = document.createElement('canvas');
     canvas.className = 'cloud-cluster-dots';
-    bg.insertBefore(canvas, bg.firstChild);
+    canvas.style.position = 'absolute';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
+    section.insertBefore(canvas, section.firstChild);
 
     var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1;
@@ -3030,7 +3032,7 @@
     var DAMPING      = 0.78;
 
     var dots = [];
-    var W = 0, H = 0;
+    var W = 0, H = 0, top = 0;
     var mouseX = -9999, mouseY = -9999;
 
     function buildGrid() {
@@ -3047,8 +3049,10 @@
     }
 
     function resize() {
-      W = bg.offsetWidth;
-      H = bg.offsetHeight;
+      top = Math.max(grid.offsetTop - LEAD_IN, 0);
+      W = section.offsetWidth;
+      H = (bg.offsetTop + bg.offsetHeight) - top;
+      canvas.style.top    = top + 'px';
       canvas.width  = W * dpr;
       canvas.height = H * dpr;
       canvas.style.width  = W + 'px';
@@ -3089,12 +3093,14 @@
       }
 
       // Apply top/bottom fade via destination-in gradient
+      // Fade-in completes by pixel LEAD_IN (the grid top), so the dots are
+      // at full opacity by the time the case study tiles begin.
       var grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0,                        'rgba(0,0,0,0)');
-      grad.addColorStop(Math.min(80  / H, 1),     'rgba(0,0,0,0.6)');
-      grad.addColorStop(Math.min(160 / H, 1),     'rgba(0,0,0,1)');
+      grad.addColorStop(0,                          'rgba(0,0,0,0)');
+      grad.addColorStop(Math.min(LEAD_IN / 2 / H, 1), 'rgba(0,0,0,0.6)');
+      grad.addColorStop(Math.min(LEAD_IN / H, 1),   'rgba(0,0,0,1)');
       grad.addColorStop(Math.max((H - 120) / H, 0), 'rgba(0,0,0,1)');
-      grad.addColorStop(1,                        'rgba(0,0,0,0)');
+      grad.addColorStop(1,                          'rgba(0,0,0,0)');
       ctx.globalCompositeOperation = 'destination-in';
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
@@ -3107,7 +3113,7 @@
     window.addEventListener('resize', resize);
 
     document.addEventListener('mousemove', function (e) {
-      var rect = bg.getBoundingClientRect();
+      var rect = canvas.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
     });

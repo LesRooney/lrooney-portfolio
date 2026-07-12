@@ -532,6 +532,18 @@
       vertical-align: middle;
       text-transform: uppercase;
     }
+    .mcp-badge {
+      display: inline-block;
+      background: var(--paper-alt);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      font-size: 0.56rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      padding: 0.8px 5.6px;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
 
 
 
@@ -745,8 +757,11 @@
           </a>
           <a href="https://mobbin.com/" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Mobbin</span>
-            <span class="influence-item-desc">The world's largest mobile and web design library</span>
-            <span class="influence-item-domain">mobbin.com</span>
+            <span class="influence-item-desc">The world's <strong>largest mobile and web design library</strong></span>
+            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 4px;">
+              <span class="influence-item-domain" style="margin-top: 0;">mobbin.com</span>
+              <span class="mcp-badge">MCP</span>
+            </span>
           </a>
           <a href="https://www.designspells.com/" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Design Spells</span>
@@ -831,16 +846,16 @@
             <span class="influence-item-desc">Collection of practical guidance for designing human-centered AI products</span>
             <span class="influence-item-domain">pair.withgoogle.com</span>
           </a>
-          <a href="https://www.aiuxplayground.com/patterns/chatbot" target="_blank" class="influence-item">
-            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">AI UX Playground</span>
-            <span class="influence-item-desc">Patterns and references for designing AI-powered experiences</span>
+          <div class="influence-item" onclick="window.open('https://www.aiuxplayground.com/patterns/chatbot','_blank')" style="cursor: pointer;">
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Playbooks on AI pattern and references for designing AI experiences</span>
+            <span class="influence-item-desc">Patterns and references for designing AI-powered experiences, plus the missing playbook for designing AI products.</span>
             <span class="influence-item-domain">aiuxplayground.com</span>
-          </a>
-          <a href="https://www.aiverse.design/patterns" target="_blank" class="influence-item">
-            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">aiverse.design</span>
-            <span class="influence-item-desc">The missing playbook for designing AI products</span>
-            <span class="influence-item-domain">aiverse.design</span>
-          </a>
+            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 6px;">
+              <a href="https://www.aiverse.design/patterns" target="_blank" onclick="event.stopPropagation();" class="influence-secondary-link" style="margin-top: 0;">aiverse.design</a>
+              <span class="mcp-badge">MCP</span>
+            </span>
+            <a href="https://ai-interaction.com" target="_blank" onclick="event.stopPropagation();" class="influence-secondary-link">ai-interaction.com</a>
+          </div>
           <a href="https://www.microsoft.com/en-us/haxtoolkit/" target="_blank" class="influence-item">
             <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">HAX Toolkit</span>
             <span class="influence-item-desc">A Toolkit for teams building user-facing AI products. It helps you conceptualize what the AI system will do and how it will behave. Use it early in your design process.</span>
@@ -991,6 +1006,18 @@
             <span class="influence-item-title"><img src="./images/icons/Book-icon.svg" alt="" width="16" height="13" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Build — Tony Fadell</span>
             <span class="influence-item-desc">Great guides to simplify team dynamics and product thinking.</span>
             <span class="influence-item-domain">amzn.to</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="influence-cat">
+        <h3>Youtube Downloads</h3>
+        <p class="influence-cat-desc">A tool I use to save videos offline</p>
+        <div class="influence-list">
+          <a href="https://cobalt.meowing.de/" target="_blank" class="influence-item">
+            <span class="influence-item-title"><img src="./images/icons/web_globe.webp" alt="" width="16" height="16" style="vertical-align: middle; margin-right: 5px; position: relative; top: -1px;">Cobalt</span>
+            <span class="influence-item-desc">Free, open-source tool for downloading YouTube videos and other media without ads or trackers.</span>
+            <span class="influence-item-domain">cobalt.meowing.de</span>
           </a>
         </div>
       </div>

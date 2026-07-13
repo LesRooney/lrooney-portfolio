@@ -76,11 +76,11 @@
     .nav-logo:hover { padding-left: 22px; }
     .nav-logo:hover::before { animation: squareMorph 0.28s ease-out forwards; }
     .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.2s; position: relative; }
-    .nav-links a:hover { color: rgba(10,10,10,0.5); }
+    .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.2s, padding-left 0.28s ease-out; position: relative; display: inline-block; }
+    .nav-links a:hover { color: rgba(10,10,10,0.5); padding-left: 20px; }
     .nav-links > li > a::before {
       content: ''; position: absolute;
-      right: calc(100% + 8px); top: 50%;
+      left: 0; top: 50%;
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
       transform-origin: center center;
       width: 12px; height: 12px;
@@ -88,10 +88,10 @@
     }
     .nav-links > li > a:hover::before { animation: squareMorph 0.28s ease-out forwards; }
     .nav-dropdown { position: relative; }
-    .nav-dropdown-trigger { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); cursor: pointer; transition: color 0.2s; position: relative; }
+    .nav-dropdown-trigger { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); cursor: pointer; transition: color 0.2s, padding-left 0.28s ease-out; position: relative; display: inline-block; }
     .nav-dropdown-trigger::before {
       content: ''; position: absolute;
-      right: calc(100% + 8px); top: 50%;
+      left: 0; top: 50%;
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
       transform-origin: center center;
       width: 12px; height: 12px;
@@ -99,7 +99,7 @@
     }
     .nav-dropdown:hover .nav-dropdown-trigger::before { animation: squareMorph 0.28s ease-out forwards; }
     .nav-dropdown-trigger::after { content: '▾'; font-size: 0.65rem; margin-left: 4px; display: inline-block; transition: transform 0.2s; }
-    .nav-dropdown:hover .nav-dropdown-trigger { color: rgba(10,10,10,0.5); }
+    .nav-dropdown:hover .nav-dropdown-trigger { color: rgba(10,10,10,0.5); padding-left: 20px; }
     .nav-dropdown:hover .nav-dropdown-trigger::after { transform: rotate(180deg); }
     .nav-dropdown-menu { position: absolute; top: 100%; right: 0; padding-top: 12px; min-width: 160px; opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
     .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; pointer-events: auto; }

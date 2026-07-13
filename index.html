@@ -860,6 +860,30 @@
       font-weight: 600;
       color: var(--ink);
       text-decoration: none;
+      position: relative;
+      display: inline-block;
+      transition: padding-left 0.28s ease-out;
+    }
+    .home-nav-logo::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+      transform-origin: center center;
+      width: 14px;
+      height: 14px;
+      background-image: url('./images/icons/favicon.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      border-radius: 4px;
+      opacity: 0;
+    }
+    .home-nav-logo:hover {
+      padding-left: 22px; /* 14px favicon + 8px gap */
+    }
+    .home-nav-logo:hover::before {
+      animation: squareMorph 0.28s ease-out forwards;
     }
     .home-nav-links {
       display: flex;
@@ -916,7 +940,7 @@
     .nav-dropdown-trigger::before {
       content: '';
       position: absolute;
-      right: calc(100% + 8px);
+      left: 0;
       top: 50%;
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
       transform-origin: center center;
@@ -925,6 +949,9 @@
       background: var(--ink);
       border-radius: 4px;
       opacity: 0;
+    }
+    .nav-dropdown:hover .nav-dropdown-trigger {
+      padding-left: 20px; /* 12px square + 8px gap */
     }
     .nav-dropdown:hover .nav-dropdown-trigger::before {
       animation: squareMorph 0.28s ease-out forwards;

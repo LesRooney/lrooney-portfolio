@@ -63,7 +63,25 @@ nav {
   transition: border-color 0.3s;
 }
 nav.scrolled { border-color: var(--rule); }
-.nav-logo { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none; }
+.nav-logo {
+  font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); text-decoration: none;
+  position: relative; display: inline-block; transition: padding-left 0.28s ease-out;
+}
+.nav-logo::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%) scaleX(0.083) scaleY(0.083);
+  transform-origin: center center;
+  width: 14px; height: 14px;
+  background-image: url('../images/icons/favicon.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  opacity: 0;
+}
+.nav-logo:hover { padding-left: 22px; /* 14px favicon + 8px gap */ }
+.nav-logo:hover::before { animation: squareMorph 0.28s ease-out forwards; }
 .nav-links { display: flex; gap: 36px; list-style: none; }
 .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: color 0.2s; position: relative; }
 .nav-links a:hover { color: rgba(10,10,10,0.5); }

@@ -787,9 +787,9 @@ Cloudflare serves `styles/components.css` with `cache-control: public, max-age=3
 
 **When you edit `styles/components.css` in a way that affects production pages, bump the `?v=N` query param on every HTML file that links it:**
 ```html
-<link rel="stylesheet" href="./styles/components.css?v=8">
+<link rel="stylesheet" href="./styles/components.css?v=10">
 ```
-- **Current version: v=8. Next bump: v=9.**
+- **Current version: v=10. Next bump: v=11.**
 - All case study pages + `influence.html` link this stylesheet — bump them together
 - Without the bump, returning visitors won't see the new styles even after deploy
 

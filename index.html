@@ -188,13 +188,17 @@
     /* True hover devices (mouse/trackpad) — swap thumb → video on :hover.
        Touch devices use .is-playing, toggled by scroll-triggered JS instead,
        so a long-press doesn't get stuck in a fake hover state. */
-    @media (hover: hover) {
+    @media (hover: hover) and (pointer: fine) {
       .card-item:hover .card-thumb { opacity: 0; }
       .card-item:hover .card-video { opacity: 1; }
       #card-3:hover .card-thumb, #card-4:hover .card-thumb { opacity: 0; }
       #card-3:hover .card-mux, #card-4:hover .card-mux { opacity: 1; }
       .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
       .card-item:hover { z-index: 2; }
+    }
+    /* Touch devices get no :hover, so give a snappy press-down cue instead. */
+    @media (hover: none) {
+      .card-item:active .card { transform: scale(0.98); transition: transform 0.15s ease; }
     }
     .card-item.is-playing .card-thumb { opacity: 0; }
     .card-item.is-playing .card-video { opacity: 1; }
@@ -608,44 +612,59 @@
       .deco-tv-title { font-size: 1.353rem; }
     }
     @media (max-width: 480px) {
-      /* Stacked: Clouds → iPad → deco-group, 56px gaps between each */
-      .cloud-cluster { height: 1000px; }
-      .cloud-group { top: 20px; left: 0; }
-      /* iPad — clouds extend visually to ~200px (group top 20px + cloud tops ~112px + image height ~70px + float headroom)
-         40px clear gap → iPad at 240px. left: 59px centers the 176px-wide group in the cluster. */
-      .ipad-shelf-group { top: 240px; left: 59px; width: 176px; }
-      .ipad-frame { width: 152px; }
-      .ipad-shelf-video { width: 152px; }
-      .ipad-screen-video { left: 15px; top: 3px; width: 128px; height: 97px; border-radius: 4px; }
-      .ipad-shelf-line  { width: 176px; }
-      /* deco-group — top: 502px gives a 56px gap below the iPad, matching the 56px gap
-         above the TV group. left: 17px centers the blackboard/shelf/books composition. */
-      .deco-group { top: 502px; left: 17px; right: auto; transform: scale(0.384); transform-origin: top left; }
-      /* Scale font up so hover titles appear at ~1rem visually, matching the
-         unscaled Playground title (1rem). Influence: 1 ÷ 0.384 ≈ 2.6rem.
-         TV title compounds with deco-tv-group's own scale(1.204), so it needs
-         a smaller value: 1 ÷ (0.384 × 1.204) ≈ 2.16rem. */
-      .deco-group-influence-title { font-size: 2.6rem; }
-      .deco-tv-title { font-size: 2.16rem; }
-      /* Subtitle pills (shown on hover) need the same treatment — they're 0.75rem
-         authored, but render at only 0.75 × 0.384 ≈ 0.288rem visually since they're
-         inside the scaled .deco-group. 1.95rem compensates so they match the
-         unscaled Playground subtitle. TV's extra scale(1.204) and its own
-         scale(0.831) roughly cancel out, so one value works for both. */
-      .deco-subtitle span { font-size: 1.95rem; }
-      /* Subtitle top offsets also need mobile-specific overrides — the bigger title
-         font-size above means the title's rendered box is taller, so the desktop-tuned
-         top values leave the subtitle overlapping the title instead of the clean 16px
-         gap Playground gets from its normal-flow margin-top. */
-      .deco-group-influence-title ~ .deco-subtitle { top: 440px; }
-      .deco-tv-group .deco-subtitle { top: 499px; }
-      /* Blackboard/pencil/shelf/books composition — 15% bigger than the rest of the
-         deco-group, without affecting the title/subtitle font-size (they live outside
-         .deco-influence-visual) or the TV group. */
-      .deco-influence-visual { transform: scale(1.15); transform-origin: center 755px; }
-      /* TV group is nested inside .deco-group and inherits its 0.384 scale, but needs its
-         own top/right override here — otherwise it overlaps the Influence title above it. */
-      .deco-tv-group { top: 560px; right: -150px; }
+      /* Stacked: Clouds → iPad → Influence → TV. Flexbox handles centering and
+         the 56px gap between every group at any real phone width, replacing the
+         old pixel-tuned top/left offsets that only centered at exactly 390px. */
+      /* height: auto overrides the 900px tier's fixed height:800px (still cascading
+         in at this width) — without it, flexbox compresses items with small
+         intrinsic content (like .deco-influence-group) to fit the stale fixed box. */
+      .cloud-cluster { display: flex; flex-direction: column; align-items: center; gap: 56px; height: auto; padding-top: 110px; }
+      /* Clouds stay a decorative absolute overlay (not a flex item) so they don't
+         eat into the flex column's width/height budget — centered horizontally
+         at any viewport width, with padding-top above reserving their space. */
+      .cloud-group { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); }
+
+      .ipad-shelf-group { position: static; width: 200px; flex-shrink: 0; order: 1; }
+      .ipad-frame { width: 172px; }
+      .ipad-shelf-video { width: 172px; }
+      .ipad-screen-video { left: 17px; top: 4px; width: 145px; height: 110px; border-radius: 4px; }
+      .ipad-shelf-line  { width: 200px; }
+
+      /* .deco-group's own box disappears from layout — its two children
+         (.deco-influence-group, .deco-tv-group) become direct flex items. */
+      .deco-group { display: contents; }
+
+      /* .deco-influence-group's height is auto — it sums from .deco-influence-visual's
+         own explicit (in-flow) height plus the title/subtitle below it, mirroring
+         how .deco-tv-group already sizes itself from .deco-tv-visual + its title. */
+      .deco-influence-group { position: relative; width: 260px; flex-shrink: 0; order: 2; }
+      /* In-flow (not absolute), so it contributes real height instead of the
+         title/subtitle rendering on top of it. Children keep position:absolute
+         but with values scaled ×0.5 against the desktop composition — the same
+         ratio-recalculation technique used for the TV screen overlay below,
+         chosen over transform:scale() because transform doesn't shrink the
+         element's own layout box, which caused the title to overlap the artwork. */
+      .deco-influence-visual { position: relative; width: 260px; height: 240px; margin: 0 auto; }
+      .deco-group-blackboard { right: 8px; top: -27px; width: 196px; }
+      .deco-group-shelf      { right: 0; top: 75px; width: 209px; }
+      .deco-group-pencil     { right: 130px; top: 75px; width: 60px; }
+      .deco-group-books      { right: 24px; top: 103px; width: 136px; }
+      .deco-group-influence-title { position: static; margin-top: 16px; font-size: 1rem; }
+      .deco-group-influence-title ~ .deco-subtitle { position: static; margin-top: 10px; }
+      /* Fan-out flourish is desktop-hover-only (no touch fallback) and its inset:0
+         no longer matches this taller stacked box — hide rather than mis-position. */
+      .insp-fan { display: none; }
+
+      .deco-tv-group { position: static; width: 220px; transform: none; flex-shrink: 0; order: 3; }
+      .deco-tv-visual { position: relative; width: 220px; }
+      .deco-group-tv { width: 220px; }
+      .deco-group-tv-screen { right: 11px; top: 83px; width: 110px; height: 66px; border-radius: 7px; }
+      /* Hover pop moves from .deco-tv-group (no longer carries a baseline scale)
+         to .deco-tv-visual, preserving the desktop ~2.7% pop ratio. */
+      .deco-tv-group.tv-hovered { transform: none; }
+      .deco-tv-group.tv-hovered .deco-tv-visual { transform: scale(1.03); }
+      .deco-tv-title { position: static; margin-top: 16px; font-size: 1rem; }
+      .deco-tv-group .deco-subtitle { position: static; margin-top: 10px; transform: translateY(6px); }
     }
 
     /* ── RIVE DIVIDER ── */
@@ -871,7 +890,7 @@
       .floating-emoji { display: none; }
       .work-section { padding: 36px 24px 0; }
       .card-item { opacity: 1 !important; transform: none !important; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 24px; }
+      .grid { width: 100%; max-width: 100%; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0; }
       .about { padding: 60px 24px; margin-top: 40px; }
       .about-inner { grid-template-columns: 1fr; gap: 36px; }
       footer { padding: 40px 24px; margin-top: 40px; }
@@ -880,6 +899,37 @@
     }
     @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } .past-work-grid { grid-template-columns: 1fr; } }
     @media (max-width: 900px) { .past-work-divider, .past-work-grid { width: calc(100% - 48px); } }
+
+    /* ── DESKTOP BADGE — dismissible, mobile/tablet only ── */
+    .desktop-badge {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 44px 10px 16px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .desktop-badge.is-visible { display: flex; }
+    #desktop-badge-close {
+      position: absolute; top: 50%; right: 10px;
+      transform: translateY(-50%);
+      width: 26px; height: 26px; border-radius: 50%;
+      border: none; background: rgba(255,255,255,0.15);
+      font-size: 1rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--paper);
+      transition: background 0.15s;
+    }
+    #desktop-badge-close:hover { background: rgba(255,255,255,0.3); }
+    @media (min-width: 901px) { .desktop-badge { display: none !important; } }
 
     /* ── HOME NAV ── */
     #home-nav {
@@ -1095,6 +1145,11 @@
 </head>
 <body>
 
+<div id="desktop-badge" class="desktop-badge" role="status">
+  <span>Best experience on desktop</span>
+  <button id="desktop-badge-close" aria-label="Dismiss">&times;</button>
+</div>
+
 <nav id="home-nav">
   <div class="home-nav-inner">
     <a href="/" class="home-nav-logo">Lesley Rooney</a>
@@ -1276,54 +1331,58 @@
 
       <!-- Right side — blackboard + shelf (grouped) -->
       <div class="deco-r deco-group">
-        <div class="deco-influence-visual">
-          <img src="images/icons/BlackBoard02 1.png" class="deco-group-blackboard" alt="" loading="lazy">
-          <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
-          <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
-          <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
-        </div>
-        <audio id="books-hover-audio" src="audio/influence-hover.m4a" preload="none"></audio>
+        <div class="deco-influence-group">
+          <div class="deco-influence-visual">
+            <img src="images/icons/BlackBoard02 1.png" class="deco-group-blackboard" alt="" loading="lazy">
+            <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
+            <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
+            <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
+          </div>
+          <audio id="books-hover-audio" src="audio/influence-hover.m4a" preload="none"></audio>
 
-        <!-- Inspiration fan — fanned items originate from books on hover -->
-        <div class="insp-fan" id="insp-fan">
-          <img src="images/icons/Brand=YouTube, Color=ON.svg"                 class="insp-item ii-yt"   alt="YouTube" loading="lazy">
-          <picture>
-                <source srcset="images/HomepageImages/UXlaws.avif" type="image/avif">
-                <img src="images/HomepageImages/UXlaws.webp"                        class="insp-item ii-ux"   alt="Laws of UX" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/Podcast.avif" type="image/avif">
-                <img src="images/HomepageImages/Podcast.webp"                       class="insp-item ii-pod"  alt="Podcast" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/InspirationComedy.avif" type="image/avif">
-                <img src="images/HomepageImages/InspirationComedy.webp"             class="insp-item ii-com"  alt="" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/InspirationFunnyIcon.avif" type="image/avif">
-                <img src="images/HomepageImages/InspirationFunnyIcon.webp"          class="insp-item ii-fire" alt="" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/DiveClub.avif" type="image/avif">
-                <img src="images/HomepageImages/DiveClub.webp"                       class="insp-item ii-dive" alt="Dive Club Podcast" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/LennyPodcast.avif" type="image/avif">
-                <img src="images/HomepageImages/LennyPodcast.webp"                   class="insp-item ii-lenny" alt="Lenny Podcast" loading="lazy">
-              </picture>
-          <picture>
-                <source srcset="images/HomepageImages/designInspiration01.avif" type="image/avif">
-                <img src="images/HomepageImages/designInspiration01.webp"           class="insp-item ii-des"  alt="" loading="lazy">
-              </picture>
-        </div>
+          <!-- Inspiration fan — fanned items originate from books on hover -->
+          <div class="insp-fan" id="insp-fan">
+            <img src="images/icons/Brand=YouTube, Color=ON.svg"                 class="insp-item ii-yt"   alt="YouTube" loading="lazy">
+            <picture>
+                  <source srcset="images/HomepageImages/UXlaws.avif" type="image/avif">
+                  <img src="images/HomepageImages/UXlaws.webp"                        class="insp-item ii-ux"   alt="Laws of UX" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/Podcast.avif" type="image/avif">
+                  <img src="images/HomepageImages/Podcast.webp"                       class="insp-item ii-pod"  alt="Podcast" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/InspirationComedy.avif" type="image/avif">
+                  <img src="images/HomepageImages/InspirationComedy.webp"             class="insp-item ii-com"  alt="" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/InspirationFunnyIcon.avif" type="image/avif">
+                  <img src="images/HomepageImages/InspirationFunnyIcon.webp"          class="insp-item ii-fire" alt="" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/DiveClub.avif" type="image/avif">
+                  <img src="images/HomepageImages/DiveClub.webp"                       class="insp-item ii-dive" alt="Dive Club Podcast" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/LennyPodcast.avif" type="image/avif">
+                  <img src="images/HomepageImages/LennyPodcast.webp"                   class="insp-item ii-lenny" alt="Lenny Podcast" loading="lazy">
+                </picture>
+            <picture>
+                  <source srcset="images/HomepageImages/designInspiration01.avif" type="image/avif">
+                  <img src="images/HomepageImages/designInspiration01.webp"           class="insp-item ii-des"  alt="" loading="lazy">
+                </picture>
+          </div>
 
-        <div class="deco-group-influence-title"><span>Influence</span></div>
-        <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
+          <div class="deco-group-influence-title"><span>Influence</span></div>
+          <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
+        </div>
         <div class="deco-tv-group">
-          <img src="images/icons/TVGreen_on 1.png" class="deco-group-tv" alt="" loading="lazy">
-          <video class="deco-group-tv-screen" muted playsinline loop>
-            <source src="images/HomepageImages/GamesVFXTV_InsideAgain.mp4" type="video/mp4">
-          </video>
+          <div class="deco-tv-visual">
+            <img src="images/icons/TVGreen_on 1.png" class="deco-group-tv" alt="" loading="lazy">
+            <video class="deco-group-tv-screen" muted playsinline loop>
+              <source src="images/HomepageImages/GamesVFXTV_InsideAgain.mp4" type="video/mp4">
+            </video>
+          </div>
 
           <div class="deco-tv-title"><span>Other Professional Work</span></div>
           <div class="deco-subtitle"><span>Games • Simulation • Films &amp; Stuff</span></div>
@@ -1368,10 +1427,26 @@
     </div>
   </footer>
   <script>
+    // ── Desktop badge — dismiss-and-remember via localStorage
+    (function () {
+      var STORAGE_KEY = 'lr-desktop-badge-dismissed';
+      var badge = document.getElementById('desktop-badge');
+      if (!badge) return;
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        badge.classList.add('is-visible');
+      }
+      var closeBtn = document.getElementById('desktop-badge-close');
+      closeBtn.addEventListener('click', function () {
+        badge.classList.remove('is-visible');
+        localStorage.setItem(STORAGE_KEY, '1');
+      });
+    })();
+  </script>
+  <script>
     // Devices with true hover (mouse/trackpad) use hover-to-play.
     // Touch devices (no reliable hover) use scroll-triggered autoplay instead —
     // see the "Touch autoplay-on-scroll" block below.
-    var isHoverCapable = window.matchMedia('(hover: hover)').matches;
+    var isHoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     // ── Video hover — loads source on first hover, then plays
     if (isHoverCapable) {
@@ -1932,7 +2007,7 @@
     // ── INTROVERT HOVER REPULSE — reversible block, delete this function + flag + call site to remove ──
     function setupIntrovertHoverRepulse(em) {
       if (em.dataset.repulseReady === '1') return;
-      if (!window.matchMedia('(hover: hover)').matches) return; // skip touch devices
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return; // skip touch devices
       em.dataset.repulseReady = '1';
 
       var dpr = Math.min(window.devicePixelRatio || 1, 2);

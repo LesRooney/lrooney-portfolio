@@ -600,6 +600,12 @@
     @media (max-width: 900px) {
       .deco-group { transform: scale(0.6); transform-origin: top right; }
       .deco-handshelf { width: 180px; top: 420px; }
+      /* .ipad-shelf-title isn't scaled at this breakpoint, so it stays at 1rem.
+         Influence/TV titles live inside the newly-scaled .deco-group and need the
+         same compensation as the mobile breakpoint: 1 ÷ 0.6 ≈ 1.667rem for Influence;
+         TV compounds with deco-tv-group's own scale(1.204): 1 ÷ (0.6 × 1.204) ≈ 1.383rem. */
+      .deco-group-influence-title { font-size: 1.667rem; }
+      .deco-tv-title { font-size: 1.353rem; }
     }
     @media (max-width: 480px) {
       /* Stacked: Clouds → iPad → deco-group, 56px gaps between each */

@@ -1232,6 +1232,7 @@
         <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
         <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
         <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
+        <audio id="books-hover-audio" src="audio/influence-hover.m4a" preload="none"></audio>
 
         <!-- Inspiration fan — fanned items originate from books on hover -->
         <div class="insp-fan" id="insp-fan">
@@ -2319,6 +2320,7 @@
       var influenceTitle = document.querySelector('.deco-group-influence-title');
       var fan = document.getElementById('insp-fan');
       if (!fan) return;
+      var hoverAudio = document.getElementById('books-hover-audio');
 
       var closeTimer = null;
       var items = Array.prototype.slice.call(fan.querySelectorAll('.insp-item'));
@@ -2356,18 +2358,27 @@
       function activate() {
         books.classList.add('books-hovered');
         openFan();
+        if (hoverAudio) {
+          hoverAudio.currentTime = 0;
+          hoverAudio.play().catch(function () {});
+        }
       }
 
       function deactivate() {
         books.classList.remove('books-hovered');
         closeFan();
+        if (hoverAudio) {
+          hoverAudio.pause();
+          hoverAudio.currentTime = 0;
+        }
       }
 
       books.addEventListener('mouseenter', activate);
       books.addEventListener('mouseleave', deactivate);
       books.addEventListener('focus', openFan);
       books.addEventListener('blur', closeFan);
-      window.addEventListener('blur', closeFan);
+      window.addEventListener('blur', deactivate);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) deactivate(); });
 
       if (influenceTitle) {
         influenceTitle.addEventListener('mouseenter', activate);

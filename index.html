@@ -176,8 +176,6 @@
     }
     .card-thumb { transition: opacity 0.2s ease; }
     .card-video { opacity: 0; transition: opacity 0.2s ease; }
-    .card-item:hover .card-thumb { opacity: 0; }
-    .card-item:hover .card-video { opacity: 1; }
     /* ── Mux player — card-3, card-4 */
     .card-mux {
       position: absolute; inset: 0; width: 100%; height: 100%; display: block;
@@ -187,10 +185,21 @@
       --media-loading-indicator-display: none;
     }
     #card-3 .card-thumb, #card-4 .card-thumb { transition: none; }
-    #card-3:hover .card-thumb, #card-4:hover .card-thumb { opacity: 0; }
-    #card-3:hover .card-mux, #card-4:hover .card-mux { opacity: 1; }
-    .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
-    .card-item:hover { z-index: 2; }
+    /* True hover devices (mouse/trackpad) — swap thumb → video on :hover.
+       Touch devices use .is-playing, toggled by scroll-triggered JS instead,
+       so a long-press doesn't get stuck in a fake hover state. */
+    @media (hover: hover) {
+      .card-item:hover .card-thumb { opacity: 0; }
+      .card-item:hover .card-video { opacity: 1; }
+      #card-3:hover .card-thumb, #card-4:hover .card-thumb { opacity: 0; }
+      #card-3:hover .card-mux, #card-4:hover .card-mux { opacity: 1; }
+      .card-item:hover .card { box-shadow: 0 16px 48px rgba(20,20,18,0.14); transform: translateY(-3px) scale(1.054); }
+      .card-item:hover { z-index: 2; }
+    }
+    .card-item.is-playing .card-thumb { opacity: 0; }
+    .card-item.is-playing .card-video { opacity: 1; }
+    #card-3.is-playing .card-thumb, #card-4.is-playing .card-thumb { opacity: 0; }
+    #card-3.is-playing .card-mux, #card-4.is-playing .card-mux { opacity: 1; }
     .card { transition: box-shadow 0.3s ease, transform 0.3s ease, filter 0.35s ease, opacity 0.35s ease; }
     .card-item.is-dimmed .card { }
 
@@ -455,7 +464,7 @@
     }
     .ipad-shelf-subtitle span {
       display: inline-flex; align-items: center;
-      font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
+      font-family: var(--sans); font-size: 0.75rem; color: var(--ink-mid);
       background: var(--paper);
       border-radius: 8px;
       padding: 5px 14px; white-space: nowrap;
@@ -471,7 +480,7 @@
     }
     .deco-subtitle span {
       display: inline-flex; align-items: center;
-      font-family: var(--sans); font-size: 0.72rem; color: var(--ink-mid);
+      font-family: var(--sans); font-size: 0.75rem; color: var(--ink-mid);
       background: var(--paper); border-radius: 8px;
       padding: 5px 14px; white-space: nowrap;
       height: 32px; box-sizing: border-box;
@@ -487,14 +496,22 @@
     .deco-tv-group .deco-subtitle { transform: scale(0.831) translateY(6px); transform-origin: top center; }
     .deco-tv-group .deco-subtitle span { background: transparent; height: 32px; box-sizing: border-box; display: inline-flex; align-items: center; }
     .deco-tv-group.tv-hovered .deco-subtitle { transform: scale(0.831) translateY(0); }
-    .deco-group-books:hover ~ .deco-subtitle,
-    .deco-group-books.books-hovered ~ .deco-subtitle { opacity: 1; transform: translateY(0); }
+    /* .deco-group-books now lives inside .deco-influence-visual (see markup), so the
+       hover/class state needs :has() to reach across that nesting level to reach the
+       sibling title/subtitle below. */
+    .deco-influence-visual:has(.deco-group-books:hover) ~ .deco-subtitle,
+    .deco-influence-visual:has(.deco-group-books.books-hovered) ~ .deco-subtitle { opacity: 1; transform: translateY(0); }
     .deco-tv-group.tv-hovered .deco-subtitle { opacity: 1; transform: translateY(0); }
 
     /* ── RIGHT-SIDE DECO (blackboard + shelf grouped) ── */
     .deco-r { position: absolute; }
     /* Group container — move this to reposition both together */
     .deco-group { position: absolute; right: -10px; top: 90px; width: 522px; transition: top 0.5s ease, left 0.5s ease, right 0.5s ease, transform 0.5s ease; }
+    /* Wraps blackboard/pencil/shelf/books only — lets mobile scale just this visual
+       composition without touching the title/subtitle or the TV group. inset:0 matches
+       .deco-group's own box exactly, so the children's right/top values below are
+       unaffected (same coordinate space as before). */
+    .deco-influence-visual { position: absolute; inset: 0; }
     .deco-group-blackboard { position: absolute; right: 15px; top: -54px;  width: 392px; transform: scale(0.8); transform-origin: bottom center; }
     .deco-group-shelf      { position: absolute; right: 0; top: 149px; width: 418px; }
     .deco-group-pencil     { position: absolute; right: 260px; top: 150px; width: 120px; z-index: 3; }
@@ -553,12 +570,14 @@
       transform: translateY(-50%) scaleX(0.083) scaleY(0.083); transform-origin: center center;
       width: 12px; height: 12px; background: var(--ink); border-radius: 4px; opacity: 0;
     }
-    .deco-group-books:hover ~ .deco-group-influence-title,
-    .deco-group-books.books-hovered ~ .deco-group-influence-title { color: var(--ink); }
-    .deco-group-books:hover ~ .deco-group-influence-title span,
-    .deco-group-books.books-hovered ~ .deco-group-influence-title span { padding-left: 20px; }
-    .deco-group-books:hover ~ .deco-group-influence-title span::before,
-    .deco-group-books.books-hovered ~ .deco-group-influence-title span::before { animation: squareMorph 0.28s ease-out forwards; }
+    /* Same :has() bridge as the subtitle rule above — .deco-group-books is nested
+       inside .deco-influence-visual now, not a direct sibling of the title. */
+    .deco-influence-visual:has(.deco-group-books:hover) ~ .deco-group-influence-title,
+    .deco-influence-visual:has(.deco-group-books.books-hovered) ~ .deco-group-influence-title { color: var(--ink); }
+    .deco-influence-visual:has(.deco-group-books:hover) ~ .deco-group-influence-title span,
+    .deco-influence-visual:has(.deco-group-books.books-hovered) ~ .deco-group-influence-title span { padding-left: 20px; }
+    .deco-influence-visual:has(.deco-group-books:hover) ~ .deco-group-influence-title span::before,
+    .deco-influence-visual:has(.deco-group-books.books-hovered) ~ .deco-group-influence-title span::before { animation: squareMorph 0.28s ease-out forwards; }
     .deco-tv-group         { position: absolute; right: 0; top: 339px; width: 552px; transform: scale(1.204); transform-origin: top right; transition: transform 0.3s ease; }
     .deco-tv-group.tv-hovered { transform: scale(1.236); }
     .deco-tv-title {
@@ -583,21 +602,44 @@
       .deco-handshelf { width: 180px; top: 420px; }
     }
     @media (max-width: 480px) {
-      /* Stacked: Clouds → iPad → deco-group, 40px gaps between each */
-      .cloud-cluster { height: 900px; }
+      /* Stacked: Clouds → iPad → deco-group, 56px gaps between each */
+      .cloud-cluster { height: 1000px; }
       .cloud-group { top: 20px; left: 0; }
       /* iPad — clouds extend visually to ~200px (group top 20px + cloud tops ~112px + image height ~70px + float headroom)
-         40px clear gap → iPad at 240px */
-      .ipad-shelf-group { top: 240px; left: 20px; width: 176px; }
+         40px clear gap → iPad at 240px. left: 59px centers the 176px-wide group in the cluster. */
+      .ipad-shelf-group { top: 240px; left: 59px; width: 176px; }
       .ipad-frame { width: 152px; }
       .ipad-shelf-video { width: 152px; }
       .ipad-screen-video { left: 15px; top: 3px; width: 128px; height: 97px; border-radius: 4px; }
       .ipad-shelf-line  { width: 176px; }
-      /* deco-group — iPad visual bottom ~430px (240px top + ~160px frame + ~30px shelf + 40px gap) */
-      .deco-group { top: 480px; left: 10px; right: auto; transform: scale(0.384); transform-origin: top left; }
-      /* Scale font up so hover titles appear at ~1rem visually (1 ÷ 0.384 ≈ 2.6rem) */
+      /* deco-group — top: 502px gives a 56px gap below the iPad, matching the 56px gap
+         above the TV group. left: 17px centers the blackboard/shelf/books composition. */
+      .deco-group { top: 502px; left: 17px; right: auto; transform: scale(0.384); transform-origin: top left; }
+      /* Scale font up so hover titles appear at ~1rem visually, matching the
+         unscaled Playground title (1rem). Influence: 1 ÷ 0.384 ≈ 2.6rem.
+         TV title compounds with deco-tv-group's own scale(1.204), so it needs
+         a smaller value: 1 ÷ (0.384 × 1.204) ≈ 2.16rem. */
       .deco-group-influence-title { font-size: 2.6rem; }
-      .deco-tv-title { font-size: 2.6rem; }
+      .deco-tv-title { font-size: 2.16rem; }
+      /* Subtitle pills (shown on hover) need the same treatment — they're 0.75rem
+         authored, but render at only 0.75 × 0.384 ≈ 0.288rem visually since they're
+         inside the scaled .deco-group. 1.95rem compensates so they match the
+         unscaled Playground subtitle. TV's extra scale(1.204) and its own
+         scale(0.831) roughly cancel out, so one value works for both. */
+      .deco-subtitle span { font-size: 1.95rem; }
+      /* Subtitle top offsets also need mobile-specific overrides — the bigger title
+         font-size above means the title's rendered box is taller, so the desktop-tuned
+         top values leave the subtitle overlapping the title instead of the clean 16px
+         gap Playground gets from its normal-flow margin-top. */
+      .deco-group-influence-title ~ .deco-subtitle { top: 440px; }
+      .deco-tv-group .deco-subtitle { top: 499px; }
+      /* Blackboard/pencil/shelf/books composition — 15% bigger than the rest of the
+         deco-group, without affecting the title/subtitle font-size (they live outside
+         .deco-influence-visual) or the TV group. */
+      .deco-influence-visual { transform: scale(1.15); transform-origin: center 755px; }
+      /* TV group is nested inside .deco-group and inherits its 0.384 scale, but needs its
+         own top/right override here — otherwise it overlaps the Influence title above it. */
+      .deco-tv-group { top: 560px; right: -150px; }
     }
 
     /* ── RIVE DIVIDER ── */
@@ -1228,10 +1270,12 @@
 
       <!-- Right side — blackboard + shelf (grouped) -->
       <div class="deco-r deco-group">
-        <img src="images/icons/BlackBoard02 1.png" class="deco-group-blackboard" alt="" loading="lazy">
-        <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
-        <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
-        <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
+        <div class="deco-influence-visual">
+          <img src="images/icons/BlackBoard02 1.png" class="deco-group-blackboard" alt="" loading="lazy">
+          <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
+          <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
+          <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
+        </div>
         <audio id="books-hover-audio" src="audio/influence-hover.m4a" preload="none"></audio>
 
         <!-- Inspiration fan — fanned items originate from books on hover -->
@@ -1318,83 +1362,155 @@
     </div>
   </footer>
   <script>
+    // Devices with true hover (mouse/trackpad) use hover-to-play.
+    // Touch devices (no reliable hover) use scroll-triggered autoplay instead —
+    // see the "Touch autoplay-on-scroll" block below.
+    var isHoverCapable = window.matchMedia('(hover: hover)').matches;
+
     // ── Video hover — loads source on first hover, then plays
-    document.querySelectorAll('.card-item').forEach(card => {
-      const video = card.querySelector('video.card-video');
-      if (!video) return;
+    if (isHoverCapable) {
+      document.querySelectorAll('.card-item').forEach(card => {
+        const video = card.querySelector('video.card-video');
+        if (!video) return;
 
-      let loaded = false;
+        let loaded = false;
 
-      card.addEventListener('mouseenter', () => {
-        if (!loaded) {
-          const source = video.querySelector('source[data-src]');
-          if (source) {
-            source.src = source.dataset.src;
-            video.load();
-          }
-          loaded = true;
-        }
-        if (video.dataset.playbackRate) video.playbackRate = parseFloat(video.dataset.playbackRate);
-        video.currentTime = 0;
-        video.play().catch(() => {});
-        // Show loading placeholder + progress bar if video not ready yet
-        if (video.readyState < 2) {
-          card.classList.add('video-loading');
-          const fill = card.querySelector('.card-progress-fill');
-          const updateProgress = () => {
-            if (fill && video.duration && video.buffered.length) {
-              fill.style.width = (video.buffered.end(0) / video.duration * 100) + '%';
+        card.addEventListener('mouseenter', () => {
+          if (!loaded) {
+            const source = video.querySelector('source[data-src]');
+            if (source) {
+              source.src = source.dataset.src;
+              video.load();
             }
-          };
-          video.addEventListener('progress', updateProgress);
-          video.addEventListener('canplay', () => {
-            card.classList.remove('video-loading');
-            video.removeEventListener('progress', updateProgress);
-            if (fill) fill.style.width = '0%';
-          }, { once: true });
-          video.addEventListener('error', () => {
-            card.classList.remove('video-loading');
-            video.removeEventListener('progress', updateProgress);
-          }, { once: true });
-        }
+            loaded = true;
+          }
+          if (video.dataset.playbackRate) video.playbackRate = parseFloat(video.dataset.playbackRate);
+          video.currentTime = 0;
+          video.play().catch(() => {});
+          // Show loading placeholder + progress bar if video not ready yet
+          if (video.readyState < 2) {
+            card.classList.add('video-loading');
+            const fill = card.querySelector('.card-progress-fill');
+            const updateProgress = () => {
+              if (fill && video.duration && video.buffered.length) {
+                fill.style.width = (video.buffered.end(0) / video.duration * 100) + '%';
+              }
+            };
+            video.addEventListener('progress', updateProgress);
+            video.addEventListener('canplay', () => {
+              card.classList.remove('video-loading');
+              video.removeEventListener('progress', updateProgress);
+              if (fill) fill.style.width = '0%';
+            }, { once: true });
+            video.addEventListener('error', () => {
+              card.classList.remove('video-loading');
+              video.removeEventListener('progress', updateProgress);
+            }, { once: true });
+          }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          card.classList.remove('video-loading');
+          const fill = card.querySelector('.card-progress-fill');
+          if (fill) fill.style.width = '0%';
+        });
       });
 
-      card.addEventListener('mouseleave', () => {
-        video.pause();
-        card.classList.remove('video-loading');
-        const fill = card.querySelector('.card-progress-fill');
-        if (fill) fill.style.width = '0%';
-      });
-    });
-
-    // ── Mux player hover — card-3, card-4
-    ['card-3', 'card-4'].forEach(function(id) {
-      var card = document.getElementById(id);
-      var mux  = card && card.querySelector('mux-player');
-      if (!card || !mux) return;
-      card.addEventListener('mouseenter', function() {
-        mux.play().catch(function() {});
-      });
-      card.addEventListener('mouseleave', function() {
-        mux.pause();
-        mux.currentTime = 0;
-      });
-    });
-
-    // ── Blur sibling cards on hover
-    (function() {
-      const allCards = Array.from(document.querySelectorAll('.card-item'));
-      allCards.forEach(function(card) {
+      // ── Mux player hover — card-3, card-4
+      ['card-3', 'card-4'].forEach(function(id) {
+        var card = document.getElementById(id);
+        var mux  = card && card.querySelector('mux-player');
+        if (!card || !mux) return;
         card.addEventListener('mouseenter', function() {
-          allCards.forEach(function(other) {
-            if (other !== card) other.classList.add('is-dimmed');
-          });
+          mux.play().catch(function() {});
         });
         card.addEventListener('mouseleave', function() {
-          allCards.forEach(function(other) { other.classList.remove('is-dimmed'); });
+          mux.pause();
+          mux.currentTime = 0;
         });
       });
-    })();
+
+      // ── Blur sibling cards on hover
+      (function() {
+        const allCards = Array.from(document.querySelectorAll('.card-item'));
+        allCards.forEach(function(card) {
+          card.addEventListener('mouseenter', function() {
+            allCards.forEach(function(other) {
+              if (other !== card) other.classList.add('is-dimmed');
+            });
+          });
+          card.addEventListener('mouseleave', function() {
+            allCards.forEach(function(other) { other.classList.remove('is-dimmed'); });
+          });
+        });
+      })();
+    }
+
+    // ── Touch autoplay-on-scroll — replaces hover-to-play on devices without real hover
+    if (!isHoverCapable) {
+      document.querySelectorAll('.card-item').forEach(function(card) {
+        const video = card.querySelector('video.card-video');
+        const mux   = card.querySelector('mux-player');
+        const media = video || mux;
+        if (!media) return;
+
+        let loaded = false;
+
+        function playMedia() {
+          card.classList.add('is-playing');
+          if (video) {
+            if (!loaded) {
+              const source = video.querySelector('source[data-src]');
+              if (source) {
+                source.src = source.dataset.src;
+                video.load();
+              }
+              loaded = true;
+            }
+            video.currentTime = 0;
+          } else {
+            mux.currentTime = 0;
+          }
+          media.play().catch(function() {});
+          if (media.readyState < 2) {
+            card.classList.add('video-loading');
+            const fill = card.querySelector('.card-progress-fill');
+            const updateProgress = function() {
+              if (fill && media.duration && media.buffered.length) {
+                fill.style.width = (media.buffered.end(0) / media.duration * 100) + '%';
+              }
+            };
+            media.addEventListener('progress', updateProgress);
+            media.addEventListener('canplay', function onCanPlay() {
+              card.classList.remove('video-loading');
+              media.removeEventListener('progress', updateProgress);
+              if (fill) fill.style.width = '0%';
+            }, { once: true });
+          }
+        }
+
+        function pauseMedia() {
+          card.classList.remove('is-playing');
+          media.pause();
+          card.classList.remove('video-loading');
+          const fill = card.querySelector('.card-progress-fill');
+          if (fill) fill.style.width = '0%';
+        }
+
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) playMedia();
+            else pauseMedia();
+          });
+        }, { threshold: 0.6 });
+        observer.observe(card);
+
+        document.addEventListener('visibilitychange', function() {
+          if (document.hidden) pauseMedia();
+        });
+      });
+    }
 
     // ── Card expand page transition
     (function() {

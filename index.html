@@ -2376,7 +2376,7 @@
 
   </script>
 
-  <!-- ── iPad hover-to-play ── -->
+  <!-- ── iPad hover-to-play (or scroll-to-play on touch devices) ── -->
   <script>
     (function () {
       var vid = document.querySelector('.ipad-screen-video');
@@ -2390,21 +2390,32 @@
         if (!vid._hovered) { vid.pause(); }
       });
       var group = frame.closest('.ipad-shelf-group');
-      group.addEventListener('mouseenter', function () { vid._hovered = true; vid.loop = true; vid.play(); frame.classList.add('ipad-hovered'); });
+      function activateIpad() { vid._hovered = true; vid.loop = true; vid.play(); frame.classList.add('ipad-hovered'); }
       function resetToFirstFrame() {
         vid._hovered = false;
         vid.pause();
         vid.currentTime = 0;
         frame.classList.remove('ipad-hovered');
       }
-      group.addEventListener('mouseleave', resetToFirstFrame);
       // Reset on tab/window focus loss
       document.addEventListener('visibilitychange', function () { if (document.hidden) resetToFirstFrame(); });
       window.addEventListener('blur', resetToFirstFrame);
+
+      if (isHoverCapable) {
+        group.addEventListener('mouseenter', activateIpad);
+        group.addEventListener('mouseleave', resetToFirstFrame);
+      } else {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) activateIpad(); else resetToFirstFrame();
+          });
+        }, { threshold: 0.6 });
+        observer.observe(group);
+      }
     })();
   </script>
 
-  <!-- ── TV screen hover-to-play ── -->
+  <!-- ── TV screen hover-to-play (or scroll-to-play on touch devices) ── -->
   <script>
     (function () {
       var vid = document.querySelector('.deco-group-tv-screen');
@@ -2422,15 +2433,33 @@
         if (p !== undefined) p.catch(function() { vid.muted = true; vid.play(); }); // fallback: muted if browser blocks
         if (tvGroup) tvGroup.classList.add('tv-hovered');
       }
+      // Scroll-triggered playback has no user gesture behind it, so unmuted
+      // autoplay would be blocked anyway — and autoplaying sound as content
+      // scrolls into view is unexpected. Keep it muted.
+      function activateTVMuted() {
+        vid._hovered = true; vid.loop = true; vid.muted = true;
+        vid.play();
+        if (tvGroup) tvGroup.classList.add('tv-hovered');
+      }
       function resetTV() { vid._hovered = false; vid.muted = true; vid.pause(); vid.currentTime = 0; if (tvGroup) tvGroup.classList.remove('tv-hovered'); }
-      vid.addEventListener('mouseenter', activateTV);
-      vid.addEventListener('mouseleave', resetTV);
-      if (tvTitle) tvTitle.addEventListener('mouseenter', activateTV);
-      if (tvTitle) tvTitle.addEventListener('mouseleave', resetTV);
-      if (tvGroup) tvGroup.addEventListener('mouseleave', resetTV);
       document.addEventListener('visibilitychange', function () { if (document.hidden) resetTV(); });
       window.addEventListener('blur', resetTV);
       vid.addEventListener('click', function () { window.location.href = '/lesleyrooney-games-sims-vfxworks'; });
+
+      if (isHoverCapable) {
+        vid.addEventListener('mouseenter', activateTV);
+        vid.addEventListener('mouseleave', resetTV);
+        if (tvTitle) tvTitle.addEventListener('mouseenter', activateTV);
+        if (tvTitle) tvTitle.addEventListener('mouseleave', resetTV);
+        if (tvGroup) tvGroup.addEventListener('mouseleave', resetTV);
+      } else if (tvGroup) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) activateTVMuted(); else resetTV();
+          });
+        }, { threshold: 0.6 });
+        observer.observe(tvGroup);
+      }
     })();
   </script>
 

@@ -752,13 +752,14 @@ All case study pages except games use these values. Do not change without asking
 | Element | Value |
 |---|---|
 | `.cs-section` padding-top | **160px** (all pages except games: 48px) |
+| `.cs-section` padding-top on tablet (`max-width: 1024px`) | **96px** — added on the 5 non-games case study pages (medidataedcredesign, contech-qflow, qualisflow-02, clinical-risk-based-monitoring, homerenter) because 160px felt oversized on iPad. Games page untouched (already 48px). |
 | Media element margin (top + bottom) | **56px 0** |
 | Caption → media gap | **8px** (`margin: 0 0 8px` on `.cs-caption`) |
 | Body paragraph bottom | **24px** (`margin-bottom: 24px`) |
 
 **"Media elements"** means: `.img-card`, `.carousel`, `.video-wrap`, `.img-pair`, `.gif-grid`, `.postit-row`, `.img-placeholder`, `.zoom-img`, `.gif-placeholder`, `.laptop-frame`, `.laptop-frame-wrap`, `.nda-placeholder`, `.hover-audio-placeholder` — anything that isn't body text.
 
-**Total visual gap between sections** = 56px (last media bottom) + 160px (next section top) = ~216px. This is intentional.
+**Total visual gap between sections** = 56px (last media bottom) + 160px (next section top) = ~216px on desktop, ~152px on tablet (≤1024px). This is intentional.
 
 **Games page exception** — `.cs-section { padding: 48px 0 0; }` and no 56px media margin system. Gallery grid uses `gap: 8px` (both row and column). Section-video wrappers (`.gvfx-section-wrap`) use `margin-bottom: 12px`; when one directly follows a gallery grid, also add `margin-top: 12px` via `.gallery-grid + .gvfx-section-wrap { margin-top: 12px; }` (already in the page's `<style>` block).
 

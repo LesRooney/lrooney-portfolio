@@ -618,13 +618,16 @@
       /* height: auto overrides the 900px tier's fixed height:800px (still cascading
          in at this width) — without it, flexbox compresses items with small
          intrinsic content (like .deco-influence-group) to fit the stale fixed box. */
-      .cloud-cluster { display: flex; flex-direction: column; align-items: center; gap: 56px; height: auto; padding-top: 110px; }
+      .cloud-cluster { display: flex; flex-direction: column; align-items: center; gap: 56px; height: auto; padding-top: 208px; }
       /* Clouds stay a decorative absolute overlay (not a flex item) so they don't
          eat into the flex column's width/height budget — centered horizontally
-         at any viewport width, with padding-top above reserving their space. */
+         at any viewport width. padding-top above reserves clear space for them —
+         the individual cloud images render taller than .cloud-group's own 120px
+         box (their float animation + intrinsic aspect ratio push past it), so this
+         is sized off their actual rendered bottom edge (184px), not the box. */
       .cloud-group { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); }
 
-      .ipad-shelf-group { position: static; width: 200px; flex-shrink: 0; order: 1; }
+      .ipad-shelf-group { position: static; width: 200px; flex-shrink: 0; order: 2; }
       .ipad-frame { width: 172px; }
       .ipad-shelf-video { width: 172px; }
       .ipad-screen-video { left: 17px; top: 4px; width: 145px; height: 110px; border-radius: 4px; }
@@ -637,7 +640,7 @@
       /* .deco-influence-group's height is auto — it sums from .deco-influence-visual's
          own explicit (in-flow) height plus the title/subtitle below it, mirroring
          how .deco-tv-group already sizes itself from .deco-tv-visual + its title. */
-      .deco-influence-group { position: relative; width: 260px; flex-shrink: 0; order: 2; }
+      .deco-influence-group { position: relative; width: 260px; flex-shrink: 0; order: 1; }
       /* In-flow (not absolute), so it contributes real height instead of the
          title/subtitle rendering on top of it. Children keep position:absolute
          but with values scaled ×0.5 against the desktop composition — the same
@@ -649,20 +652,40 @@
       .deco-group-shelf      { right: 0; top: 75px; width: 209px; }
       .deco-group-pencil     { right: 130px; top: 75px; width: 60px; }
       .deco-group-books      { right: 24px; top: 103px; width: 136px; }
-      .deco-group-influence-title { position: static; margin-top: 16px; font-size: 1rem; }
+      .deco-group-influence-title { position: static; margin-top: -24px; font-size: 1rem; }
       .deco-group-influence-title ~ .deco-subtitle { position: static; margin-top: 10px; }
-      /* Fan-out flourish is desktop-hover-only (no touch fallback) and its inset:0
-         no longer matches this taller stacked box — hide rather than mis-position. */
-      .insp-fan { display: none; }
+      /* Fan-out flourish — now scroll-triggered on touch via the same
+         IntersectionObserver as the Influence title (see JS). Positions/sizes
+         are the desktop values × 0.5, matching the ratio used for the
+         blackboard/shelf/pencil/books above, since .insp-fan is nested inside
+         .deco-influence-visual and shares its coordinate box at every breakpoint. */
+      .insp-fan { transform: translateX(-10px); }
+      .ii-yt    { left: 80px; top: 100px; width: 19px; transform: translateX(35px) scale(0.35) rotate(-3deg); }
+      .ii-ux    { left: 99px; top: 123px; width: 24px; transform: translateX(35px) scale(0.35) rotate(8deg); }
+      .ii-pod   { left: 73px; top: 112px; width: 21px; transform: translateX(35px) scale(0.35) rotate(-10deg); }
+      .ii-com   { left: 46px; top: 116px; width: 27px; transform: translateX(35px) scale(-0.35, 0.35) rotate(10deg); }
+      .ii-fire  { left: 82px; top: 129px; width: 17px; transform: translateX(35px) scale(0.35) rotate(15deg); }
+      .ii-dive  { left: 78px; top: 143px; height: 16px; transform: translateX(35px) scale(0.35) rotate(2deg); }
+      .ii-lenny { left: 68px; top: 94px;  width: 19px; transform: translateX(35px) scale(0.35) rotate(-2deg); }
+      .ii-des   { left: 92px; top: 114px; width: 30px; transform: translateX(35px) scale(0.35) rotate(-6deg); }
+      /* Halve the shadow blur/offset too — the desktop values look heavy on
+         icons this small. */
+      .insp-item { box-shadow: 0 4px 12px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.10); }
+      .ii-pod, .ii-dive, .ii-lenny { box-shadow: 0 3px 9px rgba(0,0,0,0.15); }
+      .ii-fire { box-shadow: none; }
 
       .deco-tv-group { position: static; width: 220px; transform: none; flex-shrink: 0; order: 3; }
-      .deco-tv-visual { position: relative; width: 220px; }
+      /* 44% bigger (two successive 20% bumps), anchored to the bottom-right
+         corner so it grows up and to the left rather than pushing the
+         title/subtitle below it. */
+      .deco-tv-visual { position: relative; width: 220px; transform: scale(1.44); transform-origin: bottom right; }
       .deco-group-tv { width: 220px; }
       .deco-group-tv-screen { right: 11px; top: 83px; width: 110px; height: 66px; border-radius: 7px; }
       /* Hover pop moves from .deco-tv-group (no longer carries a baseline scale)
-         to .deco-tv-visual, preserving the desktop ~2.7% pop ratio. */
+         to .deco-tv-visual, preserving the desktop ~2.7% pop ratio on top of the
+         1.44 base enlargement (1.44 × 1.03 ≈ 1.483), same bottom-right anchor. */
       .deco-tv-group.tv-hovered { transform: none; }
-      .deco-tv-group.tv-hovered .deco-tv-visual { transform: scale(1.03); }
+      .deco-tv-group.tv-hovered .deco-tv-visual { transform: scale(1.483); transform-origin: bottom right; }
       .deco-tv-title { position: static; margin-top: 16px; font-size: 1rem; }
       .deco-tv-group .deco-subtitle { position: static; margin-top: 10px; transform: translateY(6px); }
     }
@@ -916,6 +939,8 @@
       font-size: 0.78rem;
       font-weight: 500;
       text-align: center;
+      box-shadow: 0 4px 10px rgba(20,20,18,0.15);
+      border-radius: 12px;
     }
     .desktop-badge.is-visible { display: flex; }
     #desktop-badge-close {
@@ -1337,41 +1362,44 @@
             <img src="images/icons/PencilFront.webp"  class="deco-group-pencil"     alt="" loading="lazy" decoding="async">
             <img src="images/icons/Shelf 1.png"        class="deco-group-shelf"      alt="" loading="lazy">
             <a href="influence.html" class="deco-group-books" style="display:block;"><img src="images/icons/Book_Articles_Influence 1.png" style="width:100%;display:block;" alt="Influence" loading="lazy"></a>
-          </div>
-          <audio id="books-hover-audio" src="audio/influence-hover.m4a" preload="none"></audio>
 
-          <!-- Inspiration fan — fanned items originate from books on hover -->
-          <div class="insp-fan" id="insp-fan">
-            <img src="images/icons/Brand=YouTube, Color=ON.svg"                 class="insp-item ii-yt"   alt="YouTube" loading="lazy">
-            <picture>
-                  <source srcset="images/HomepageImages/UXlaws.avif" type="image/avif">
-                  <img src="images/HomepageImages/UXlaws.webp"                        class="insp-item ii-ux"   alt="Laws of UX" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/Podcast.avif" type="image/avif">
-                  <img src="images/HomepageImages/Podcast.webp"                       class="insp-item ii-pod"  alt="Podcast" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/InspirationComedy.avif" type="image/avif">
-                  <img src="images/HomepageImages/InspirationComedy.webp"             class="insp-item ii-com"  alt="" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/InspirationFunnyIcon.avif" type="image/avif">
-                  <img src="images/HomepageImages/InspirationFunnyIcon.webp"          class="insp-item ii-fire" alt="" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/DiveClub.avif" type="image/avif">
-                  <img src="images/HomepageImages/DiveClub.webp"                       class="insp-item ii-dive" alt="Dive Club Podcast" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/LennyPodcast.avif" type="image/avif">
-                  <img src="images/HomepageImages/LennyPodcast.webp"                   class="insp-item ii-lenny" alt="Lenny Podcast" loading="lazy">
-                </picture>
-            <picture>
-                  <source srcset="images/HomepageImages/designInspiration01.avif" type="image/avif">
-                  <img src="images/HomepageImages/designInspiration01.webp"           class="insp-item ii-des"  alt="" loading="lazy">
-                </picture>
+            <!-- Inspiration fan — fanned items originate from books on hover.
+                 Nested inside .deco-influence-visual (not a sibling) so its inset:0
+                 always matches the same box the blackboard/shelf/books are
+                 positioned against, at every breakpoint. -->
+            <div class="insp-fan" id="insp-fan">
+              <img src="images/icons/Brand=YouTube, Color=ON.svg"                 class="insp-item ii-yt"   alt="YouTube" loading="lazy">
+              <picture>
+                    <source srcset="images/HomepageImages/UXlaws.avif" type="image/avif">
+                    <img src="images/HomepageImages/UXlaws.webp"                        class="insp-item ii-ux"   alt="Laws of UX" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/Podcast.avif" type="image/avif">
+                    <img src="images/HomepageImages/Podcast.webp"                       class="insp-item ii-pod"  alt="Podcast" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/InspirationComedy.avif" type="image/avif">
+                    <img src="images/HomepageImages/InspirationComedy.webp"             class="insp-item ii-com"  alt="" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/InspirationFunnyIcon.avif" type="image/avif">
+                    <img src="images/HomepageImages/InspirationFunnyIcon.webp"          class="insp-item ii-fire" alt="" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/DiveClub.avif" type="image/avif">
+                    <img src="images/HomepageImages/DiveClub.webp"                       class="insp-item ii-dive" alt="Dive Club Podcast" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/LennyPodcast.avif" type="image/avif">
+                    <img src="images/HomepageImages/LennyPodcast.webp"                   class="insp-item ii-lenny" alt="Lenny Podcast" loading="lazy">
+                  </picture>
+              <picture>
+                    <source srcset="images/HomepageImages/designInspiration01.avif" type="image/avif">
+                    <img src="images/HomepageImages/designInspiration01.webp"           class="insp-item ii-des"  alt="" loading="lazy">
+                  </picture>
+            </div>
           </div>
+          <audio id="books-hover-audio" src="images/HomepageImages/HomePageSound4.m4a" preload="none"></audio>
 
           <div class="deco-group-influence-title"><span>Influence</span></div>
           <div class="deco-subtitle"><span>Books • Podcasts • Learning • Youtube</span></div>
@@ -2599,16 +2627,37 @@
         }
       }
 
-      books.addEventListener('mouseenter', activate);
-      books.addEventListener('mouseleave', deactivate);
-      books.addEventListener('focus', openFan);
-      books.addEventListener('blur', closeFan);
-      window.addEventListener('blur', deactivate);
-      document.addEventListener('visibilitychange', function () { if (document.hidden) deactivate(); });
+      if (isHoverCapable) {
+        books.addEventListener('mouseenter', activate);
+        books.addEventListener('mouseleave', deactivate);
+        books.addEventListener('focus', openFan);
+        books.addEventListener('blur', closeFan);
+        window.addEventListener('blur', deactivate);
+        document.addEventListener('visibilitychange', function () { if (document.hidden) deactivate(); });
 
-      if (influenceTitle) {
-        influenceTitle.addEventListener('mouseenter', activate);
-        influenceTitle.addEventListener('mouseleave', deactivate);
+        if (influenceTitle) {
+          influenceTitle.addEventListener('mouseenter', activate);
+          influenceTitle.addEventListener('mouseleave', deactivate);
+        }
+      } else {
+        // Scroll-triggered reveal on touch devices, matching the iPad/TV
+        // pattern — plays the hover audio here too (same activate/deactivate
+        // as the mouse path). Browsers may still block the autoplay since a
+        // scroll isn't always treated as a qualifying user gesture; .catch()
+        // below silently no-ops if so rather than throwing.
+        var influenceGroup = books.closest('.deco-influence-group') || books.closest('.deco-group');
+        if (influenceGroup) {
+          function activateScroll() { activate(); }
+          function deactivateScroll() { deactivate(); }
+          window.addEventListener('blur', deactivateScroll);
+          document.addEventListener('visibilitychange', function () { if (document.hidden) deactivateScroll(); });
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) activateScroll(); else deactivateScroll();
+            });
+          }, { threshold: 0.6 });
+          observer.observe(influenceGroup);
+        }
       }
     })();
   </script>

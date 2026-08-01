@@ -1218,6 +1218,65 @@
     </div>
   </section>
 
+  <!-- ── Intro-block reveal — isolated in its own script tag, placed early, so a JS
+       error anywhere else on the page (blocked/slow CDN script, ad-blocker, third-party
+       failure) can never leave the hero text permanently stuck at opacity:0. Previously
+       this lived ~190 lines into a large shared <script> tag further down the page —
+       an uncaught error anywhere earlier in that tag would have silently prevented this
+       code from ever registering its font-ready listener or 600ms fallback timer. -->
+  <script>
+    var introBlocksShown = false;
+    function showIntroBlocks() {
+      var delays = [0, 80, 160, 240];
+      document.querySelectorAll('.intro-block').forEach(function (el, idx) {
+        setTimeout(function () { el.classList.add('in-view'); }, delays[idx]);
+      });
+    }
+    function triggerIntroBlocks() {
+      if (introBlocksShown) return;
+      introBlocksShown = true;
+      // collapsePersonClip is defined later on the page (hero animation script) —
+      // guard the call so a missing/erroring definition there can never block the
+      // actual text reveal below, which is the part that matters.
+      try {
+        if (typeof collapsePersonClip === 'function') collapsePersonClip();
+      } catch (e) {}
+      showIntroBlocks();
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(triggerIntroBlocks, triggerIntroBlocks);
+    } else {
+      window.addEventListener('load', triggerIntroBlocks);
+    }
+    // Safety fallback — never wait longer than 600ms regardless of font state
+    setTimeout(triggerIntroBlocks, 600);
+
+    // ── Clear .hero's one-time entrance animation once it finishes ──
+    // .hero has `animation: fadeUp 0.8s 0.2s forwards` for its initial page-load
+    // fade-in (CSS, see line ~57). Later, a GSAP ScrollTrigger scrub also drives
+    // .hero's opacity as you scroll past it (see "GSAP HERO SCROLL SINK" further
+    // down). Both target the same `opacity` property — and per the CSS cascade,
+    // an animation's computed value (even one that's finished, held via
+    // `forwards`) outranks a plain inline style, so completed-but-uncleared
+    // fadeUp was silently overriding GSAP's opacity value. That's usually
+    // invisible (fadeUp happens to hold opacity:1, which is often what you want
+    // anyway) — but GSAP's `scale`/`transform` values are NOT covered by fadeUp
+    // (it only animates opacity), so they applied unmasked, producing a
+    // half-updated hero: real GSAP scale/transform with a stale, animation-
+    // pinned opacity fighting it. Clearing `animation` once fadeUp completes
+    // hands opacity back to inline styles only, so GSAP is the single, reliable
+    // source of truth for .hero's opacity from then on.
+    var heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      heroEl.addEventListener('animationend', function onFadeUpEnd(e) {
+        if (e.target === heroEl && e.animationName === 'fadeUp') {
+          heroEl.style.animation = 'none';
+          heroEl.removeEventListener('animationend', onFadeUpEnd);
+        }
+      });
+    }
+  </script>
+
   <section class="work-section" id="work">
     <div class="grid" id="grid">
 
@@ -1656,30 +1715,9 @@
       });
     })();
 
-    // ── Staggered slide-up for intro blocks
-    function showIntroBlocks() {
-      const delays = [0, 80, 160, 240];
-      document.querySelectorAll('.intro-block').forEach((el, idx) => {
-        setTimeout(() => el.classList.add('in-view'), delays[idx]);
-      });
-    }
-    // Show intro blocks after fonts resolve — don't wait for images/videos (Mux, Rive)
-    // which can take several seconds on Safari and leave the hero text invisible.
-    // document.fonts.ready fires as soon as fonts are available (system fonts = instant).
-    var introBlocksShown = false;
-    function triggerIntroBlocks() {
-      if (introBlocksShown) return;
-      introBlocksShown = true;
-      collapsePersonClip();
-      showIntroBlocks();
-    }
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(triggerIntroBlocks);
-    } else {
-      window.addEventListener('load', triggerIntroBlocks);
-    }
-    // Safety fallback — never wait longer than 600ms regardless of font state
-    setTimeout(triggerIntroBlocks, 600);
+    // ── showIntroBlocks / triggerIntroBlocks now live in an isolated <script> tag
+    // right after .hero in the markup, so they can't be taken down by a JS error
+    // elsewhere on the page. See that block for details.
 
     // ── bfcache restore: kill stale GSAP tweens, reset hero text to visible
     window.addEventListener('pageshow', (e) => {
@@ -2434,6 +2472,21 @@
         });
       });
 
+      // Keep ScrollTrigger's measurements fresh if page layout shifts AFTER the
+      // load-refresh above — e.g. late-loading images/fonts/deco assets changing
+      // document height. A stale trigger position is what caused the hero to
+      // render partially faded/scaled-down (gsap.to('.hero', ...) below) even at
+      // scrollY 0: its 'bottom 68%'/'bottom 8%' boundaries were computed against
+      // an outdated layout. requestAnimationFrame coalesces rapid resize bursts
+      // into a single refresh per frame instead of one per resize event.
+      if (window.ResizeObserver) {
+        var heroRefreshRAF = null;
+        var heroResizeObserver = new ResizeObserver(function() {
+          if (heroRefreshRAF) cancelAnimationFrame(heroRefreshRAF);
+          heroRefreshRAF = requestAnimationFrame(function() { ScrollTrigger.refresh(); });
+        });
+        heroResizeObserver.observe(document.body);
+      }
 
       // Note: per-block intro fade removed — it stamped GSAP inline opacity:0 on load
       // when navigating via /#work (mid-scroll), which persisted and hid the taglines
@@ -2443,17 +2496,42 @@
       // Hero fades and scales down as it exits the viewport upward.
       // Using .hero as trigger (not #work) means the animation reverses naturally
       // whenever the hero is scrolled back into view, regardless of start position.
-      gsap.to('.hero', {
-        opacity: 0,
-        scale: 0.97,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'bottom 68%',
-          end:   'bottom 8%',
-          scrub: 1,
+      //
+      // start/end were originally 'bottom 68%'/'bottom 8%' — percentages of hero's
+      // OWN bottom edge relative to the viewport. That only leaves headroom before
+      // the fade begins if hero is tall relative to the viewport. On shorter
+      // viewports (or anywhere hero's rest-state bottom edge already sits below
+      // 68% of viewport height — common on laptop-height windows) the "start"
+      // threshold is already behind scrollY 0, so the fade is partially or fully
+      // applied before any scrolling happens at all — confirmed live: hero
+      // rendered at opacity:0 with scrollY:0 on a 941px-tall viewport. 'top top'
+      // anchors the range to hero's own top edge instead (at document position
+      // ~0, i.e. scrollY 0 by construction) with a fixed 450px scroll distance to
+      // fully fade — guarantees 0% progress at scrollY 0 regardless of hero's
+      // height or the viewport's height.
+      // fromTo (not to) with an explicit `opacity: 1` start: .hero's base CSS is
+      // `opacity: 0` (see line ~57 — the starting point for the one-time fadeUp
+      // entrance animation). gsap.to() with no explicit "from" captures the
+      // element's CURRENT style as its implicit start value at setup time — if
+      // this runs before fadeUp has visually reached opacity:1, GSAP records
+      // "from: 0", making the whole scrub tween interpolate 0→0 (a no-op that
+      // renders opacity:0 at every scroll position, confirmed live: opacity
+      // stayed exactly 0 from 0% to 44% scroll progress). Explicit fromTo values
+      // remove the dependency on timing/current-style entirely.
+      gsap.fromTo('.hero',
+        { opacity: 1, scale: 1 },
+        {
+          opacity: 0,
+          scale: 0.97,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end:   'top -=450',
+            scrub: 1,
+          }
         }
-      });
+      );
 
       // Nav fades in at scrollY = 260, fades out if you scroll back up
       // getBoundingClientRect().top is viewport-relative, so we add scrollY to get the

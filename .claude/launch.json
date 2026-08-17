@@ -4,8 +4,8 @@
     {
       "name": "http-server",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", ".", "-p", "8081", "--cors"],
-      "port": 8081
+      "runtimeArgs": ["http-server", ".", "--cors"],
+      "autoPort": true
     },
     {
       "name": "main-repo",

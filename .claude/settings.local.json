@@ -214,7 +214,31 @@
       "Bash(ffmpeg -encoders)",
       "Bash(ffmpeg -formats)",
       "mcp__figma-remote-mcp__whoami",
-      "mcp__fd71af9a-b2ba-4b02-965c-696818f28aa9__whoami"
+      "mcp__fd71af9a-b2ba-4b02-965c-696818f28aa9__whoami",
+      "Bash(cp images/icons/favicon.svg /tmp/favicon-orig.svg)",
+      "Bash(npx svgo *)",
+      "Read(//tmp/**)",
+      "Bash(ls -lt ~/Desktop/*.png ~/Desktop/*.jpg ~/Desktop/*.webp ~/Desktop/*.avif 2>/dev/null | head -10 && ls -lt ~/Downloads/*.png ~/Downloads/*.jpg ~/Downloads/*.webp 2>/dev/null | head -10)",
+      "Bash(magick --version)",
+      "Bash(gh repo *)",
+      "Bash(git rm *)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/icons/fire.mp4\")",
+      "Bash(ffmpeg -i \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/icons/fire.mp4\" -an -c:v copy \"/Users/lesleyrooney/Documents/GitHub/lrooney-portfolio/images/icons/fire-silent.mp4\" -y)",
+      "Bash(ffmpeg -i fire.mp4 -vf scale=64:64 -c:v libx264 -crf 28 -preset veryslow -an fire-opt.mp4 -y)",
+      "Bash(ffmpeg -i fire.mp4 -vf scale=64:64 -c:v libvpx-vp9 -crf 36 -b:v 0 -an fire.webm -y)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio status)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio diff --stat)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio log --oneline -3)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio add index.html influence.html lesleyrooney-games-sims-vfxworks.html medidataedcredesign.html \"images/icons/fire.mp4\" \"images/icons/fire.webm\")",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio commit -m ' *)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio push)",
+      "mcp__figma-remote-mcp__get_metadata",
+      "mcp__figma-remote-mcp__get_libraries",
+      "Bash(open \"http://localhost:8082/index.html#figmacapture=26d2431d-b033-40d2-817e-4806935dd246&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F26d2431d-b033-40d2-817e-4806935dd246%2Fsubmit&figmadelay=1000\")",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio log -1 --format=\"%H %ci\" -- medidataedcredesign.html)",
+      "Bash(git -C /Users/lesleyrooney/Documents/GitHub/lrooney-portfolio add index.html CLAUDE.md influence.html)",
+      "WebFetch(domain:ai-interaction.com)",
+      "Bash(npx ui-skills *)"
     ]
   }
 }
